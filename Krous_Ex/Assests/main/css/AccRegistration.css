@@ -5,8 +5,7 @@
 .container {
     width: 850px;
     position: relative;
-    margin: 45px auto;
-    background: #fff;
+    margin: 64px auto;
     box-shadow: 0 5px 9.5px 0.5px rgb(0 0 0 / 10%);
     -moz-box-shadow: 0 5px 9.5px .5px rgba(0,0,0,.1);
     -webkit-box-shadow: 0 5px 9.5px 0.5px rgb(0 0 0 / 10%);
@@ -17,6 +16,8 @@
     -webkit-border-radius: 10px;
     -o-border-radius: 10px;
     -ms-border-radius: 10px;
+    background-color: #191c24;
+    color:white;
 }
 
 fieldset {
@@ -34,25 +35,25 @@ fieldset {
 }
 
 .fieldset-content {
-    height:400px;
+    height:350px;
     border-bottom: 1px solid #ebebeb;
     padding-right: 110px;
 }
 
 h2 {
     font-size: 20px;
-    color: #222;
+    color: white;
     font-weight: 700;
     text-transform: uppercase;
     text-align: center;
     margin: 0;
-    padding-top: 35px;
+    padding-top: 40px;
 }
 
 .signup-form {
     padding: 20px;
     position: relative;
-    height:600px;
+    height: 562px;
 }
 
 .steps {
@@ -75,17 +76,17 @@ list-type-ulli, ul, .actions ul {
 }
 
 .steps ul li a {
-    color: #999;
+    color: #bcb9b9;
     text-decoration: none;
     font-weight: 700;
 }
 
 .steps ul .current a {
-    color: #222;
+    color: white;
 }
 
 .steps ul .current a .number {
-    border: 2px solid #222;
+    border: 2px solid white;
 }
 
 .steps ul .done a {
@@ -110,9 +111,10 @@ list-type-ulli, ul, .actions ul {
     -webkit-align-items: center;
     -o-align-items: center;
     -ms-align-items: center;
-    margin-bottom: 30px;
-    margin-top:10px;
+    margin-bottom: 20px;
+    margin-top:20px;
     position: relative;
+    margin-left:70px;
 }
 
 .form-group input {
@@ -131,13 +133,12 @@ list-type-ulli, ul, .actions ul {
     margin-left: 30px;
 }
 
-
 input, select, textarea {
     box-sizing: border-box;
     background: 0 0;
     font-size: 14px;
     padding: 15px 20px;
-    border: 1px solid #ebebeb;
+    border: 2px solid #e6e6e6; 
     font-family: roboto slab;
     border-radius: 5px;
     -moz-border-radius: 5px;
@@ -148,6 +149,15 @@ input, select, textarea {
     width: 345px;
     margin-right: 20px;
     font-weight: 700;
+    color:white;
+}
+
+
+input:-internal-autofill-selected {
+    appearance: menulist-button;
+    background-color: rgb(232, 240, 254) !important;
+    background-image: none !important;
+    color: -internal-light-dark(black, white) !important;
 }
 
 display-flex, .form-group, .form-select, .form-radio, .form-textarea, .form-date, .form-radio-item, .form-flex, .form-date-item .select-icon, .form-date-item .select-icon i, #val, #button, .steps ul, .actions ul, .actions ul li a, .title, .number {
@@ -178,7 +188,9 @@ display-flex, .form-group, .form-select, .form-radio, .form-textarea, .form-date
 }
 
 .actions ul li a:hover {
-    background-color: #148f77;
+    /* background-color: #148f77;*/
+    
+    background-color: #578cf7;
 }
 
 a:focus, a:active {
@@ -194,10 +206,11 @@ a:focus, a:active {
 .actions ul li a {
     width: 150px;
     height: 50px;
-    color: #fff;  
-    margin-left:10px;
-    background: #1abc9c;
-    align-items:center;
+    color: #fff;
+    margin-left: 10px;
+    /*  background: #1abc9c;*/
+    background-color: #6996F3;
+    align-items: center;
     -moz-align-items: center;
     -webkit-align-items: center;
     -o-align-items: center;

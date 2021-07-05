@@ -5,14 +5,30 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head runat="server">
     <link href="Assests/main/css/AccRegistration.css" rel="stylesheet" />
-    
     <title>Account Registration</title>
+
+    <script>
+        var password = document.getElementById("password"),
+            confpass = document.getElementById("confpass");
+
+        function validatePassword() {
+            if (password.value != confpass.value) {
+                confpass.setCustomValidity("Passwords Don't Match");
+            } else {
+                confpass.setCustomValidity("");
+            }
+        }
+
+        password.onchange = validatePassword;
+        confpass.onkeyup = validatePassword;
+    </script>
+
 </head>
 <body>         
     
      <div class="main">
         <div class="container">
-            <h2>Sign up to great new account </h2>
+            <h2>Register a new account</h2>
             <form method="POST" id="signup-form" class="signup-form">
 
                 <!-- top navigation -->
@@ -59,7 +75,7 @@
                     </div>
                     <div class="form-group">
                         <div class="label">
-                                <label for="email" class="form-label">Email</label>
+                                <label for="email" class="form-label" style="margin-left:27px;">Email</label>
                         </div>
                         <div class="input-content">
                                 <input type="email" name="email" id="email" placeholder="Your Email" />
@@ -67,18 +83,20 @@
                     </div>         
                     <div class="form-group form-password">
                         <div class="label">
-                                <label for="password" class="form-label">Password</label>
+                                <label for="password" class="form-label" style="margin-left:4px;">Password</label>
                         </div>
                         <div class="input-content">
-                                <input type="password" name="password" id="password"  />
+                            <input type="password" name="password" placeholder="Password" id="password" required/>
+                            <%--<input type="password" name="password" id="password"  />--%>
                         </div>
                     </div>
                     <div class="form-group form-conf-pass">
                         <div class="label">
-                                <label for="confpass" class="form-label">Confirm Password</label>
+                                <label for="confpass" class="form-label" style="margin-left:-54px;">Confirm Password</label>
                         </div>
                         <div class="input-content">
-                                <input type="password" name="password" id="confpass"  />
+                            <input type="password" name="password" placeholder="Confirm Password" id="confpass" required/>
+                            <%--<input type="password" name="password" id="confpass"  />--%> 
                         </div>
                     </div>
                 </div>
