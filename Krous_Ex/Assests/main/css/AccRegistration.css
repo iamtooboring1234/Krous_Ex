@@ -77,16 +77,19 @@ list-type-ulli, ul, .actions ul {
 
 .steps ul li a {
     color: #bcb9b9;
+    /*color: #f0b945;*/
     text-decoration: none;
     font-weight: 700;
 }
 
 .steps ul .current a {
-    color: white;
+   /* color: white;*/
+    color: #FFC857;
 }
 
 .steps ul .current a .number {
-    border: 2px solid white;
+    border: 2px solid #FFC857;
+           
 }
 
 .steps ul .done a {
