@@ -148,7 +148,6 @@
     <Content Include="Assests\main\css\bootstrap.css" />
     <Content Include="Assests\main\css\bootstrap.min.css" />
     <Content Include="Assests\main\css\Contact.css" />
-    <Content Include="Assests\main\css\CourseEntry.css" />
     <Content Include="Assests\main\css\dashboard.css" />
     <Content Include="Assests\main\css\ForgotPassword.css" />
     <Content Include="Assests\main\css\fullpage.css" />
