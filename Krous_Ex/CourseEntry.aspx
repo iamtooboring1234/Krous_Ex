@@ -81,7 +81,6 @@
                     input_val += ".00";
                 }
             }
-
             input.val(input_val);
             var updated_len = input_val.length;
             caret_pos = updated_len - original_len + caret_pos;

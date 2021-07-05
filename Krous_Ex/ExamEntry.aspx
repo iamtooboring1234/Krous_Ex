@@ -83,7 +83,7 @@
                         <div class="form-group pdForm">
                             <div class="row">
                                 <div class="col-md-2 control-label">
-                                    <asp:Label ID="Label5" runat="server">Exam status</asp:Label><span style="color: red;">*</span>
+                                    <asp:Label ID="Label5" runat="server">Exam Date</asp:Label><span style="color: red;">*</span>
                                 </div>
                                 <div class="col-md-3">
                                     <asp:TextBox ID="TextBox1" CssClass="form-control" runat="server" TextMode="Date"></asp:TextBox>
