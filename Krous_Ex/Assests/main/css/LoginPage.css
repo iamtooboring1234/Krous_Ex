@@ -1,0 +1,187 @@
+﻿body {
+    background-color:black;
+}
+
+.form-structor {
+    background-color: #191c24;
+    border-radius: 5px;
+    width: 610px;
+    position: relative;
+    overflow: hidden;
+    outline: none;
+    margin: 155px auto 0;
+    padding: 20px;
+    transition: all 0.3s;
+    box-shadow: 0 0.8px 2.2px rgba(0, 0, 0, 0.034), 
+                0 5.7px 5.3px rgba(0, 0, 0, 0.048), 
+                0 11.5px 10px rgba(0, 0, 0, 0.06), 
+                0 21.3px 17.9px rgba(0, 0, 0, 0.072),
+                0 40.8px 33.4px rgba(0, 0, 0, 0.086), 
+                0 99px 80px rgba(0, 0, 0, 0.12);
+}
+
+.form-title {
+    color: white;
+    font-size: 38px;
+    text-align: center;
+    font-family: Franklin Gothic Medium;
+    font-weight: 500;
+    margin-top: 38px;
+    margin-bottom: 23px;
+}
+
+.register {
+    position: center;
+}
+
+.form-holder {
+    border-radius: 10px;
+    background-color: #191c24;
+    overflow: hidden;
+    margin-top: 10px;
+    opacity: 1;
+    visibility: visible;
+    -webkit-transition: all .3s ease;
+    position: center;
+}
+
+.input {
+    width: 60%;
+    padding: 12px 20px;
+    margin: 8px 0px 0px 76px;
+    box-sizing: border-box;
+    width: 419px;
+    border: 2px solid rgba(255, 255, 255, 0.03);
+    -webkit-transition: 0.5s;
+    transition: 0.5s;
+    outline: none;
+    /*  background-color: #3b4148;*/
+    background: rgba(255, 255, 255, 0.03);
+    color: white;
+}
+
+.input[type=text]:focus {
+    border: 3px solid #ccc;
+}
+
+/*submit button*/
+.submit-btn {
+    border-style: none;
+    border-width: 0;
+    background-color: #6996F3;
+    color: #eee;
+    border-radius: 12px;
+    display: block;
+    margin: 25px 0px 0px 154px;
+    padding: 12px 45px;
+    width: 260px;
+    font-size: 15px;
+    cursor: pointer;
+    opacity: 4;
+    visibility: visible;
+    position: center;
+    font-family: Franklin Gothic Medium;
+    text-transform: uppercase;
+}
+
+.submit-btn:hover {
+    background-color: #578cf7;
+    color: #eee;
+}
+
+/*forgot password*/
+.forgot-pass {
+    margin-top: 3px;
+    text-align: center;
+    font-size: 14px;
+}
+
+.forgot-pass a {
+    outline: 0;
+    text-decoration: none;
+    margin-right: 265px;
+    color: #0091ff;
+    font-family: 'Open Sans',sans-serif;
+}
+
+.forgot-pass a:hover, a:focus {
+    color: #0091ff;
+    background-color: transparent;
+    text-decoration: underline;
+}
+
+
+/*register*/
+.register-acc {
+    color: darkgray;
+    outline: 0;
+    text-decoration: none;
+    text-align:center;
+}
+
+.register-acc a:hover, a:focus {
+    color: white;
+    background-color: transparent;
+    text-decoration: underline;
+}
+
+p {
+    color: lightgray;
+    background-color: transparent;
+    text-decoration: none;
+    font-family: Franklin Gothic Medium;
+    text-align: center;
+    margin: 13px 0px 5px 0px;
+    font-family: 'Open Sans',sans-serif;
+}
+
+/*back stop home */
+a:hover, a:focus {
+    color: white;
+    background-color: transparent;
+    text-decoration: underline; 
+}
+
+a {
+    outline: 0;
+    text-decoration: none;
+    color: darkgrey;
+}
+
+/*login as button*/
+.login-btn {
+    border-style: none;
+    border-width: 0;
+    background-color: #6996F3;
+    color: #eee;
+    border-radius: 3px;
+    padding: 6px 20px;
+    font-size: 14px;
+    cursor: pointer;
+    opacity: 4;
+    visibility: visible;
+    position: center;
+    font-family: Franklin Gothic Medium;
+    text-align: center; 
+    margin-left: 300px; 
+}
+
+.login-btn:hover {
+    background-color: #578cf7;
+    color: #eee;
+}
+
+
+/*eye icon*/
+#eyeIcon {
+    margin-left: -40px;
+    color: white;
+}
+
+span.error-msg {
+    color: rgb(224, 32, 32);
+    font-size: 12px;
+    font-weight: 500;
+    transition: all .5s;
+    opacity: 0;
+}

@@ -1,0 +1,18 @@
+﻿thead th {
+    background-color: #393939;
+    position: sticky;
+    top: 0;
+    z-index:5;
+}
+
+td {
+    font-size: 15px;
+    opacity: 0.7;
+    line-height: 1.4;
+    background-color: #222;
+}
+
+.table > tbody > tr > td, .table > tbody > tr > th, .table > tfoot > tr > td, .table > tfoot > tr > th, .table > thead > tr > td, .table > thead > tr > th {
+    padding:16px;
+}
+

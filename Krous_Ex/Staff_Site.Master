@@ -1,0 +1,164 @@
+﻿    <%@ Master Language="C#" AutoEventWireup="true" CodeBehind="Staff_Site.master.cs" Inherits="Krous_Ex.Staff_Site" %>
+
+<!DOCTYPE html>
+
+<html lang="en">
+<head runat="server">
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title><%: Page.Title %> - My ASP.NET Application</title>
+    <link rel="stylesheet" type="text/css" href="Assests/main/css/general.css">
+    <link rel="stylesheet" type="text/css" href="Assests/main/css/bootstrap.min.css">
+    <link href="Assests/main/css/layouts.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" integrity="sha512-iBBXm8fW90+nuLcSKlbmrPcLa0OT92xO1BIsZ+ywDWZCvqsWgccV3gFoRBv0z+8dLJgyAHIhR35VZc2oM/gI1w==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+
+    <asp:PlaceHolder runat="server">
+        <%: Scripts.Render("~/bundles/modernizr") %>
+    </asp:PlaceHolder>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+    <asp:ContentPlaceHolder ID="head" runat="server">
+    </asp:ContentPlaceHolder>
+
+    <script>
+        $(document).ready(function () {
+            $(".main-menu").hover(function () {
+                $("#overlay").css({ "display": "block" });
+                $('.panel-collapse').css({ "display": "" });
+
+
+            }, function () {
+                $("#overlay").css({ "display": "none" });
+                $('.panel-collapse').css({ "display": "none" });
+            });
+
+
+            $('[data-toggle="collapse"]').click(function () {
+                $('.collapse.in').collapse('hide');
+            });
+
+        });
+    </script>
+</head>
+<body>
+
+    <form runat="server">
+        <asp:ScriptManager runat="server">
+            <Scripts>
+                <%--To learn more about bundling scripts in ScriptManager see https://go.microsoft.com/fwlink/?LinkID=301884 --%>
+                <%--Framework Scripts--%>
+                <asp:ScriptReference Name="MsAjaxBundle" />
+                <asp:ScriptReference Name="jquery" />
+                <asp:ScriptReference Name="bootstrap" />
+                <asp:ScriptReference Name="WebForms.js" Assembly="System.Web" Path="~/Scripts/WebForms/WebForms.js" />
+                <asp:ScriptReference Name="WebUIValidation.js" Assembly="System.Web" Path="~/Scripts/WebForms/WebUIValidation.js" />
+                <asp:ScriptReference Name="MenuStandards.js" Assembly="System.Web" Path="~/Scripts/WebForms/MenuStandards.js" />
+                <asp:ScriptReference Name="GridView.js" Assembly="System.Web" Path="~/Scripts/WebForms/GridView.js" />
+                <asp:ScriptReference Name="DetailsView.js" Assembly="System.Web" Path="~/Scripts/WebForms/DetailsView.js" />
+                <asp:ScriptReference Name="TreeView.js" Assembly="System.Web" Path="~/Scripts/WebForms/TreeView.js" />
+                <asp:ScriptReference Name="WebParts.js" Assembly="System.Web" Path="~/Scripts/WebForms/WebParts.js" />
+                <asp:ScriptReference Name="Focus.js" Assembly="System.Web" Path="~/Scripts/WebForms/Focus.js" />
+                <asp:ScriptReference Name="WebFormsBundle" />
+                <%--Site Scripts--%>
+            </Scripts>
+        </asp:ScriptManager>
+
+         <nav class="main-menu">
+            <div class="settings"></div>
+            <div style="background-color:#03414d">
+                <a href="Default.aspx">
+                    <img class="logo" src="Assests/main/img/logo.png"/>
+                </a> 
+            </div> 
+            <div class="settings"></div>
+            <div class="scrollbar scrollbar-style">
+                <ul id="Menucontent">
+                    <li>                                   
+                        <a href="Homepage"> 
+                            <i class="fa fa-home fa-lg"></i>
+                            <span class="nav-text">Home</span>
+                        </a>
+                    </li> 
+                    <li>                                   
+                        <a href="StaffDashboard"> 
+                            <i class="fa fas fa-tachometer-alt fa-lg"></i>
+                            <span class="nav-text">Dashboard</span>
+                        </a>
+                    </li>  
+                    <li>                                 
+                        <a href="Login">
+                        <i class="fa fa-user fa-lg"></i>
+                        <span class="nav-text">Student Management</span>
+                        </a>
+                    </li>   
+                    <li class="darkerlishadow">
+                        <a data-toggle="collapse" href="#dropdown-1">
+                            <i class="fa fas fa-user-tie fa-lg"></i>
+                            <span class="nav-text">Staff Management</span>
+                            <i class="fa fa-caret-down caret-icon"></i>
+                        </a>
+                        <div id="dropdown-1" class="panel-collapse collapse">
+							<div class="panel-body" style="padding: 0px">
+								<ul class="nav navbar-nav submenu">
+									<li><a href="StaffListings">Staff Listings</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </li> 
+                    <li class="darkerli">
+                        <a data-toggle="collapse" href="#dropdown-2">
+                            <i class="fa fas fa-question-circle fa-lg"></i>
+                            <span class="nav-text">FAQ Management</span>
+                            <i class="fa fa-caret-down caret-icon"></i>
+                        </a>
+                        <div id="dropdown-2" class="panel-collapse collapse">
+							<div class="panel-body" style="padding: 0px">
+								<ul class="nav navbar-nav submenu">
+									<li><a href="FAQEntry">FAQ Entry</a></li>
+									<li><a href="FAQListings">FAQ Listings</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </li>
+                    <li>                                 
+                        <a href="#">
+                        <i class="fa fas fa-book-open fa-lg"></i>
+                        <span class="nav-text">Course Management</span>
+                        </a>
+                    </li> 
+                    <li class="darkerli">
+                        <a data-toggle="collapse" href="#dropdown-3">
+                            <i class="fa fas fa-feather fa-lg"></i>
+                            <span class="nav-text">Exam Management</span>
+                            <i class="fa fa-caret-down caret-icon"></i>
+                        </a>
+                        <div id="dropdown-3" class="panel-collapse collapse">
+							<div class="panel-body" style="padding: 0px">
+								<ul class="nav navbar-nav submenu">
+									<li><a href="ExamEntry">Exam Entry</a></li>
+									<li><a href="ExamListings">Exam Listings</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </li>
+
+                </ul>
+                <ul class="logout">
+
+                </ul>
+            </div>
+               
+        </nav>
+        <div id="overlay"></div>
+        <div class="body_content">
+            <asp:ContentPlaceHolder ID="body" runat="server">
+            </asp:ContentPlaceHolder>
+        </div>
+
+    </form>
+
+</body>
+
+</html>

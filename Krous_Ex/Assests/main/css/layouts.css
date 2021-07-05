@@ -1,0 +1,70 @@
+﻿body{
+    background-color:black;
+    color:white;
+}
+
+hr {
+    margin:0;
+}
+
+.card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    word-wrap: break-word;
+    background-color: #191c24;
+    background-clip: border-box;
+    border: 1px solid rgba(0, 0, 0, 0.125);
+    border-radius: 0.25rem;
+    margin-top: 10px;
+}
+
+.card .card-body {
+    padding: 1.75rem 1.5625rem;
+}
+
+.card .card-description {
+    color: white;
+    opacity: 0.7;
+    font-weight: 300;
+}
+
+.stretch-card {
+    display: -webkit-flex;
+    display: flex;
+    -webkit-align-items: stretch;
+    align-items: stretch;
+    -webkit-justify-content: stretch;
+    justify-content: stretch;
+}
+
+.grid-margin {
+    margin-bottom: 1.5rem;
+}
+
+.text-white{
+    color:white;
+}
+
+.submit-btn {
+    border-style: none;
+    border-width: 0;
+    background-color: #6996F3;
+    color: #eee;
+    display: block;
+    padding: 5px 12px;
+    font-size: 15px;
+    cursor: pointer;
+    opacity: 4;
+    visibility: visible;
+    position: center;
+    font-weight: 400;
+    float: right;
+}
+
+.submit-btn:hover {
+    background-color: #578cf7;
+    color: #eee;
+    text-decoration: none;
+}

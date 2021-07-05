@@ -1,0 +1,9 @@
+﻿.rdBtn input[type=radio] {
+    margin: 10px;
+}
+
+.rdBtn label {
+    vertical-align: middle;
+    font-weight: 300;
+}
+
