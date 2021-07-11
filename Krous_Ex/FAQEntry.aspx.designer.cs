@@ -15,13 +15,13 @@ namespace Krous_Ex
     {
 
         /// <summary>
-        /// lblCourse control.
+        /// lblFAQEntry control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblCourse;
+        protected global::System.Web.UI.WebControls.Label lblFAQEntry;
 
         /// <summary>
         /// updatepanel1 control.
@@ -33,112 +33,103 @@ namespace Krous_Ex
         protected global::System.Web.UI.UpdatePanel updatepanel1;
 
         /// <summary>
-        /// lblCourseID control.
+        /// lblFAQTitle control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblCourseID;
+        protected global::System.Web.UI.WebControls.Label lblFAQTitle;
 
         /// <summary>
-        /// txtCourseID control.
+        /// txtFAQTitle control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtCourseID;
+        protected global::System.Web.UI.WebControls.TextBox txtFAQTitle;
 
         /// <summary>
-        /// lblCourseName control.
+        /// lblFAQCategory control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblCourseName;
+        protected global::System.Web.UI.WebControls.Label lblFAQCategory;
 
         /// <summary>
-        /// txtCourseName control.
+        /// rdExisting control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtCourseName;
+        protected global::System.Web.UI.WebControls.RadioButton rdExisting;
 
         /// <summary>
-        /// lblCourseDesc control.
+        /// ddlCategory control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblCourseDesc;
+        protected global::System.Web.UI.WebControls.DropDownList ddlCategory;
 
         /// <summary>
-        /// txtCourseDesc control.
+        /// rdNew control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlTextArea txtCourseDesc;
+        protected global::System.Web.UI.WebControls.RadioButton rdNew;
 
         /// <summary>
-        /// lblCreditHour control.
+        /// txtNewCategory control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblCreditHour;
+        protected global::System.Web.UI.WebControls.TextBox txtNewCategory;
 
         /// <summary>
-        /// ddlCreditHour control.
+        /// lblFAQStatus control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList ddlCreditHour;
+        protected global::System.Web.UI.WebControls.Label lblFAQStatus;
 
         /// <summary>
-        /// lblCourseCategory control.
+        /// ddlFAQStatus control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblCourseCategory;
+        protected global::System.Web.UI.WebControls.DropDownList ddlFAQStatus;
 
         /// <summary>
-        /// rdMain control.
+        /// lblFAQDesc control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.RadioButton rdMain;
+        protected global::System.Web.UI.WebControls.Label lblFAQDesc;
 
         /// <summary>
-        /// rbElective control.
+        /// txtFAQDesc control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.RadioButton rbElective;
-
-        /// <summary>
-        /// lblCourseFee control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblCourseFee;
+        protected global::System.Web.UI.WebControls.TextBox txtFAQDesc;
 
         /// <summary>
         /// btnCancel control.
