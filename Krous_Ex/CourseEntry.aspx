@@ -7,13 +7,16 @@
     <link href="Assests/main/css/layouts.css" rel="stylesheet" />
     
     <script>
-        $("input[data-type='currency']").on({
-            keyup: function () {
-                formatCurrency($(this));
-            },
-            blur: function () {
-                formatCurrency($(this), "blur");
-            }
+
+        $(document).ready(function () {
+            $("input[data-type='currency']").on({
+                keyup: function () {
+                    formatCurrency($(this));
+                },
+                blur: function () {
+                    formatCurrency($(this), "blur");
+                }
+            });
         });
 
         function formatNumber(n) {
@@ -64,21 +67,20 @@
                 right_side = right_side.substring(0, 2);
 
                 // join number by .
-                input_val = "RM" + left_side + "." + right_side;
+                input_val = "RM "  + left_side + "." + right_side;
 
             } else {
                 // no decimal entered
                 // add commas to number
                 // remove all non-digits
                 input_val = formatNumber(input_val);
-                input_val = "RM" + input_val;
+                input_val = "RM " + input_val;
 
                 // final formatting
                 if (blur === "blur") {
                     input_val += ".00";
                 }
             }
-
             input.val(input_val);
             var updated_len = input_val.length;
             caret_pos = updated_len - original_len + caret_pos;
@@ -146,7 +148,7 @@
                                     <asp:Label ID="lblCreditHour" runat="server">Credit Hours</asp:Label><span style="color: red;">*</span>
                                 </div>
                                 <div class="col-md-3">
-                                    <asp:DropDownList ID="ddlCreditHour" runat="server" CssClass="form-control" style="width:160px;">
+                                    <asp:DropDownList ID="ddlCreditHour" runat="server" CssClass="form-control" style="width:115px;">
                                         <asp:ListItem Selected="True" Value="1">1</asp:ListItem>
                                         <asp:ListItem Value="2">2</asp:ListItem>
                                         <asp:ListItem Value="3">3</asp:ListItem>
@@ -187,7 +189,7 @@
                                     <asp:Label for="currency-field" ID="lblCourseFee" runat="server">Estimated Course Fee</asp:Label><span style="color: red;">*</span>
                                 </div>
                                 <div class="col-md-10">
-                                     <input type="text" name="currency-field" id="currency-field" class="form-control" pattern="^\$\d{1,3}(,\d{3})*(\.\d+)?$" value="" data-type="currency" placeholder="RM1,000.00" style="width:326px;">
+                                     <input type="text" name="currency-field" id="currency-field" class="form-control" pattern="^\$\d{1,3}(,\d{3})*(\.\d+)?$" value="" data-type="currency" placeholder="RM 1,000.00" style="width:326px;">
                                 </div>
                             </div>
                         </div>         
