@@ -5,12 +5,20 @@
     z-index:5;
 }
 
+th {
+    border:none;
+    border-top: 1px solid white;
+}
+
 td {
     font-size: 15px;
-    opacity: 0.7;
     line-height: 1.4;
     background-color: #222;
+    border: none;
+    border-top: 1px solid white;
+    text-align:left;
 }
+
 
 .table > tbody > tr > td, .table > tbody > tr > th, .table > tfoot > tr > td, .table > tfoot > tr > th, .table > thead > tr > td, .table > thead > tr > th {
     padding:16px;
