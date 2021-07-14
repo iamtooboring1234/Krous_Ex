@@ -57,7 +57,7 @@
                         </div>
                         <div class="col-md-8">
                             <asp:Button text="Search" id="btnSearch" runat="server" Width="18%" CssClass="btn btn-success mr20"/>
-                            <asp:Button text="Add new FAQ" id="btnAdd" runat="server" Width="18%" CssClass="btn btn-success mr20"/>
+                            <asp:Button text="Add new FAQ" id="btnAdd" runat="server" Width="18%" CssClass="btn btn-success mr20" OnClick="btnAdd_Click"/>
                         </div>
                     </div>
                 </div>
@@ -89,7 +89,7 @@
                                 <SortedDescendingCellStyle BackColor="#CAC9C9" />
                                 <SortedDescendingHeaderStyle BackColor="#383838" />
                             </asp:GridView>
-                            <asp:Label ID="lblNoData" runat="server" Visible="false" Font-Size="Large" Font-Bold="true" Text="No Chat Record Found !"></asp:Label>
+                            <asp:Label ID="lblNoData" runat="server" Visible="false" Font-Size="Large" Font-Bold="true" Text="No FAQ Record Found !"></asp:Label>
                         </div>
                     </div>
                 </div>

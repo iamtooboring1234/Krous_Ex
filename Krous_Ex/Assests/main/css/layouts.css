@@ -69,3 +69,18 @@ hr {
     text-decoration: none;
 }
 
+.modal {
+    color:black;
+}
+
+.modal .modal-content .modal-header .modal-title {
+    float:left;
+}
+
+.modal-open .modal {
+    display: flex !important;
+}
+
+.modal-open .modal .modal-dialog {
+    margin: auto;
+}

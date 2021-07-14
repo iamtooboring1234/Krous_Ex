@@ -15,7 +15,7 @@ namespace Krous_Ex
 
         protected void Page_Load(object sender, EventArgs e)
         {
-
+            loadFAQCategory();
         }
 
         private void loadFAQCategory()
@@ -54,8 +54,7 @@ namespace Krous_Ex
 
             catch (Exception ex)
             {
-                //clsFunction.DisplayAJAXMessage(this, "Error");
-                Response.Write(ex);
+                clsFunction.DisplayAJAXMessage(this, "Error");
             }
         }
 
@@ -104,12 +103,77 @@ namespace Krous_Ex
 
         protected void btnSave_Click(object sender, EventArgs e)
         {
-            if (insertFAQ()) {
-                Response.Write("Succesfully");
-            } else
+            if (validateFAQ())
             {
-                Response.Write("Unsuccesfully");
+                if (insertFAQ())
+                {
+                    ScriptManager.RegisterStartupScript(this, this.GetType(), "none", "ShowPopup();", true);
+                }
+                else
+                {
+                    clsFunction.DisplayAJAXMessage(this, "Unable to insert. Failed to create.");
+                }
             }
+            else
+            {
+                clsFunction.DisplayAJAXMessage(this, "Please fill in the required details.");
+            }
+        }
+
+        private bool validateFAQ()
+        {
+            if (txtFAQTitle.Text == "")
+            {
+                return false;
+            }
+
+            if (rdNew.Checked == true)
+            {
+                if (txtNewCategory.Text == "")
+                {
+                    return false;
+                }
+            }
+
+            if (rdExisting.Checked == true)
+            {
+                if (ddlCategory.SelectedValue == "")
+                {
+                    return false;
+                }
+            }
+
+            if (txtFAQDesc.Text == "")
+            {
+                return false;
+            }
+
+            return true;
+        }
+
+        protected void rdExisting_CheckedChanged(object sender, EventArgs e)
+        {
+            if (rdExisting.Checked == true)
+            {
+                txtNewCategory.Text = "";
+                txtNewCategory.Enabled = false;
+                ddlCategory.Enabled = true;
+            }
+        }
+
+        protected void rdNew_CheckedChanged(object sender, EventArgs e)
+        {
+            if (rdNew.Checked == true)
+            {
+                ddlCategory.SelectedValue = "";
+                ddlCategory.Enabled = false;
+                txtNewCategory.Enabled = true;
+            }
+        }
+
+        protected void btnCancel_Click(object sender, EventArgs e)
+        {
+            Response.Redirect("FAQListings");
         }
     }
 }
