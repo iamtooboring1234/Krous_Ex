@@ -1,4 +1,4 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Staff_Site.Master" AutoEventWireup="true" CodeBehind="FAQEntry.aspx.cs" Inherits="Krous_Ex.FAQEntry" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Staff_Site.Master" AutoEventWireup="true" CodeBehind="~/CourseEntry.aspx.cs" Inherits="Krous_Ex.FAQEntry" %>
 
 <%@ Register Assembly="AjaxControlToolkit" Namespace="AjaxControlToolkit" TagPrefix="ajaxToolkit" %>
 
@@ -198,8 +198,8 @@
                         <div class="form-group pdForm">
                             <div class="row">
                                 <div class="col-md-12 d-flex justify-content-center text-right">
-                                    <asp:Button Text="Cancel" ID="btnCancel" runat="server" Width="18%" CssClass="btn btn-success mr20 pdForm" />
-                                    <asp:Button Text="Save" ID="btnSave" runat="server" Width="18%" CssClass="btn btn-success mr20 pdForm" />
+                                    <asp:Button Text="Cancel" ID="btnCancel" runat="server" Width="18%" CssClass="btn btn-success mr20 pdForm" OnClick="btnCancel_Click"/>
+                                    <asp:Button Text="Save" ID="btnSave" runat="server" Width="18%" CssClass="btn btn-success mr20 pdForm" OnClick="btnSave_Click" />
                                     <ajaxToolkit:ConfirmButtonExtender ID="ConfirmButtonExtender1" runat="server" ConfirmText="Are you sure to add these details ?" TargetControlID="btnSave" />
                                     <asp:Button Text="Update" ID="btnUpdate" runat="server" Width="18%" CssClass="btn btn-success mr20 pdForm" />
                                     <ajaxToolkit:ConfirmButtonExtender ID="ConfirmButtonExtender2" runat="server" ConfirmText="Are you sure to update these details ?" TargetControlID="btnUpdate" />
@@ -212,10 +212,7 @@
                 </div>
 
             </ContentTemplate>
-            <%--<Triggers>
-                <asp:AsyncPostBackTrigger ControlID="rdExisting" EventName="CheckedChanged"></asp:AsyncPostBackTrigger>
-                <asp:AsyncPostBackTrigger ControlID="rdNew" EventName="CheckedChanged"></asp:AsyncPostBackTrigger>
-            </Triggers>--%>
+           
         </asp:UpdatePanel>
     </div>
             </div>
