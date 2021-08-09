@@ -179,6 +179,7 @@
     <Content Include="ExamEntry.aspx" />
     <Content Include="ExaminationDashboard.aspx" />
     <Content Include="ExamListings.aspx" />
+    <Content Include="FAQ.aspx" />
     <Content Include="FAQEntry.aspx" />
     <Content Include="FAQListings.aspx" />
     <Content Include="favicon.ico" />
@@ -289,6 +290,13 @@
     </Compile>
     <Compile Include="ExamListings.aspx.designer.cs">
       <DependentUpon>ExamListings.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="FAQ.aspx.cs">
+      <DependentUpon>FAQ.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="FAQ.aspx.designer.cs">
+      <DependentUpon>FAQ.aspx</DependentUpon>
     </Compile>
     <Compile Include="FAQEntry.aspx.cs">
       <DependentUpon>FAQEntry.aspx</DependentUpon>
