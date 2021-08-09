@@ -175,6 +175,7 @@
     <Content Include="Assests\main\js\Login.js" />
     <Content Include="Contact.aspx" />
     <Content Include="CourseEntry.aspx" />
+    <Content Include="CourseListings.aspx" />
     <Content Include="Default.aspx" />
     <Content Include="ExamEntry.aspx" />
     <Content Include="ExaminationDashboard.aspx" />
@@ -262,6 +263,13 @@
     </Compile>
     <Compile Include="CourseEntry.aspx.designer.cs">
       <DependentUpon>CourseEntry.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="CourseListings.aspx.cs">
+      <DependentUpon>CourseListings.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="CourseListings.aspx.designer.cs">
+      <DependentUpon>CourseListings.aspx</DependentUpon>
     </Compile>
     <Compile Include="Default.aspx.cs">
       <DependentUpon>Default.aspx</DependentUpon>
