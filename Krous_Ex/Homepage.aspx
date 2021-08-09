@@ -1,4 +1,4 @@
-﻿you <%@ Page Title="Homepage" Language="C#" MasterPageFile="~/Student_Site.Master" AutoEventWireup="true" CodeBehind="Homepage.aspx.cs" Inherits="Krous_Ex.Homepage" %>
+﻿<%@ Page Title="Homepage" Language="C#" MasterPageFile="~/Student_Site.Master" AutoEventWireup="true" CodeBehind="Homepage.aspx.cs" Inherits="Krous_Ex.Homepage" %>
 
 <asp:Content ID="HeadContent" ContentPlaceHolderID="head" runat="server">
     <link href="Assests/main/css/fullpage.css" rel="stylesheet" />
