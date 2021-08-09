@@ -32,7 +32,7 @@
                 <div class="forgot-pass">
                     <a href="ForgotPassword.aspx">Forgot your password?</a>     
                 </div>
-                <asp:Button ID="btnLogin" runat="server" type="submit" CssClass="submit-btn" Text="Log in"></asp:Button>
+                <asp:Button ID="btnLogin" runat="server" type="submit" CssClass="submit-btn" Text="Log in" OnClick="btnLogin_Click"></asp:Button>
                 <div class="register-acc">              
                     <p>Don't have an account? <asp:HyperLink ID="hlRegister" runat="server"><a href="RegisterAcc.aspx">Register Now!</a></asp:HyperLink></p>
                 </div>

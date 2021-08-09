@@ -8,6 +8,8 @@ using System.Security.Cryptography;
 using System.IO;
 using System.Text;
 using System.Configuration;
+using System.Data;
+using System.Data.SqlClient;
 
 namespace Krous_Ex
 {
@@ -26,6 +28,86 @@ namespace Krous_Ex
             {
                 btnStaffStud.Text = "Login as Student";
             }
+        }
+      
+        protected void btnLogin_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                if(ValidateUser(txtUsername.Text, txtPassword.Text))
+                {
+                    Response.Redirect("Homepage.aspx");
+                }
+                else
+                {
+                    DisplayAlertMsg("User account not found. Please enter correct username and password");
+                }
+        }
+            catch (Exception ex)
+            {
+                clsFunction.DisplayAJAXMessage(this, "Error");
+            }
+        }
+
+        protected bool ValidateUser(String username, String password)
+        {
+            DataTable dt = new DataTable();
+            SqlConnection con = new SqlConnection();
+            SqlCommand cmd = new SqlCommand();
+            String encryptedPassword = "";
+            String lookupPassword;
+
+            try
+            {
+                string strCon = ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString;
+                con = new SqlConnection(strCon);
+                con.Open();
+
+                if (btnStaffStud.Text == "Login as Student")
+                {
+                    String studCmd = "Select StudUsername, StudPassword from Student where StudUsername = @StudUsername";
+                    SqlCommand cmdStud = new SqlCommand(studCmd, con);
+
+                    //get password
+                    encryptedPassword = dt.Rows[0]["StudPassword"].ToString();
+
+                }
+                else
+                {
+                    String staffCmd = "Select StaffUsername, StaffPassword from Staff where StaffUsername = @StaffUsername";
+                    SqlCommand cmdStaff = new SqlCommand(staffCmd, con);
+
+                    //get password
+                    encryptedPassword = dt.Rows[0]["StaffPassword"].ToString();
+                }
+                
+                SqlDataReader dtrSelect = cmd.ExecuteReader();
+                dt.Load(dtrSelect);
+
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Trace.WriteLine("[ValidateUser] Exception " + ex.Message);
+            }
+
+            //If no password is found, return false
+            if (encryptedPassword != null)
+            {
+                if (!(encryptedPassword.Equals("")))
+                {
+                    lookupPassword = Decrypt(encryptedPassword);
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            else
+            {
+                return false;
+            }
+
+            return (String.Compare(lookupPassword, password, false) == 0);
 
         }
 
@@ -49,6 +131,12 @@ namespace Krous_Ex
                 }
             }
             return cipherText;
+        }
+
+        protected void DisplayAlertMsg(string msg)
+        {
+            string myScript = String.Format("alert('{0}');", msg);
+            ScriptManager.RegisterStartupScript(Page, Page.GetType(), "MyScript", myScript, true);
         }
 
     }

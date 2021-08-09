@@ -155,7 +155,6 @@ input, select, textarea {
     color:white;
 }
 
-
 input:-internal-autofill-selected {
     appearance: menulist-button;
     background-color: rgb(232, 240, 254) !important;
