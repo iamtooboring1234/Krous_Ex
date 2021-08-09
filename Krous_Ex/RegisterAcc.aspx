@@ -29,7 +29,7 @@
      <div class="main">
         <div class="container">
             <h2>Register a new account</h2>
-            <form method="POST" id="signup-form" class="signup-form">
+            <form method="POST" class="signup-form" runat="server">
 
                 <!-- top navigation -->
                 <div class="steps clearfix">
@@ -62,41 +62,39 @@
 	                </ul>
                 </div>
                
-
+            <!-- content 1-->
             <fieldset>
                 <div class="fieldset-content">
                     <div class="form-group">
                         <div class="label">
-                                <label for="username" class="form-label">Username</label>
+                            <asp:Label ID="lblUsername" class="form-label" runat="server" Text="">Username</asp:Label>
                         </div>
                         <div class="input-content">
-                            <input type="text" name="username" id="username" placeholder="Username" />
+                            <asp:TextBox ID="txtUsername" CssClass="input" runat="server" placeholder="Username"></asp:TextBox>
                         </div>     
                     </div>
-                    <div class="form-group">
+                    <div class="form-group" style="margin-left:96px">
                         <div class="label">
-                                <label for="email" class="form-label" style="margin-left:27px;">Email</label>
+                            <asp:Label ID="lblEmail" class="form-label" runat="server" Text="">Email</asp:Label>
                         </div>
                         <div class="input-content">
-                                <input type="email" name="email" id="email" placeholder="Your Email" />
+                            <asp:TextBox ID="txtEmail" CssClass="input" runat="server" placeholder="Your Email"></asp:TextBox>
                         </div>
                     </div>         
                     <div class="form-group form-password">
                         <div class="label">
-                                <label for="password" class="form-label" style="margin-left:4px;">Password</label>
+                            <asp:Label ID="lblPassword" class="form-label" runat="server" style="margin-left:4px;" Text="">Password</asp:Label>
                         </div>
-                        <div class="input-content">
-                            <input type="password" name="password" placeholder="Password" id="password" required/>
-                            <%--<input type="password" name="password" id="password"  />--%>
+                        <div class="input-content">   
+                            <asp:TextBox ID="txtPassword" CssClass="input" runat="server" placeholder="Password"></asp:TextBox>
                         </div>
                     </div>
                     <div class="form-group form-conf-pass">
                         <div class="label">
-                                <label for="confpass" class="form-label" style="margin-left:-54px;">Confirm Password</label>
+                            <asp:Label ID="lblConfPass" class="form-label" runat="server" style="margin-left:-54px;" Text="Confirm Password"></asp:Label>
                         </div>
                         <div class="input-content">
-                            <input type="password" name="password" placeholder="Confirm Password" id="confpass" required/>
-                            <%--<input type="password" name="password" id="confpass"  />--%> 
+                            <asp:TextBox ID="txtConfPass" CssClass="input" runat="server" placeholder="Confirm Password"></asp:TextBox>
                         </div>
                     </div>
                 </div>
@@ -120,33 +118,31 @@
 
             </fieldset>
 
-               
-             <%-- <fieldset>
-                  <div class="fieldset-content">
-                        <div class="form-group">
-                            <label for="full_name" class="form-label">Full name</label>
-                            <input type="text" name="full_name" id="full_name" placeholder="Full Name" />
-                        </div>
-                        <div class="form-radio">
-                            <label for="gender" class="form-label">Gender</label>
-                            <div class="form-radio-item">
-                                <input type="radio" name="gender" value="male" id="male" checked="checked" />
-                                <label for="male">Male</label>
+            <!-- content 1-->
+            <fieldset>
+                <div class="fieldset-content">
+                    <div class="form-group">
+                        <label for="full_name" class="form-label">Full name</label>
+                        <input type="text" name="full_name" id="full_name" placeholder="Full Name" />
+                    </div>
+                    <div class="form-radio">
+                        <label for="gender" class="form-label">Gender</label>
+                        <div class="form-radio-item">
+                            <input type="radio" name="gender" value="male" id="male" checked="checked" />
+                            <label for="male">Male</label>
     
-                                <input type="radio" name="gender" value="female" id="female" />
-                                <label for="female">Female</label>
-                            </div>
+                            <input type="radio" name="gender" value="female" id="female" />
+                            <label for="female">Female</label>
                         </div>
                     </div>
-                    <div class="fieldset-footer">
-                        <span>Step 2 of 3</span>
-                    </div>
-                </fieldset>--%>
-                
+                </div>
+                <div class="fieldset-footer">
+                    <span>Step 2 of 3</span>
+                </div>
+            </fieldset>
 
             </form>
         </div>
     </div>
-
 </body>
 </html>

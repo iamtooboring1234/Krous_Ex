@@ -11,7 +11,7 @@ namespace Krous_Ex
 {
 
 
-    public partial class FAQEntry
+    public partial class CourseEntry
     {
 
         /// <summary>
@@ -84,7 +84,7 @@ namespace Krous_Ex
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlTextArea txtCourseDesc;
+        protected global::System.Web.UI.WebControls.TextBox txtCourseDesc;
 
         /// <summary>
         /// lblCreditHour control.
@@ -139,6 +139,15 @@ namespace Krous_Ex
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label lblCourseFee;
+
+        /// <summary>
+        /// txtCourseFee control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txtCourseFee;
 
         /// <summary>
         /// btnCancel control.

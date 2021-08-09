@@ -56,7 +56,7 @@
                                     <asp:Label ID="lblFAQTitle" runat="server">FAQ Title</asp:Label><span style="color: red;">*</span>
                                 </div>
                                 <div class="col-md-8">
-                                    <asp:TextBox ID="txtFAQTitle" runat="server" CssClass="form-control" onkeydown="return (event.keyCode!=13);"></asp:TextBox>
+                                    <asp:TextBox ID="txtFAQTitle" runat="server" CssClass="form-control" onkeydown="return (event.keyCode!=13);" OnTextChanged="txtFAQTitle_TextChanged"></asp:TextBox>
                                     <asp:RequiredFieldValidator ID="RequiredFieldValidator1" runat="server" ErrorMessage="Required" controltovalidate="txtFAQTitle" Visible="False"></asp:RequiredFieldValidator>
                                 </div>
                             </div>
@@ -70,7 +70,7 @@
                                     <asp:RadioButton runat="server" ID="rdExisting" Text="Use existing category" CssClass="rdBtn" Checked="true" GroupName="Category" AutoPostBack="true" OnCheckedChanged="rdExisting_CheckedChanged" />
                                 </div>
                                 <div class="col-md-5">
-                                    <asp:DropDownList runat="server" ID="ddlCategory" CssClass="form-control" ></asp:DropDownList>
+                                    <asp:DropDownList runat="server" ID="ddlCategory" CssClass="form-control" OnSelectedIndexChanged="ddlCategory_SelectedIndexChanged" ></asp:DropDownList>
                                 </div>
                             </div>
                         </div>
@@ -108,7 +108,7 @@
                                     <asp:Label ID="lblFAQDesc" runat="server">FAQ Description</asp:Label><span style="color: red;">*</span>
                                 </div>
                                 <div class="col-md-8">
-                                    <asp:TextBox ID="txtFAQDesc" CssClass="form-control" Style="resize: none" TextMode="multiline" Columns="60" Rows="6" runat="server" />
+                                    <asp:TextBox ID="txtFAQDesc" CssClass="form-control" Style="resize: none" TextMode="multiline" Columns="60" Rows="6" runat="server"/>
                                 </div>
                             </div>
                         </div>

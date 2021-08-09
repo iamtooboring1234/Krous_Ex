@@ -135,8 +135,9 @@
                                     <asp:Label ID="lblCourseDesc" runat="server">Course Description</asp:Label><span style="color: red;">*</span>
                                 </div>
                                 <div class="col-md-10">
-                                     <textarea id="txtCourseDesc" runat="server" CssClass="form-control" onkeydown="return (event.keyCode!=13);" cols="20" rows="2" 
-                                               style="width:750px; height:135px; border-radius:5px; color:black; padding-left:12px;"></textarea>
+                                    <asp:TextBox ID="txtCourseDesc" CssClass="form-control" Style="resize: none" TextMode="multiline" Columns="60" Rows="6" runat="server"/>
+                                     <%--<textarea id="txtCourseDesc" runat="server" CssClass="form-control" onkeydown="return (event.keyCode!=13);" cols="20" rows="2" 
+                                               style="width:750px; height:135px; border-radius:5px; color:black; padding-left:12px;"></textarea>--%>
                                 </div>
                                 
                             </div>
@@ -189,7 +190,8 @@
                                     <asp:Label for="currency-field" ID="lblCourseFee" runat="server">Estimated Course Fee</asp:Label><span style="color: red;">*</span>
                                 </div>
                                 <div class="col-md-10">
-                                     <input type="text" name="currency-field" id="currency-field" class="form-control" pattern="^\$\d{1,3}(,\d{3})*(\.\d+)?$" value="" data-type="currency" placeholder="RM 1,000.00" style="width:326px;">
+                                    <asp:TextBox ID="txtCourseFee" type="text" name="currency-field" runat="server" CssClass="form-control" pattern="^\$\d{1,3}(,\d{3})*(\.\d+)?$" value="" data-type="currency" placeholder="RM 1,000.00" style="width:326px;"></asp:TextBox>
+                                     <%--<input type="text" name="currency-field" id="currency-field" class="form-control" pattern="^\$\d{1,3}(,\d{3})*(\.\d+)?$" value="" data-type="currency" placeholder="RM 1,000.00" style="width:326px;">--%>
                                 </div>
                             </div>
                         </div>         

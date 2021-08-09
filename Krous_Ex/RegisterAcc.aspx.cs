@@ -17,7 +17,7 @@ namespace Krous_Ex
 
         protected void Page_Load(object sender, EventArgs e)
         {
-
+            
         }
 
         private string Encrypt(string clearText)
