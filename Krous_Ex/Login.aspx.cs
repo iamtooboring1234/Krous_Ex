@@ -17,6 +17,21 @@ namespace Krous_Ex
     {
         String EncryptionKey = ConfigurationManager.AppSettings["EncryptionKey"];
 
+        //protected void Page_Load(object sender, EventArgs e)
+        //{
+        //    txtUsername.Attributes.Add("placeholder", "Username");
+        //    txtPassword.Attributes.Add("placeholder", "Password");
+
+        //    if (!this.IsPostBack)
+        //    {
+        //        if (this.Page.User.Identity.IsAuthenticated)
+        //        {
+        //            //FormsAuthentication.SignOut();
+        //            Response.Redirect("~/Homepage.aspx");
+        //        }
+        //    }
+        //}
+
         protected void btnStaffStud_Click(object sender, EventArgs e)
         {
 
@@ -34,15 +49,18 @@ namespace Krous_Ex
         {
             try
             {
-                if(ValidateUser(txtUsername.Text, txtPassword.Text))
-                {
-                    Response.Redirect("Homepage.aspx");
+                if(ValidateUser(txtUsername.Text, txtPassword.Text)) { 
+                    if (btnStaffStud.Text == "Login as Student")
+                    {
+                        Session["Username"] = txtUsername.Text;
+                        Response.Redirect("Homepage.aspx");    
+                    }
+                    else
+                    {
+                        Response.Redirect("StaffDashboard.aspx");
+                    }
                 }
-                else
-                {
-                    DisplayAlertMsg("User account not found. Please enter correct username and password");
-                }
-        }
+            }
             catch (Exception ex)
             {
                 clsFunction.DisplayAJAXMessage(this, "Error");
@@ -65,22 +83,25 @@ namespace Krous_Ex
 
                 if (btnStaffStud.Text == "Login as Student")
                 {
-                    String studCmd = "Select StudUsername, StudPassword from Student where StudUsername = @StudUsername";
+                    String studCmd = "Select StudUsername, StudPassword from Student where StudUsername = @Username And StudPassword = @Password";
+                    cmd.Parameters.AddWithValue("@Username", username);
+                    cmd.Parameters.AddWithValue("@Password", password);
                     SqlCommand cmdStud = new SqlCommand(studCmd, con);
 
                     //get password
                     encryptedPassword = dt.Rows[0]["StudPassword"].ToString();
-
                 }
                 else
                 {
-                    String staffCmd = "Select StaffUsername, StaffPassword from Staff where StaffUsername = @StaffUsername";
+                    String staffCmd = "Select StaffUsername, StaffPassword from Staff where StaffUsername = @Username And StaffPassword = @Password";
+                    cmd.Parameters.AddWithValue("@Username", username);
+                    cmd.Parameters.AddWithValue("@Password", password);
                     SqlCommand cmdStaff = new SqlCommand(staffCmd, con);
 
                     //get password
                     encryptedPassword = dt.Rows[0]["StaffPassword"].ToString();
                 }
-                
+
                 SqlDataReader dtrSelect = cmd.ExecuteReader();
                 dt.Load(dtrSelect);
 

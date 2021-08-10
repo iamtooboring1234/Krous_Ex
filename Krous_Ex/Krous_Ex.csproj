@@ -142,7 +142,11 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="App_Data\Krous-Ex.mdf" />
     <Content Include="App_Data\Krous-Ex.sql" />
+    <Content Include="App_Data\Krous-Ex_log.ldf">
+      <DependentUpon>Krous-Ex.mdf</DependentUpon>
+    </Content>
     <Content Include="App_Data\Krous_Ex.mdf" />
     <Content Include="App_Data\Krous_Ex_log.ldf">
       <DependentUpon>Krous_Ex.mdf</DependentUpon>
@@ -158,11 +162,11 @@
     <Content Include="Assests\main\css\fullpage.css" />
     <Content Include="Assests\main\css\general.css" />
     <Content Include="Assests\main\css\inquiry.css" />
-    <Content Include="Assests\main\css\jquery.dataTables.min.css" />
     <Content Include="Assests\main\css\layouts.css" />
     <Content Include="Assests\main\css\LoginPage.css" />
     <Content Include="Assests\main\css\Site.css" />
     <Content Include="Assests\main\css\table.css" />
+    <Content Include="Assests\main\css\testing.css" />
     <Content Include="Assests\main\fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Assests\main\img\19197906.jpg" />
     <Content Include="Assests\main\img\2021-06-29_215318.png" />
@@ -173,11 +177,7 @@
     <Content Include="Assests\main\img\online-course.png" />
     <Content Include="Assests\main\img\presentation.png" />
     <Content Include="Assests\main\js\AccRegistration.js" />
-    <Content Include="Assests\main\js\bootstrap.min.js" />
-    <Content Include="Assests\main\js\jquery-3.3.1.slim.min.js" />
-    <Content Include="Assests\main\js\jquery.dataTables.min.js" />
     <Content Include="Assests\main\js\Login.js" />
-    <Content Include="Assests\main\js\popper.min.js" />
     <Content Include="BranchesEntry.aspx" />
     <Content Include="BranchesListings.aspx" />
     <Content Include="Contact.aspx" />
@@ -245,18 +245,7 @@
     <Content Include="Site.Master" />
     <Content Include="StaffDashboard.aspx" />
     <Content Include="StaffListings.aspx" />
-    <Content Include="Testing2.aspx" />
-    <Content Include="Testing3.aspx" />
-    <Content Include="testing\css\ASite.css" />
-    <Content Include="testing\css\bootstrap.min.css" />
-    <Content Include="testing\css\ForumList.css" />
-    <Content Include="testing\css\jquery.dataTables.min.css" />
-    <Content Include="testing\css\Login.css" />
-    <Content Include="testing\css\TSPSite.css" />
-    <Content Include="testing\js\bootstrap.min.js" />
-    <Content Include="testing\js\jquery-3.3.1.slim.min.js" />
-    <Content Include="testing\js\jquery.dataTables.min.js" />
-    <Content Include="testing\js\popper.min.js" />
+    <Content Include="Testing.aspx" />
     <Content Include="ViewSwitcher.ascx" />
     <Content Include="Web.config" />
     <Content Include="Bundle.config" />
@@ -442,19 +431,11 @@
     <Compile Include="Student_Site.Master.designer.cs">
       <DependentUpon>Student_Site.Master</DependentUpon>
     </Compile>
-    <Compile Include="Testing2.aspx.cs">
-      <DependentUpon>Testing2.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
+    <Compile Include="Testing.aspx.cs">
+      <DependentUpon>Testing.aspx</DependentUpon>
     </Compile>
-    <Compile Include="Testing2.aspx.designer.cs">
-      <DependentUpon>Testing2.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="Testing3.aspx.cs">
-      <DependentUpon>Testing3.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="Testing3.aspx.designer.cs">
-      <DependentUpon>Testing3.aspx</DependentUpon>
+    <Compile Include="Testing.aspx.designer.cs">
+      <DependentUpon>Testing.aspx</DependentUpon>
     </Compile>
     <Compile Include="ViewSwitcher.ascx.cs">
       <DependentUpon>ViewSwitcher.ascx</DependentUpon>

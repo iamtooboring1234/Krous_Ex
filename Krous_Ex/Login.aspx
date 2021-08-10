@@ -11,8 +11,18 @@
     <link href="Assests/main/js/Login.js" rel="stylesheet" />
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"/>
    
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#eyeIcon").click(function () {
+                $(this).toggleClass("fa-eye fa-eye-slash");
+                var type = $(this).hasClass("fa-eye-slash") ? "text" : "password";
+                $("#txtPassword").attr("type", type);
+            });
+        });
+    </script>
 </head>
-<body>
+<body>  
     <form id="form1" runat="server">
 
         <div class="form-structor">
@@ -26,8 +36,8 @@
                     <asp:TextBox ID="txtUsername" CssClass="input" runat="server" placeholder="Username"></asp:TextBox>
                 </div>
                 <div class="form-holder">  
-                    <asp:TextBox ID="txtPassword" CssClass="input" runat="server" placeholder="Password"></asp:TextBox>
-                    <span id="eyeIcon" class="fa fa-fw fa-eye field-icon toggle-password"></span> 
+                    <asp:TextBox ID="txtPassword" CssClass="input" type="password" runat="server" placeholder="Password"></asp:TextBox>
+                    <span id="eyeIcon" class="fa fa-fw fa-eye field-icon"></span> 
                 </div>
                 <div class="forgot-pass">
                     <a href="ForgotPassword.aspx">Forgot your password?</a>     
