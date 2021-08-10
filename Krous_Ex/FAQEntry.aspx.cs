@@ -8,14 +8,39 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 
+//Left the login part take the staff name
+
 namespace Krous_Ex
 {
     public partial class FAQEntry : System.Web.UI.Page
     {
 
+        private Guid FAQGUID;
+
+
         protected void Page_Load(object sender, EventArgs e)
         {
-            loadFAQCategory();
+            if (IsPostBack != true) {
+
+                loadFAQCategory();
+
+                if (!String.IsNullOrEmpty(Request.QueryString["FAQGUID"]))
+                {
+                    FAQGUID = Guid.Parse(Request.QueryString["FAQGUID"]);
+                    loadFAQ();
+                    btnSave.Visible = false;
+                    btnUpdate.Visible = true;
+                    btnDelete.Visible = true;
+                    btnBack.Visible = true;
+                }
+                else
+                {
+                    btnSave.Visible = true;
+                    btnUpdate.Visible = false;
+                    btnDelete.Visible = false;
+                    btnBack.Visible = false;
+                }
+            }
         }
 
         private void loadFAQCategory()
@@ -52,6 +77,36 @@ namespace Krous_Ex
                 }
             }
 
+            catch (Exception ex)
+            {
+                clsFunction.DisplayAJAXMessage(this, "Error");
+            }
+        }
+
+        private void loadFAQ()
+        {
+            try 
+            {
+                SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["Krous_Ex"].ConnectionString);
+                con.Open();
+
+                SqlCommand getCommand = new SqlCommand("SELECT * FROM FAQ WHERE FAQGUID = @FAQGUID", con);
+                getCommand.Parameters.AddWithValue("@FAQGUID", FAQGUID);
+                SqlDataReader reader = getCommand.ExecuteReader();
+
+                DataTable dtFAQ = new DataTable();
+                dtFAQ.Load(reader);
+                con.Close();
+
+                if (dtFAQ.Rows.Count != 0) {
+                    txtFAQTitle.Text = dtFAQ.Rows[0]["FAQTitle"].ToString();
+                    txtFAQDesc.Text = dtFAQ.Rows[0]["FAQDescription"].ToString();
+                    ddlCategory.SelectedValue = dtFAQ.Rows[0]["FAQCategory"].ToString();
+                    ddlFAQStatus.SelectedValue = dtFAQ.Rows[0]["FAQStatus"].ToString();
+                }
+
+                con.Close();
+            }
             catch (Exception ex)
             {
                 clsFunction.DisplayAJAXMessage(this, "Error");
@@ -101,6 +156,82 @@ namespace Krous_Ex
             }
         }
 
+        private bool updateFAQ()
+        {
+            FAQGUID = Guid.Parse(Request.QueryString["FAQGUID"]);
+
+            string FAQCategory;
+
+            //string Username = clsLogin.GetLoginUserName;
+
+            if (rdExisting.Checked == true)
+                FAQCategory = ddlCategory.SelectedValue;
+            else
+                FAQCategory = txtNewCategory.Text;
+
+            try
+            {
+                SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["Krous_Ex"].ConnectionString);
+                con.Open();
+
+                SqlCommand updateCommand = new SqlCommand("UPDATE FAQ SET FAQTitle = @FAQTitle, FAQDescription = @FAQDescription, FAQCategory = @FAQCategory, FAQStatus = @FAQStatus, LastUpdatedBy = @LastUpdatedBy, LastUpdatedDate = @LastUpdatedDate WHERE FAQGUID = @FAQGUID;", con);
+
+                updateCommand.Parameters.AddWithValue("@FAQGUID", FAQGUID);
+                updateCommand.Parameters.AddWithValue("@FAQTitle", txtFAQTitle.Text);
+                updateCommand.Parameters.AddWithValue("@FAQDescription", txtFAQDesc.Text);
+                updateCommand.Parameters.AddWithValue("@FAQCategory", FAQCategory);
+                updateCommand.Parameters.AddWithValue("@FAQStatus", ddlFAQStatus.SelectedValue);
+                updateCommand.Parameters.AddWithValue("@LastUpdatedBy", "Admin");
+                updateCommand.Parameters.AddWithValue("@LastUpdatedDate", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
+
+                updateCommand.ExecuteNonQuery();
+
+                con.Close();
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                Response.Write(ex);
+                return false;
+            }
+        }
+
+        private bool deleteFAQ()
+        {
+            FAQGUID = Guid.Parse(Request.QueryString["FAQGUID"]);
+
+            string FAQCategory;
+
+            //string Username = clsLogin.GetLoginUserName;
+
+            if (rdExisting.Checked == true)
+                FAQCategory = ddlCategory.SelectedValue;
+            else
+                FAQCategory = txtNewCategory.Text;
+
+            try
+            {
+                SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["Krous_Ex"].ConnectionString);
+                con.Open();
+
+                SqlCommand deleteCommand = new SqlCommand("DELETE FROM FAQ WHERE FAQGUID = @FAQGUID;", con);
+
+                deleteCommand.Parameters.AddWithValue("@FAQGUID", FAQGUID);
+
+                deleteCommand.ExecuteNonQuery();
+
+                con.Close();
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                Response.Write(ex);
+                return false;
+            }
+        }
+
         protected void btnSave_Click(object sender, EventArgs e)
         {
             if (validateFAQ())
@@ -108,6 +239,7 @@ namespace Krous_Ex
                 if (insertFAQ())
                 {
                     ScriptManager.RegisterStartupScript(this, this.GetType(), "none", "ShowPopup();", true);
+                    Response.Redirect("FAQEntry");
                 }
                 else
                 {
@@ -117,6 +249,55 @@ namespace Krous_Ex
             else
             {
                 clsFunction.DisplayAJAXMessage(this, "Please fill in the required details.");
+            }
+        }
+
+        protected void btnBack_Click(object sender, EventArgs e)
+        {
+            Response.Redirect("FAQListings");
+        }
+
+        protected void btnCancel_Click(object sender, EventArgs e)
+        {
+            if (!String.IsNullOrEmpty(Request.QueryString["FAQGUID"]))
+            {
+                Response.Redirect("FAQEntry?FAQGUID=" + Request.QueryString["FAQGUID"]);
+            } else
+            {
+                Response.Redirect("FAQEntry");
+            }
+        }
+
+        protected void btnUpdate_Click(object sender, EventArgs e)
+        {
+            if (validateFAQ())
+            {
+                if (updateFAQ())
+                {
+                    clsFunction.DisplayAJAXMessage(this, "FAQ updated.");
+                    Response.Redirect("FAQListings");
+                }
+                else
+                {
+                    clsFunction.DisplayAJAXMessage(this, "Unable to update. Failed to update.");
+                }
+            }
+            else
+            {
+                clsFunction.DisplayAJAXMessage(this, "Please fill in the required details.");
+            }
+        }
+
+        protected void btnDelete_Click(object sender, EventArgs e)
+        {
+            if (deleteFAQ())
+            {
+                clsFunction.DisplayAJAXMessage(this, "FAQ deleted.");
+                Response.Redirect("FAQListings");
+            }
+            else
+            {
+                clsFunction.DisplayAJAXMessage(this, "Unable to delete. No such record.");
             }
         }
 
@@ -171,9 +352,18 @@ namespace Krous_Ex
             }
         }
 
-        protected void btnCancel_Click(object sender, EventArgs e)
+
+
+        protected void txtFAQTitle_TextChanged(object sender, EventArgs e)
         {
-            Response.Redirect("FAQListings");
+
         }
+
+        protected void ddlCategory_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+
+
     }
 }

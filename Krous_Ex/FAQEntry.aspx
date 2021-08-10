@@ -3,14 +3,14 @@
 <%@ Register Assembly="AjaxControlToolkit" Namespace="AjaxControlToolkit" TagPrefix="ajaxToolkit" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
-    <link href="Assests/main/css/inquiry.css" rel="stylesheet" />
-    <link href="Assests/main/css/layouts.css" rel="stylesheet" />
-    <script>
-    function ShowPopup()
-    {
-        $('#succeedModal').modal('show');
-    }
-    </script>
+        <link href="Assests/main/css/inquiry.css" rel="stylesheet" />
+        <link href="Assests/main/css/layouts.css" rel="stylesheet" />
+        <script>
+        function ShowPopup()
+        {
+            $('#succeedModal').modal('show');
+        }
+        </script>
 </asp:Content>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="body" runat="server">
@@ -19,13 +19,13 @@
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLongTitle">Modal title</h5>
+                    <h5 class="modal-title" id="exampleModalLongTitle">Successfully</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
                 <div class="modal-body">
-                ... 
+                FAQ created. 
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
@@ -56,7 +56,7 @@
                                     <asp:Label ID="lblFAQTitle" runat="server">FAQ Title</asp:Label><span style="color: red;">*</span>
                                 </div>
                                 <div class="col-md-8">
-                                    <asp:TextBox ID="txtFAQTitle" runat="server" CssClass="form-control" onkeydown="return (event.keyCode!=13);"></asp:TextBox>
+                                    <asp:TextBox ID="txtFAQTitle" runat="server" CssClass="form-control" onkeydown="return (event.keyCode!=13);" OnTextChanged="txtFAQTitle_TextChanged"></asp:TextBox>
                                     <asp:RequiredFieldValidator ID="RequiredFieldValidator1" runat="server" ErrorMessage="Required" controltovalidate="txtFAQTitle" Visible="False"></asp:RequiredFieldValidator>
                                 </div>
                             </div>
@@ -70,7 +70,7 @@
                                     <asp:RadioButton runat="server" ID="rdExisting" Text="Use existing category" CssClass="rdBtn" Checked="true" GroupName="Category" AutoPostBack="true" OnCheckedChanged="rdExisting_CheckedChanged" />
                                 </div>
                                 <div class="col-md-5">
-                                    <asp:DropDownList runat="server" ID="ddlCategory" CssClass="form-control" ></asp:DropDownList>
+                                    <asp:DropDownList runat="server" ID="ddlCategory" CssClass="form-control" OnSelectedIndexChanged="ddlCategory_SelectedIndexChanged" ></asp:DropDownList>
                                 </div>
                             </div>
                         </div>
@@ -108,7 +108,7 @@
                                     <asp:Label ID="lblFAQDesc" runat="server">FAQ Description</asp:Label><span style="color: red;">*</span>
                                 </div>
                                 <div class="col-md-8">
-                                    <asp:TextBox ID="txtFAQDesc" CssClass="form-control" Style="resize: none" TextMode="multiline" Columns="60" Rows="6" runat="server" />
+                                    <asp:TextBox ID="txtFAQDesc" CssClass="form-control" Style="resize: none" TextMode="multiline" Columns="60" Rows="6" runat="server"/>
                                 </div>
                             </div>
                         </div>
@@ -117,10 +117,14 @@
                         <div class="form-group pdForm">
                             <div class="row">
                                 <div class="col-md-12 d-flex justify-content-center text-right">
+                                    <asp:Button Text="Back" ID="btnBack" runat="server" Width="18%" CssClass="btn btn-success mr20 pdForm" OnClick="btnBack_Click" />
                                     <asp:Button Text="Cancel" ID="btnCancel" runat="server" Width="18%" CssClass="btn btn-success mr20 pdForm" OnClick="btnCancel_Click" />
                                     <asp:Button Text="Save" ID="btnSave" runat="server" Width="18%" CssClass="btn btn-success mr20 pdForm" OnClick="btnSave_Click" />
                                     <ajaxToolkit:ConfirmButtonExtender ID="ConfirmButtonExtender1" runat="server" ConfirmText="Are you sure to add these details ?" TargetControlID="btnSave" />
-                                    <asp:Button Text="Update" ID="btnUpdate" runat="server" Width="18%" CssClass="btn btn-success mr20 pdForm" />
+                                    <asp:Button Text="Update" ID="btnUpdate" runat="server" Width="18%" CssClass="btn btn-success mr20 pdForm" OnClick="btnUpdate_Click" />
+                                    <ajaxToolkit:ConfirmButtonExtender ID="ConfirmButtonExtender2" runat="server" ConfirmText="Are you sure to update this FAQ ?" TargetControlID="btnUpdate" />
+                                    <asp:Button Text="Delete" ID="btnDelete" runat="server" Width="18%" CssClass="btn btn-success mr20 pdForm" OnClick="btnDelete_Click" />
+                                    <ajaxToolkit:ConfirmButtonExtender ID="ConfirmButtonExtender3" runat="server" ConfirmText="Are you sure to delete this FAQ ?" TargetControlID="btnDelete" />
                                 </div>
                             </div>
                         </div>

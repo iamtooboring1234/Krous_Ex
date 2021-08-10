@@ -1,8 +1,21 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Staff_Site.Master" AutoEventWireup="true" CodeBehind="FAQListings.aspx.cs" Inherits="Krous_Ex.FAQListings" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
+
     <link href="Assests/main/css/inquiry.css" rel="stylesheet" />
     <link href="Assests/main/css/table.css" rel="stylesheet" />
+
+    <link type="text/css" rel="stylesheet" href="https://cdn.datatables.net/1.10.9/css/dataTables.bootstrap.min.css" />
+
+    <script type="text/javascript">
+        $(function () {
+            $('[id*=gvFAQ]').prepend($("<thead></thead>").append($(this).find("tr:first"))).DataTable({
+                "responsive": true,
+                "sPaginationType": "full_numbers"
+            });
+        });
+    </script>
+
 </asp:Content>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="body" runat="server">
@@ -56,7 +69,7 @@
                                 <div class="col-md-2">
                                 </div>
                                 <div class="col-md-8">
-                                    <asp:Button text="Search" id="btnSearch" runat="server" Width="18%" CssClass="btn btn-success mr20"/>
+                                    <asp:Button text="Search" id="btnSearch" runat="server" Width="18%" CssClass="btn btn-success mr20" OnClick="btnSearch_Click"/>
                                     <asp:Button text="Add new FAQ" id="btnAdd" runat="server" Width="18%" CssClass="btn btn-success mr20" OnClick="btnAdd_Click"/>
                                 </div>
                             </div>
@@ -68,42 +81,47 @@
         </div>
     </div>
 
-        <div class="col-lg-12">
+    <div class="col-lg-12">
         <div class="card">
             <div class="card-body" style="padding-top:0">
                 <div class="row">
-    <div class="panel-body ">
-        <div class="table-responsive">
-            <div class="gv-section gv-staff text-center table-responsive table-wrapper-scroll-y">
-                <asp:GridView ID="gvFAQ" runat="server" Width="100%" CssClass="table" AutoGenerateColumns="False" DataKeyNames="FAQGUID"  CellPadding="10" CellSpacing="2">
-                    <Columns>
-                        <asp:TemplateField>
-                            <ItemTemplate>
-                                <asp:HyperLink runat="server" NavigateUrl='<%# Eval("FAQGUID", "~/FAQEntry.aspx?FAQGUID={0}") %>' Text="View" />
-                            </ItemTemplate>
-                        </asp:TemplateField>
-                        <asp:BoundField DataField="FAQGUID" HeaderText="FAQGUID" ReadOnly="true" SortExpression="FAQGUID" Visible="false" />
-                        <asp:BoundField DataField="FAQTitle" HeaderText="Title" SortExpression="FAQTitle" />
-                        <asp:BoundField DataField="FAQCategory" HeaderText="Category" SortExpression="FAQCategory" />
-                        <asp:BoundField DataField="FAQStatus" HeaderText="Status" SortExpression="FAQStatus" />
-                    </Columns>
-                    <FooterStyle BackColor="#CCCCCC" />
-                    <HeaderStyle BackColor="#393939" Font-Bold="True" ForeColor="White" HorizontalAlign="Center" />
-                    <PagerStyle BackColor="#CCCCCC" ForeColor="Black" HorizontalAlign="Center" />
-                    <RowStyle BackColor="#222" HorizontalAlign="Center" />
-                    <SelectedRowStyle BackColor="#000099" Font-Bold="True" ForeColor="White" />
-                    <SortedAscendingCellStyle BackColor="#F1F1F1" />
-                    <SortedAscendingHeaderStyle BackColor="#808080" />
-                    <SortedDescendingCellStyle BackColor="#CAC9C9" />
-                    <SortedDescendingHeaderStyle BackColor="#383838" />
-                </asp:GridView>
-                <asp:Label ID="lblNoData" runat="server" Visible="false" Font-Size="Large" Font-Bold="true" Text="No FAQ Record Found !"></asp:Label>
+                    <div class="panel-body ">
+                        <div class="table-responsive">
+                            <div class="gv-section gv-staff text-center table-responsive table-wrapper-scroll-y">
+                                <asp:GridView ID="gvFAQ" runat="server" Width="100%" CssClass="table" AutoGenerateColumns="False" DataKeyNames="FAQGUID"  CellPadding="10" CellSpacing="2">
+                                    <Columns>
+                                        <asp:TemplateField>
+                                            <ItemTemplate>
+                                                <asp:HyperLink runat="server" NavigateUrl='<%# Eval("FAQGUID", "~/FAQEntry.aspx?FAQGUID={0}") %>' Text="View" />
+                                            </ItemTemplate>
+                                        </asp:TemplateField>
+                                        <asp:BoundField DataField="FAQGUID" HeaderText="FAQGUID" ReadOnly="true" SortExpression="FAQGUID" Visible="false" />
+                                        <asp:BoundField DataField="FAQTitle" HeaderText="Title" SortExpression="FAQTitle" />
+                                        <asp:BoundField DataField="FAQCategory" HeaderText="Category" SortExpression="FAQCategory" />
+                                        <asp:BoundField DataField="FAQStatus" HeaderText="Status" SortExpression="FAQStatus" />
+                                    </Columns>
+                                    <FooterStyle BackColor="#CCCCCC" />
+                                    <HeaderStyle BackColor="#393939" Font-Bold="True" ForeColor="White" HorizontalAlign="Center" />
+                                    <PagerStyle BackColor="#CCCCCC" ForeColor="Black" HorizontalAlign="Center" />
+                                    <RowStyle BackColor="#222" HorizontalAlign="Center" />
+                                    <SelectedRowStyle BackColor="#000099" Font-Bold="True" ForeColor="White" />
+                                    <SortedAscendingCellStyle BackColor="#F1F1F1" />
+                                    <SortedAscendingHeaderStyle BackColor="#808080" />
+                                    <SortedDescendingCellStyle BackColor="#CAC9C9" />
+                                    <SortedDescendingHeaderStyle BackColor="#383838" />
+                                </asp:GridView>
+                                <asp:Label ID="lblNoData" runat="server" Visible="false" Font-Size="Large" Font-Bold="true" Text="No FAQ Record Found !"></asp:Label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
-               </div>
-        </div>
-    </div>
- </div>
+
+    <script type="text/javascript" src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/1.10.9/js/jquery.dataTables.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/1.10.9/js/dataTables.bootstrap.min.js"></script>
+    <script src="Scripts/bootstrap.min.js"></script>
 
 </asp:Content>
