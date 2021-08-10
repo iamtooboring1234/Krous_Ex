@@ -110,8 +110,8 @@
                     </div>--%>
                        <div class="fieldset-content">
                         <div class="form-group" style="margin-left:1px">
-                            <asp:Label ID="Label1" class="form-label" runat="server" Text="">Full Name</asp:Label>
-                            <asp:TextBox ID="TextBox1" type="text" runat="server" placeholder="Your Name"></asp:TextBox>                       
+                            <asp:Label ID="lblFName" class="form-label" runat="server" Text="">Full Name</asp:Label>
+                            <asp:TextBox ID="txtFullName" type="text" runat="server" placeholder="Your Name"></asp:TextBox>                       
                         </div>
    
                         <div class="form-radio">
