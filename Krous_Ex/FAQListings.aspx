@@ -11,7 +11,10 @@
         $(function () {
             $('[id*=gvFAQ]').prepend($("<thead></thead>").append($(this).find("tr:first"))).DataTable({
                 "responsive": true,
-                "sPaginationType": "full_numbers"
+                "sPaginationType": "full_numbers",
+                "searching": false,
+                "ordering": false,
+                "scrollX": false
             });
         });
     </script>
@@ -87,8 +90,8 @@
                 <div class="row">
                     <div class="panel-body ">
                         <div class="table-responsive">
-                            <div class="gv-section gv-staff text-center table-responsive table-wrapper-scroll-y">
-                                <asp:GridView ID="gvFAQ" runat="server" Width="100%" CssClass="table" AutoGenerateColumns="False" DataKeyNames="FAQGUID"  CellPadding="10" CellSpacing="2">
+                            <div class="gv-section text-center">
+                                <asp:GridView ID="gvFAQ" runat="server" Width="100%" CssClass="table hover" AutoGenerateColumns="False" DataKeyNames="FAQGUID"  CellPadding="10" CellSpacing="2">
                                     <Columns>
                                         <asp:TemplateField>
                                             <ItemTemplate>
