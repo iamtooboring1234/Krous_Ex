@@ -14,6 +14,7 @@
     <script src="vendor/minimalist-picker/dobpicker.js"></script>
     <script src="vendor/jquery.pwstrength/jquery.pwstrength.js"></script>
     <script src="js/main.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"/>
 
     <script>
         var password = document.getElementById("password"),
@@ -42,6 +43,17 @@
                     textbox.value = textbox.title;
             }
         }
+    </script>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#eyeIcon").click(function () {
+                $(this).toggleClass("fa-eye fa-eye-slash");
+                var type = $(this).hasClass("fa-eye-slash") ? "text" : "password";
+                $("#txtPassword").attr("type", type);
+            });
+        });
     </script>
 </head>
 <body>
@@ -86,28 +98,35 @@
                     </h3>
 
                     <fieldset id="signup-form-p-0" role="tabpanel" aria-labelledby="signup-form-h-0" class="body current" aria-hidden="false">
-                        <%-- <div class="fieldset-content">
-                        <div class="form-group">
-                            <asp:Label ID="lblUsername" class="form-label" runat="server" Text="">Username</asp:Label>
-                            <asp:TextBox ID="txtUsername" type="text" runat="server" placeholder="Username"></asp:TextBox>
-                        </div>
-                        <div class="form-group">
+                        <div class="fieldset-content">
+                            <div class="form-group">
+                                <asp:Label ID="lblUsername" class="form-label" runat="server" Text="">Username</asp:Label>
+                                <asp:TextBox ID="txtUsername" type="text" runat="server" placeholder="Username" Style="color: white"></asp:TextBox>
+                            </div>
+                            <%--<div class="form-group">
                             <asp:Label ID="lblEmail" class="form-label" runat="server" Text="">Email</asp:Label>
                             <asp:TextBox ID="txtEmail" type="text" runat="server" placeholder="Your Email"></asp:TextBox>
-                        </div>
-                        <div class="form-group form-password">
-                            <asp:Label ID="lblPassw" class="form-label" runat="server" Text="">Password</asp:Label>
-                            <asp:TextBox ID="txtPassword" type="password" runat="server" placeholder="Password" data-indicator="pwindicator"></asp:TextBox>
-                            <div id="pwindicator">
-                                <div class="bar-strength">
-                                    <div class="bar-process">
-                                        <div class="bar"></div>
-                                    </div>
-                                </div>
-                                <div class="label"></div>
+                        </div>--%>
+                            <div class="form-group form-password">
+                                <asp:Label ID="lblPassw" class="form-label" runat="server" Text="">Password</asp:Label>
+                                <asp:TextBox ID="txtPassword" type="password" runat="server" placeholder="Password" Style="color: white"></asp:TextBox>
+                                <span id="eyeIcon" class="fa fa-fw fa-eye field-icon" style="color:white;"></span> 
+                            </div>
+                            <div class="form-group form-password">
+                                <asp:Label ID="lblConfPass" class="form-label" runat="server" Text="">Confirm Password</asp:Label>
+                                <asp:TextBox ID="txtConfPass" type="password" runat="server" placeholder="Confirm Password" Style="color: white"></asp:TextBox>
                             </div>
                         </div>
-                    </div>--%>
+                        <div class="fieldset-footer">
+                            <span>Step 1 of 3</span>
+                        </div>
+                    </fieldset>
+
+                    <h3 id="signup-form-h-1" tabindex="-1" class="title">
+                        <span class="title_text">Personal Information</span>
+                    </h3>
+                    <fieldset id="signup-form-p-1" role="tabpanel" aria-labelledby="signup-form-h-1" class="body" aria-hidden="true" style="display: none;">
+
                         <div class="fieldset-content">
                             <div class="form-group" style="margin-left: 1px">
                                 <asp:Label ID="lblFName" class="form-label" runat="server" Text="">Full Name</asp:Label>
@@ -288,19 +307,7 @@
                                 <asp:Label ID="lblEmail" class="form-label" runat="server" Text="">IC Number</asp:Label>
                                 <asp:TextBox ID="txtEmail" type="text" runat="server" placeholder="Your Email" Style="color: white"></asp:TextBox>
                             </div>
-
                         </div>
-                        <div class="fieldset-footer">
-                            <span>Step 1 of 3</span>
-                        </div>
-                    </fieldset>
-
-                    <h3 id="signup-form-h-1" tabindex="-1" class="title">
-                        <span class="title_text">Personal Information</span>
-                    </h3>
-                    <fieldset id="signup-form-p-1" role="tabpanel" aria-labelledby="signup-form-h-1" class="body" aria-hidden="true" style="display: none;">
-
-                        <!-- put here-->
 
                         <div class="fieldset-footer">
                             <span>Step 2 of 3</span>
@@ -312,8 +319,8 @@
                         <span class="title_text">Payment Details</span>
                     </h3>
                     <fieldset id="signup-form-p-2" role="tabpanel" aria-labelledby="signup-form-h-2" class="body" aria-hidden="true" style="display: none;">
-                        
-                         <!-- put here-->
+
+                        <!-- put here-->
 
                         <div class="fieldset-footer">
                             <span>Step 3 of 3</span>
