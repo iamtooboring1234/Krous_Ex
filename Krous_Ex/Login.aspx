@@ -39,9 +39,9 @@
                     <asp:TextBox ID="txtPassword" CssClass="input" type="password" runat="server" placeholder="Password"></asp:TextBox>
                     <span id="eyeIcon" class="fa fa-fw fa-eye field-icon"></span> 
                 </div>
-                <div class="remember-me">
+               <%-- <div class="remember-me">
                     <asp:CheckBox ID="chkRmbrMe" CssClass="remember" runat="server" Text="Remember me"/>  
-                </div>
+                </div>--%>
                 <div class="forgot-pass">
                     <a href="ForgotPassword.aspx">Forgot your password?</a>     
                 </div>

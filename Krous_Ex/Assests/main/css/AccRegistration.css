@@ -285,12 +285,12 @@ select {
     }
 
     .form-radio-item input:checked + label {
-        background-color: #1abc9c; /*need to change to blue color*/
+        background-color: #6996F3; 
         color: #FFF;
         z-index: 1;
     }
 
-   /* .form-radio-item input:focus + label {
+    .form-radio-item input:focus + label {
         outline: none;
     }*/
 

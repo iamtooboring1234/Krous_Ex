@@ -314,6 +314,7 @@
                     <fieldset id="signup-form-p-2" role="tabpanel" aria-labelledby="signup-form-h-2" class="body" aria-hidden="true" style="display: none;">
                         
                          <!-- put here-->
+
                         <div class="fieldset-footer">
                             <span>Step 3 of 3</span>
                         </div>

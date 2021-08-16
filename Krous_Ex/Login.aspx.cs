@@ -59,7 +59,7 @@ namespace Krous_Ex
                 }
                 else
                 {
-                    clsFunction.DisplayAJAXMessage(this, "User account not found. Please enter correct username and password");
+                    clsFunction.DisplayAJAXMessage(this, "User account not found. Please enter correct username and password.");
                 }
             }
             else
@@ -132,29 +132,21 @@ namespace Krous_Ex
             return (String.Compare(lookupPassword, password, false) == 0);
         }
 
-
-        
-
-
-
-
-
-
         private bool validateDetails()
         {
             if (txtUsername.Text == "")
             {
+                clsFunction.DisplayAJAXMessage(this, "Please enter your username.");
                 return false;
             }
 
             if (txtPassword.Text == "")
             {
+                clsFunction.DisplayAJAXMessage(this, "Please enter your password.");
                 return false;
             }
-
             return true;
         }
-
 
         private string Decrypt(string cipherText)
         {
