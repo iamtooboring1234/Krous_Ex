@@ -17,7 +17,6 @@ namespace Krous_Ex
 
         private Guid FAQGUID;
 
-
         protected void Page_Load(object sender, EventArgs e)
         {
             if (IsPostBack != true) {

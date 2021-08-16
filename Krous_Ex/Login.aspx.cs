@@ -15,22 +15,15 @@ namespace Krous_Ex
 {
     public partial class Login : System.Web.UI.Page
     {
+        //private Guid StudGUID;
+        //private Guid StaffGUID;
+
         String EncryptionKey = ConfigurationManager.AppSettings["EncryptionKey"];
 
-        //protected void Page_Load(object sender, EventArgs e)
-        //{
-        //    txtUsername.Attributes.Add("placeholder", "Username");
-        //    txtPassword.Attributes.Add("placeholder", "Password");
-
-        //    if (!this.IsPostBack)
-        //    {
-        //        if (this.Page.User.Identity.IsAuthenticated)
-        //        {
-        //            //FormsAuthentication.SignOut();
-        //            Response.Redirect("~/Homepage.aspx");
-        //        }
-        //    }
-        //}
+        protected void Page_Load(object sender, EventArgs e)
+        {
+           
+        }
 
         protected void btnStaffStud_Click(object sender, EventArgs e)
         {
@@ -44,36 +37,44 @@ namespace Krous_Ex
                 btnStaffStud.Text = "Login as Student";
             }
         }
-      
+
         protected void btnLogin_Click(object sender, EventArgs e)
         {
-            try
+            if (validateDetails())
             {
-                if(ValidateUser(txtUsername.Text, txtPassword.Text)) { 
+                if (validateUser(txtUsername.Text, txtPassword.Text))
+                {
                     if (btnStaffStud.Text == "Login as Student")
                     {
                         Session["Username"] = txtUsername.Text;
-                        Response.Redirect("Homepage.aspx");    
+                        Session["Password"] = txtPassword.Text;
+                        Response.Redirect("Homepage.aspx");
                     }
                     else
                     {
+                        Session["Username"] = txtUsername.Text;
+                        Session["Password"] = txtPassword.Text;
                         Response.Redirect("StaffDashboard.aspx");
                     }
                 }
+                else
+                {
+                    clsFunction.DisplayAJAXMessage(this, "User account not found. Please enter correct username and password");
+                }
             }
-            catch (Exception ex)
+            else
             {
-                clsFunction.DisplayAJAXMessage(this, "Error");
+                clsFunction.DisplayAJAXMessage(this, "Please fill in the required details.");
             }
+          
         }
 
-        protected bool ValidateUser(String username, String password)
+        protected bool validateUser(String username, String password)
         {
-            DataTable dt = new DataTable();
             SqlConnection con = new SqlConnection();
             SqlCommand cmd = new SqlCommand();
             String encryptedPassword = "";
-            String lookupPassword;
+            String lookupPassword = "";
 
             try
             {
@@ -83,28 +84,29 @@ namespace Krous_Ex
 
                 if (btnStaffStud.Text == "Login as Student")
                 {
-                    String studCmd = "Select StudUsername, StudPassword from Student where StudUsername = @Username And StudPassword = @Password";
-                    cmd.Parameters.AddWithValue("@Username", username);
-                    cmd.Parameters.AddWithValue("@Password", password);
-                    SqlCommand cmdStud = new SqlCommand(studCmd, con);
+                    cmd = new SqlCommand("SELECT StudUsername, StudPassword FROM Student WHERE StudUsername = @username AND StudPassword = @password", con);
+                    cmd.Parameters.AddWithValue("@username", txtUsername.Text);
+                    cmd.Parameters.AddWithValue("@password", txtPassword.Text);
+                    SqlDataReader dtrStudent = cmd.ExecuteReader();
+                    DataTable dtStudent = new DataTable();
+                    dtStudent.Load(dtrStudent);
 
-                    //get password
-                    encryptedPassword = dt.Rows[0]["StudPassword"].ToString();
+                    encryptedPassword = dtStudent.Rows[0]["StudPassword"].ToString();
                 }
-                else
+                else if (btnStaffStud.Text == "Login as Staff")
                 {
-                    String staffCmd = "Select StaffUsername, StaffPassword from Staff where StaffUsername = @Username And StaffPassword = @Password";
-                    cmd.Parameters.AddWithValue("@Username", username);
-                    cmd.Parameters.AddWithValue("@Password", password);
-                    SqlCommand cmdStaff = new SqlCommand(staffCmd, con);
+                    cmd = new SqlCommand("SELECT StaffUsername, StaffPassword FROM Staff WHERE StaffUsername = @username AND StaffPassword = @password", con);
+                    cmd.Parameters.AddWithValue("@username", txtUsername.Text);
+                    cmd.Parameters.AddWithValue("@password", txtPassword.Text);
+                    SqlDataReader dtrStaff = cmd.ExecuteReader();
+                    DataTable dtStaff = new DataTable();
+                    dtStaff.Load(dtrStaff);
 
-                    //get password
-                    encryptedPassword = dt.Rows[0]["StaffPassword"].ToString();
+                    encryptedPassword = dtStaff.Rows[0]["StaffPassword"].ToString();
                 }
-
-                SqlDataReader dtrSelect = cmd.ExecuteReader();
-                dt.Load(dtrSelect);
-
+                   
+                cmd.Dispose();
+                con.Close();
             }
             catch (Exception ex)
             {
@@ -127,10 +129,32 @@ namespace Krous_Ex
             {
                 return false;
             }
-
             return (String.Compare(lookupPassword, password, false) == 0);
-
         }
+
+
+        
+
+
+
+
+
+
+        private bool validateDetails()
+        {
+            if (txtUsername.Text == "")
+            {
+                return false;
+            }
+
+            if (txtPassword.Text == "")
+            {
+                return false;
+            }
+
+            return true;
+        }
+
 
         private string Decrypt(string cipherText)
         {

@@ -47,7 +47,6 @@
 <body>
 
     <div class="main">
-
         <div class="container">
             <h2>Register a new account</h2>
             <form method="POST" class="signup-form wizard clearfix" novalidate="novalidate" role="application" runat="server">
