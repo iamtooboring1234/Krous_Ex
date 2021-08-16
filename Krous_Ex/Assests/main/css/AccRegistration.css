@@ -95,7 +95,7 @@ h2 {
 
 /*eye icon*/
 #eyeIcon {
-    margin-left: -40px;
+    margin-left: -60px;
     color: white;
 }
 
@@ -620,8 +620,8 @@ fieldset {
     }
 
         .steps ul li {
-            padding-right: 80px;
-            padding-left: 0px;
+            /*padding-right: 80px;*/
+            padding-left: 10px;
             position: relative;
         }
 
@@ -631,7 +631,7 @@ fieldset {
                 height: 30px;
                 content: "";
                 background: #ebebeb;
-                right: 18px;
+                right: -101px;
                 top: 50%;
                 transform: translateY(-50%);
                 -moz-transform: translateY(-50%);
@@ -753,7 +753,8 @@ fieldset {
             }
 
                 .actions ul li a:hover {
-                    background-color: #148f77;
+                    /*background-color: #148f77;*/
+                    background-color: #578cf7;
                 }
 
 .content {

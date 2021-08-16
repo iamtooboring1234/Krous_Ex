@@ -7,12 +7,8 @@
     <link href="Assests/main/css/AccRegistration.css" rel="stylesheet" />
     <title>Account Registration</title>
 
-    <script src="vendor/jquery/jquery.min.js"></script>
-    <script src="vendor/jquery-validation/dist/jquery.validate.min.js"></script>
-    <script src="vendor/jquery-validation/dist/additional-methods.min.js"></script>
-    <script src="vendor/jquery-steps/jquery.steps.min.js"></script>
-    <script src="vendor/minimalist-picker/dobpicker.js"></script>
-    <script src="vendor/jquery.pwstrength/jquery.pwstrength.js"></script>
+    <script src="Assests/main/js/jquery.validate.min.js"></script>
+    <script src="Assests/main/js/jquery.steps.min.js"></script>
     <script src="js/main.js"></script>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"/>
 
@@ -80,19 +76,11 @@
                                     <span class="title_text">Personal Information</span>
                                 </div>
                             </a>
-                        </li>
-                        <li role="tab" class="disabled last" aria-disabled="true">
-                            <a id="signup-form-t-2" href="#signup-form-h-2" aria-controls="signup-form-p-2">
-                                <div class="title">
-                                    <span class="number">3</span>
-                                    <span class="title_text">Payment Details</span>
-                                </div>
-                            </a>
-                        </li>
+                        </li>  
                     </ul>
                 </div>
-
                 <div class="content clearfix">
+                    <!--Login information-->
                     <h3 id="signup-form-h-0" tabindex="-1" class="title current">
                         <span class="title_text">Login Infomation</span>
                     </h3>
@@ -102,15 +90,11 @@
                             <div class="form-group">
                                 <asp:Label ID="lblUsername" class="form-label" runat="server" Text="">Username</asp:Label>
                                 <asp:TextBox ID="txtUsername" type="text" runat="server" placeholder="Username" Style="color: white"></asp:TextBox>
-                            </div>
-                            <%--<div class="form-group">
-                            <asp:Label ID="lblEmail" class="form-label" runat="server" Text="">Email</asp:Label>
-                            <asp:TextBox ID="txtEmail" type="text" runat="server" placeholder="Your Email"></asp:TextBox>
-                        </div>--%>
+                            </div>                       
                             <div class="form-group form-password">
                                 <asp:Label ID="lblPassw" class="form-label" runat="server" Text="">Password</asp:Label>
                                 <asp:TextBox ID="txtPassword" type="password" runat="server" placeholder="Password" Style="color: white"></asp:TextBox>
-                                <span id="eyeIcon" class="fa fa-fw fa-eye field-icon" style="color:white;"></span> 
+                                <span id="eyeIcon" class="fa fa-fw fa-eye field-icon" style="color:white;"></span>
                             </div>
                             <div class="form-group form-password">
                                 <asp:Label ID="lblConfPass" class="form-label" runat="server" Text="">Confirm Password</asp:Label>
@@ -118,15 +102,15 @@
                             </div>
                         </div>
                         <div class="fieldset-footer">
-                            <span>Step 1 of 3</span>
+                            <span>Step 1 of 2</span>
                         </div>
                     </fieldset>
 
+                    <!--Personal information-->
                     <h3 id="signup-form-h-1" tabindex="-1" class="title">
                         <span class="title_text">Personal Information</span>
                     </h3>
                     <fieldset id="signup-form-p-1" role="tabpanel" aria-labelledby="signup-form-h-1" class="body" aria-hidden="true" style="display: none;">
-
                         <div class="fieldset-content">
                             <div class="form-group" style="margin-left: 1px">
                                 <asp:Label ID="lblFName" class="form-label" runat="server" Text="">Full Name</asp:Label>
@@ -310,22 +294,9 @@
                         </div>
 
                         <div class="fieldset-footer">
-                            <span>Step 2 of 3</span>
+                            <span>Step 2 of 2</span>
                         </div>
-
-                    </fieldset>
-
-                    <h3 id="signup-form-h-2" tabindex="-1" class="title">
-                        <span class="title_text">Payment Details</span>
-                    </h3>
-                    <fieldset id="signup-form-p-2" role="tabpanel" aria-labelledby="signup-form-h-2" class="body" aria-hidden="true" style="display: none;">
-
-                        <!-- put here-->
-
-                        <div class="fieldset-footer">
-                            <span>Step 3 of 3</span>
-                        </div>
-                    </fieldset>
+                    </fieldset> 
                 </div>
 
                 <div class="actions clearfix">
