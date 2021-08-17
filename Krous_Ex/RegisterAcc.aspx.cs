@@ -17,7 +17,7 @@ namespace Krous_Ex
 
         protected void Page_Load(object sender, EventArgs e)
         {
-            
+            btnPrevious.Visible = false;
         }
 
         private string Encrypt(string clearText)
@@ -41,6 +41,14 @@ namespace Krous_Ex
                 }
             }
             return clearText;
+        }
+
+        protected void btnNext_Click(object sender, EventArgs e) 
+        {
+            if (btnNext.Enabled)
+            {
+                btnPrevious.Visible = true;
+            }
         }
     }
 }

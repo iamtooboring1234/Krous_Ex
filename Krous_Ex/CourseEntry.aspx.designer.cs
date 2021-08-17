@@ -11,7 +11,7 @@ namespace Krous_Ex
 {
 
 
-    public partial class CourseEntry
+    public partial class FAQEntry
     {
 
         /// <summary>
