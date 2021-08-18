@@ -7,9 +7,9 @@
     <link href="Assests/main/css/AccRegistration.css" rel="stylesheet" />
     <title>Account Registration</title>
 
-    <script src="Assests/main/js/jquery.validate.min.js"></script>
+    <%--<script src="Assests/main/js/jquery.validate.min.js"></script>
     <script src="Assests/main/js/jquery.steps.min.js"></script>
-    <script src="js/main.js"></script>
+    <script src="js/main.js"></script>--%>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" />
 
     <script>
@@ -59,31 +59,33 @@
             <h2>Register a new account</h2>
             <form method="POST" class="signup-form wizard clearfix" novalidate="novalidate" role="application" runat="server">
                 <asp:ScriptManager ID="ScriptManager1" runat="server"></asp:ScriptManager>
-                <div class="steps clearfix">
-                    <ul role="tablist">
-                        <li role="tab" class="first current" aria-disabled="false" aria-selected="true">
-                            <a id="signup-form-t-0" href="#signup-form-h-0" aria-controls="signup-form-p-0">
-                                <span class="current-info audible"></span>
-                                <div class="title">
-                                    <span class="number">1</span>
-                                    <span class="title_text">Account Infomation</span>
-                                </div>
-                            </a>
-                        </li>
-                        <li role="tab" class="disabled" aria-disabled="true">
-                            <a id="signup-form-t-1" href="#signup-form-h-1" aria-controls="signup-form-p-1">
-                                <div class="title">
-                                    <span class="number">2</span>
-                                    <span class="title_text">Personal Information</span>
-                                </div>
-                            </a>
-                        </li>
-                    </ul>
-                </div>
+                
 
                 <asp:UpdatePanel runat="server" ID="pnlLogin" UpdateMode="Conditional">
                     <ContentTemplate>
+                        
                         <asp:Panel ID="pnlLoginInfo" runat="server">
+                            <div class="steps clearfix">
+                                <ul role="tablist">
+                                    <li role="tab" class="first current" aria-disabled="false" aria-selected="true">
+                                        <a aria-controls="signup-form-p-0">
+                                            <span class="current-info audible"></span>
+                                            <div class="title">
+                                                <span class="number">1</span>
+                                                <span class="title_text">Account Infomation</span>
+                                            </div>
+                                        </a>
+                                    </li>
+                                    <li role="tab" class="disabled" aria-disabled="true">
+                                        <a aria-controls="signup-form-p-1">
+                                            <div class="title">
+                                                <span class="number">2</span>
+                                                <span class="title_text">Personal Information</span>
+                                            </div>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
                             <div class="content clearfix">
                                 <fieldset id="signup-form-p-0" role="tabpanel" aria-labelledby="signup-form-h-0" class="body current" aria-hidden="false">
                                     <div class="fieldset-content">
@@ -105,15 +107,36 @@
                                         <span>Step 1 of 2</span>
                                     </div>
                                     <div class="actions clearfix">
-                                        <asp:Button ID="btnNext" CssClass="submit-button1" runat="server" Text="Next" UseSubmitBehavior="false"/>
+                                        <asp:Button ID="btnNext" CssClass="submit-button1" runat="server" OnClick="btnNext_Click" Text="Next" UseSubmitBehavior="false"/>
                                     </div>
                                 </fieldset>
                             </div>
                         </asp:Panel>
 
                         <asp:Panel ID="pnlPersonalInfo" runat="server" Enabled="false" Visible="false">
+                            <div class="steps clearfix">
+                                <ul role="tablist">
+                                    <li role="tab" class="disabled" aria-disabled="true">
+                                        <a aria-controls="signup-form-p-0">
+                                            <span class="current-info audible"></span>
+                                            <div class="title">
+                                                <span class="number">1</span>
+                                                <span class="title_text">Account Infomation</span>
+                                            </div>
+                                        </a>
+                                    </li>
+                                    <li role="tab" class="first current" aria-disabled="false" aria-selected="true">
+                                        <a aria-controls="signup-form-p-1">
+                                            <div class="title">
+                                                <span class="number">2</span>
+                                                <span class="title_text">Personal Information</span>
+                                            </div>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
                             <div class="content clearfix">
-                                <fieldset id="signup-form-p-1" role="tabpanel" aria-labelledby="signup-form-h-1" class="body current" aria-hidden="true" style="display: none;">
+                                <fieldset id="signup-form-p-1" role="tabpanel" aria-labelledby="signup-form-h-1" class="body current" aria-hidden="false" ">
                                     <div class="fieldset-content">
                                         <div class="form-group" style="margin-left: 1px">
                                             <asp:Label ID="lblFName" class="form-label" runat="server" Text="">Full Name</asp:Label>
@@ -291,7 +314,7 @@
                                         </div>
 
                                         <div class="form-group" style="margin-left: 1px">
-                                            <asp:Label ID="lblEmail" class="form-label" runat="server" Text="">IC Number</asp:Label>
+                                            <asp:Label ID="lblEmail" class="form-label" runat="server" Text="">Email</asp:Label>
                                             <asp:TextBox ID="txtEmail" type="text" runat="server" placeholder="Your Email" Style="color: white"></asp:TextBox>
                                         </div>
                                     </div>
@@ -300,7 +323,7 @@
                                         <span>Step 2 of 2</span>
                                     </div>
                                     <div class="actions clearfix">
-                                        <asp:Button ID="btnPrevious" CssClass="submit-button2" runat="server" Text="Previous" UseSubmitBehavior="false" />
+                                        <asp:Button ID="btnPrevious" CssClass="submit-button2" runat="server" Text="Previous" OnClick="btnPrevious_Click" UseSubmitBehavior="false" />
                                     </div>
                                 </fieldset>
                             </div>
