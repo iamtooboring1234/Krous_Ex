@@ -254,8 +254,6 @@
     <Content Include="Site.Master" />
     <Content Include="StaffDashboard.aspx" />
     <Content Include="StaffListings.aspx" />
-    <Content Include="Testing2.aspx" />
-    <Content Include="Testing3.aspx" />
     <Content Include="ViewSwitcher.ascx" />
     <Content Include="Web.config" />
     <Content Include="Bundle.config" />
@@ -461,20 +459,6 @@
     </Compile>
     <Compile Include="Student_Site.Master.designer.cs">
       <DependentUpon>Student_Site.Master</DependentUpon>
-    </Compile>
-    <Compile Include="Testing2.aspx.cs">
-      <DependentUpon>Testing2.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="Testing2.aspx.designer.cs">
-      <DependentUpon>Testing2.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="Testing3.aspx.cs">
-      <DependentUpon>Testing3.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="Testing3.aspx.designer.cs">
-      <DependentUpon>Testing3.aspx</DependentUpon>
     </Compile>
     <Compile Include="ViewSwitcher.ascx.cs">
       <DependentUpon>ViewSwitcher.ascx</DependentUpon>
