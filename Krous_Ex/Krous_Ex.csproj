@@ -187,6 +187,8 @@
     <Content Include="Assests\main\js\popper.min.js" />
     <Content Include="BranchesEntry.aspx" />
     <Content Include="BranchesListings.aspx" />
+    <Content Include="Chat.aspx" />
+    <Content Include="ChatView.aspx" />
     <Content Include="Contact.aspx" />
     <Content Include="CourseEntry.aspx" />
     <Content Include="CourseListings.aspx" />
@@ -252,7 +254,6 @@
     <Content Include="Site.Master" />
     <Content Include="StaffDashboard.aspx" />
     <Content Include="StaffListings.aspx" />
-    <Content Include="Testing.aspx" />
     <Content Include="Testing2.aspx" />
     <Content Include="Testing3.aspx" />
     <Content Include="ViewSwitcher.ascx" />
@@ -280,6 +281,20 @@
     </Compile>
     <Compile Include="BranchesListings.aspx.designer.cs">
       <DependentUpon>BranchesListings.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Chat.aspx.cs">
+      <DependentUpon>Chat.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Chat.aspx.designer.cs">
+      <DependentUpon>Chat.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="ChatView.aspx.cs">
+      <DependentUpon>ChatView.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="ChatView.aspx.designer.cs">
+      <DependentUpon>ChatView.aspx</DependentUpon>
     </Compile>
     <Compile Include="clsFunction.cs" />
     <Compile Include="Contact.aspx.cs">
@@ -426,6 +441,13 @@
     <Compile Include="StaffListings.aspx.designer.cs">
       <DependentUpon>StaffListings.aspx</DependentUpon>
     </Compile>
+    <Compile Include="StaffMaster.Master.cs">
+      <DependentUpon>StaffMaster.Master</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="StaffMaster.Master.designer.cs">
+      <DependentUpon>StaffMaster.Master</DependentUpon>
+    </Compile>
     <Compile Include="Staff_Site.Master.cs">
       <DependentUpon>Staff_Site.Master</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -439,12 +461,6 @@
     </Compile>
     <Compile Include="Student_Site.Master.designer.cs">
       <DependentUpon>Student_Site.Master</DependentUpon>
-    </Compile>
-    <Compile Include="Testing.aspx.cs">
-      <DependentUpon>Testing.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="Testing.aspx.designer.cs">
-      <DependentUpon>Testing.aspx</DependentUpon>
     </Compile>
     <Compile Include="Testing2.aspx.cs">
       <DependentUpon>Testing2.aspx</DependentUpon>
@@ -476,6 +492,7 @@
     <None Include="packages.config" />
     <Content Include="Scripts\jquery-3.4.1.slim.min.map" />
     <Content Include="Scripts\jquery-3.4.1.min.map" />
+    <Content Include="StaffMaster.Master" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

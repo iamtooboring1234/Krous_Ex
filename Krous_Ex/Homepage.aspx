@@ -1,8 +1,24 @@
 ﻿<%@ Page Title="Homepage" Language="C#" MasterPageFile="~/Student_Site.Master" AutoEventWireup="true" CodeBehind="Homepage.aspx.cs" Inherits="Krous_Ex.Homepage" %>
 
 <asp:Content ID="HeadContent" ContentPlaceHolderID="head" runat="server">
+
+    <link rel="stylesheet" type="text/css" href="Assests/main/css/general.css">
+    <link href="Assests/main/css/layouts.css" type="text/css" rel="stylesheet" />
     <link href="Assests/main/css/fullpage.css" rel="stylesheet" />
     <script src="Scripts/fullpage.js"></script>
+
+    <style>
+        html {
+            scroll-behavior: smooth;
+            overflow: scroll;
+            overflow-x: hidden;
+        }
+
+        ::-webkit-scrollbar {
+            width: 0; /* Remove scrollbar space */
+            background: transparent; /* Optional: just make scrollbar invisible */
+        }
+    </style>
 
 </asp:Content>
 
@@ -16,7 +32,7 @@
             <div class="section">
                 <div class="section-home-cover">
                     <div class="section-center fullscreen-md">
-                        <div class="section-wrapper-with-margin">
+                        <div class="section-wrapper-with-margin" style="margin-bottom: 10%;">
                             <div class="section-content">
                                 <div class="justify-content-center">
                                     <header class="text-center text-white py-5" style="cursor:default">
@@ -29,7 +45,7 @@
                     </div>
 
                     <footer class="section-footer scrolldown">
-                        <a class="down" style="cursor:pointer" href="#scroll">
+                        <a class="down" style="cursor:pointer" href="#">
                             <span class="txt">Scroll</span>
                             <div class="vl"></div>
                         </a>
@@ -76,6 +92,7 @@
     <script>
         new fullpage('#fullpage', {
             autoScrolling: true,
+            scrollBar: true,
             sectionsColor: ['', 'rgba(0,0,0,0.6)', '#7BAABE', 'whitesmoke', '#ccddff'],
 
             onLeave: function (origin, destination, direction) {

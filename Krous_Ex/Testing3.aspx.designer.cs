@@ -13,22 +13,5 @@ namespace Krous_Ex
 
     public partial class Testing3
     {
-
-        /// <summary>
-<<<<<<< Updated upstream:Krous_Ex/Testing3.aspx.designer.cs
-        /// gvCustomers control.
-=======
-        /// txtDate control.
->>>>>>> Stashed changes:Krous_Ex/Testing.aspx.designer.cs
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-<<<<<<< Updated upstream:Krous_Ex/Testing3.aspx.designer.cs
-        protected global::System.Web.UI.WebControls.GridView gvCustomers;
-=======
-        protected global::System.Web.UI.WebControls.TextBox txtDate;
->>>>>>> Stashed changes:Krous_Ex/Testing.aspx.designer.cs
     }
 }

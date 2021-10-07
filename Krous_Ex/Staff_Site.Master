@@ -166,7 +166,16 @@
                 </ul>
             </div>
                
+            <div class="topbar">
+                <div class="user">
+
+                </div>
+            </div>
+
         </nav>
+
+
+
         <div id="overlay"></div>
         <div class="body_content">
             <asp:ContentPlaceHolder ID="body" runat="server">

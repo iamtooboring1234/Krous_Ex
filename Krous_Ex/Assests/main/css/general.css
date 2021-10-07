@@ -6,7 +6,8 @@ html {
     scroll-behavior: smooth;
 }
 
-body {
+
+/*body {
     margin: 0px;
     padding: 0px;
     font-family: 'Montserrat', sans-serif !important;
@@ -33,10 +34,10 @@ body {
     -webkit-transform: translateZ(0) scale(1,1);
     -webkit-transition: all .2s ease;
     transition: all .2s ease;
-}
+}*/
 
 /* ScrollBar */
-.scrollbar {
+/*.scrollbar {
     height: 90%;
     width: 100%;
     overflow-y: hidden;
@@ -48,10 +49,10 @@ body {
     width: 100%;
     overflow-y: scroll;
     overflow-x: hidden;
-}
+}*/
    
 /*Scrollbar Style */
-.scrollbar::-webkit-scrollbar {
+/*.scrollbar::-webkit-scrollbar {
     width: 7px;
     height: 7px;
 }
@@ -69,10 +70,10 @@ body {
     background: #191c24;
     border-radius: 10px;
     box-shadow: inset 7px 10px 12px #f0f0f0;
-}
+}*/
 
 /* Scrollbar End */
-.fa-lg {
+/*.fa-lg {
     font-size: 1em;
 }
 
@@ -101,9 +102,9 @@ body {
 .main-menu {
     background: #191c24;
     position: fixed;
-    bottom: 45px; /* added */
-    min-height: 0 !important; /* added */
-    top: 0;
+    bottom: 45px;*/ /* added */
+    /*min-height: 0 !important;*/ /* added */
+    /*top: 0;
     bottom: 0;
     height: 100%;
     left: 0;
@@ -218,10 +219,10 @@ nav ul, nav li {
     margin: 0;
     padding: 0;
     text-transform: uppercase;
-}
+}*/
 
 /* Darker element side menu Start*/
-.darkerli {
+/*.darkerli {
     background-color: #191c24;
     text-transform: capitalize;
 }
@@ -240,10 +241,10 @@ nav ul, nav li {
     -webkit-box-shadow: inset 0px -4px 5px -4px rgba(50, 50, 50, 0.55);
     -moz-box-shadow: inset 0px -4px 5px -4px rgba(50, 50, 50, 0.55);
     box-shadow: inset 0px -4px 5px -4px rgba(50, 50, 50, 0.55);
-}
+}*/
 
 /* Darker element side menu End*/
-.main-menu li:hover > a, nav.main-menu li.active > a, .dropdown-menu > li > a:hover, .dropdown-menu > li > a:focus, .dropdown-menu > .active > a, .dropdown-menu > .active > a:hover, .dropdown-menu > .active > a:focus, .no-touch .dashboard-page nav.dashboard-menu ul li:hover a, .dashboard-page nav.dashboard-menu ul li.active a, .navbar-nav > li:hover, .navbar-nav > li > a:hover {
+/*.main-menu li:hover > a, nav.main-menu li.active > a, .dropdown-menu > li > a:hover, .dropdown-menu > li > a:focus, .dropdown-menu > .active > a, .dropdown-menu > .active > a:hover, .dropdown-menu > .active > a:focus, .no-touch .dashboard-page nav.dashboard-menu ul li:hover a, .dashboard-page nav.dashboard-menu ul li.active a, .navbar-nav > li:hover, .navbar-nav > li > a:hover {
     color: #fff;
     background-color: #00bbbb !important;
     text-shadow: 0px 0px 0px;
@@ -261,16 +262,15 @@ nav ul, nav li {
     font-style: normal;
     font-weight: 300;
     src: local('Titillium WebLight'), local('TitilliumWeb-Light'), url(http://themes.googleusercontent.com/static/fonts/titilliumweb/v2/anMUvcNT0H1YN4FII8wpr24bNCNEoFTpS2BTjF6FB5E.woff) format('woff');
-}
+}*/
 
 
 /*Body Content*/
-.body_content{
+.body_content {
     overflow-x: hidden;
-    padding: 0 0 0 55px;
-    width:100%;
-    top:0;
-    bottom:0;
+    width: 100%;
+    top: 0;
+    bottom: 0;
 }
 
 #overlay {
@@ -325,12 +325,7 @@ nav ul, nav li {
 }
 
 .section-wrapper-with-margin {
-    padding-left: 96px;
-    padding-right: 96px;
-    padding-top: 128px;
-    padding-bottom: 128px;
-    width: 1080px;
-    margin: 0 auto;
+    margin: 0 15%;
 }
 
 .scrolldown {
@@ -339,7 +334,7 @@ nav ul, nav li {
     top: auto;
     left: auto;
     right: 56px;
-    margin-bottom: 54px;
+    margin-bottom: 120px;
     font-family: "Noto Sans", "Open Sans", "Segoe UI", "Opensans", "Roboto", "Helvetica", -apple-system, system-ui, BlinkMacSystemFont, sans-serif;
     z-index: 2;
     background: transparent;

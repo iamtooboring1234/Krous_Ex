@@ -14,24 +14,7 @@ namespace Krous_Ex
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-            if (!this.IsPostBack)
-            {
-                string constr = ConfigurationManager.ConnectionStrings["Krous_Ex"].ConnectionString;
-                using (SqlConnection con = new SqlConnection(constr))
-                {
-                    using (SqlCommand cmd = new SqlCommand("SELECT * FROM FAQ", con))
-                    {
-                        using (SqlDataAdapter sda = new SqlDataAdapter(cmd))
-                        {
-                            cmd.CommandType = CommandType.Text;
-                            DataTable dt = new DataTable();
-                            sda.Fill(dt);
-                            gvCustomers.DataSource = dt;
-                            gvCustomers.DataBind();
-                        }
-                    }
-                }
-            }
+
         }
     }
 }
