@@ -34,3 +34,33 @@ td {
 .dataTables_info {
     float: left;
 }
+
+table.dataTable tbody td {
+    padding: 20px 10px !important;
+}
+
+.dataTable > thead > tr > th[class*="sort"]:before,
+.dataTable > thead > tr > th[class*="sort"]:after {
+    content: "" !important;
+}
+
+div.dataTables_wrapper div.dataTables_length label,
+div.dataTables_wrapper div.dataTables_info {
+    color: white;
+}
+
+.paging_full_numbers a.paginate_button {
+    color: #fff !important;
+}
+
+.paging_full_numbers a.paginate_active {
+    color: #fff !important;
+}
+
+.paging_full_numbers a.paginate_button {
+    color: #fff !important;
+}
+
+.paging_full_numbers a.paginate_active {
+    color: #fff !important;
+}

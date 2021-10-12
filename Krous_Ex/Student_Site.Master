@@ -39,19 +39,6 @@
     <link rel="shortcut icon" href="Assests/main/images/favicon.png" />
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-
-    <script>
-    $(document).ready(function () {
-        $(window).scroll(function () {
-            if ($(document).scrollTop() > 50) {
-                $(".horizontal-menu").addClass("fixed-on-scroll");
-            } else {
-                $("p").removeClass("test");
-            }
-        });
-    });
-    </script>
-
 </head>
 <body>
 
@@ -85,13 +72,6 @@
               <a class="navbar-brand brand-logo-mini" href="index.html"><img src="Assests/main/images/logo-mini.svg" alt="logo" /></a>
             </div>
             <div class="navbar-menu-wrapper d-flex align-items-center justify-content-end">
-              <ul class="navbar-nav">
-                <li class="nav-item ">
-                  <form class="nav-link mt-2 mt-md-0 d-none d-lg-flex search">
-                    <input type="text" class="form-control w-100" placeholder="Search products">
-                  </form>
-                </li>
-              </ul>
               <ul class="navbar-nav navbar-nav-right">
                 <li class="nav-item dropdown d-none d-xl-block">
                   <a class="nav-link btn btn-success create-new-button" id="createbuttonDropdown" data-toggle="dropdown" aria-expanded="false" href="#">+ Create New Project</a>

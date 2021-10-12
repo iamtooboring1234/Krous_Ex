@@ -87,15 +87,6 @@ namespace Krous_Ex
         protected global::System.Web.UI.WebControls.Button btnSearch;
 
         /// <summary>
-        /// btnAdd control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnAdd;
-
-        /// <summary>
         /// gvFAQ control.
         /// </summary>
         /// <remarks>

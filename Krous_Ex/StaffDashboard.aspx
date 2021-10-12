@@ -1,4 +1,4 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Staff_Site.Master" AutoEventWireup="true" CodeBehind="StaffDashboard.aspx.cs" Inherits="Krous_Ex.StaffDashboard" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/StaffMaster.Master" AutoEventWireup="true" CodeBehind="StaffDashboard.aspx.cs" Inherits="Krous_Ex.StaffDashboard" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
     <link href="Assests/main/css/layouts.css" rel="stylesheet" />
     <link href="Assests/main/css/dashboard.css" rel="stylesheet" />
@@ -26,7 +26,7 @@
 
     <div class="row"> 
         <div class="col-lg-12">
-            <div class="col-md-3 grid-margin stretch-card">
+            <div class="col-md-3 grid-margin stretch-card float-left">
                 <div class="card col-md-12">
                     <div class="card-body">
                         <div class="row">
@@ -44,7 +44,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-md-3 grid-margin stretch-card">
+            <div class="col-md-3 grid-margin stretch-card float-left">
                 <div class="card col-md-12">
                     <div class="card-body">
                         <div class="row">
@@ -62,7 +62,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-md-3 grid-margin stretch-card">
+            <div class="col-md-3 grid-margin stretch-card float-left">
                 <div class="card col-md-12">
                     <div class="card-body">
                         <div class="row">
@@ -80,7 +80,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-md-3 grid-margin stretch-card">
+            <div class="col-md-3 grid-margin stretch-card float-left">
                 <div class="card col-md-12">
                     <div class="card-body">
                         <div class="row">
@@ -108,11 +108,11 @@
                     <div class="card-body" style="margin:10px 0">
                         <div class="row">
                             <div class="col-md-12">
-                                <div class="col-md-8">
+                                <div class="col-md-8 float-left">
                                     <i class="fas fa-book" style="margin-right: 10px"></i>
                                     <asp:Label ID="Label1" runat="server" Font-Size="large">Jump Into Course Creation</asp:Label>
                                 </div>
-                                <div class="col-md-4 text-center">
+                                <div class="col-md-4 text-center float-right">
                                     <a href="#" class="submit-btn">Create your course</a>
                                 </div>
                             </div>

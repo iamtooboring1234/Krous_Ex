@@ -4,9 +4,11 @@
 
 <html>
 <head runat="server">
+
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>Corona Admin</title>
+
     <!-- plugins:css -->
     <link rel="stylesheet" href="Assests/main/vendors/mdi/css/materialdesignicons.min.css">
     <link rel="stylesheet" href="Assests/main/vendors/css/vendor.bundle.base.css">
@@ -22,12 +24,34 @@
     <!-- Layout styles -->
     <link rel="stylesheet" href="Assests/main/css/style.css">
     <!-- End layout styles -->
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
     <asp:ContentPlaceHolder ID="head" runat="server">
     </asp:ContentPlaceHolder>
+
 </head>
 <body>
     <form id="form1" runat="server">
-              <!-- partial:partials/_sidebar.html -->
+        <asp:ScriptManager runat="server">
+        <Scripts>
+            <%--To learn more about bundling scripts in ScriptManager see https://go.microsoft.com/fwlink/?LinkID=301884 --%>
+            <%--Framework Scripts--%>
+            <asp:ScriptReference Name="MsAjaxBundle" />
+            <asp:ScriptReference Name="WebForms.js" Assembly="System.Web" Path="~/Scripts/WebForms/WebForms.js" />
+            <asp:ScriptReference Name="WebUIValidation.js" Assembly="System.Web" Path="~/Scripts/WebForms/WebUIValidation.js" />
+            <asp:ScriptReference Name="MenuStandards.js" Assembly="System.Web" Path="~/Scripts/WebForms/MenuStandards.js" />
+            <asp:ScriptReference Name="GridView.js" Assembly="System.Web" Path="~/Scripts/WebForms/GridView.js" />
+            <asp:ScriptReference Name="DetailsView.js" Assembly="System.Web" Path="~/Scripts/WebForms/DetailsView.js" />
+            <asp:ScriptReference Name="TreeView.js" Assembly="System.Web" Path="~/Scripts/WebForms/TreeView.js" />
+            <asp:ScriptReference Name="WebParts.js" Assembly="System.Web" Path="~/Scripts/WebForms/WebParts.js" />
+            <asp:ScriptReference Name="Focus.js" Assembly="System.Web" Path="~/Scripts/WebForms/Focus.js" />
+            <asp:ScriptReference Name="WebFormsBundle" />
+            <%--Site Scripts--%>
+        </Scripts>
+    </asp:ScriptManager>
+        <div class="container-scroller">
+        <!-- partial:partials/_sidebar.html -->
       <nav class="sidebar sidebar-offcanvas" id="sidebar">
         <div class="sidebar-brand-wrapper d-none d-lg-flex align-items-center justify-content-center fixed-top">
           <a class="sidebar-brand brand-logo" href="index.html"><img src="Assests/main/images/logo.svg" alt="logo" /></a>
@@ -87,12 +111,27 @@
             <span class="nav-link">Navigation</span>
           </li>
           <li class="nav-item menu-items">
-            <a class="nav-link" href="index.html">
+            <a class="nav-link" href="StaffDashboard">
               <span class="menu-icon">
                 <i class="mdi mdi-speedometer"></i>
               </span>
               <span class="menu-title">Dashboard</span>
             </a>
+          </li>
+          <li class="nav-item menu-items">
+            <a class="nav-link" data-toggle="collapse" href="#FAQ" aria-expanded="false" aria-controls="FAQ">
+              <span class="menu-icon">
+                <i class="mdi mdi-laptop"></i>
+              </span>
+              <span class="menu-title">FAQ Management</span>
+              <i class="menu-arrow"></i>
+            </a>
+            <div class="collapse" id="FAQ">
+              <ul class="nav flex-column sub-menu">
+                <li class="nav-item"> <a class="nav-link" href="FAQEntry">FAQ Entry</a></li>
+                <li class="nav-item"> <a class="nav-link" href="FAQListings">FAQ Listings</a></li>
+              </ul>
+            </div>
           </li>
           <li class="nav-item menu-items">
             <a class="nav-link" data-toggle="collapse" href="#ui-basic" aria-expanded="false" aria-controls="ui-basic">
@@ -181,13 +220,13 @@
             <button class="navbar-toggler navbar-toggler align-self-center" type="button" data-toggle="minimize">
               <span class="mdi mdi-menu"></span>
             </button>
-            <ul class="navbar-nav w-100">
+<%--            <ul class="navbar-nav w-100">
               <li class="nav-item w-100">
                 <form class="nav-link mt-2 mt-md-0 d-none d-lg-flex search">
                   <input type="text" class="form-control" placeholder="Search products">
                 </form>
               </li>
-            </ul>
+            </ul>--%>
             <ul class="navbar-nav navbar-nav-right">
               <li class="nav-item dropdown d-none d-lg-block">
                 <a class="nav-link btn btn-success create-new-button" id="createbuttonDropdown" data-toggle="dropdown" aria-expanded="false" href="#">+ Create New Project</a>
@@ -365,10 +404,16 @@
             </button>
           </div>
         </nav>
-        <div>
-            <asp:ContentPlaceHolder ID="body" runat="server">
-            </asp:ContentPlaceHolder>
-        </div>
+          
+        <div class="main-panel">
+            <div class="content-wrapper">
+        <asp:ContentPlaceHolder ID="body" runat="server">
+        </asp:ContentPlaceHolder>
+                </div>
+            </div>
+        
+          </div>
+         </div> 
     </form>
     <!-- plugins:js -->
     <script src="Assests/main/vendors/js/vendor.bundle.base.js"></script>
@@ -382,13 +427,17 @@
     <!-- End plugin js for this page -->
     <!-- inject:js -->
     <script src="Assests/main/js/off-canvas.js"></script>
-    <script src="aAssests/main/js/hoverable-collapse.js"></script>
+    <script src="Assests/main/js/hoverable-collapse.js"></script>
     <script src="Assests/main/js/misc.js"></script>
     <script src="Assests/main/js/settings.js"></script>
     <script src="Assests/main/js/todolist.js"></script>
     <!-- endinject -->
     <!-- Custom js for this page -->
-    <script src="aAssests/main/js/dashboard.js"></script>
+    <script src="Assests/main/js/dashboard.js"></script>
     <!-- End custom js for this page -->
+
+
+
 </body>
 </html>
+

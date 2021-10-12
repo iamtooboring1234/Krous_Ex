@@ -57,7 +57,6 @@ select {
   &.form-control {
     padding: .4375rem .75rem;
     border: 0;
-    color: $input-placeholder-color;
     &:focus {
       outline: 1px solid $border-color;
     }

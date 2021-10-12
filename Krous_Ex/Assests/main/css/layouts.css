@@ -83,3 +83,7 @@ hr {
 .modal-open .modal .modal-dialog {
     margin: auto;
 }
+
+.sidebar .nav .nav-item .nav-link i.menu-arrow {
+    color: inherit !important;
+}

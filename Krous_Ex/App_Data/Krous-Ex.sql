@@ -282,6 +282,18 @@ CREATE TABLE [Attendance] (
 );
 
 
+CREATE TABLE [Semester] (
+	[SemesterGUID] UNIQUEIDENTIFIER NOT NULL,
+	[SemesterName] varchar(30) NOT NULL,
+	[SemesterStartDate] Date NOT NULL,
+	[SemesterEndDate] Date NOT NULL,
+	[SemesterWeekDuration] int NOT NULL,
+	[SemesterStudyDayDuration] int NOT NULL,
+	[SemesterExamDayDuration] int NOT NULL,
+	[SemesterBreakDayDuration] int NOT NULL,
+	CONSTRAINT pk_attendance PRIMARY KEY (SemesterGUID)
+);
+
 
 
 
