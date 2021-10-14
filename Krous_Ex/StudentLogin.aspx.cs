@@ -17,6 +17,7 @@ namespace Krous_Ex
     {
         String EncryptionKey = ConfigurationManager.AppSettings["EncryptionKey"];
         Guid userGuid = new Guid();
+        String userType = "";
 
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -30,6 +31,7 @@ namespace Krous_Ex
                 if (validateUser(txtUsername.Text, txtPassword.Text))
                 {  
                     Session["Username"] = txtUsername.Text;
+                    Session["Role"] = "Student";
                     //Session["Password"] = txtPassword.Text;
                     Response.Redirect("Homepage.aspx");
                 }
@@ -38,6 +40,7 @@ namespace Krous_Ex
                     clsFunction.DisplayAJAXMessage(this, "User account not found. Please enter correct username and password.");
                     txtUsername.Text = string.Empty;
                     txtPassword.Text = string.Empty;
+                    txtUsername.Focus();
                 }
             }
             else
@@ -61,14 +64,14 @@ namespace Krous_Ex
 
                 cmd = new SqlCommand("SELECT * FROM Student WHERE StudUsername = @username", con);
                 cmd.Parameters.AddWithValue("@username", txtUsername.Text);
-                //cmd.Parameters.AddWithValue("@password", txtPassword.Text);
+                //userType = "Student";
                 SqlDataReader dtrStudent = cmd.ExecuteReader();
                 DataTable dt = new DataTable();
                 dt.Load(dtrStudent);
 
                 //get password
                 encryptedPassword = dt.Rows[0]["StudPassword"].ToString();
-                //userGuid = (Guid)dt.Rows[0]["StudGUID"];
+                userGuid = (Guid)dt.Rows[0]["StudGUID"];
 
                 cmd.Dispose();
                 con.Close();

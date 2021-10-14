@@ -23,17 +23,18 @@ Drop table Branches
 Drop table Faculty
 
 CREATE TABLE [Faculty] (
-	[FacultyID] char (6) NOT NULL,
+	[FacultyGUID] UNIQUEIDENTIFIER NOT NULL,
+	[FacultyAbbrv] varchar (5) NOT NULL,
 	[FacultyName] varchar (100) NOT NULL,
 	[FacultyDesc] varchar (399) NOT NULL,
-	CONSTRAINT pk_faculty PRIMARY KEY (FacultyID)
+	CONSTRAINT pk_faculty PRIMARY KEY (FacultyGUID)
 ) 
 
 CREATE TABLE [Branches] (
-	[BranchesID] char (6) NOT NULL,
+	[BranchesGUID] UNIQUEIDENTIFIER NOT NULL,
 	[BranchesName] varchar (50) NOT NULL,
 	[State] varchar (50) NOT NULL,
-	CONSTRAINT pk_branches PRIMARY KEY (BranchesID)
+	CONSTRAINT pk_branches PRIMARY KEY (BranchesGUID)
 )
 
 CREATE TABLE [Student] (
@@ -51,8 +52,8 @@ CREATE TABLE [Student] (
 	[BranchesID] char (6)  NOT NULL,
 	[FacultyID] char (6) NOT NULL,
 	CONSTRAINT pk_student PRIMARY KEY (StudGUID),
-	CONSTRAINT fk_stundent_branches FOREIGN KEY (BranchesID) REFERENCES Branches(BranchesID),
-	CONSTRAINT fk_stundent_faculty FOREIGN KEY (FacultyID) REFERENCES Faculty(FacultyID) 
+	CONSTRAINT fk_stundent_branches FOREIGN KEY (BranchesGUID) REFERENCES Branches(BranchesGUID),
+	CONSTRAINT fk_stundent_faculty FOREIGN KEY (FacultyGUID) REFERENCES Faculty(FacultyGUID) 
 )
 
 CREATE TABLE [Staff] (
@@ -68,26 +69,28 @@ CREATE TABLE [Staff] (
 	[BranchesID] char (6) NOT NULL,
 	[FacultyID] char (6) NOT NULL
 	CONSTRAINT pk_staff PRIMARY KEY (StaffGUID),
-	CONSTRAINT fk_staff_branches FOREIGN KEY (BranchesID) REFERENCES Branches(BranchesID),
-	CONSTRAINT fk_staff_faculty FOREIGN KEY (FacultyID) REFERENCES Faculty(FacultyID) 
+	CONSTRAINT fk_staff_branches FOREIGN KEY (BranchesGUID) REFERENCES Branches(BranchesGUID),
+	CONSTRAINT fk_staff_faculty FOREIGN KEY (FacultyGUID) REFERENCES Faculty(FacultyGUID) 
 )
 
 CREATE TABLE [Course] (
-	[CourseID] char(10) NOT NULL,
+	[CourseGUID] UNIQUEIDENTIFIER NOT NULL,
+	[CourseAbbrv] varchar (9) NOT NULL,
 	[CourseName] varchar (45) NOT NULL,
 	[CourseDesc] varchar (80) NOT NULL,
 	[CreditHour] int NOT NULL,
 	[Category]   varchar (30) NOT NULL,
 	[CourseFee]  decimal (10, 2) NOT NULL,
-	CONSTRAINT pk_course PRIMARY KEY (CourseID),
+	CONSTRAINT pk_course PRIMARY KEY (CourseGUID),
 )
 
 CREATE TABLE [Programme] (
-	[ProgrammeID] char(5) NOT NULL,
+	[ProgrammeGUID] UNIQUEIDENTIFIER NOT NULL,
+	[ProgrammeAbbrv] varchar (4) NOT NULL,
 	[ProgrammeName] varchar(100) NOT NULL,
 	[ProgrammeDesc] varchar(999) NOT NULL,
 	[ProgrammeDuration] varchar (30) NOT NULL,
-	CONSTRAINT pk_programme PRIMARY KEY (ProgrammeID),
+	CONSTRAINT pk_programme PRIMARY KEY (ProgrammeGUID),
 )
 
 CREATE TABLE [Payment] (
@@ -118,7 +121,7 @@ CREATE TABLE [Programme_In_Charge] (
 	[ProgrammeID] char(5) NOT NULL,
 	[StaffGUID] UNIQUEIDENTIFIER NOT NULL,
 	CONSTRAINT pk_pic PRIMARY KEY (ProgInChargeGUID),
-	CONSTRAINT fk_programme_pic FOREIGN KEY (ProgrammeID) REFERENCES Programme(ProgrammeID),
+	CONSTRAINT fk_programme_pic FOREIGN KEY (ProgrammeGUID) REFERENCES Programme(ProgrammeGUID),
 	CONSTRAINT fk_staff_pic FOREIGN KEY (StaffGUID) REFERENCES Staff(StaffGUID)
 )
 
@@ -130,8 +133,8 @@ CREATE TABLE [Student_Course_Register] (
 	[CourseRegisterDate] datetime NOT NULL,
   	CONSTRAINT pk_register PRIMARY KEY (RegisterGUID),
 	CONSTRAINT fk_student_scr FOREIGN KEY (StudGUID) REFERENCES Student(StudGUID),
-	CONSTRAINT fk_course_scr FOREIGN KEY (CourseID) REFERENCES Course(CourseID),
-	CONSTRAINT fk_programme_scr FOREIGN KEY (ProgrammeID) REFERENCES Programme(ProgrammeID)
+	CONSTRAINT fk_course_scr FOREIGN KEY (CourseGUID) REFERENCES Course(CourseGUID),
+	CONSTRAINT fk_programme_scr FOREIGN KEY (ProgrammeGUID) REFERENCES Programme(ProgrammeGUID)
 )
 
 CREATE TABLE [Exam_Result] (
@@ -153,7 +156,7 @@ CREATE TABLE [Exam_Result_Per_Course] (
 	[Grade] varchar (3) NOT NULL,
     CONSTRAINT pk_exam_result_per_course PRIMARY KEY (Exam_Result_Per_CourseGUID),
 	CONSTRAINT fk_student_exam_result_per_course FOREIGN KEY (StudGUID) REFERENCES Student(StudGUID),
-	CONSTRAINT fk_course_exam_result_per_course FOREIGN KEY (CourseID) REFERENCES Course(CourseID)
+	CONSTRAINT fk_course_exam_result_per_course FOREIGN KEY (CourseGUID) REFERENCES Course(CourseGUID)
 )
 
 CREATE TABLE [Exam_Timetable] (
@@ -161,7 +164,7 @@ CREATE TABLE [Exam_Timetable] (
 	[ExamDate] datetime NOT NULL,
 	[CourseID] char(10) NOT NULL,
     CONSTRAINT pk_exam_timetable PRIMARY KEY (Exam_TimetableGUID),
-	CONSTRAINT fk_course_exam_timetable FOREIGN KEY (CourseID) REFERENCES Course(CourseID)
+	CONSTRAINT fk_course_exam_timetable FOREIGN KEY (CourseGUID) REFERENCES Course(CourseGUID)
 )
 
 CREATE TABLE [Forum] (
@@ -242,7 +245,7 @@ CREATE TABLE [Assignment] (
 	[FileType] varchar (30) NOT NULL,
     CONSTRAINT pk_assignment PRIMARY KEY (AssignmentGUID),
 	CONSTRAINT fk_student_assignment FOREIGN KEY (StudGUID) REFERENCES Student(StudGUID),
-	CONSTRAINT fk_course_assignment FOREIGN KEY (CourseID) REFERENCES Course(CourseID),
+	CONSTRAINT fk_course_assignment FOREIGN KEY (CourseGUID) REFERENCES Course(CourseGUID),
 );
 
 CREATE TABLE [Timetable_Course] (
@@ -254,7 +257,7 @@ CREATE TABLE [Timetable_Course] (
 	[Class_Type] varchar(20) NOT NULL,
 	[Class_Category] varchar(20) NOT NULL,
     CONSTRAINT pk_timetable_course PRIMARY KEY (Timetable_CourseGUID),
-	CONSTRAINT fk_course_timetable_course FOREIGN KEY (CourseID) REFERENCES Course(CourseID),
+	CONSTRAINT fk_course_timetable_course FOREIGN KEY (CourseGUID) REFERENCES Course(CourseGUID),
 );
 
 CREATE TABLE [GroupList] (
@@ -264,7 +267,7 @@ CREATE TABLE [GroupList] (
 	[Timetable_CourseGUID] UNIQUEIDENTIFIER NOT NULL,
 	[GroupNo] int NOT NULL,
     CONSTRAINT pk_group_list PRIMARY KEY (GroupListGUID),
-	CONSTRAINT fk_course_group_list FOREIGN KEY (CourseID) REFERENCES Course(CourseID),
+	CONSTRAINT fk_course_group_list FOREIGN KEY (CourseGUID) REFERENCES Course(CourseGUID),
 	CONSTRAINT fk_staff_group_list FOREIGN KEY (StaffGUID) REFERENCES Staff(StaffGUID),
 	CONSTRAINT fk_timetable_course_group_list FOREIGN KEY (Timetable_CourseGUID) REFERENCES Timetable_Course(Timetable_CourseGUID),
 );
@@ -276,7 +279,7 @@ CREATE TABLE [Attendance] (
 	[StudGUID] UNIQUEIDENTIFIER NOT NULL,
 	[AttendanceStatus] varchar(10) NOT NULL,
     CONSTRAINT pk_attendance PRIMARY KEY (AttendanceGUID),
-	CONSTRAINT fk_course_attendance FOREIGN KEY (CourseID) REFERENCES Course(CourseID),
+	CONSTRAINT fk_course_attendance FOREIGN KEY (CourseGUID) REFERENCES Course(CourseGUID),
 	CONSTRAINT fk_grouplistcourse_attendance FOREIGN KEY (GroupListGUID) REFERENCES GroupList(GroupListGUID),
 	CONSTRAINT fk_student_attendance FOREIGN KEY (StudGUID) REFERENCES Student(StudGUID),
 );

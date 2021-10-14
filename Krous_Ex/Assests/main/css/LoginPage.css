@@ -113,15 +113,15 @@
 
 
 /*register*/
-.register-acc {
-    color: darkgray;
+/*.register-acc a{
+    color: #0091ff;
     outline: 0;
     text-decoration: none;
-    text-align:center;
-}
+    text-align: center;
+}*/
 
 .register-acc a:hover, a:focus {
-    color: white;
+    color: #0091ff;
     background-color: transparent;
     text-decoration: underline;
 }

@@ -25,7 +25,9 @@
 <body>  
     <form id="form1" runat="server">
         <div class="form-structor">
-            <a href="Homepage.aspx">Back to Home Page</a>
+            <div class="homepage">
+                <a href="Homepage.aspx">Back to Home Page</a>
+            </div>       
             <div class="register">  
                 <div class="form-title">
                     <asp:Image ID="imageStudent" runat="server" ImageURL="~/Assests/main/img/student.png" Height="60px" Width="68px"/>
@@ -46,7 +48,7 @@
                 </div>
                 <asp:Button ID="btnLogin" runat="server" type="submit" CssClass="submit-btn" Text="Log in" OnClick="btnLogin_Click"></asp:Button>
                 <div class="register-acc">              
-                    <p>Don't have an account? <asp:HyperLink ID="hlRegister" runat="server"><a href="RegisterAcc.aspx">Register Now!</a></asp:HyperLink></p>
+                    <p>Don't have an account? <asp:HyperLink ID="hlRegister" runat="server"><a href="RegisterAcc.aspx" style="color:#0091ff;">Register Now!</a></asp:HyperLink></p>
                 </div>
             </div>
         </div>
