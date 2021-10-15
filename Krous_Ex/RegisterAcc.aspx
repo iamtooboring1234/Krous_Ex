@@ -59,8 +59,7 @@
             <h2>Register a new account</h2>
             <form method="POST" class="signup-form wizard clearfix" novalidate="novalidate" role="application" runat="server">
                 <asp:ScriptManager ID="ScriptManager1" runat="server"></asp:ScriptManager>
-                
-
+              
                 <asp:UpdatePanel runat="server" ID="pnlLogin" UpdateMode="Conditional">
                     <ContentTemplate>
                         
@@ -91,16 +90,16 @@
                                     <div class="fieldset-content">
                                         <div class="form-group">
                                             <asp:Label ID="lblUsername" class="form-label" runat="server" Text="">Username</asp:Label>
-                                            <asp:TextBox ID="txtUsername" type="text" runat="server" placeholder="Username" Style="color: white"></asp:TextBox>                                           
+                                            <asp:TextBox ID="txtUsername" type="text" runat="server" placeholder="Username" Style="color: white"></asp:TextBox>
                                         </div>
                                         <div class="form-group form-password">
                                             <asp:Label ID="lblPassw" class="form-label" runat="server" Text="">Password</asp:Label>
-                                            <asp:TextBox ID="txtPassword" type="password" runat="server" placeholder="Password" Style="color: white"></asp:TextBox>                                             
-                                            <span id="eyeIcon" class="fa fa-fw fa-eye field-icon" style="color: white;"></span>
+                                            <asp:TextBox ID="txtPassword" type="password" runat="server" placeholder="Password" Style="color: white"></asp:TextBox>
+                                            <span id="eyeIcon" class="fa fa-fw fa-eye field-icon" style="color: white;"></span>                                       
                                         </div>
                                         <div class="form-group form-password">
                                             <asp:Label ID="lblConfPass" class="form-label" runat="server" Text="">Confirm Password</asp:Label>
-                                            <asp:TextBox ID="txtConfPass" type="password" runat="server" placeholder="Confirm Password" Style="color: white"></asp:TextBox>
+                                            <asp:TextBox ID="txtConfPass" type="password" runat="server" placeholder="Confirm Password" Style="color: white"></asp:TextBox>                                         
                                         </div>
                                     </div>
                                     <div class="fieldset-footer">

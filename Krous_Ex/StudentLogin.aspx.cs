@@ -54,7 +54,7 @@ namespace Krous_Ex
             SqlConnection con = new SqlConnection();
             SqlCommand cmd = new SqlCommand();
             String encryptedPassword = "";
-            String lookupPassword = "";
+            String studentPassword = "";
 
             try
             {
@@ -86,7 +86,7 @@ namespace Krous_Ex
 			{
 				if (!(encryptedPassword.Equals("")))
 				{
-					lookupPassword = Decrypt(encryptedPassword);
+                    studentPassword = Decrypt(encryptedPassword);
 				}
 				else
 				{
@@ -97,8 +97,7 @@ namespace Krous_Ex
 			{
 				return false;
 			}
-
-			return (String.Compare(lookupPassword, password, false) == 0);
+			return (String.Compare(studentPassword, password, false) == 0);
 
 		}
 
