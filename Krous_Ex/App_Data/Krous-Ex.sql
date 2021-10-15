@@ -63,6 +63,7 @@ CREATE TABLE [Staff] (
 	[StaffUsername] varchar(30) NOT NULL,
 	[StaffPassword] varchar(30) NOT NULL,
 	[StaffFullName] varchar(50) NOT NULL,
+	[Gender] varchar(10) NOT NULL,
 	[StaffRole] varchar(30) NOT NULL,
 	[StaffStatus] varchar(30) NOT NULL,
 	[PhoneNumber] varchar(15) NOT NULL,
@@ -303,7 +304,3 @@ CREATE TABLE [Semester] (
 	[SemesterBreakDayDuration] int NOT NULL,
 	CONSTRAINT pk_attendance PRIMARY KEY (SemesterGUID)
 );
-
-
-
-
