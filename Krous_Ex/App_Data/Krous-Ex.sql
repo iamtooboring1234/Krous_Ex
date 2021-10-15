@@ -58,24 +58,26 @@ CREATE TABLE [dbo].[Student] (
     CONSTRAINT [fk_stundent_faculty] FOREIGN KEY ([FacultyGUID]) REFERENCES [dbo].[Faculty] ([FacultyGUID])
 );
 
-CREATE TABLE [Staff] (
-	[StaffGUID] UNIQUEIDENTIFIER NOT NULL,
-	[StaffUsername] varchar(30) NOT NULL,
-	[StaffPassword] varchar(30) NOT NULL,
-	[StaffFullName] varchar(50) NOT NULL,
-	[Gender] varchar(10) NOT NULL,
-	[StaffRole] varchar(30) NOT NULL,
-	[StaffStatus] varchar(30) NOT NULL,
-	[PhoneNumber] varchar(15) NOT NULL,
-	[Email] varchar(100) NOT NULL,
-	[NRIC] varchar(15) NOT NULL,
-	[Specialization] varchar (399) NOT NULL,
-    [BranchesGUID]        UNIQUEIDENTIFIER         NOT NULL,
-    [FacultyGUID]         UNIQUEIDENTIFIER         NOT NULL,
-	CONSTRAINT pk_staff PRIMARY KEY (StaffGUID),
-	CONSTRAINT fk_staff_branches FOREIGN KEY (BranchesGUID) REFERENCES Branches(BranchesGUID),
-	CONSTRAINT fk_staff_faculty FOREIGN KEY (FacultyGUID) REFERENCES Faculty(FacultyGUID) 
-)
+CREATE TABLE [dbo].[Staff] (
+    [StaffGUID]      UNIQUEIDENTIFIER NOT NULL,
+    [StaffUsername]  VARCHAR (30)     NOT NULL,
+    [StaffPassword]  VARCHAR (50)     NOT NULL,
+    [StaffFullName]  VARCHAR (50)     NOT NULL,
+    [Gender]         VARCHAR (10)     NOT NULL,
+    [StaffRole]      VARCHAR (50)     NOT NULL,
+    [StaffStatus]    VARCHAR (10)     NOT NULL,
+    [PhoneNumber]    VARCHAR (15)     NOT NULL,
+    [Email]          VARCHAR (100)    NOT NULL,
+    [NRIC]           VARCHAR (15)     NOT NULL,
+    [Specialization] VARCHAR (399)    NOT NULL,
+    [BranchesGUID]   UNIQUEIDENTIFIER NOT NULL,
+    [FacultyGUID]    UNIQUEIDENTIFIER NOT NULL,
+    CONSTRAINT [pk_staff] PRIMARY KEY CLUSTERED ([StaffGUID] ASC),
+    CONSTRAINT [fk_staff_branches] FOREIGN KEY ([BranchesGUID]) REFERENCES [dbo].[Branches] ([BranchesGUID]),
+    CONSTRAINT [fk_staff_faculty] FOREIGN KEY ([FacultyGUID]) REFERENCES [dbo].[Faculty] ([FacultyGUID])
+);
+
+
 
 CREATE TABLE [Course] (
 	[CourseGUID] UNIQUEIDENTIFIER NOT NULL,
