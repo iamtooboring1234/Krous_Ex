@@ -107,8 +107,8 @@ namespace Krous_Ex
                 sb.Append("");
                 
             
-                https://localhost:44375/ResetPassword.aspx
-                sb.Append("<a href=http://localhost:57355/codesoluation/resetlink.aspx?username=" + GetUserEmail(txtemail.Text));
+                //https://localhost:44375/ResetPassword.aspx
+                //sb.Append("<a href=http://localhost:57355/codesoluation/resetlink.aspx?username=" + GetUserEmail(txtemail.Text));
 
             }
             catch (Exception ex)

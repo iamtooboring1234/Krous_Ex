@@ -8,6 +8,7 @@ using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
 using System.Web;
+using System.Web.Security;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 
@@ -30,10 +31,14 @@ namespace Krous_Ex
             {
                 if (validateUser(txtUsername.Text, txtPassword.Text))
                 {
-                    Session["Username"] = txtUsername.Text;
-                    Session["Role"] = userType;
-                    //Session["Password"] = txtPassword.Text;
-                    Response.Redirect("StaffDashboard.aspx");
+                    FormsAuthenticationTicket tkt = new FormsAuthenticationTicket(1, userGuid.ToString(), DateTime.Now, DateTime.Now.AddMinutes(2880), false, userType, FormsAuthentication.FormsCookiePath);
+                    //FormsAuthenticationTicket tkt = new FormsAuthenticationTicket(1, userGuid.ToString(), DateTime.Now, DateTime.Now.AddMinutes(20), false, userType);
+                    string cookiestr = FormsAuthentication.Encrypt(tkt);
+                    HttpCookie ck = new HttpCookie(FormsAuthentication.FormsCookieName, cookiestr);
+                    ck.Path = FormsAuthentication.FormsCookiePath;
+                    Response.Cookies.Add(ck);
+
+                    Response.Redirect("StaffDashboard.aspx", true);
                 }
                 else
                 {
