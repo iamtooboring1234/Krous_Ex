@@ -915,6 +915,7 @@
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="ForgotPassword.aspx" />
+    <Content Include="ForumEntry.aspx" />
     <Content Include="Global.asax" />
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
@@ -1116,6 +1117,7 @@
       <DependentUpon>ChatView.aspx</DependentUpon>
     </Compile>
     <Compile Include="clsFunction.cs" />
+    <Compile Include="clsLogin.cs" />
     <Compile Include="clsValidation.cs" />
     <Compile Include="Contact.aspx.cs">
       <DependentUpon>Contact.aspx</DependentUpon>
@@ -1214,6 +1216,13 @@
     </Compile>
     <Compile Include="ForgotPassword.aspx.designer.cs">
       <DependentUpon>ForgotPassword.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="ForumEntry.aspx.cs">
+      <DependentUpon>ForumEntry.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="ForumEntry.aspx.designer.cs">
+      <DependentUpon>ForumEntry.aspx</DependentUpon>
     </Compile>
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>

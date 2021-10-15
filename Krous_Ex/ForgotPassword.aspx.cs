@@ -125,6 +125,9 @@ namespace Krous_Ex
                 sb.Append("Hi, <br/> The given link below is to allow you to reset your password. <br/> Click Here : <br/>");
                 sb.Append("");
                 
+            
+                //https://localhost:44375/ResetPassword.aspx
+                //sb.Append("<a href=http://localhost:57355/codesoluation/resetlink.aspx?username=" + GetUserEmail(txtemail.Text));
 
             }
             catch (Exception ex)

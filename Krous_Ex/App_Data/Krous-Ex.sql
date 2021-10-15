@@ -176,7 +176,11 @@ CREATE TABLE [Forum] (
 	[ForumTopic] varchar(100) NOT NULL,
 	[ForumDesc] varchar(999) NOT NULL,
 	[ForumCategory] varchar(100) NOT NULL,
-	[Create_Date] datetime NOT NULL,
+	[ForumStatus] varchar(10) NOT NULL,
+	[ForumCreatedDate] datetime NOT NULL,
+	[ForumCreatedBy] varchar (50) NOT NULL,
+    [ForumLastUpdatedBy]   varchar (50)    NOT NULL,
+    [ForumLastUpdatedDate] DATETIME         NOT NULL,
     CONSTRAINT pk_forum PRIMARY KEY (ForumGUID),
 	CONSTRAINT fk_staff_forum FOREIGN KEY (StaffGUID) REFERENCES Staff(StaffGUID)
 )
@@ -186,11 +190,11 @@ CREATE TABLE [Discussion] (
 	[ForumGUID] UNIQUEIDENTIFIER NOT NULL,
 	[DiscTopic] varchar(100) NOT NULL,
 	[DiscDesc] varchar(100) NOT NULL,
-	[Create_Date] datetime NOT NULL,
-	[Create_By] varchar (50) NOT NULL,
+	[DiscStatus] varchar(10) NOT NULL,
+	[DiscCreatedDate] datetime NOT NULL,
+	[DiscCreatedBy] varchar (50) NOT NULL,
     CONSTRAINT pk_disc PRIMARY KEY (DiscGUID),
 	CONSTRAINT fk_forum_disc FOREIGN KEY (ForumGUID) REFERENCES Forum(ForumGUID)
-
 )
 
 CREATE TABLE [Replies] (

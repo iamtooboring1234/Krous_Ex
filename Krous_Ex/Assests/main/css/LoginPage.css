@@ -47,11 +47,9 @@
 }
 
 .input {
-    width: 60%;
     padding: 12px 20px;
-    margin: 8px 0px 0px 76px;
     box-sizing: border-box;
-    width: 419px;
+    width: 80%;
     border: 2px solid rgba(255, 255, 255, 0.03);
     -webkit-transition: 0.5s;
     transition: 0.5s;
@@ -74,7 +72,7 @@
     color: #eee;
     border-radius: 12px;
     display: block;
-    margin: 25px 0px 0px 154px;
+    margin: auto;
     padding: 12px 45px;
     width: 260px;
     font-size: 15px;
@@ -177,8 +175,8 @@ a {
 
 /*eye icon*/
 #eyeIcon {
-    margin-left: -40px;
     color: white;
+
 }
 
 
