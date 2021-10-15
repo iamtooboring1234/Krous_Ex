@@ -42,7 +42,7 @@
                     <asp:CheckBox ID="chkRmbrMe" CssClass="remember" runat="server" Text="Remember me"/>  
                 </div>--%>
                 <div class="forgot-pass">
-                    <a href="ForgotPassword.aspx">Forgot your password?</a>     
+                    <a href="ForgotPassword.aspx?UserType=Staff">Forgot your password?</a>     
                 </div>
                 <asp:Button ID="btnLogin" runat="server" type="submit" CssClass="submit-btn" Text="Log in" OnClick="btnLogin_Click"></asp:Button>
                 <div class="register-acc">              

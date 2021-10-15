@@ -17,9 +17,11 @@ namespace Krous_Ex
     {
         String userType = "";
 
+        public object Conversion { get; private set; }
+
         protected void Page_Load(object sender, EventArgs e)
         {
-            if (Request.QueryString["userType"] == "Student")
+            if (Request.QueryString["UserType"] == "Student")
             {
                 userType = "Student";
             }
@@ -31,52 +33,22 @@ namespace Krous_Ex
 
         protected void btnSubmit_Click(object sender, EventArgs e)
         {
-            SqlConnection con = new SqlConnection();
-            SqlCommand cmd = new SqlCommand();
-            
-
             try
             {
-                Session["email"] = txtEmailAddress.Text;
-                string strCon = ConfigurationManager.ConnectionStrings["Krous_Ex"].ConnectionString;
-                con = new SqlConnection(strCon);
-                con.Open();
-
-                if(userType == "Student")
+                if(txtEmailAddress.Text == "")
                 {
-                    cmd = new SqlCommand("SELECT * FROM Student WHERE Email = @email", con);
-                    cmd.Parameters.AddWithValue("@email", txtEmailAddress.Text);
-                    
-                }else if( userType == "Staff")
-                {
-                    cmd = new SqlCommand("SELECT * FROM Staff WHERE Email = @email", con);
-                    cmd.Parameters.AddWithValue("@email", txtEmailAddress.Text);
-                }
-
-                SqlDataReader dtrStudent = cmd.ExecuteReader();
-                DataTable dt = new DataTable();
-                dt.Load(dtrStudent);
-
-                if (dt.Rows.Count == 0)
-                {
-                    clsFunction.DisplayAJAXMessage(this, "Please a valid email address");
-                    txtEmailAddress.Text = string.Empty;
-                    txtEmailAddress.Focus();
-                    return;
+                    clsFunction.DisplayAJAXMessage(this, "Please enter a valid email address to reset new password.");
                 }
                 else
                 {
-
+                    SendEmail();
                 }
-              
-
-                cmd.Dispose();
-                con.Close();
             }
-            catch (Exception ex)
+            catch(Exception ex)
             {
                 System.Diagnostics.Trace.WriteLine(ex.Message);
             }
+           
         }
 
         private void SendEmail()
@@ -101,14 +73,58 @@ namespace Krous_Ex
                 string strCon = ConfigurationManager.ConnectionStrings["Krous_Ex"].ConnectionString;
                 con = new SqlConnection(strCon);
                 con.Open();
+                  
+                if (userType == "Student")
+                {
+                    cmd = new SqlCommand("SELECT StudGUID, StudUsername FROM " + userType + " WHERE Email = @email", con);
+                    cmd.Parameters.AddWithValue("@email", txtEmailAddress.Text);
+
+                }
+                else if (userType == "Staff")
+                {
+                    cmd = new SqlCommand("SELECT StaffGUID, StaffUsername FROM "+ userType +" WHERE Email = @email", con);
+                    cmd.Parameters.AddWithValue("@email", txtEmailAddress.Text);
+                }
+
+                SqlDataReader dtrSelect = cmd.ExecuteReader();
+                DataTable dt = new DataTable();
+                dt.Load(dtrSelect);
+
+                //if got record then insert into Reser password table
+                if(dt.Rows.Count != 0)
+                {
+                    String userGUID = dt.Rows[0][0].ToString();
+                    String username = dt.Rows[0][1].ToString();
+
+                    string LinkToken = GenerateCode().ToString();
+                    Guid ResetPasswordGUID = Guid.NewGuid();
+                    String insertCmd = "";  
+
+
+                    if(userType == "Student")
+                    {
+                        insertCmd = "INSERT INTO ResetPassword (ResetPasswordGUID, StudGUID, Status, LinkToken, CreatedTime, ExpiredTime) VALUES (@ResetPasswordGUID, @UserGUID, @Status, @LinkToken, @CreatedTime, @ExpiredTime)";
+                    }
+                    else /*if(userType == "Staff")*/
+                    {
+                        insertCmd = "INSERT INTO ResetPassword (ResetPasswordGUID, StaffGUID, Status, LinkToken, CreatedTime, ExpiredTime) VALUES (@ResetPasswordGUID, @UserGUID, @Status, @LinkToken, @CreatedTime, @ExpiredTime)";
+                    }
+                    SqlCommand cmdInsert = new SqlCommand(insertCmd, con);
+                    cmdInsert.Parameters.AddWithValue("@Status", "Pending");
+                    cmdInsert.Parameters.AddWithValue("@LinkToken", LinkToken);
+                    cmdInsert.Parameters.AddWithValue("@CreatedTime", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
+                    cmdInsert.Parameters.AddWithValue("@ExpiredTime", DateTime.Now.AddMinutes(15).ToString("yyyy-MM-dd HH:mm:ss"));
+                    cmdInsert.ExecuteNonQuery();
+                }
+
+
+
+       
 
 
                 sb.Append("Hi, <br/> The given link below is to allow you to reset your password. <br/> Click Here : <br/>");
                 sb.Append("");
                 
-            
-                https://localhost:44375/ResetPassword.aspx
-                sb.Append("<a href=http://localhost:57355/codesoluation/resetlink.aspx?username=" + GetUserEmail(txtemail.Text));
 
             }
             catch (Exception ex)
@@ -117,5 +133,13 @@ namespace Krous_Ex
             }
         }
 
+        private String GenerateCode()
+        {
+            Random r = new Random();
+            int randNum = r.Next(1000000);
+            string sixDigitNumber = randNum.ToString("D6");
+
+            return sixDigitNumber;
+        }
     }
 }
