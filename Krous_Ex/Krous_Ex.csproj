@@ -1071,6 +1071,7 @@
     <Content Include="SemesterEntry.aspx" />
     <Content Include="Site.Master" />
     <Content Include="StaffDashboard.aspx" />
+    <Content Include="StaffEntry.aspx" />
     <Content Include="StaffListings.aspx" />
     <Content Include="StaffLogin.aspx" />
     <Content Include="StudentLogin.aspx" />
@@ -1283,6 +1284,13 @@
     </Compile>
     <Compile Include="StaffDashboard.aspx.designer.cs">
       <DependentUpon>StaffDashboard.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="StaffEntry.aspx.cs">
+      <DependentUpon>StaffEntry.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="StaffEntry.aspx.designer.cs">
+      <DependentUpon>StaffEntry.aspx</DependentUpon>
     </Compile>
     <Compile Include="StaffListings.aspx.cs">
       <DependentUpon>StaffListings.aspx</DependentUpon>

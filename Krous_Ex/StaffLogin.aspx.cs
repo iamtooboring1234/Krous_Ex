@@ -70,9 +70,9 @@ namespace Krous_Ex
                 cmd = new SqlCommand("SELECT * FROM Staff WHERE StaffUsername = @username", con);
                 cmd.Parameters.AddWithValue("@username", txtUsername.Text.ToString());
                 userType = "Staff";
-                SqlDataReader dtrStudent = cmd.ExecuteReader();
+                SqlDataReader dtrStaff = cmd.ExecuteReader();
                 DataTable dt = new DataTable();
-                dt.Load(dtrStudent);
+                dt.Load(dtrStaff);
 
                 //get password
                 encryptedPassword = dt.Rows[0]["StaffPassword"].ToString();

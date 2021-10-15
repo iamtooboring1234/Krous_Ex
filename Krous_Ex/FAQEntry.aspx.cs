@@ -19,6 +19,8 @@ namespace Krous_Ex
 
         protected void Page_Load(object sender, EventArgs e)
         {
+            txtFAQTitle.Text = clsLogin.GetLoginUserType();
+
             if (IsPostBack != true) {
 
                 loadFAQCategory();
