@@ -22,39 +22,41 @@ Drop table Student
 Drop table Branches
 Drop table Faculty
 
-CREATE TABLE [Faculty] (
-	[FacultyGUID] UNIQUEIDENTIFIER NOT NULL,
-	[FacultyAbbrv] varchar (5) NOT NULL,
-	[FacultyName] varchar (100) NOT NULL,
-	[FacultyDesc] varchar (399) NOT NULL,
-	CONSTRAINT pk_faculty PRIMARY KEY (FacultyGUID)
-) 
+CREATE TABLE [dbo].[Faculty] (
+    [FacultyGUID]  UNIQUEIDENTIFIER NOT NULL,
+    [FacultyAbbrv] VARCHAR (5)      NOT NULL,
+    [FacultyName]  VARCHAR (100)    NOT NULL,
+    [FacultyDesc]  VARCHAR (399)    NOT NULL,
+    CONSTRAINT [pk_faculty] PRIMARY KEY CLUSTERED ([FacultyGUID] ASC)
+);
 
 CREATE TABLE [Branches] (
 	[BranchesGUID] UNIQUEIDENTIFIER NOT NULL,
 	[BranchesName] varchar (50) NOT NULL,
-	[State] varchar (50) NOT NULL,
+	[BranchesAddress] varchar (200) NOT NULL,
+	[BranchesEmail] varchar(100) NOT NULL,
+	[BranchesTel] varchar(100) NOT NULL,
 	CONSTRAINT pk_branches PRIMARY KEY (BranchesGUID)
 )
 
-CREATE TABLE [Student] (
-	[StudGUID] UNIQUEIDENTIFIER NOT NULL,
-	[StudUsername] varchar(30) NOT NULL,
-	[StudPassword] varchar(30) NOT NULL,
-	[StudFullName] varchar(50) NOT NULL,
-	[Gender] varchar (10) NOT NULL,
-	[DOB] date NOT NULL,
-	[PhoneNumber] varchar(15) NOT NULL,
-	[Email] varchar(100) NOT NULL,
-	[NRIC] varchar(15) NOT NULL,
-	[YearIntake] varchar (15) NOT NULL,
-	[AccountRegisterDate] datetime NOT NULL,
-	[BranchesID] char (6)  NOT NULL,
-	[FacultyID] char (6) NOT NULL,
-	CONSTRAINT pk_student PRIMARY KEY (StudGUID),
-	CONSTRAINT fk_stundent_branches FOREIGN KEY (BranchesGUID) REFERENCES Branches(BranchesGUID),
-	CONSTRAINT fk_stundent_faculty FOREIGN KEY (FacultyGUID) REFERENCES Faculty(FacultyGUID) 
-)
+CREATE TABLE [dbo].[Student] (
+    [StudGUID]            UNIQUEIDENTIFIER NOT NULL,
+    [StudUsername]        VARCHAR (30)     NOT NULL,
+    [StudPassword]        VARCHAR (30)     NOT NULL,
+    [StudFullName]        VARCHAR (50)     NOT NULL,
+    [Gender]              VARCHAR (10)     NOT NULL,
+    [DOB]                 DATE             NOT NULL,
+    [PhoneNumber]         VARCHAR (15)     NOT NULL,
+    [Email]               VARCHAR (100)    NOT NULL,
+    [NRIC]                VARCHAR (15)     NOT NULL,
+    [YearIntake]          VARCHAR (15)     NOT NULL,
+    [AccountRegisterDate] DATETIME         NOT NULL,
+    [BranchesGUID]        UNIQUEIDENTIFIER         NOT NULL,
+    [FacultyGUID]         UNIQUEIDENTIFIER         NOT NULL,
+    CONSTRAINT [pk_student] PRIMARY KEY CLUSTERED ([StudGUID] ASC),
+    CONSTRAINT [fk_stundent_branches] FOREIGN KEY ([BranchesGUID]) REFERENCES [dbo].[Branches] ([BranchesGUID]),
+    CONSTRAINT [fk_stundent_faculty] FOREIGN KEY ([FacultyGUID]) REFERENCES [dbo].[Faculty] ([FacultyGUID])
+);
 
 CREATE TABLE [Staff] (
 	[StaffGUID] UNIQUEIDENTIFIER NOT NULL,
@@ -62,12 +64,13 @@ CREATE TABLE [Staff] (
 	[StaffPassword] varchar(30) NOT NULL,
 	[StaffFullName] varchar(50) NOT NULL,
 	[StaffRole] varchar(30) NOT NULL,
+	[StaffStatus] varchar(30) NOT NULL,
 	[PhoneNumber] varchar(15) NOT NULL,
 	[Email] varchar(100) NOT NULL,
 	[NRIC] varchar(15) NOT NULL,
 	[Specialization] varchar (399) NOT NULL,
-	[BranchesID] char (6) NOT NULL,
-	[FacultyID] char (6) NOT NULL
+    [BranchesGUID]        UNIQUEIDENTIFIER         NOT NULL,
+    [FacultyGUID]         UNIQUEIDENTIFIER         NOT NULL,
 	CONSTRAINT pk_staff PRIMARY KEY (StaffGUID),
 	CONSTRAINT fk_staff_branches FOREIGN KEY (BranchesGUID) REFERENCES Branches(BranchesGUID),
 	CONSTRAINT fk_staff_faculty FOREIGN KEY (FacultyGUID) REFERENCES Faculty(FacultyGUID) 

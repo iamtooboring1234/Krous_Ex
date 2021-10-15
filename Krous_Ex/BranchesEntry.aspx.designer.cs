@@ -15,13 +15,13 @@ namespace Krous_Ex
     {
 
         /// <summary>
-        /// lblFAQEntry control.
+        /// lblBranchEntry control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblFAQEntry;
+        protected global::System.Web.UI.WebControls.Label lblBranchEntry;
 
         /// <summary>
         /// updatepanel1 control.
@@ -33,22 +33,22 @@ namespace Krous_Ex
         protected global::System.Web.UI.UpdatePanel updatepanel1;
 
         /// <summary>
-        /// lblFAQTitle control.
+        /// lblBranchName control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblFAQTitle;
+        protected global::System.Web.UI.WebControls.Label lblBranchName;
 
         /// <summary>
-        /// txtFAQTitle control.
+        /// txtBranchName control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtFAQTitle;
+        protected global::System.Web.UI.WebControls.TextBox txtBranchName;
 
         /// <summary>
         /// RequiredFieldValidator1 control.
@@ -60,94 +60,94 @@ namespace Krous_Ex
         protected global::System.Web.UI.WebControls.RequiredFieldValidator RequiredFieldValidator1;
 
         /// <summary>
-        /// lblFAQCategory control.
+        /// lblBranchAddress control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblFAQCategory;
+        protected global::System.Web.UI.WebControls.Label lblBranchAddress;
 
         /// <summary>
-        /// rdExisting control.
+        /// txtBranchAddress control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.RadioButton rdExisting;
+        protected global::System.Web.UI.WebControls.TextBox txtBranchAddress;
 
         /// <summary>
-        /// ddlCategory control.
+        /// RequiredFieldValidator4 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList ddlCategory;
+        protected global::System.Web.UI.WebControls.RequiredFieldValidator RequiredFieldValidator4;
 
         /// <summary>
-        /// rdNew control.
+        /// lblBranchEmail control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.RadioButton rdNew;
+        protected global::System.Web.UI.WebControls.Label lblBranchEmail;
 
         /// <summary>
-        /// txtNewCategory control.
+        /// txtBranchEmail control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtNewCategory;
+        protected global::System.Web.UI.WebControls.TextBox txtBranchEmail;
 
         /// <summary>
-        /// lblFAQStatus control.
+        /// RequiredFieldValidator2 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblFAQStatus;
+        protected global::System.Web.UI.WebControls.RequiredFieldValidator RequiredFieldValidator2;
 
         /// <summary>
-        /// ddlFAQStatus control.
+        /// Label1 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList ddlFAQStatus;
+        protected global::System.Web.UI.WebControls.Label Label1;
 
         /// <summary>
-        /// lblFAQDesc control.
+        /// MaskedEditExtender1 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblFAQDesc;
+        protected global::AjaxControlToolkit.MaskedEditExtender MaskedEditExtender1;
 
         /// <summary>
-        /// txtFAQDesc control.
+        /// txtBranchPhone control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtFAQDesc;
+        protected global::System.Web.UI.WebControls.TextBox txtBranchPhone;
 
         /// <summary>
-        /// btnCancel control.
+        /// RequiredFieldValidator3 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnCancel;
+        protected global::System.Web.UI.WebControls.RequiredFieldValidator RequiredFieldValidator3;
 
         /// <summary>
         /// btnSave control.
@@ -168,12 +168,12 @@ namespace Krous_Ex
         protected global::AjaxControlToolkit.ConfirmButtonExtender ConfirmButtonExtender1;
 
         /// <summary>
-        /// btnUpdate control.
+        /// btnCancel control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnUpdate;
+        protected global::System.Web.UI.WebControls.Button btnCancel;
     }
 }
