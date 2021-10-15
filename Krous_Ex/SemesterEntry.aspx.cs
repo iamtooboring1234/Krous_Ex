@@ -16,11 +16,18 @@ namespace Krous_Ex
 
         protected void Page_Load(object sender, EventArgs e)
         {
-            if (IsPostBack != true)
+            if (!Session["Role"].Equals("Student"))
             {
-                txtSemesterName.Text = "asd";
-                txtSemesterStartDate.Text = DateTime.Today.ToString("dd/MM/yyyy");
-                txtSemesterEndDate.Text = DateTime.Today.AddDays(9).ToString("dd/MM/yyyy");
+
+                if (IsPostBack != true)
+                {
+                    txtSemesterName.Text = "asd";
+                    txtSemesterStartDate.Text = DateTime.Today.ToString("dd/MM/yyyy");
+                    txtSemesterEndDate.Text = DateTime.Today.AddDays(9).ToString("dd/MM/yyyy");
+                }
+            } else
+            {
+                Response.Redirect("Error_Page/Error_404.aspx"); 
             }
         }
 

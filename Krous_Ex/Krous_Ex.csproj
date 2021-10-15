@@ -193,6 +193,7 @@
     <Content Include="CourseEntry.aspx" />
     <Content Include="CourseListings.aspx" />
     <Content Include="Default.aspx" />
+    <Content Include="Error_Page\Error_404.aspx" />
     <Content Include="ExamEntry.aspx" />
     <Content Include="ExaminationDashboard.aspx" />
     <Content Include="ExamListings.aspx" />
@@ -300,6 +301,7 @@
       <DependentUpon>ChatView.aspx</DependentUpon>
     </Compile>
     <Compile Include="clsFunction.cs" />
+    <Compile Include="clsValidation.cs" />
     <Compile Include="Contact.aspx.cs">
       <DependentUpon>Contact.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -327,6 +329,13 @@
     </Compile>
     <Compile Include="Default.aspx.designer.cs">
       <DependentUpon>Default.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Error_Page\Error_404.aspx.cs">
+      <DependentUpon>Error_404.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Error_Page\Error_404.aspx.designer.cs">
+      <DependentUpon>Error_404.aspx</DependentUpon>
     </Compile>
     <Compile Include="ExamEntry.aspx.cs">
       <DependentUpon>ExamEntry.aspx</DependentUpon>
