@@ -16,6 +16,9 @@ namespace Krous_Ex
     public partial class StaffLogin : System.Web.UI.Page
     {
         String EncryptionKey = ConfigurationManager.AppSettings["EncryptionKey"];
+        Guid userGuid = new Guid();
+        String userType = "";
+
         protected void Page_Load(object sender, EventArgs e)
         {
 
@@ -28,21 +31,22 @@ namespace Krous_Ex
                 if (validateUser(txtUsername.Text, txtPassword.Text))
                 {
                     Session["Username"] = txtUsername.Text;
-                    Session["Password"] = txtPassword.Text;
-                    Response.Redirect("Homepage.aspx");
+                    Session["Role"] = userType;
+                    //Session["Password"] = txtPassword.Text;
+                    Response.Redirect("StaffDashboard.aspx");
                 }
                 else
                 {
                     clsFunction.DisplayAJAXMessage(this, "User account not found. Please enter correct username and password.");
+                    txtUsername.Text = string.Empty;
+                    txtPassword.Text = string.Empty;
+                    txtUsername.Focus();
                 }
             }
             else
             {
                 clsFunction.DisplayAJAXMessage(this, "Please fill in the required details.");
             }
-
-
-
         }
 
         protected bool validateUser(String username, String password)
@@ -50,7 +54,7 @@ namespace Krous_Ex
             SqlConnection con = new SqlConnection();
             SqlCommand cmd = new SqlCommand();
             String encryptedPassword = "";
-            String lookupPassword = "";
+            String staffPassword = "";
 
             try
             {
@@ -58,15 +62,16 @@ namespace Krous_Ex
                 con = new SqlConnection(strCon);
                 con.Open();
 
-                cmd = new SqlCommand("SELECT * FROM Student WHERE StudUsername = @username AND StudPassword = @password", con);
+                cmd = new SqlCommand("SELECT * FROM Staff WHERE StaffUsername = @username", con);
                 cmd.Parameters.AddWithValue("@username", txtUsername.Text.ToString());
-                cmd.Parameters.AddWithValue("@password", txtPassword.Text.ToString());
+                userType = "Staff";
                 SqlDataReader dtrStudent = cmd.ExecuteReader();
                 DataTable dt = new DataTable();
                 dt.Load(dtrStudent);
 
                 //get password
-                encryptedPassword = dt.Rows[0]["StudPassword"].ToString();
+                encryptedPassword = dt.Rows[0]["StaffPassword"].ToString();
+                userGuid = (Guid)dt.Rows[0]["StaffGUID"];
 
                 cmd.Dispose();
                 con.Close();
@@ -81,7 +86,7 @@ namespace Krous_Ex
             {
                 if (!(encryptedPassword.Equals("")))
                 {
-                    lookupPassword = Decrypt(encryptedPassword);
+                    staffPassword = Decrypt(encryptedPassword);
                 }
                 else
                 {
@@ -92,33 +97,16 @@ namespace Krous_Ex
             {
                 return false;
             }
-            return (String.Compare(lookupPassword, password, false) == 0);
+            return (String.Compare(staffPassword, password, false) == 0);
         }
 
-        //private bool validateDetails()
-        //{
-        //    if (txtUsername.Text == "")
-        //    {
-        //        clsFunction.DisplayAJAXMessage(this, "Please enter your username.");
-        //        return false;
-        //    }
-
-        //    if (txtPassword.Text == "")
-        //    {
-        //        clsFunction.DisplayAJAXMessage(this, "Please enter your password.");
-        //        return false;
-        //    }
-        //    return true;
-        //}
-
-
-        private string Decrypt(string cipherText)
+        public string Decrypt(string cipherText)
         {
-            string cryptoKey = EncryptionKey;
+            string EncryptionKey = "ABCDEFGHIJKLMNOPQRSTUVWXYZ123456789";
             byte[] cipherBytes = Convert.FromBase64String(cipherText);
             using (Aes encryptor = Aes.Create())
             {
-                Rfc2898DeriveBytes pdb = new Rfc2898DeriveBytes(cryptoKey, new byte[] { 0x49, 0x76, 0x61, 0x6E, 0x20, 0x4D, 0x65, 0x64, 0x76, 0x65, 0x64, 0x65, 0x76 });
+                Rfc2898DeriveBytes pdb = new Rfc2898DeriveBytes(EncryptionKey, new byte[] { 0x49, 0x76, 0x61, 0x6e, 0x20, 0x4d, 0x65, 0x64, 0x76, 0x65, 0x64, 0x65, 0x76 });
                 encryptor.Key = pdb.GetBytes(32);
                 encryptor.IV = pdb.GetBytes(16);
                 using (MemoryStream ms = new MemoryStream())
@@ -139,6 +127,22 @@ namespace Krous_Ex
             string myScript = String.Format("alert('{0}');", msg);
             ScriptManager.RegisterStartupScript(Page, Page.GetType(), "MyScript", myScript, true);
         }
+
+        //private bool validateDetails()
+        //{
+        //    if (txtUsername.Text == "")
+        //    {
+        //        clsFunction.DisplayAJAXMessage(this, "Please enter your username.");
+        //        return false;
+        //    }
+
+        //    if (txtPassword.Text == "")
+        //    {
+        //        clsFunction.DisplayAJAXMessage(this, "Please enter your password.");
+        //        return false;
+        //    }
+        //    return true;
+        //}
 
     }
 }

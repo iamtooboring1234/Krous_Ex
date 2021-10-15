@@ -4,69 +4,44 @@
 
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head runat="server">
-    <title>Frogot Password</title>
+    <title>Forgot Password</title>
     <link href="Assests/main/css/ForgotPassword.css" rel="stylesheet" />
+    <link href="Assests/main/css/style.css" rel="stylesheet" />
 </head>
 <body>
     <form id="form1" runat="server">
-      
-		<div class="forgetPassword-holder">
-			<div class="form-title">
-				<p>Forgot your password?</p>
-				<p>Please follow the steps to change your password.</p>
-			</div>
-			<div class="container-password">
-				<div class="input-password">
-					<asp:TextBox ID="txtNewPassword" runat="server" type="password" CssClass="inputNewPass" placeholder="Your new password"></asp:TextBox>
-					<div class="form-valid">
-						<asp:RequiredFieldValidator id="rfvNewPassword" runat="server"
-							ControlToValidate="txtNewPassword"
-							ErrorMessage="This field is required!"
-							ForeColor="Red"
-							Display="Dynamic"
-							ClientValidationFunction="ValidateTextBox">
-						</asp:RequiredFieldValidator>
+        <div class="container-scroller">
+            <div class="main-panel">
+                <div class="content-wrapper">
+                    <div class="card">
+                        <div class="card-body">
+                            <h4 class="card-title" style="font-size: 20px;">Reset Password</h4>
+                            <p class="card-description">Enter your registered email address and we wil send you link ro reset password.</p>
 
-						<asp:regularexpressionvalidator id="revNewPassword" runat="server"
-							display="Dynamic" 
-							forecolor="Red" 
-							margin-top="80px"
-							ErrorMessage="8 - 30 characters, at least one alphabet and one digit"
-							validationexpression="(?!^[0-9]*$)(?!^[a-zA-Z]*$)^([a-zA-Z0-9]{8,30})$" 
-							controltovalidate="txtNewPassword"
-							ClientValidationFunction="ValidateTextBox">
-						</asp:regularexpressionvalidator>
-					</div>
-					<span class="focus-input100"></span>
-					<span class="symbol-input100">
-						<i class="fa fa-user"></i>
-					</span>
-				</div>
+                            <div class="form-group" style="margin-top: 15px;">
+                                <asp:Label ID="email" runat="server" Text="Email Address"></asp:Label>
+                                <asp:TextBox ID="txtEmailAddress" type="text" placeholder="Email" CssClass="form-control" runat="server" Style="width: 400px"></asp:TextBox>
+                                <asp:RequiredFieldValidator
+                                    ControlToValidate="txtEmailAddress"
+                                    ID="rfvEmail"
+                                    runat="server"
+                                    ErrorMessage="This is required to fill!"
+                                    ForeColor="Red"
+                                    Display="Dynamic"
+                                    ClientValidationFunction="ValidateTextBox">
+                                </asp:RequiredFieldValidator>
+                            </div>
 
-				<div class="input-confirm-pass">
-					<asp:TextBox ID="txtConfirmPassword" runat="server" type="password" CssClass="input-conf-pass" placeholder="Confirm your new password"></asp:TextBox>
-					<div class="form-valid">
-						<asp:RequiredFieldValidator id="rfvConfPassword" runat="server"
-							ControlToValidate="txtConfirmPassword"
-							ErrorMessage="This field is required!"
-							ForeColor="Red"
-							Display="Dynamic"
-							ClientValidationFunction="ValidateTextBox">
-						</asp:RequiredFieldValidator>
-						<asp:CompareValidator id="cvConfPassword" runat="server" ControlToCompare="txtNewPassword" ControlToValidate="txtConfirmPassword" ForeColor="Red" ErrorMessage="Does not match with your password" Display="Dynamic"/>
-					</div>
-					<span class="focus-input100"></span>
-					<span class="symbol-input100">
-						<i class="fa fa-envelope"></i>
-					</span>
-				</div>
+                            <div class="button">
+                                <asp:Button ID="btnSubmit" runat="server" Text="Submit" CssClass="btn btn-primary me-2" Style="padding: 10px; width: 100px; margin-top: 10px; margin-right: 13px;" OnClick="btnSubmit_Click" />
+                                <asp:Button ID="btnCancel" runat="server" Text="Cancel" CssClass="btn btn-dark" Style="padding: 10px; width: 100px; margin-top: 10px;" />
+                            </div>
 
-			<div class="submit-button">
-				<asp:Button ID="btnSubmit" runat="server" Text="Submit" CssClass="contact100-form-btn" />
-			</div>
-		</div>
-	</div>
-				
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </form>
 </body>
 </html>

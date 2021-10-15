@@ -11,7 +11,7 @@ namespace Krous_Ex
 {
 
 
-    public partial class ForgotPassword
+    public partial class ResetPassword
     {
 
         /// <summary>
@@ -24,6 +24,24 @@ namespace Krous_Ex
         protected global::System.Web.UI.HtmlControls.HtmlForm form1;
 
         /// <summary>
+        /// username control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label username;
+
+        /// <summary>
+        /// exampleInputUsername1 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox exampleInputUsername1;
+
+        /// <summary>
         /// email control.
         /// </summary>
         /// <remarks>
@@ -33,13 +51,13 @@ namespace Krous_Ex
         protected global::System.Web.UI.WebControls.Label email;
 
         /// <summary>
-        /// txtEmailAddress control.
+        /// exampleInputEmail1 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtEmailAddress;
+        protected global::System.Web.UI.WebControls.TextBox exampleInputEmail1;
 
         /// <summary>
         /// rfvEmail control.

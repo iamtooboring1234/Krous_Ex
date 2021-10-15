@@ -10,6 +10,7 @@ using System.Text;
 using System.Configuration;
 using System.Data.SqlClient;
 using System.Data;
+using System.Text.RegularExpressions;
 
 namespace Krous_Ex
 {
@@ -143,7 +144,7 @@ namespace Krous_Ex
         }
 
         private bool validateDetails()
-        {
+        {     
             if (txtUsername.Text == "")
             {
                 clsFunction.DisplayAJAXMessage(this, "Please enter your username.");
@@ -203,18 +204,48 @@ namespace Krous_Ex
                 clsFunction.DisplayAJAXMessage(this, "Please enter your IC number.");
                 return false;
             }
-
-            if (txtPhoneNo.Text == "")
+            else if(txtNRIC.Text.Length > 12)
             {
-                clsFunction.DisplayAJAXMessage(this, "Please enter your phone number.");
+                clsFunction.DisplayAJAXMessage(this, "Invalid IC number entered.");
                 return false;
             }
 
-            if (txtEmail.Text == "")
+            if (!(txtPhoneNo.Text.Equals("")))
+            {
+                if (!(int.TryParse(txtPhoneNo.Text, out _)))
+                {
+                    DisplayAlertMsg("Your contact number can only be in numeric form and without a dash.");
+                    return false;
+                }
+            }
+            else
+            {
+                clsFunction.DisplayAJAXMessage(this, "Please enter your contact number.");
+                return false;
+            }
+
+            if(txtPhoneNo.Text.Length > 12)
+            {
+                DisplayAlertMsg("Invalid contact number entered.");
+                return false;
+            }
+
+            if (!(txtEmail.Text.Equals("")))
+            {
+                string strRegex = "\\w+([-+.']\\w+)*@\\w+([-.]\\w+)*\\.\\w+([-.]\\w+)*";
+                Regex re = new Regex(strRegex);
+                if (!(re.IsMatch(txtEmail.Text)))
+                {
+                    DisplayAlertMsg("Please enter a valid email");
+                    return false;
+                }
+            }
+            else
             {
                 clsFunction.DisplayAJAXMessage(this, "Please enter your email.");
                 return false;
             }
+
 
             return true;
         }

@@ -37,7 +37,7 @@
                     <asp:TextBox ID="txtUsername" CssClass="input" runat="server" placeholder="Username"></asp:TextBox>
                 </div>
                 <div class="form-holder">  
-                    <asp:TextBox ID="txtPassword" CssClass="input" type="password" runat="server" placeholder="Password"></asp:TextBox>
+                    <asp:TextBox ID="txtPassword" CssClass="input" type="text" runat="server" placeholder="Password"></asp:TextBox>
                     <span id="eyeIcon" class="fa fa-fw fa-eye field-icon"></span> 
                 </div>
                <%-- <div class="remember-me">
