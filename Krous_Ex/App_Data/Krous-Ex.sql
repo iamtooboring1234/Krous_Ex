@@ -306,7 +306,3 @@ CREATE TABLE [Semester] (
 	[SemesterBreakDayDuration] int NOT NULL,
 	CONSTRAINT pk_attendance PRIMARY KEY (SemesterGUID)
 );
-
-
-
-
