@@ -31,7 +31,7 @@ namespace Krous_Ex
                 if (validateUser(txtUsername.Text, txtPassword.Text))
                 {
                     Session["Username"] = txtUsername.Text;
-                    //Session["Role"] = "Staff";
+                    Session["Role"] = userType;
                     //Session["Password"] = txtPassword.Text;
                     Response.Redirect("StaffDashboard.aspx");
                 }
@@ -63,14 +63,15 @@ namespace Krous_Ex
                 con.Open();
 
                 cmd = new SqlCommand("SELECT * FROM Staff WHERE StaffUsername = @username", con);
-                cmd.Parameters.AddWithValue("@username", txtUsername.Text.ToString()); 
+                cmd.Parameters.AddWithValue("@username", txtUsername.Text.ToString());
+                userType = "Staff";
                 SqlDataReader dtrStudent = cmd.ExecuteReader();
                 DataTable dt = new DataTable();
                 dt.Load(dtrStudent);
 
                 //get password
                 encryptedPassword = dt.Rows[0]["StaffPassword"].ToString();
-                //userGuid = (Guid)dt.Rows[0]["StaffGUID"];
+                userGuid = (Guid)dt.Rows[0]["StaffGUID"];
 
                 cmd.Dispose();
                 con.Close();

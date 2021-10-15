@@ -31,10 +31,10 @@ namespace Krous_Ex
                 if (validateUser(txtUsername.Text, txtPassword.Text))
                 {  
                     Session["Username"] = txtUsername.Text;
-                    Session["Role"] = "Student";
+                    Session["Role"] = userType;
                     //Session["Password"] = txtPassword.Text;
                     Response.Redirect("Homepage.aspx");
-                }
+                } 
                 else
                 {
                     clsFunction.DisplayAJAXMessage(this, "User account not found. Please enter correct username and password.");
@@ -64,7 +64,7 @@ namespace Krous_Ex
 
                 cmd = new SqlCommand("SELECT * FROM Student WHERE StudUsername = @username", con);
                 cmd.Parameters.AddWithValue("@username", txtUsername.Text);
-                //userType = "Student";
+                userType = "Student";
                 SqlDataReader dtrStudent = cmd.ExecuteReader();
                 DataTable dt = new DataTable();
                 dt.Load(dtrStudent);
