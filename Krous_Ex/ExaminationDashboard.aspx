@@ -1,4 +1,4 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Staff_Site.Master" AutoEventWireup="true" CodeBehind="ExaminationDashboard.aspx.cs" Inherits="Krous_Ex.ExaminationDashboard" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/StaffMaster.Master" AutoEventWireup="true" CodeBehind="ExaminationDashboard.aspx.cs" Inherits="Krous_Ex.ExaminationDashboard" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
     <link href="Assests/main/css/layouts.css" rel="stylesheet" />

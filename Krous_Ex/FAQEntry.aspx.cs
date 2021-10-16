@@ -1,19 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Configuration;
-using System.Data.SqlClient;
 using System.Data;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Web;
+using System.Web.Security;
 using System.Web.UI;
 using System.Web.UI.WebControls;
-using System.Web.Security;
-
-//Left the login part take the staff name
 
 namespace Krous_Ex
 {
-    public partial class FAQEntry : System.Web.UI.Page
+    public partial class FAQEntry1 : System.Web.UI.Page
     {
 
         private Guid FAQGUID;
@@ -34,24 +32,25 @@ namespace Krous_Ex
                     {
                         FAQGUID = Guid.Parse(Request.QueryString["FAQGUID"]);
                         loadFAQ();
-                        btnSave.Visible = false;
-                        btnUpdate.Visible = true;
-                        btnDelete.Visible = true;
-                        btnBack.Visible = true;
+                        //btnSave.Visible = false;
+                        //btnUpdate.Visible = true;
+                        //btnDelete.Visible = true;
+                        //btnBack.Visible = true;
                     }
                     else
                     {
-                        btnSave.Visible = true;
-                        btnUpdate.Visible = false;
-                        btnDelete.Visible = false;
-                        btnBack.Visible = false;
+                        //btnSave.Visible = true;
+                        //btnUpdate.Visible = false;
+                        //btnDelete.Visible = false;
+                        //btnBack.Visible = false;
                     }
                 }
-            } else
+            }
+            else
             {
                 Response.Redirect("Homepage");
             }
-           
+
         }
 
         private void loadFAQCategory()
@@ -96,7 +95,7 @@ namespace Krous_Ex
 
         private void loadFAQ()
         {
-            try 
+            try
             {
                 SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["Krous_Ex"].ConnectionString);
                 con.Open();
@@ -109,7 +108,8 @@ namespace Krous_Ex
                 dtFAQ.Load(reader);
                 con.Close();
 
-                if (dtFAQ.Rows.Count != 0) {
+                if (dtFAQ.Rows.Count != 0)
+                {
                     txtFAQTitle.Text = dtFAQ.Rows[0]["FAQTitle"].ToString();
                     txtFAQDesc.Text = dtFAQ.Rows[0]["FAQDescription"].ToString();
                     ddlCategory.SelectedValue = dtFAQ.Rows[0]["FAQCategory"].ToString();
@@ -273,7 +273,8 @@ namespace Krous_Ex
             if (!String.IsNullOrEmpty(Request.QueryString["FAQGUID"]))
             {
                 Response.Redirect("FAQEntry?FAQGUID=" + Request.QueryString["FAQGUID"]);
-            } else
+            }
+            else
             {
                 Response.Redirect("FAQEntry");
             }

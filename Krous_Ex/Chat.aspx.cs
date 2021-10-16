@@ -17,11 +17,11 @@ namespace Krous_Ex
 
         protected void FileUploadComplete(object sender, EventArgs e)
         {
-            string SaveFolderPath = ConfigurationManager.AppSettings.Get("ChatSavePath");
-            string UploadChatFolderPath = ConfigurationManager.AppSettings.Get("ChatUploadPath");
+            //string SaveFolderPath = ConfigurationManager.AppSettings.Get("ChatSavePath");
+            //string UploadChatFolderPath = ConfigurationManager.AppSettings.Get("ChatUploadPath");
 
-            string ChatImageName = System.IO.Path.GetFileNameWithoutExtension(AsyncFileUploadChat.FileName) + "_" + Guid.NewGuid().ToString() + System.IO.Path.GetExtension(AsyncFileUploadChat.FileName);
-            AsyncFileUploadChat.SaveAs(Server.MapPath(SaveFolderPath) + ChatImageName);
+            //string ChatImageName = System.IO.Path.GetFileNameWithoutExtension(AsyncFileUploadChat.FileName) + "_" + Guid.NewGuid().ToString() + System.IO.Path.GetExtension(AsyncFileUploadChat.FileName);
+            //AsyncFileUploadChat.SaveAs(Server.MapPath(SaveFolderPath) + ChatImageName);
 
             //Response.Cookies("ImagePath").Value = UploadChatFolderPath;
             //Response.Cookies("ImagePath").Expires = DateTime.Now.AddMinutes(10);
