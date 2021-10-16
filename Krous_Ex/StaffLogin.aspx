@@ -10,9 +10,9 @@
 
     <link href="Assests/main/css/LoginPage.css" rel="stylesheet" />
     <link href="Assests/main/js/Login.js" rel="stylesheet" />
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" />
+    <link href="Assests/main/css/font-awesome/all.min.css" rel="stylesheet" />
 
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script type="text/javascript">
         $(function () {
             $("#eyeIcon").click(function () {

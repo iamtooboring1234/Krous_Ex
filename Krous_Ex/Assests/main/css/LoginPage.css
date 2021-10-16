@@ -187,3 +187,16 @@ span.error-msg {
     transition: all .5s;
     opacity: 0;
 }
+
+
+.vd_soft-grey {
+    color: #b5b5b5 !important;
+}
+
+.mgl-10 {
+    margin-left: 10px !important;
+}
+
+.mgr-10 {
+    margin-right: 10px !important;
+}

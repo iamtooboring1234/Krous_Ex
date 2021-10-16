@@ -164,6 +164,20 @@
     <Content Include="Assests\main\css\bootstrap.min.css" />
     <Content Include="Assests\main\css\Contact.css" />
     <Content Include="Assests\main\css\dashboard.css" />
+    <Content Include="Assests\main\css\font-awesome\all.css" />
+    <Content Include="Assests\main\css\font-awesome\all.min.css" />
+    <Content Include="Assests\main\css\font-awesome\brands.css" />
+    <Content Include="Assests\main\css\font-awesome\brands.min.css" />
+    <Content Include="Assests\main\css\font-awesome\fontawesome.css" />
+    <Content Include="Assests\main\css\font-awesome\fontawesome.min.css" />
+    <Content Include="Assests\main\css\font-awesome\regular.css" />
+    <Content Include="Assests\main\css\font-awesome\regular.min.css" />
+    <Content Include="Assests\main\css\font-awesome\solid.css" />
+    <Content Include="Assests\main\css\font-awesome\solid.min.css" />
+    <Content Include="Assests\main\css\font-awesome\svg-with-js.css" />
+    <Content Include="Assests\main\css\font-awesome\svg-with-js.min.css" />
+    <Content Include="Assests\main\css\font-awesome\v4-shims.css" />
+    <Content Include="Assests\main\css\font-awesome\v4-shims.min.css" />
     <Content Include="Assests\main\css\ForgotPassword.css" />
     <Content Include="Assests\main\css\fullpage.css" />
     <Content Include="Assests\main\css\general.css" />
@@ -339,6 +353,7 @@
     <Content Include="Assests\main\img\19197906.jpg" />
     <Content Include="Assests\main\img\2021-06-29_215318.png" />
     <Content Include="Assests\main\img\contract.png" />
+    <Content Include="Assests\main\img\exit.png" />
     <Content Include="Assests\main\img\graduated.png" />
     <Content Include="Assests\main\img\istockphoto-1124699381-612x612.jpg" />
     <Content Include="Assests\main\img\logo.png" />
@@ -346,6 +361,7 @@
     <Content Include="Assests\main\img\presentation.png" />
     <Content Include="Assests\main\img\student.png" />
     <Content Include="Assests\main\img\teacher.png" />
+    <Content Include="Assests\main\img\user.jpg" />
     <Content Include="Assests\main\js\bootstrap.min.js" />
     <Content Include="Assests\main\js\jquery-3.3.1.slim.min.js" />
     <Content Include="Assests\main\js\jquery.dataTables.min.js" />
