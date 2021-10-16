@@ -10,17 +10,32 @@ namespace Krous_Ex
 {
     public partial class Logout : System.Web.UI.Page
     {
+        String userType;
+
         protected void Page_Load(object sender, EventArgs e)
         {
-            if (!Page.IsPostBack)
+            var myCookie = Request.Cookies[FormsAuthentication.FormsCookieName];
+            
+            if (myCookie != null)
             {
-                FormsAuthentication.SignOut();
+                userType = clsLogin.GetLoginUserType();
+
+                if (!Page.IsPostBack)
+                {
+                    FormsAuthentication.SignOut();
+                }
             }
         }
 
         protected void btnBack_Click(object sender, EventArgs e)
         {
-            Response.Redirect("StaffLogin.aspx");
+            if (userType == "Staff")
+            {
+                Response.Redirect("StaffLogin.aspx");
+            } else
+            {
+                Response.Redirect("StudentLogin.aspx");
+            }
         }
     }
 }

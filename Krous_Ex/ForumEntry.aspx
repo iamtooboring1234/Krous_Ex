@@ -39,9 +39,9 @@
                 <div class="row">
                     <div class="col-md-12">
                         <h3>
-                            <asp:Label ID="lblFAQEntry" runat="server">FAQ Entry</asp:Label>
+                            <asp:Label ID="lblFAQEntry" runat="server">Forum Entry</asp:Label>
                         </h3>
-                        <p class="card-description">Form to insert Frequently Asked Question (FAQ) </p>
+                        <p class="card-description">Form to insert Forum </p>
                     </div>
                 </div>
                 <hr />

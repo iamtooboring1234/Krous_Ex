@@ -8,7 +8,25 @@
     <script src="Scripts/jquery.signalR-2.4.2.min.js"></script>
     <script src="signalr/hubs" type="text/javascript"></script>
 
-    <script type="text/javascript">
+    <script>
+        $(function () {
+
+            var chat = $.connection.chatHub;
+
+            chat.client.addMessage = function (message) {
+                $('#listMessages').append('<li style="color:black;">' + message + '</li>');
+            };
+
+            $("#Send").click(function () {
+                chat.server.send($('#txtMessage').val());
+            });
+
+            $.connection.hub.start()
+
+        })
+    </script>
+
+<%--    <script type="text/javascript">
 
         window.onload = ScrollToBottom;
 
@@ -341,77 +359,18 @@
         }
 
 
-    </script>
+    </script>--%>
 
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="body" runat="server">
 
-    <div class="col-lg-12">
 
-        <div class="card-header">
-            <h4 class="card-title"><strong>Chat Room</strong></h4>
-            <a class="btn btn-sm btn-secondary" id="endChatBtn" onclick="endChat()" href="#" data-abc="true">End Chat</a>
-        </div>
-
-        <div class="ps-container ps-theme-default ps-active-y" id="chat-content" style="overflow-y: scroll !important; height: 520px !important;">
-            <div id="chat-content-Message">
-                <asp:Literal runat="server" ID="litMessage"></asp:Literal>
-            </div>
-
-            <div id="divIsTyping">
-                <div class="row col-lg-12 p0">
-                    <div class="media media-chat">
-                        <p>
-                            <img src="../upload/inquiry/chatUsage/istyping.gif" alt="isTypingGif" width="60" height="40" />
-                        </p>
-                    </div>
-                </div>
-            </div>
-
-            <div class="popup" id="myPopup">
-                <div class="row col-lg-12 p0">
-                    <div class="popuptext">
-                        Your message has successfully send to the staff.
-                                        <br />
-                        You can choose to wait for the reply here or leave the page and check it later on the Chat List 
-                    </div>
-                </div>
-            </div>
-
-        </div>
-
-
-
-        <div class="publisher bt-1 border">
-
-            <textarea class="publisher-input" id="msgTextArea" placeholder="Type here"></textarea>
-
-            <button type="button" id="btn-sendImg" class="publisher-btn" onclick="ClickFileUpload()">
-                <i class="fa fa-paperclip fa-lg"></i>
-            </button>
-
-            <div id="sendDiv">
-                <button type="button" id="btn-sendmsg" class="publisher-btn">
-                    <i class="fa fa-paper-plane fa-lg"></i>
-                </button>
-            </div>
-
-            <ajaxToolkit:AsyncFileUpload OnClientUploadComplete="uploadComplete" runat="server" ID="AsyncFileUploadChat"
-                OnUploadedComplete="FileUploadComplete" Style="display: none" />
-
-        </div>
+    <div class="container">
+        <input type="text" id="txtMessage" />
+        <input type="button" id="Send" value="Send" />
+        <ul id="listMessages"></ul>
     </div>
 
-    <div id="imgModal" onclick="CloseModal()">
-        <img class="modal-content" id="enlargeImg" src="" />
-    </div>
-
-
-    <asp:HiddenField ID="hdCurrentUserGUID" runat="server" />
-    <asp:HiddenField ID="hdUserType" runat="server" />
-    <asp:HiddenField ID="hdChatGUID" runat="server" />
-    <asp:HiddenField ID="hdNewChat" runat="server" />
-    <asp:HiddenField ID="hdCheckDate" runat="server" />
 
 
 </asp:Content>

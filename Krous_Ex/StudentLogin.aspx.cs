@@ -67,7 +67,7 @@ namespace Krous_Ex
                 con = new SqlConnection(strCon);
                 con.Open();
 
-                cmd = new SqlCommand("SELECT * FROM Student WHERE StudUsername = @username", con);
+                cmd = new SqlCommand("SELECT * FROM Student WHERE StudentUsername = @username", con);
                 cmd.Parameters.AddWithValue("@username", txtUsername.Text);
                 userType = "Student";
                 SqlDataReader dtrStudent = cmd.ExecuteReader();
@@ -75,7 +75,7 @@ namespace Krous_Ex
                 dt.Load(dtrStudent);
 
                 //get password
-                encryptedPassword = dt.Rows[0]["StudPassword"].ToString();
+                encryptedPassword = dt.Rows[0]["StudentPassword"].ToString();
                 userGuid = (Guid)dt.Rows[0]["StudentGUID"];
 
                 cmd.Dispose();
