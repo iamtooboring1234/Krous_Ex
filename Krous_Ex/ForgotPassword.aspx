@@ -15,7 +15,7 @@
                 <div class="content-wrapper">
                     <div class="card">
                         <div class="card-body">
-                            <h4 class="card-title" style="font-size: 20px;">Reset Password</h4>
+                            <h4 class="card-title" style="font-size: 20px;">Forgot Password</h4>
                             <p class="card-description">Enter your registered email address and we wil send you link ro reset password.</p>
 
                             <div class="form-group" style="margin-top: 15px;">
