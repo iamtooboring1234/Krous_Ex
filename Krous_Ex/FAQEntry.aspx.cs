@@ -7,6 +7,7 @@ using System.Linq;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
+using System.Web.Security;
 
 //Left the login part take the staff name
 
@@ -19,29 +20,38 @@ namespace Krous_Ex
 
         protected void Page_Load(object sender, EventArgs e)
         {
-            txtFAQTitle.Text = clsLogin.GetLoginUserType();
+            var myCookie = Request.Cookies[FormsAuthentication.FormsCookieName];
 
-            if (IsPostBack != true) {
+            if (myCookie != null)
+            {
 
-                loadFAQCategory();
-
-                if (!String.IsNullOrEmpty(Request.QueryString["FAQGUID"]))
+                if (IsPostBack != true)
                 {
-                    FAQGUID = Guid.Parse(Request.QueryString["FAQGUID"]);
-                    loadFAQ();
-                    btnSave.Visible = false;
-                    btnUpdate.Visible = true;
-                    btnDelete.Visible = true;
-                    btnBack.Visible = true;
+
+                    loadFAQCategory();
+
+                    if (!String.IsNullOrEmpty(Request.QueryString["FAQGUID"]))
+                    {
+                        FAQGUID = Guid.Parse(Request.QueryString["FAQGUID"]);
+                        loadFAQ();
+                        btnSave.Visible = false;
+                        btnUpdate.Visible = true;
+                        btnDelete.Visible = true;
+                        btnBack.Visible = true;
+                    }
+                    else
+                    {
+                        btnSave.Visible = true;
+                        btnUpdate.Visible = false;
+                        btnDelete.Visible = false;
+                        btnBack.Visible = false;
+                    }
                 }
-                else
-                {
-                    btnSave.Visible = true;
-                    btnUpdate.Visible = false;
-                    btnDelete.Visible = false;
-                    btnBack.Visible = false;
-                }
+            } else
+            {
+                Response.Redirect("Homepage");
             }
+           
         }
 
         private void loadFAQCategory()
@@ -120,7 +130,7 @@ namespace Krous_Ex
 
             string FAQCategory;
 
-            //string Username = clsLogin.GetLoginUserName;
+            string Username = clsLogin.GetLoginUserName();
 
             if (rdExisting.Checked == true)
                 FAQCategory = ddlCategory.SelectedValue;
@@ -139,9 +149,9 @@ namespace Krous_Ex
                 InsertCommand.Parameters.AddWithValue("@FAQDescription", txtFAQDesc.Text);
                 InsertCommand.Parameters.AddWithValue("@FAQCategory", FAQCategory);
                 InsertCommand.Parameters.AddWithValue("@FAQStatus", ddlFAQStatus.SelectedValue);
-                InsertCommand.Parameters.AddWithValue("@createdBy", "Admin");
+                InsertCommand.Parameters.AddWithValue("@createdBy", Username);
                 InsertCommand.Parameters.AddWithValue("@CreatedDate", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
-                InsertCommand.Parameters.AddWithValue("@LastUpdatedBy", "Admin");
+                InsertCommand.Parameters.AddWithValue("@LastUpdatedBy", Username);
                 InsertCommand.Parameters.AddWithValue("@LastUpdatedDate", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
 
                 InsertCommand.ExecuteNonQuery();
@@ -163,7 +173,7 @@ namespace Krous_Ex
 
             string FAQCategory;
 
-            //string Username = clsLogin.GetLoginUserName;
+            string Username = clsLogin.GetLoginUserName();
 
             if (rdExisting.Checked == true)
                 FAQCategory = ddlCategory.SelectedValue;
@@ -182,7 +192,7 @@ namespace Krous_Ex
                 updateCommand.Parameters.AddWithValue("@FAQDescription", txtFAQDesc.Text);
                 updateCommand.Parameters.AddWithValue("@FAQCategory", FAQCategory);
                 updateCommand.Parameters.AddWithValue("@FAQStatus", ddlFAQStatus.SelectedValue);
-                updateCommand.Parameters.AddWithValue("@LastUpdatedBy", "Admin");
+                updateCommand.Parameters.AddWithValue("@LastUpdatedBy", Username);
                 updateCommand.Parameters.AddWithValue("@LastUpdatedDate", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
 
                 updateCommand.ExecuteNonQuery();

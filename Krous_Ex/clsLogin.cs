@@ -53,35 +53,35 @@ namespace Krous_Ex
             return LoginUserType;
         }
 
-        //public static string GetLoginUserName()
-        //{
-        //    try
-        //    {
-        //        string UserType;
+        public static string GetLoginUserName()
+        {
+            try
+            {
+                string UserType;
 
-        //        if (GetLoginUserType() != "Citizen")
-        //            UserType = "Staff";
-        //        else
-        //            UserType = "Citizen";
+                if (GetLoginUserType() != "Citizen")
+                    UserType = "Staff";
+                else
+                    UserType = "Citizen";
 
-        //        SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["Krous_Ex"].ConnectionString);
-        //        con.Open();
-        //        SqlCommand GetCommand = new SqlCommand("SELECT " + UserType + "Username FROM " + UserType + " WHERE " + UserType + "GUID = '" + GetLoginUserGUID() + "'", con);
-        //        SqlDataReader reader = GetCommand.ExecuteReader();
+                SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["Krous_Ex"].ConnectionString);
+                con.Open();
+                SqlCommand GetCommand = new SqlCommand("SELECT " + UserType + "Username FROM " + UserType + " WHERE " + UserType + "GUID = '" + GetLoginUserGUID() + "'", con);
+                SqlDataReader reader = GetCommand.ExecuteReader();
 
-        //        DataTable dtUser = new DataTable();
-        //        dtUser.Load(reader);
-        //        con.Close();
+                DataTable dtUser = new DataTable();
+                dtUser.Load(reader);
+                con.Close();
 
-        //        if (dtUser.Rows.Count != 0)
-        //            return dtUser.Rows[0]("" + UserType + "Username").ToString;
-        //        else
-        //            return "";
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        return "";
-        //    }
-        //}
+                if (dtUser.Rows.Count != 0)
+                    return dtUser.Rows[0]["" + UserType + "Username"].ToString();
+                else
+                    return "";
+            }
+            catch (Exception ex)
+            {
+                return "";
+            }
+        }
     }
 }
