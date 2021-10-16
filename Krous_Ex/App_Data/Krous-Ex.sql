@@ -42,7 +42,7 @@ CREATE TABLE [Branches] (
 CREATE TABLE [dbo].[Student] (
     [StudentGUID]            UNIQUEIDENTIFIER NOT NULL,
     [StudentUsername]        VARCHAR (30)     NOT NULL,
-    [StudentPassword]        VARCHAR (30)     NOT NULL,
+    [StudentPassword]        VARCHAR (50)     NOT NULL,
     [StudentFullName]        VARCHAR (50)     NOT NULL,
     [Gender]              VARCHAR (10)     NOT NULL,
     [DOB]                 DATE             NOT NULL,

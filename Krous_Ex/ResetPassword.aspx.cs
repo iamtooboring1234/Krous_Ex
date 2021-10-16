@@ -152,14 +152,14 @@ namespace Krous_Ex
                     userType = "Staff";
                 }
 
-                //String encryptedPassword = "";
-                //encryptedPassword = Encrypt(txtNewPassword.Text);
+                String encryptedPassword = "";
+                encryptedPassword = Encrypt(txtNewPassword.Text);
 
                 //UPDATE Student and Staff password
                 //updPassCmd = new SqlCommand("UPDATE " + userType + " SET " + userType + "Password = @Password WHERE " + userType + "GUID = @UserGUID AND Email = " + userEmail + "", con);
                 updPassCmd = new SqlCommand("UPDATE " + userType + " SET " + userType + "Password = @Password WHERE " + userType + "GUID = @UserGUID", con);
-                updPassCmd.Parameters.AddWithValue("@Password", txtNewPassword.Text); 
-                //updPassCmd.Parameters.AddWithValue("@Password", encryptedPassword);
+                //updPassCmd.Parameters.AddWithValue("@Password", txtNewPassword.Text); 
+                updPassCmd.Parameters.AddWithValue("@Password", encryptedPassword);
                 updPassCmd.Parameters.AddWithValue("@UserGUID", userGUID);
                 updPassCmd.ExecuteNonQuery();
 
