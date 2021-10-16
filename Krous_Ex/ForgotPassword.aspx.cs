@@ -17,17 +17,24 @@ namespace Krous_Ex
     {
         String userType = "";
 
-        public object Conversion { get; private set; }
-
         protected void Page_Load(object sender, EventArgs e)
         {
-           
+            if (Request.QueryString["UserType"] == "Student")
+            {
+                userType = "Student";
+            }
+            else
+            {
+                userType = "Staff";
+            }
         }
 
         protected void btnSubmit_Click(object sender, EventArgs e)
         {
             try
             {
+                Session["email"] = txtEmailAddress.Text;
+
                 if(txtEmailAddress.Text == "")
                 {
                     clsFunction.DisplayAJAXMessage(this, "Please enter a valid email address to reset new password.");
@@ -51,7 +58,6 @@ namespace Krous_Ex
             StringBuilder sb = new StringBuilder();
             bool sentBoolean = false;
             Guid ResetPasswordGUID = Guid.NewGuid();
-
 
             try
             {
@@ -84,40 +90,39 @@ namespace Krous_Ex
                 SqlDataReader dtrSelect = cmd.ExecuteReader();
                 DataTable dt = new DataTable();
                 dt.Load(dtrSelect);
+                con.Close();
 
                 //if got record then insert into Reser password table
                 if (dt.Rows.Count != 0)
                 {
-                    //return dtUser.Rows[0]["" + UserType + "Username"].ToString();
-                    //String userGUID = dt.Rows[0][0].ToString();
+                    con.Open();
                     string userGUID = dt.Rows[0]["" + userType + "GUID"].ToString();
                     String username = dt.Rows[0][1].ToString();
 
                     string LinkToken = GenerateCode().ToString();
+                    String email = txtEmailAddress.Text.ToString();
 
-
-                    String email = txtEmailAddress.Text;
-
-                    SqlCommand linkCmd = new SqlCommand("SELECT * FROM ReserPassword WHERE " + userType + "GUID = @userGUID AND Status = 'Pending'", con);
+                    SqlCommand linkCmd = new SqlCommand("SELECT * FROM ResetPassword WHERE " + userType + "GUID = @userGUID AND Status = 'Pending'", con);
                     linkCmd.Parameters.AddWithValue("@userGUID", Guid.Parse(userGUID));
                     SqlDataReader dtrLink = linkCmd.ExecuteReader();
                     DataTable dtLink = new DataTable();
                     dtLink.Load(dtrSelect);
+                    
 
                     if (dtLink.Rows.Count == 0)
                     {
                         SqlCommand insertCmd = new SqlCommand();
-                        insertCmd = new SqlCommand("INSERT INTO ResetPassword VALUES (@ResetPasswordGUID, @StudGUID, @StaffGUID, @Status, @LinkToken, @CreatedTime, @ExpiredTime)", con);
+                        insertCmd = new SqlCommand("INSERT INTO ResetPassword VALUES (@ResetPasswordGUID, @StudentGUID, @StaffGUID, @Status, @LinkToken, @CreatedTime, @ExpiredTime)", con);
                         insertCmd.Parameters.AddWithValue("@ResetPasswordGUID", Guid.NewGuid());
 
                         if (userType == "Student")
                         {
-                            insertCmd.Parameters.AddWithValue("@StudGUID", Guid.Parse(userGUID));
+                            insertCmd.Parameters.AddWithValue("@StudentGUID", Guid.Parse(userGUID));
                             insertCmd.Parameters.AddWithValue("@StaffGUID", DBNull.Value);
                         }
                         else
                         {
-                            insertCmd.Parameters.AddWithValue("@StudGUID", DBNull.Value);
+                            insertCmd.Parameters.AddWithValue("@StudentGUID", DBNull.Value);
                             insertCmd.Parameters.AddWithValue("@StaffGUID", Guid.Parse(userGUID));
                         }
                         insertCmd.Parameters.AddWithValue("@Status", "Pending");
@@ -148,25 +153,10 @@ namespace Krous_Ex
                         }
                     }
 
-                    //ResetPasswordLink += ConfigurationManager.AppSettings("Host").ToString
-                    //ResetPasswordLink += "ResetPassword.aspx?UserGUID=" + userGUID + "&UserType=" + UserType + "&LinkToken=" + LinkToken + ""
+                    con.Close();
 
-                    //EmailMessage = "<span style=""font-size: 15pt;"">Hello," + dtEmail.Rows(0).Item("" + UserType + "Fullname").ToString + "</span><br/><br/>"
-                    //EmailMessage += "We received a request to reset the passowrd for your account.<br/><br/>"
-                    //EmailMessage += "Your username is " + dtEmail.Rows(0).Item("" + UserType + "Username").ToString + ".<br/><br/>"
-                    //EmailMessage += "Kindly use this link below to reset your password. The link is available for 15 minute.<br/>"
-                    //EmailMessage += "<a href=""" + ResetPasswordLink + """>Reset Password Link</a><br/>"
-                    //EmailMessage += "Thank you.<br/>"
-                    //EmailMessage += "The Traco team"
-
-                    //clsNotification.SendEmail(txtEmail.Text, "Traco account password reset", EmailMessage)
-
-                    //LabelText += "Hello " + dtEmail.Rows(0).Item("" + UserType + "Fullname").ToString + ", an email has been send to your account.<br />"
-                    //LabelText += "Please check your mail account to reset your password."
-
-
-                    String url = ConfigurationManager.AppSettings["ResetPasswordURL"].ToString() + userGUID + "&ResetPasswordGUID=" + ResetPasswordGUID.ToString();
-                    String body = "<b>Hello " + username + "<b><br />You recently requested to reset your password for your GLB Art account. Use the URL link below to change it.<br /><br />URL link: <a href= '" + url + "'><b>Reset Your Password<b></a><br />If you didn't request this, please ignore this email. Your password won't change until you access the link above and create a new one.";
+                    String url = ConfigurationManager.AppSettings["ResetPasswordURL"].ToString() + userGUID + "&ResetPasswordGUID=" + ResetPasswordGUID.ToString() + "&UserType=" + userType;
+                    String body = "<b>Hello " + username + "<b><br />You have requested to reset your password for your account. Use the URL link below to change it.<br /><br />URL link: <a href= '" + url + "'><b>Reset Your Password<b></a><br />If you didn't request this, please ignore this email.";
                     mail.To.Add(email);
                     mail.Subject = "Reset Password";
                     mail.IsBodyHtml = true;
@@ -174,7 +164,7 @@ namespace Krous_Ex
 
                     client.Send(mail);
 
-                    DisplayAlertMsg("Success! If your email address exists in our database, you will receive a password recovery link at your email address in a few minutes.");
+                    DisplayAlertMsg("Success! If your valid email address exists in our database, you will receive a password recovery link at your email address in a few minutes.");
                     sentBoolean = true;
 
                     con.Close();
@@ -204,6 +194,19 @@ namespace Krous_Ex
         {
             string myScript = String.Format("alert('{0}');", msg);
             ScriptManager.RegisterStartupScript(Page, Page.GetType(), "MyScript", myScript, true);
+        }
+
+        protected void btnCancel_Click(object sender, EventArgs e)
+        {
+
+            if (Request.QueryString["UserType"] == "Student")
+            {
+                Response.Redirect("StudentLogin.aspx");
+            }
+            else
+            {
+                Response.Redirect("StaffLogin.aspx");
+            }
         }
 
     }

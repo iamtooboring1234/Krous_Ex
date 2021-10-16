@@ -5,9 +5,10 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head runat="server">
     <title>Login Page</title>
+<%--jerry1234 asdf1234
+    jerry5678 asdf1234--%>
 
     <link href="Assests/main/css/style.css" rel="stylesheet" />
-
     <link href="Assests/main/css/LoginPage.css" rel="stylesheet" />
     <link href="Assests/main/js/Login.js" rel="stylesheet" />
     <link href="Assests/main/css/font-awesome/all.min.css" rel="stylesheet" />
@@ -35,9 +36,7 @@
                             <asp:Label ID="lblLogin" runat="server" Text="" Style="font-size: 33px;">Staff Login</asp:Label>
                         </div>
                         <div class="form-group">
-
                             <asp:TextBox ID="txtUsername" CssClass="form-control" runat="server" placeholder="Username"></asp:TextBox>
-
                         </div>
 
                         <div class="form-group">
@@ -69,8 +68,6 @@
                                 <asp:HyperLink ID="hlRegister" runat="server"><a href="RegisterAcc.aspx">Register Now!</a></asp:HyperLink></p>
                         </div>
                     </div>
-
-
                 </div>
             </div>
         </div>

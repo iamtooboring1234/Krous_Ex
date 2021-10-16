@@ -76,7 +76,7 @@ namespace Krous_Ex
 
                 //get password
                 encryptedPassword = dt.Rows[0]["StudPassword"].ToString();
-                userGuid = (Guid)dt.Rows[0]["StudGUID"];
+                userGuid = (Guid)dt.Rows[0]["StudentGUID"];
 
                 cmd.Dispose();
                 con.Close();

@@ -84,7 +84,7 @@ namespace Krous_Ex
 
                 if (btnStaffStud.Text == "Login as Student")
                 {
-                    cmd = new SqlCommand("SELECT StudUsername, StudPassword FROM Student WHERE StudUsername = @username AND StudPassword = @password", con);
+                    cmd = new SqlCommand("SELECT StudentUsername, StudentPassword FROM Student WHERE StudentUsername = @username AND StudentPassword = @password", con);
                     cmd.Parameters.AddWithValue("@username", txtUsername.Text);
                     cmd.Parameters.AddWithValue("@password", txtPassword.Text);
                     SqlDataReader dtrStudent = cmd.ExecuteReader();

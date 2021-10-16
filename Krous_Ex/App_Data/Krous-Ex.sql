@@ -40,10 +40,10 @@ CREATE TABLE [Branches] (
 )
 
 CREATE TABLE [dbo].[Student] (
-    [StudGUID]            UNIQUEIDENTIFIER NOT NULL,
-    [StudUsername]        VARCHAR (30)     NOT NULL,
-    [StudPassword]        VARCHAR (30)     NOT NULL,
-    [StudFullName]        VARCHAR (50)     NOT NULL,
+    [StudentGUID]            UNIQUEIDENTIFIER NOT NULL,
+    [StudentUsername]        VARCHAR (30)     NOT NULL,
+    [StudentPassword]        VARCHAR (30)     NOT NULL,
+    [StudentFullName]        VARCHAR (50)     NOT NULL,
     [Gender]              VARCHAR (10)     NOT NULL,
     [DOB]                 DATE             NOT NULL,
     [PhoneNumber]         VARCHAR (15)     NOT NULL,
@@ -53,7 +53,7 @@ CREATE TABLE [dbo].[Student] (
     [AccountRegisterDate] DATETIME         NOT NULL,
     [BranchesGUID]        UNIQUEIDENTIFIER         NOT NULL,
     [FacultyGUID]         UNIQUEIDENTIFIER         NOT NULL,
-    CONSTRAINT [pk_student] PRIMARY KEY CLUSTERED ([StudGUID] ASC),
+    CONSTRAINT [pk_student] PRIMARY KEY CLUSTERED ([StudentGUID] ASC),
     CONSTRAINT [fk_stundent_branches] FOREIGN KEY ([BranchesGUID]) REFERENCES [dbo].[Branches] ([BranchesGUID]),
     CONSTRAINT [fk_stundent_faculty] FOREIGN KEY ([FacultyGUID]) REFERENCES [dbo].[Faculty] ([FacultyGUID])
 );
@@ -102,14 +102,14 @@ CREATE TABLE [Programme] (
 CREATE TABLE [Payment] (
 	[PaymentGUID] UNIQUEIDENTIFIER NOT NULL,
 	[PaymentNo] char(15) NOT NULL,	
-	[StudGUID] UNIQUEIDENTIFIER NOT NULL,
+	[StudentGUID] UNIQUEIDENTIFIER NOT NULL,
 	[PaymentMethod] varchar(30) NOT NULL,
 	[PaymentStatus] varchar(10) NOT NULL,
 	[TotalAmount] decimal(10,2) NOT NULL,
 	[DateIssued] datetime NOT NULL,
 	[DateOverdue] datetime NOT NULL,
 	CONSTRAINT pk_payment PRIMARY KEY (PaymentGUID),
-	CONSTRAINT fk_student_payment FOREIGN KEY (StudGUID) REFERENCES Student(StudGUID)
+	CONSTRAINT fk_student_payment FOREIGN KEY (StudentGUID) REFERENCES Student(StudentGUID)
 )
 
 CREATE TABLE [Receipt] (
@@ -133,35 +133,35 @@ CREATE TABLE [Programme_In_Charge] (
 
 CREATE TABLE [Student_Course_Register] (
 	[RegisterGUID] UNIQUEIDENTIFIER NOT NULL,
-	[StudGUID] UNIQUEIDENTIFIER NOT NULL,
+	[StudentGUID] UNIQUEIDENTIFIER NOT NULL,
 	[CourseID] char(10) NOT NULL,
 	[ProgrammeID] char(5) NOT NULL,
 	[CourseRegisterDate] datetime NOT NULL,
   	CONSTRAINT pk_register PRIMARY KEY (RegisterGUID),
-	CONSTRAINT fk_student_scr FOREIGN KEY (StudGUID) REFERENCES Student(StudGUID),
+	CONSTRAINT fk_student_scr FOREIGN KEY (StudentGUID) REFERENCES Student(StudentGUID),
 	CONSTRAINT fk_course_scr FOREIGN KEY (CourseGUID) REFERENCES Course(CourseGUID),
 	CONSTRAINT fk_programme_scr FOREIGN KEY (ProgrammeGUID) REFERENCES Programme(ProgrammeGUID)
 )
 
 CREATE TABLE [Exam_Result] (
 	[Exam_ResultGUID] UNIQUEIDENTIFIER NOT NULL,
-	[StudGUID] UNIQUEIDENTIFIER NOT NULL,
+	[StudentGUID] UNIQUEIDENTIFIER NOT NULL,
 	[Sessions] varchar(100) NOT NULL,
 	[TotalCourseRegistered] int NOT NULL,
 	[GPA] decimal(5,4) NOT NULL,
 	[CGPA] decimal(5,4) NOT NULL,
     CONSTRAINT pk_exam_result PRIMARY KEY (Exam_ResultGUID),
-	CONSTRAINT fk_student_exam_result FOREIGN KEY (StudGUID) REFERENCES Student(StudGUID)
+	CONSTRAINT fk_student_exam_result FOREIGN KEY (StudentGUID) REFERENCES Student(StudentGUID)
 )
 
 CREATE TABLE [Exam_Result_Per_Course] (
 	[Exam_Result_Per_CourseGUID] UNIQUEIDENTIFIER NOT NULL,
-	[StudGUID] UNIQUEIDENTIFIER NOT NULL,
+	[StudentGUID] UNIQUEIDENTIFIER NOT NULL,
 	[CourseID] char(10) NOT NULL,
 	[Mark] decimal(3,2) NOT NULL,
 	[Grade] varchar (3) NOT NULL,
     CONSTRAINT pk_exam_result_per_course PRIMARY KEY (Exam_Result_Per_CourseGUID),
-	CONSTRAINT fk_student_exam_result_per_course FOREIGN KEY (StudGUID) REFERENCES Student(StudGUID),
+	CONSTRAINT fk_student_exam_result_per_course FOREIGN KEY (StudentGUID) REFERENCES Student(StudentGUID),
 	CONSTRAINT fk_course_exam_result_per_course FOREIGN KEY (CourseGUID) REFERENCES Course(CourseGUID)
 )
 
@@ -225,13 +225,13 @@ CREATE TABLE [FAQ] (
 
 CREATE TABLE [Chat] (
     [ChatGUID]    UNIQUEIDENTIFIER NOT NULL,
-    [StudGUID] UNIQUEIDENTIFIER NOT NULL,
+    [StudentGUID] UNIQUEIDENTIFIER NOT NULL,
     [StaffGUID]   UNIQUEIDENTIFIER NOT NULL,
     [ChatStatus]  varchar (30)    NOT NULL,
     [CreatedDate] DATETIME         NOT NULL,
     [EndDate]     DATETIME         NULL,
     CONSTRAINT pk_chat PRIMARY KEY (ChatGUID),
-	CONSTRAINT fk_student_chat FOREIGN KEY (StudGUID) REFERENCES Student(StudGUID),
+	CONSTRAINT fk_student_chat FOREIGN KEY (StudentGUID) REFERENCES Student(StudentGUID),
 	CONSTRAINT fk_staff_chat FOREIGN KEY (StaffGUID) REFERENCES Staff(StaffGUID)	
 );
 
@@ -248,13 +248,13 @@ CREATE TABLE [Message] (
 
 CREATE TABLE [Assignment] (
 	[AssignmentGUID] UNIQUEIDENTIFIER NOT NULL,
-	[StudGUID] UNIQUEIDENTIFIER NOT NULL,
+	[StudentGUID] UNIQUEIDENTIFIER NOT NULL,
 	[CourseID] char (10)  NOT NULL,
 	[SubmissionDate] datetime NOT NULL,
 	[SubmissionFile] varchar (300) NOT NULL,
 	[FileType] varchar (30) NOT NULL,
     CONSTRAINT pk_assignment PRIMARY KEY (AssignmentGUID),
-	CONSTRAINT fk_student_assignment FOREIGN KEY (StudGUID) REFERENCES Student(StudGUID),
+	CONSTRAINT fk_student_assignment FOREIGN KEY (StudentGUID) REFERENCES Student(StudentGUID),
 	CONSTRAINT fk_course_assignment FOREIGN KEY (CourseGUID) REFERENCES Course(CourseGUID),
 );
 
@@ -286,12 +286,12 @@ CREATE TABLE [Attendance] (
 	[AttendanceGUID] UNIQUEIDENTIFIER NOT NULL,
 	[CourseID] char(10) NOT NULL,
 	[GroupListGUID] UNIQUEIDENTIFIER NOT NULL,
-	[StudGUID] UNIQUEIDENTIFIER NOT NULL,
+	[StudentGUID] UNIQUEIDENTIFIER NOT NULL,
 	[AttendanceStatus] varchar(10) NOT NULL,
     CONSTRAINT pk_attendance PRIMARY KEY (AttendanceGUID),
 	CONSTRAINT fk_course_attendance FOREIGN KEY (CourseGUID) REFERENCES Course(CourseGUID),
 	CONSTRAINT fk_grouplistcourse_attendance FOREIGN KEY (GroupListGUID) REFERENCES GroupList(GroupListGUID),
-	CONSTRAINT fk_student_attendance FOREIGN KEY (StudGUID) REFERENCES Student(StudGUID),
+	CONSTRAINT fk_student_attendance FOREIGN KEY (StudentGUID) REFERENCES Student(StudentGUID),
 );
 
 
@@ -305,4 +305,17 @@ CREATE TABLE [Semester] (
 	[SemesterExamDayDuration] int NOT NULL,
 	[SemesterBreakDayDuration] int NOT NULL,
 	CONSTRAINT pk_attendance PRIMARY KEY (SemesterGUID)
+);
+
+CREATE TABLE [dbo].[ResetPassword] (
+    [ResetPasswordGUID]            UNIQUEIDENTIFIER NOT NULL,
+    [StudentGUID]        UNIQUEIDENTIFIER NULL,
+    [StaffGUID]        UNIQUEIDENTIFIER NULL,
+    [Status]        VARCHAR (20)     NOT NULL,
+    [LinkToken]              VARCHAR (6)     NOT NULL,
+    [CreatedTime]                 DATETIME             NOT NULL,
+    [ExpiredTime]         DATETIME    NOT NULL,
+	PRIMARY KEY CLUSTERED ([ResetPasswordGUID] ASC),
+    CONSTRAINT [fk_stundent_resetpassowrd] FOREIGN KEY ([StudentGUID]) REFERENCES [dbo].[Student] ([StudentGUID]),
+    CONSTRAINT [fk_staff_resetpassowrd] FOREIGN KEY ([StaffGUID]) REFERENCES [dbo].[Staff] ([StaffGUID])
 );
