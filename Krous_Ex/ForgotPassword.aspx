@@ -21,15 +21,6 @@
                             <div class="form-group" style="margin-top: 15px;">
                                 <asp:Label ID="email" runat="server" Text="Email Address"></asp:Label>
                                 <asp:TextBox ID="txtEmailAddress" type="text" placeholder="Email" CssClass="form-control" runat="server" Style="width: 400px"></asp:TextBox>
-                               <%-- <asp:RequiredFieldValidator
-                                    ControlToValidate="txtEmailAddress"
-                                    ID="rfvEmail"
-                                    runat="server"
-                                    ErrorMessage="This is required to fill!"
-                                    ForeColor="Red"
-                                    Display="Dynamic"
-                                    ClientValidationFunction="ValidateTextBox">
-                                </asp:RequiredFieldValidator>--%>
                             </div>
 
                             <div class="button">

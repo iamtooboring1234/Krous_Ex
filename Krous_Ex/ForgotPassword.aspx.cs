@@ -33,11 +33,11 @@ namespace Krous_Ex
         {
             try
             {
-                Session["email"] = txtEmailAddress.Text;
+                //Session["email"] = txtEmailAddress.Text;
 
                 if(txtEmailAddress.Text == "")
                 {
-                    clsFunction.DisplayAJAXMessage(this, "Please enter a valid email address to reset new password.");
+                    clsFunction.DisplayAJAXMessage(this, "Please enter a valid email address.");
                 }
                 else
                 {
@@ -92,7 +92,7 @@ namespace Krous_Ex
                 dt.Load(dtrSelect);
                 con.Close();
 
-                //if got record then insert into Reser password table
+                //if got record then insert into Reset password table
                 if (dt.Rows.Count != 0)
                 {
                     con.Open();
@@ -106,8 +106,7 @@ namespace Krous_Ex
                     linkCmd.Parameters.AddWithValue("@userGUID", Guid.Parse(userGUID));
                     SqlDataReader dtrLink = linkCmd.ExecuteReader();
                     DataTable dtLink = new DataTable();
-                    dtLink.Load(dtrSelect);
-                    
+                    dtLink.Load(dtrLink);
 
                     if (dtLink.Rows.Count == 0)
                     {
@@ -139,7 +138,7 @@ namespace Krous_Ex
                         if (DateTime.Now >= expiredDate) //if the user did not reset and already later than the expired date, it will update new 
                         {
                             SqlCommand updateCmd = new SqlCommand();
-                            updateCmd = new SqlCommand("UPDATE ResetPassword SET ExpiredTime = @ExpriredTime, CreatedTime = @CreatedTime, Status = @Status, LinkToken = @LinkToken WHERE " + userType + "GUID = @userGUID AND Status = 'Pending'", con);
+                            updateCmd = new SqlCommand("UPDATE ResetPassword SET ExpiredTime = @ExpiredTime, CreatedTime = @CreatedTime, LinkToken = @LinkToken WHERE " + userType + "GUID = @userGUID AND Status = 'Pending'", con);
                             updateCmd.Parameters.AddWithValue("@userGUID", Guid.Parse(userGUID));
                             updateCmd.Parameters.AddWithValue("@LinkToken", LinkToken);
                             updateCmd.Parameters.AddWithValue("@CreatedTime", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
@@ -155,7 +154,7 @@ namespace Krous_Ex
 
                     con.Close();
 
-                    String url = ConfigurationManager.AppSettings["ResetPasswordURL"].ToString() + userGUID + "&ResetPasswordGUID=" + ResetPasswordGUID.ToString() + "&UserType=" + userType;
+                    String url = ConfigurationManager.AppSettings["ResetPasswordURL"].ToString() + userGUID + "&ResetPasswordGUID=" + ResetPasswordGUID.ToString() + "&UserType=" + userType + "&LinkToken=" + LinkToken;
                     String body = "<b>Hello " + username + "<b><br />You have requested to reset your password for your account. Use the URL link below to change it.<br /><br />URL link: <a href= '" + url + "'><b>Reset Your Password<b></a><br />If you didn't request this, please ignore this email.";
                     mail.To.Add(email);
                     mail.Subject = "Reset Password";
@@ -164,7 +163,7 @@ namespace Krous_Ex
 
                     client.Send(mail);
 
-                    DisplayAlertMsg("Success! If your valid email address exists in our database, you will receive a password recovery link at your email address in a few minutes.");
+                    DisplayAlertMsg("Success! If your valid email address exists in our database, you will receive a password recovery link at your email account.");
                     sentBoolean = true;
 
                     con.Close();

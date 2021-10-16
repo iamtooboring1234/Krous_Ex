@@ -56,8 +56,8 @@ namespace Krous_Ex
                 con = new SqlConnection(strCon);
                 con.Open();
 
-                cmd = new SqlCommand("INSERT INTO Student(StudentGUID, StudentUsername, StudentPassword, StudentFullName, Gender, DOB, PhoneNumber, Email, NRIC, YearIntake, AccountRegisterDate, BranchesID, FacultyID) " +
-                                                "VALUES (@StudentGUID, @StudentUsername, @StudentPassword, @StudentFullName, @Gender, @DOB, @PhoneNumber, @Email, @NRIC, @YearIntake, @AccountRegisterDate, @BranchesID, @FacultyID)", con);
+                cmd = new SqlCommand("INSERT INTO Student(StudentGUID, StudentUsername, StudentPassword, StudentFullName, Gender, DOB, PhoneNumber, Email, NRIC, YearIntake, AccountRegisterDate, BranchesGUID, FacultyGUID) " +
+                                                "VALUES (@StudentGUID, @StudentUsername, @StudentPassword, @StudentFullName, @Gender, @DOB, @PhoneNumber, @Email, @NRIC, @YearIntake, @AccountRegisterDate, @BranchesGUID, @FacultyGUID)", con);
                 cmd.Parameters.AddWithValue("@StudentGUID", studentGUID);
                 cmd.Parameters.AddWithValue("@StudentUsername", txtUsername.Text);
                 cmd.Parameters.AddWithValue("@StudentPassword", Encrypt(txtPassword.Text.Trim()));
@@ -69,8 +69,8 @@ namespace Krous_Ex
                 cmd.Parameters.AddWithValue("@NRIC", txtNRIC.Text);
                 cmd.Parameters.AddWithValue("@YearIntake", 2021);
                 cmd.Parameters.AddWithValue("@AccountRegisterDate", DateTime.Now);
-                cmd.Parameters.AddWithValue("@BranchesID", "B1001");
-                cmd.Parameters.AddWithValue("@FacultyID", "F1001");
+                cmd.Parameters.AddWithValue("@BranchesGUID", "B1001");
+                cmd.Parameters.AddWithValue("@FacultyGUID", "F1001");
 
                 cmd.ExecuteNonQuery();
                 cmd.Dispose();
