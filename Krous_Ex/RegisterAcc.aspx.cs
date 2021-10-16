@@ -56,12 +56,12 @@ namespace Krous_Ex
                 con = new SqlConnection(strCon);
                 con.Open();
 
-                cmd = new SqlCommand("INSERT INTO Student(StudGUID, StudUsername, StudPassword, StudFullName, Gender, DOB, PhoneNumber, Email, NRIC, YearIntake, AccountRegisterDate, BranchesID, FacultyID) " +
-                                                "VALUES (@StudGUID, @StudUsername, @StudPassword, @StudFullName, @Gender, @DOB, @PhoneNumber, @Email, @NRIC, @YearIntake, @AccountRegisterDate, @BranchesID, @FacultyID)", con);
-                cmd.Parameters.AddWithValue("@StudGUID", studentGUID);
-                cmd.Parameters.AddWithValue("@StudUsername", txtUsername.Text);
-                cmd.Parameters.AddWithValue("@StudPassword", Encrypt(txtPassword.Text.Trim()));
-                cmd.Parameters.AddWithValue("@StudFullName", txtFullName.Text);
+                cmd = new SqlCommand("INSERT INTO Student(StudentGUID, StudentUsername, StudentPassword, StudentFullName, Gender, DOB, PhoneNumber, Email, NRIC, YearIntake, AccountRegisterDate, BranchesID, FacultyID) " +
+                                                "VALUES (@StudentGUID, @StudentUsername, @StudentPassword, @StudentFullName, @Gender, @DOB, @PhoneNumber, @Email, @NRIC, @YearIntake, @AccountRegisterDate, @BranchesID, @FacultyID)", con);
+                cmd.Parameters.AddWithValue("@StudentGUID", studentGUID);
+                cmd.Parameters.AddWithValue("@StudentUsername", txtUsername.Text);
+                cmd.Parameters.AddWithValue("@StudentPassword", Encrypt(txtPassword.Text.Trim()));
+                cmd.Parameters.AddWithValue("@StudentFullName", txtFullName.Text);
                 cmd.Parameters.AddWithValue("@Gender", rbGender.SelectedValue);
                 cmd.Parameters.AddWithValue("@DOB", dob_date.SelectedValue + "-" + dob_month.SelectedValue + "-" + dob_year.SelectedValue);
                 cmd.Parameters.AddWithValue("@PhoneNumber", txtPhoneNo.Text);

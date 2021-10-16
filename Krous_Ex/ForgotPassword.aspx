@@ -21,7 +21,7 @@
                             <div class="form-group" style="margin-top: 15px;">
                                 <asp:Label ID="email" runat="server" Text="Email Address"></asp:Label>
                                 <asp:TextBox ID="txtEmailAddress" type="text" placeholder="Email" CssClass="form-control" runat="server" Style="width: 400px"></asp:TextBox>
-                                <asp:RequiredFieldValidator
+                               <%-- <asp:RequiredFieldValidator
                                     ControlToValidate="txtEmailAddress"
                                     ID="rfvEmail"
                                     runat="server"
@@ -29,12 +29,12 @@
                                     ForeColor="Red"
                                     Display="Dynamic"
                                     ClientValidationFunction="ValidateTextBox">
-                                </asp:RequiredFieldValidator>
+                                </asp:RequiredFieldValidator>--%>
                             </div>
 
                             <div class="button">
                                 <asp:Button ID="btnSubmit" runat="server" Text="Submit" CssClass="btn btn-primary me-2" Style="padding: 10px; width: 100px; margin-top: 10px; margin-right: 13px;" OnClick="btnSubmit_Click" />
-                                <asp:Button ID="btnCancel" runat="server" Text="Cancel" CssClass="btn btn-dark" Style="padding: 10px; width: 100px; margin-top: 10px;" />
+                                <asp:Button ID="btnCancel" runat="server" Text="Cancel" CssClass="btn btn-dark" Style="padding: 10px; width: 100px; margin-top: 10px;" OnClick="btnCancel_Click" />
                             </div>
 
                         </div>

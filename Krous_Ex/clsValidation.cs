@@ -39,9 +39,9 @@ namespace Krous_Ex
                 }
                 else if (UserType == "Citizen")
                 {
-                    SelectCommand = new SqlCommand("SELECT * FROM STUDENT WHERE NRIC = @NRIC AND StudGUID NOT IN (@StudGUID)", con);
+                    SelectCommand = new SqlCommand("SELECT * FROM STUDENT WHERE NRIC = @NRIC AND StudentGUID NOT IN (@StudentGUID)", con);
                     SelectCommand.Parameters.AddWithValue("@NRIC", ICNo);
-                    SelectCommand.Parameters.AddWithValue("@StudGUID", UserGUID);
+                    SelectCommand.Parameters.AddWithValue("@StudentGUID", UserGUID);
                 }
 
                 SqlDataReader reader = SelectCommand.ExecuteReader();

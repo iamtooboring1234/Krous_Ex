@@ -42,15 +42,6 @@ namespace Krous_Ex
         protected global::System.Web.UI.WebControls.TextBox txtEmailAddress;
 
         /// <summary>
-        /// rfvEmail control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.RequiredFieldValidator rfvEmail;
-
-        /// <summary>
         /// btnSubmit control.
         /// </summary>
         /// <remarks>
