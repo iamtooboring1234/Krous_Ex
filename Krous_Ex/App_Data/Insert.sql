@@ -9,3 +9,20 @@ INSERT INTO [dbo].[Student] ([StudentGUID], [StudentUsername], [StudentPassword]
 
 INSERT INTO [dbo].[Staff] ([StaffGUID], [StaffUsername], [StaffPassword], [StaffFullName], [Gender], [StaffRole], [StaffStatus], [PhoneNumber], [Email], [NRIC], [Specialization], [BranchesGUID], [FacultyGUID]) VALUES (N'cdef4d65-44e1-4737-8da8-9d1b83edba9f', N'jerry5678', N'pojZ9nX5yNS4CWglJ+xm8QsfdByCIsa4ppKY4NS48Fo=', N'Jerry Lau', N'Male', N'Head Admin', N'Active', N'0123456789', N'jerrylau0725@gmail.com', N'000725-10-0739', N'Computer Science', N'c44f8b97-b8f9-44e1-94ab-b21d4518cb29', N'c913ca56-1809-4792-b5e7-f3f2b0eebd9c')
 INSERT INTO [dbo].[Staff] ([StaffGUID], [StaffUsername], [StaffPassword], [StaffFullName], [Gender], [StaffRole], [StaffStatus], [PhoneNumber], [Email], [NRIC], [Specialization], [BranchesGUID], [FacultyGUID]) VALUES (N'57bef58f-3b49-4c13-95b4-f53f8974cf1f', N'jerry1234', N'pojZ9nX5yNS4CWglJ+xm8QsfdByCIsa4ppKY4NS48Fo=', N'Jerry Lau', N'Male', N'Head Admin', N'Active', N'0123456789', N'kitty0725gaming@gmail.com', N'000725-10-0739', N'Computer Science', N'c44f8b97-b8f9-44e1-94ab-b21d4518cb29', N'c913ca56-1809-4792-b5e7-f3f2b0eebd9c')
+
+INSERT INTO [dbo].[Discussion] (
+[DiscGUID], [ForumGUID], [DiscTopic], [DiscDesc], [DiscStatus], [DiscCreatedBy], [DiscCreatedDate], [DiscLastUpdatedBy], [DiscLastUpdatedDate]) VALUES
+(N'57bef58f-3b49-4c13-95b4-f53f8974cf1d', N'8b676194-ee8a-4723-98e8-1be6f37327a4', 'Test', 'Test', 'Test', N'jerry1234', N'2021-10-18 17:17:57', N'jerry1234', N'2021-10-18 17:17:57')
+
+INSERT INTO [dbo].[Replies] (
+[ReplyGUID], [DiscGUID], [Reply_Content], [Reply_Date], [Reply_By]) VALUES 
+(N'57bef58f-3b49-4c13-95b4-f53f8974cf2d', N'57bef58f-3b49-4c13-95b4-f53f8974cf1d', 'Test', N'2021-10-18 17:17:57', N'jerry1234')
+
+INSERT INTO [dbo].[Replies] (
+[ReplyGUID], [DiscGUID], [Reply_Content], [Reply_Date], [Reply_By]) VALUES 
+(N'57bef58f-3b49-4c13-95b4-f53f8974cf3d', N'57bef58f-3b49-4c13-95b4-f53f8974cf1d', 'Test', N'2021-10-18 17:17:57', N'jerry1234')
+
+INSERT INTO [dbo].[Replies] (
+[ReplyGUID], [DiscGUID], [Reply_Content], [Reply_Date], [Reply_By]) VALUES 
+(N'57bef58f-3b49-4c13-95b4-f53f8974cf4d', N'57bef58f-3b49-4c13-95b4-f53f8974cf1d', 'Test', N'2021-10-18 17:17:57', N'jerry1234')
+

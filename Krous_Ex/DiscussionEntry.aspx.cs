@@ -1,5 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
+using System.Data;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Web;
 using System.Web.UI;
@@ -11,7 +14,65 @@ namespace Krous_Ex
     {
         protected void Page_Load(object sender, EventArgs e)
         {
+            loadGV();
+        }
 
+        private void loadGV()
+        {
+            try
+            {
+                string sqlQuery;
+                string strTable = "";
+
+                sqlQuery = "SELECT t1.DiscGUID, t1.DiscTopic, t1.TotalReply, t1.Created, t2.LastReply ";
+                sqlQuery += "FROM ";
+                sqlQuery += "(SELECT D.DiscGUID, D.DiscTopic, COUNT(R.ReplyGUID) as TotalReply, CONCAT(D.DiscCreatedBy, ', <br />', Convert(varchar, D.DiscCreatedDate, 22)) As Created ";
+                sqlQuery += "FROM Discussion D, Replies R ";
+                sqlQuery += "GROUP BY D.DiscGUID, D.DiscTopic, D.DiscCreatedBy, D.DiscCreatedDate) t1 ";
+                sqlQuery += "LEFT JOIN ";
+                sqlQuery += "(SELECT TOP 1 D.DiscGUID, CONCAT(R.Reply_By, ', <br />', Convert(varchar, R.Reply_Date, 22)) As LastReply ";
+                sqlQuery += "FROM Discussion D, Replies R ";
+                sqlQuery += "GROUP BY D.DiscGUID, R.Reply_By, R.Reply_Date ";
+                sqlQuery += "ORDER BY R.Reply_Date Desc) t2 ";
+                sqlQuery += "ON t1.DiscGUID = t2.DiscGUID ";
+
+                SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["Krous_Ex"].ConnectionString);
+                con.Open();
+
+                SqlCommand GetCommand = new SqlCommand(sqlQuery, con);
+                SqlDataReader reader = GetCommand.ExecuteReader();
+                DataTable dtDisc = new DataTable();
+                dtDisc.Load(reader);
+                con.Close();
+
+                if (dtDisc.Rows.Count != 0)
+                {
+                    for (int i = 0; i < dtDisc.Rows.Count; i++)
+                    {
+                        strTable += "<tr style=\"text-align:left\">";
+                        strTable += "<td class=\"text-center\" align=\"center\" style=\"width:120px;\">";
+                        strTable += "<a href=\"DiscussionEntry.aspx?ForumGUID=" + dtDisc.Rows[i]["DiscGUID"] + "\">View</a>";
+                        strTable += "</td>";
+                        strTable += "<td><p><a href=\"DiscussionEntry.aspx?ForumGUID=" + dtDisc.Rows[i]["DiscGUID"] + "\">General Discussion</a></p>Discuss School Related</td>";
+                        strTable += "<td style=\"width:20px;text-align:center\">" + dtDisc.Rows[i]["TotalReply"] + "</td>";
+                        strTable += "<td style=\"width:20px;text-align:center\">" + dtDisc.Rows[i]["Created"] + "</td>";
+                        strTable += "<td style=\"width:20px\">" + dtDisc.Rows[i]["LastReply"] + "</td>";
+                        strTable += "</tr>";
+                    }
+
+                    Literal1.Text = strTable;
+
+                }
+                else
+                {
+
+                }
+            }
+
+            catch (Exception ex)
+            {
+                clsFunction.DisplayAJAXMessage(this, ex.Message);
+            }
         }
     }
 }

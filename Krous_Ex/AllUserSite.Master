@@ -1,4 +1,4 @@
-﻿<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="Student_Site.master.cs" Inherits="Krous_Ex.Student_Site" %>
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="AllUserSite.Master.cs" Inherits="Krous_Ex.AllUserSite" %>
 
 <!DOCTYPE html>
 
@@ -61,6 +61,7 @@
         </asp:ScriptManager>
 
     <!-- partial:partials/_horizontal-navbar.html -->
+    <div class="container-scroller">
       <div class="horizontal-menu">
         <nav class="navbar top-navbar col-lg-12 col-12 p-0">
           <div class="container">
@@ -523,7 +524,7 @@
             <asp:ContentPlaceHolder ID="body" runat="server">
             </asp:ContentPlaceHolder>
         </div>
-
+        </div>
     </form>
 
     <!-- plugins:js -->

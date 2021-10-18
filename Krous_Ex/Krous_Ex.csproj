@@ -1079,6 +1079,8 @@
     <Content Include="Assests\main\vendors\mdi\fonts\materialdesignicons-webfont.ttf" />
     <Content Include="Assests\main\vendors\mdi\fonts\materialdesignicons-webfont.woff" />
     <Content Include="Assests\main\vendors\mdi\fonts\materialdesignicons-webfont.woff2" />
+    <Content Include="KrousExDiscussionListings.aspx" />
+    <Content Include="KrousExForumListings.aspx" />
     <Content Include="libman.json" />
     <Content Include="Scripts\bootstrap.bundle.js" />
     <Content Include="Scripts\bootstrap.bundle.min.js" />
@@ -1224,7 +1226,7 @@
     <Content Include="Bundle.config" />
     <Content Include="Site.Mobile.Master" />
     <Content Include="Views\web.config" />
-    <Content Include="Student_Site.Master" />
+    <Content Include="AllUserSite.Master" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\BundleConfig.cs" />
@@ -1391,6 +1393,20 @@
       <DependentUpon>Homepage.aspx</DependentUpon>
     </Compile>
     <Compile Include="ChatHub.cs" />
+    <Compile Include="KrousExDiscussionListings.aspx.cs">
+      <DependentUpon>KrousExDiscussionListings.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="KrousExDiscussionListings.aspx.designer.cs">
+      <DependentUpon>KrousExDiscussionListings.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="KrousExForumListings.aspx.cs">
+      <DependentUpon>KrousExForumListings.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="KrousExForumListings.aspx.designer.cs">
+      <DependentUpon>KrousExForumListings.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Login.aspx.cs">
       <DependentUpon>Login.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -1498,12 +1514,12 @@
     <Compile Include="StudentProfile.aspx.designer.cs">
       <DependentUpon>StudentProfile.aspx</DependentUpon>
     </Compile>
-    <Compile Include="Student_Site.Master.cs">
-      <DependentUpon>Student_Site.Master</DependentUpon>
+    <Compile Include="AllUserSite.Master.cs">
+      <DependentUpon>AllUserSite.Master</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="Student_Site.Master.designer.cs">
-      <DependentUpon>Student_Site.Master</DependentUpon>
+    <Compile Include="AllUserSite.Master.designer.cs">
+      <DependentUpon>AllUserSite.Master</DependentUpon>
     </Compile>
     <Compile Include="Testing2.aspx.cs">
       <DependentUpon>Testing2.aspx</DependentUpon>
