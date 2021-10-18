@@ -31,7 +31,7 @@ namespace Krous_Ex
                 sqlQuery += "WHERE F.ForumGUID = D.ForumGUID AND D.DiscGUID = R.DiscGUID AND F.ForumStatus = 'Active' ";
                 sqlQuery += "GROUP BY F.ForumGUID, F.ForumTopic, F.ForumCategory, F.ForumDesc) t1 ";
                 sqlQuery += "LEFT JOIN ";
-                sqlQuery += "(SELECT TOP 1 F.ForumGUID, CONCAT(Reply_By,', <br />',Convert(varchar, Reply_Date, 22)) As LastUpdated ";
+                sqlQuery += "(SELECT TOP 1 F.ForumGUID, CONCAT(Reply_By,', <br />',Convert(varchar, Reply_Date, 120)) As LastUpdated ";
                 sqlQuery += "FROM Forum F, Discussion D, Replies R ";
                 sqlQuery += "WHERE F.ForumGUID = D.ForumGUID AND D.DiscGUID = R.DiscGUID ";
                 sqlQuery += "ORDER BY Reply_Date DESC ";
