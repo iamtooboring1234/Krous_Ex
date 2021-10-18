@@ -25,7 +25,7 @@
 <body>
     <form id="form1" runat="server">
         <div class="container vh-100 d-flex">
-            <div class="content-wrapper  align-self-center justify-content-center">
+            <div class="content-wrapper  align-self-center justify-content-center" style="background:none !important">
                 <div class="card col-md-6 mx-auto">
                     <div class="card-body">
                         <a href="Default.aspx">Back to Home Page</a>

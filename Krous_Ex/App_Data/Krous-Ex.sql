@@ -188,29 +188,30 @@ CREATE TABLE [dbo].[Forum] (
     CONSTRAINT [fk_staff_forum] FOREIGN KEY ([StaffGUID]) REFERENCES [dbo].[Staff] ([StaffGUID])
 );
 
-CREATE TABLE [Discussion] (
-	[DiscGUID] UNIQUEIDENTIFIER NOT NULL,
-	[ForumGUID] UNIQUEIDENTIFIER NOT NULL,
-	[DiscTopic] varchar(100) NOT NULL,
-	[DiscDesc] varchar(100) NOT NULL,
-	[DiscStatus] varchar(10) NOT NULL,
-	[DiscCreatedBy] varchar (50) NOT NULL,
-	[DiscCreatedDate] datetime NOT NULL,
+CREATE TABLE [dbo].[Discussion] (
+    [DiscGUID]            UNIQUEIDENTIFIER NOT NULL,
+    [ForumGUID]           UNIQUEIDENTIFIER NOT NULL,
+    [DiscTopic]           VARCHAR (100)    NOT NULL,
+    [DiscDesc]            VARCHAR (100)    NOT NULL,
+    [DiscStatus]          VARCHAR (10)     NOT NULL,
+	[DiscIsPinned]		  VARCHAR (4)	   NOT NULL,
+    [DiscCreatedBy]       VARCHAR (50)     NOT NULL,
+    [DiscCreatedDate]     DATETIME         NOT NULL,
     [DiscLastUpdatedBy]   VARCHAR (50)     NOT NULL,
     [DiscLastUpdatedDate] DATETIME         NOT NULL,
-    CONSTRAINT pk_disc PRIMARY KEY (DiscGUID),
-	CONSTRAINT fk_forum_disc FOREIGN KEY (ForumGUID) REFERENCES Forum(ForumGUID)
-)
+    CONSTRAINT [pk_disc] PRIMARY KEY CLUSTERED ([DiscGUID] ASC),
+    CONSTRAINT [fk_forum_disc] FOREIGN KEY ([ForumGUID]) REFERENCES [dbo].[Forum] ([ForumGUID])
+);
 
-CREATE TABLE [Replies] (
-	[ReplyGUID] UNIQUEIDENTIFIER NOT NULL,
-	[DiscGUID] UNIQUEIDENTIFIER NOT NULL,
-	[Reply_Content] varchar(999) NOT NULL,
-	[Reply_Date] datetime NOT NULL, 
-	[Reply_By] varchar (50) NOT NULL,
-    CONSTRAINT pk_reply PRIMARY KEY (ReplyGUID),
-	CONSTRAINT fk_disc_reply FOREIGN KEY (DiscGUID) REFERENCES Discussion(DiscGUID)
-)
+CREATE TABLE [dbo].[Replies] (
+    [ReplyGUID]     UNIQUEIDENTIFIER NOT NULL,
+    [DiscGUID]      UNIQUEIDENTIFIER NOT NULL,
+    [Reply_Content] VARCHAR (999)    NOT NULL,
+    [Reply_Date]    DATETIME         NOT NULL,
+    [Reply_By]      VARCHAR (50)     NOT NULL,
+    CONSTRAINT [pk_reply] PRIMARY KEY CLUSTERED ([ReplyGUID] ASC),
+    CONSTRAINT [fk_disc_reply] FOREIGN KEY ([DiscGUID]) REFERENCES [dbo].[Discussion] ([DiscGUID])
+);
 
 CREATE TABLE [FAQ] (
     [FAQGUID]         UNIQUEIDENTIFIER NOT NULL,

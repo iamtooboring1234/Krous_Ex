@@ -11,7 +11,7 @@ namespace Krous_Ex
 {
 
 
-    public partial class Student_Site
+    public partial class AllUserSite
     {
 
         /// <summary>

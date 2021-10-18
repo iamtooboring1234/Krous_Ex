@@ -1,11 +1,4 @@
-﻿thead th {
-    background-color: #393939;
-    position: sticky;
-    top: 0;
-    z-index:5;
-}
-
-th {
+﻿th {
     border:none;
     border-top: 1px solid white;
 }
@@ -13,10 +6,11 @@ th {
 td {
     font-size: 15px;
     line-height: 1.4;
-    background-color: #222;
+    background-color: #191c24;
+    color:white;
     border: none;
     border-top: 1px solid white;
-    text-align:left;
+    text-align: left;
 }
 
 .gv-section .row {
@@ -63,4 +57,9 @@ div.dataTables_wrapper div.dataTables_info {
 
 .paging_full_numbers a.paginate_active {
     color: #fff !important;
+}
+
+.dataTables_length label {
+    display: flex;
+    align-items: center;
 }

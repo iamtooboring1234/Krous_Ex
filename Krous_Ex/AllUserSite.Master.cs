@@ -8,7 +8,7 @@ using System.Web.UI.WebControls;
 
 namespace Krous_Ex
 {
-    public partial class Student_Site : System.Web.UI.MasterPage
+    public partial class AllUserSite : System.Web.UI.MasterPage
     {
         protected void Page_Load(object sender, EventArgs e)
         {
