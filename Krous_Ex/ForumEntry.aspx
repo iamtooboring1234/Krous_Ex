@@ -2,14 +2,14 @@
 <%@ Register Assembly="AjaxControlToolkit" Namespace="AjaxControlToolkit" TagPrefix="ajaxToolkit" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
-        <link href="Assests/main/css/inquiry.css" rel="stylesheet" />
-        <link href="Assests/main/css/layouts.css" rel="stylesheet" />
-        <script>
-        function ShowPopup()
-        {
-            $('#succeedModal').modal('show');
-        }
-        </script>
+    <link href="Assests/main/css/inquiry.css" rel="stylesheet" />
+    <link href="Assests/main/css/layouts.css" rel="stylesheet" />
+    <script>
+    function ShowPopup()
+    {
+        $('#succeedModal').modal('show');
+    }
+    </script>
 </asp:Content>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="body" runat="server">
@@ -36,12 +36,13 @@
     <div class="col-lg-12">
         <div class="card">
             <div class="card-body">
+                <asp:Panel ID="panelPublic" runat="server" Visible="true">
                 <div class="row">
                     <div class="col-md-12">
                         <h3>
-                            <asp:Label ID="lblFAQEntry" runat="server">Forum Entry</asp:Label>
+                            <asp:Label ID="lblFAQEntry" runat="server">Public Forum Entry</asp:Label>
                         </h3>
-                        <p class="card-description">Form to insert Forum </p>
+                        <p class="card-description">Form to insert Public Forum</p>
                     </div>
                 </div>
                 <hr />
@@ -64,7 +65,7 @@
                                 <div class="form-group pdForm">
                                     <div class="row">
                                         <div class="col-md-2 col-form-label">
-                                            <asp:Label ID="Label1" runat="server">Forum Description</asp:Label><span style="color: red;">*</span>
+                                            <asp:Label ID="lblForumDesc" runat="server">Forum Description</asp:Label><span style="color: red;">*</span>
                                         </div>
                                         <div class="col-md-8">
                                             <asp:TextBox ID="txtForumDesc" runat="server" CssClass="form-control" onkeydown="return (event.keyCode!=13);"></asp:TextBox>
@@ -82,7 +83,7 @@
                                             <asp:RadioButton runat="server" ID="rdExisting" Text="Use existing category" CssClass="rdBtn" Checked="true" GroupName="Category" AutoPostBack="true" OnCheckedChanged="rdExisting_CheckedChanged" />
                                         </div>
                                         <div class="col-md-5">
-                                            <asp:DropDownList runat="server" ID="ddlCategory" CssClass="form-control" OnSelectedIndexChanged="ddlCategory_SelectedIndexChanged" ></asp:DropDownList>
+                                            <asp:DropDownList runat="server" ID="ddlCategory" CssClass="form-control"></asp:DropDownList>
                                         </div>
                                     </div>
                                 </div>
@@ -138,6 +139,111 @@
                         <asp:AsyncPostBackTrigger ControlID="rdNew" EventName="CheckedChanged"></asp:AsyncPostBackTrigger>
                     </Triggers>
                 </asp:UpdatePanel>
+                </asp:Panel>
+                <asp:Panel ID="panelPrivate" runat="server" Visible="false">
+                <div class="row">
+                    <div class="col-md-12">
+                        <h3>
+                            <asp:Label ID="Label1" runat="server">Private Forum Entry</asp:Label>
+                        </h3>
+                        <p class="card-description">Form to insert Private Forum</p>
+                    </div>
+                </div>
+                <hr />
+                <asp:UpdatePanel runat="server" ID="updatepanel2" UpdateMode="Conditional">
+                    <ContentTemplate>
+                        <div class="panel-body">
+                            <div class="form-horizontal">
+                                <div class="form-group pdForm">
+                                    <div class="row">
+                                        <div class="col-md-2 col-form-label">
+                                            <asp:Label ID="Label2" runat="server">Forum Topic</asp:Label><span style="color: red;">*</span>
+                                        </div>
+                                        <div class="col-md-8">
+                                            <asp:TextBox ID="TextBox1" runat="server" CssClass="form-control" onkeydown="return (event.keyCode!=13);"></asp:TextBox>
+                                            <asp:RequiredFieldValidator ID="RequiredFieldValidator3" runat="server" ErrorMessage="Required" controltovalidate="txtFAQTitle" Visible="False"></asp:RequiredFieldValidator>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-group pdForm">
+                                    <div class="row">
+                                        <div class="col-md-2 col-form-label">
+                                            <asp:Label ID="Label3" runat="server">Forum Description</asp:Label><span style="color: red;">*</span>
+                                        </div>
+                                        <div class="col-md-8">
+                                            <asp:TextBox ID="TextBox2" runat="server" CssClass="form-control" onkeydown="return (event.keyCode!=13);"></asp:TextBox>
+                                            <asp:RequiredFieldValidator ID="RequiredFieldValidator4" runat="server" ErrorMessage="Required" controltovalidate="txtFAQTitle" Visible="False"></asp:RequiredFieldValidator>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-group pdForm">
+                                    <div class="row">
+                                        <div class="col-md-2 col-form-label">
+                                            <asp:Label ID="Label4" runat="server">Category</asp:Label><span style="color: red;">*</span>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <asp:RadioButton runat="server" ID="RadioButton1" Text="Use existing category" CssClass="rdBtn" Checked="true" GroupName="Category" AutoPostBack="true" OnCheckedChanged="rdExisting_CheckedChanged" />
+                                        </div>
+                                        <div class="col-md-5">
+                                            <asp:DropDownList runat="server" ID="DropDownList1" CssClass="form-control"></asp:DropDownList>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-group pdForm">
+                                    <div class="row">
+                                        <div class="col-md-2">
+                                        </div>
+                                        <div class="col-md-3">
+                                            <asp:RadioButton runat="server" ID="RadioButton2" Text="Add new category" CssClass="rdBtn" GroupName="Category" AutoPostBack="true" OnCheckedChanged="rdNew_CheckedChanged" />
+                                        </div>
+                                        <div class="col-md-5">
+                                            <asp:TextBox ID="TextBox3" runat="server" CssClass="form-control" onkeydown="return (event.keyCode!=13);" Enabled="False"></asp:TextBox>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-group pdForm">
+                                    <div class="row">
+                                        <div class="col-md-2 col-form-label">
+                                            <asp:Label ID="Label5" runat="server">Forum status</asp:Label><span style="color: red;">*</span>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <asp:DropDownList ID="DropDownList2" runat="server" CssClass="form-control">
+                                                <asp:ListItem Selected="True" Value="Active">Active</asp:ListItem>
+                                                <asp:ListItem Value="Inactive">Inactive</asp:ListItem>
+                                            </asp:DropDownList>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <hr />
+                                <div class="form-group pdForm">
+                                    <div class="row">
+                                        <div class="col-md-12 float-right text-right">
+                                            <%--<asp:Button Text="Back" ID="btnBack" runat="server" Width="18%" CssClass="btn mr20 pdForm" OnClick="btnBack_Click" />--%>
+                                            <asp:Button Text="Save" ID="Button1" runat="server" Width="18%" CssClass="btn btn-primary mr20 pdForm" OnClick="btnSave_Click" />
+                                            <ajaxToolkit:ConfirmButtonExtender ID="ConfirmButtonExtender2" runat="server" ConfirmText="Are you sure to add these details ?" TargetControlID="btnSave" />
+                                            <asp:Button Text="Cancel" ID="Button2" runat="server" Width="18%" CssClass="btn btn-dark mr20 pdForm" OnClick="btnCancel_Click" />
+                                            <%--<asp:Button Text="Update" ID="btnUpdate" runat="server" Width="18%" CssClass="btn mr20 pdForm" OnClick="btnUpdate_Click" />
+                                            <ajaxToolkit:ConfirmButtonExtender ID="ConfirmButtonExtender2" runat="server" ConfirmText="Are you sure to update this FAQ ?" TargetControlID="btnUpdate" />
+                                            <asp:Button Text="Delete" ID="btnDelete" runat="server" Width="18%" CssClass="btn mr20 pdForm" OnClick="btnDelete_Click" />
+                                            <ajaxToolkit:ConfirmButtonExtender ID="ConfirmButtonExtender3" runat="server" ConfirmText="Are you sure to delete this FAQ ?" TargetControlID="btnDelete" />--%>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </ContentTemplate>
+                    <Triggers>
+                        <asp:AsyncPostBackTrigger ControlID="rdExisting" EventName="CheckedChanged"></asp:AsyncPostBackTrigger>
+                        <asp:AsyncPostBackTrigger ControlID="rdNew" EventName="CheckedChanged"></asp:AsyncPostBackTrigger>
+                    </Triggers>
+                </asp:UpdatePanel>
+                </asp:Panel>
             </div>
         </div>
     </div>

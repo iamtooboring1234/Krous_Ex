@@ -109,8 +109,9 @@
     <script src="Assests/main/js/data-table.js"></script>
 
     <script>
+        var $ = jQuery.noConflict();
+
         $(document).ready(function () {
-            $.noConflict();
             $("[id*=gvFAQ]").prepend($("<thead></thead>").html($("[id*=gvFAQ]").find("tr:first"))).DataTable({
                 "searching": false,
                 "pageLength": 10,

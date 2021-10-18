@@ -173,20 +173,20 @@ CREATE TABLE [Exam_Timetable] (
 	CONSTRAINT fk_course_exam_timetable FOREIGN KEY (CourseGUID) REFERENCES Course(CourseGUID)
 )
 
-CREATE TABLE [Forum] (
-	[ForumGUID] UNIQUEIDENTIFIER NOT NULL,
-	[StaffGUID] UNIQUEIDENTIFIER NOT NULL,
-	[ForumTopic] varchar(100) NOT NULL,
-	[ForumDesc] varchar(999) NOT NULL,
-	[ForumCategory] varchar(100) NOT NULL,
-	[ForumStatus] varchar(10) NOT NULL,
-	[ForumCreatedDate] datetime NOT NULL,
-	[ForumCreatedBy] varchar (50) NOT NULL,
-    [ForumLastUpdatedBy]   varchar (50)    NOT NULL,
+CREATE TABLE [dbo].[Forum] (
+    [ForumGUID]            UNIQUEIDENTIFIER NOT NULL,
+    [StaffGUID]            UNIQUEIDENTIFIER NOT NULL,
+    [ForumTopic]           VARCHAR (100)    NOT NULL,
+    [ForumDesc]            VARCHAR (999)    NOT NULL,
+    [ForumCategory]        VARCHAR (100)    NOT NULL,
+    [ForumStatus]          VARCHAR (10)     NOT NULL,
+	[ForumCreatedBy]       VARCHAR (50)     NOT NULL,
+    [ForumCreatedDate]     DATETIME         NOT NULL,
+    [ForumLastUpdatedBy]   VARCHAR (50)     NOT NULL,
     [ForumLastUpdatedDate] DATETIME         NOT NULL,
-    CONSTRAINT pk_forum PRIMARY KEY (ForumGUID),
-	CONSTRAINT fk_staff_forum FOREIGN KEY (StaffGUID) REFERENCES Staff(StaffGUID)
-)
+    CONSTRAINT [pk_forum] PRIMARY KEY CLUSTERED ([ForumGUID] ASC),
+    CONSTRAINT [fk_staff_forum] FOREIGN KEY ([StaffGUID]) REFERENCES [dbo].[Staff] ([StaffGUID])
+);
 
 CREATE TABLE [Discussion] (
 	[DiscGUID] UNIQUEIDENTIFIER NOT NULL,
@@ -194,8 +194,10 @@ CREATE TABLE [Discussion] (
 	[DiscTopic] varchar(100) NOT NULL,
 	[DiscDesc] varchar(100) NOT NULL,
 	[DiscStatus] varchar(10) NOT NULL,
-	[DiscCreatedDate] datetime NOT NULL,
 	[DiscCreatedBy] varchar (50) NOT NULL,
+	[DiscCreatedDate] datetime NOT NULL,
+    [DiscLastUpdatedBy]   VARCHAR (50)     NOT NULL,
+    [DiscLastUpdatedDate] DATETIME         NOT NULL,
     CONSTRAINT pk_disc PRIMARY KEY (DiscGUID),
 	CONSTRAINT fk_forum_disc FOREIGN KEY (ForumGUID) REFERENCES Forum(ForumGUID)
 )

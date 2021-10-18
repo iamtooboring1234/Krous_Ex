@@ -122,7 +122,7 @@
               <span class="menu-icon">
                 <i class="mdi mdi-laptop"></i>
               </span>
-              <span class="menu-title">FAQ Management</span>
+              <span class="menu-title">FAQ</span>
               <i class="menu-arrow"></i>
             </a>
             <div class="collapse" id="FAQ">
@@ -133,18 +133,17 @@
             </div>
           </li>
           <li class="nav-item menu-items">
-            <a class="nav-link" data-toggle="collapse" href="#ui-basic" aria-expanded="false" aria-controls="ui-basic">
+            <a class="nav-link" data-toggle="collapse" href="#Forum" aria-expanded="false" aria-controls="ui-basic">
               <span class="menu-icon">
                 <i class="mdi mdi-laptop"></i>
               </span>
-              <span class="menu-title">Basic UI Elements</span>
+              <span class="menu-title">Forum</span>
               <i class="menu-arrow"></i>
             </a>
-            <div class="collapse" id="ui-basic">
+            <div class="collapse" id="Forum">
               <ul class="nav flex-column sub-menu">
-                <li class="nav-item"> <a class="nav-link" href="pages/ui-features/buttons.html">Buttons</a></li>
-                <li class="nav-item"> <a class="nav-link" href="pages/ui-features/dropdowns.html">Dropdowns</a></li>
-                <li class="nav-item"> <a class="nav-link" href="pages/ui-features/typography.html">Typography</a></li>
+                <li class="nav-item"><asp:HyperLink ID="HyperLink1" CssClass="nav-link nav-forum-link" runat="server" href="ForumEntry.aspx?ForumType=PublicForum">Public Forum Entry</asp:HyperLink></li>
+                <li class="nav-item"><asp:HyperLink ID="HyperLink2" CssClass="nav-link nav-forum-link" runat="server" href="ForumEntry.aspx?ForumType=PrivateForum">Private Forum Entry</asp:HyperLink></li>
               </ul>
             </div>
           </li>
@@ -416,7 +415,7 @@
     </form>
     <!-- plugins:js -->
     <%--<script src="Assests/main/vendors/js/vendor.bundle.base.js"></script>--%>
-    <script src="Assests/main/js/bootstrap.min.js"></script>
+    <script src="Scripts/bootstrap.bundle.js"></script>
     <!-- endinject -->
     <!-- Plugin js for this page -->
     <script src="Assests/main/vendors/chart.js/Chart.min.js"></script>

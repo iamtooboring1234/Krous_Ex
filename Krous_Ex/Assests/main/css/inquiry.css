@@ -404,10 +404,10 @@ textarea {
     transition: 0.3s;
 }
 
-    .closeImg:hover,
-    .closeImg:focus {
-        color: #bbb;
-        text-decoration: none;
-        cursor: pointer;
-    }
+.closeImg:hover,
+.closeImg:focus {
+    color: #bbb;
+    text-decoration: none;
+    cursor: pointer;
+}
 
