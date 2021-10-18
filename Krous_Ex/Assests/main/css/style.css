@@ -7832,7 +7832,7 @@ mark,
 
 .img-thumbnail {
   padding: 0.25rem;
-  background-color: #fff;
+  background-color: none;
   border: 1px solid #dee2e6;
   border-radius: 0.25rem;
   max-width: 100%;
@@ -8994,8 +8994,9 @@ textarea.tt-hint {
   margin-bottom: 1rem; }
 
 .form-text {
-  display: block;
-  margin-top: 0.25rem; }
+    display: block;
+    margin-top: 0.25rem;
+}
 
 .form-row {
   display: flex;

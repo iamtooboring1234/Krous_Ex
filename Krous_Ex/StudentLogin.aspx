@@ -20,7 +20,7 @@
                 var type = $(this).hasClass("fa-eye-slash") ? "text" : "password";
                 $("#txtPassword").attr("type", type);
             });
-        });
+        })
     </script>
 </head>
 <body>
@@ -67,8 +67,6 @@
                                 <asp:HyperLink ID="hlRegister" runat="server"><a href="RegisterAcc.aspx">Register Now!</a></asp:HyperLink></p>
                         </div>
                     </div>
-
-
                 </div>
             </div>
         </div>

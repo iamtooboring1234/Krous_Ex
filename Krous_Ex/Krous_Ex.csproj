@@ -206,6 +206,7 @@
     <Content Include="Assests\main\css\layouts.css" />
     <Content Include="Assests\main\css\LoginPage.css" />
     <Content Include="Assests\main\css\modern-horizontal\style.css" />
+    <Content Include="Assests\main\css\Profile.css" />
     <Content Include="Assests\main\css\Site.css" />
     <Content Include="Assests\main\css\style.css" />
     <Content Include="Assests\main\css\table.css" />
@@ -373,6 +374,7 @@
     <Content Include="Assests\main\img\19197906.jpg" />
     <Content Include="Assests\main\img\2021-06-29_215318.png" />
     <Content Include="Assests\main\img\contract.png" />
+    <Content Include="Assests\main\img\defaultUserProfile.png" />
     <Content Include="Assests\main\img\exit.png" />
     <Content Include="Assests\main\img\graduated.png" />
     <Content Include="Assests\main\img\istockphoto-1124699381-612x612.jpg" />
@@ -1215,6 +1217,7 @@
     <Content Include="StaffEntry.aspx" />
     <Content Include="StaffListings.aspx" />
     <Content Include="StaffLogin.aspx" />
+    <Content Include="StudentDashboard.aspx" />
     <Content Include="StudentLogin.aspx" />
     <Content Include="StudentProfile.aspx" />
     <Content Include="Testing2.aspx" />
@@ -1477,6 +1480,13 @@
       <DependentUpon>StaffMaster.Master</DependentUpon>
     </Compile>
     <Compile Include="Startup.cs" />
+    <Compile Include="StudentDashboard.aspx.cs">
+      <DependentUpon>StudentDashboard.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="StudentDashboard.aspx.designer.cs">
+      <DependentUpon>StudentDashboard.aspx</DependentUpon>
+    </Compile>
     <Compile Include="StudentLogin.aspx.cs">
       <DependentUpon>StudentLogin.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>

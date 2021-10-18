@@ -2,168 +2,147 @@
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
     <link href="Assests/main/css/style.css" rel="stylesheet" />
+    <link href="Assests/main/css/Profile.css" rel="stylesheet" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <script>
+        function openCity(evt, cityName) {
+            var i, tabcontent, tablinks;
+            tabcontent = document.getElementsByClassName("tabcontent");
+            for (i = 0; i < tabcontent.length; i++) {
+                tabcontent[i].style.display = "none";
+            }
+            tablinks = document.getElementsByClassName("tablinks");
+            for (i = 0; i < tablinks.length; i++) {
+                tablinks[i].className = tablinks[i].className.replace(" active", "");
+            }
+            document.getElementById(cityName).style.display = "block";
+            evt.currentTarget.className += " active";
+        }
+
+        // Get the element with id="defaultOpen" and click on it
+        document.getElementById("defaultOpen").click();
+    </script>
 
 </asp:Content>
 
-
 <asp:Content ID="Content2" ContentPlaceHolderID="body" runat="server">
 
-    <div class="col-12 grid-margin">
-        <div class="card">
-            <div class="card-body">
-                <h4 class="card-title">Horizontal Two column</h4>
-                <p class="card-description">Personal info </p>
+    <div class="card">
+        <div class="card-body">
+            <h4 class="card-title">Your Profile</h4>
 
+            <!--tab layout-->
+            <%--<div class="tab">
+                <button class="tablinks" onclick="openCity(event, 'Personal')" id="defaultOpen">Personal Info</button>
+                <button class="tablinks" onclick="openCity(event, 'University')">University Info</button>
+                <button class="tablinks" onclick="openCity(event, 'Account')">Account Settings</button>
+            </div>--%>
 
-            <%--    <div class="form-group">
-                    <div class="col-sm-6">
-                        <div id="hiddenImg">
-                            <asp:Image ID="imgProfile" runat="server" Width="200" Height="200" class="img-thumbnail img-circle"></asp:Image>
-                        </div>
-                        <asp:FileUpload ID="imageUpload" runat="server" onchange="loadFile(event)" Enabled="true" />
-
+            <!--personal details tab-->
+            <%--   <div id="Personal" class="tabcontent">--%>
+            <p class="card-description" style="margin-top: 30px; font-size: 17px;">Personal Particulars</p>
+            <div style="float: right;">
+                <asp:Label ID="updateDate" runat="server" Style="font-size: 15px;" Text="Last Updated : "></asp:Label>
+                <asp:Label ID="lblUpdateTime" runat="server"></asp:Label>
+            </div>
+            <br />
+            <asp:Button ID="btnUpdate" runat="server" Text="Update Profile" CssClass="btn btn-primary me-2" style="width: 120px; float: right;" OnClick="btnUpdate_Click" />
+            <!--image-->
+            <div class="form-group" style="margin-left: 450px;">
+                <div class="col-sm-5">
+                    <div id="hiddenImg">
+                        <asp:Image ID="imgProfile" runat="server" Width="220" Height="210" class="img-thumbnail img-circle" ImageUrl="~/Assests/main/img/defaultUserProfile.png"></asp:Image>
                     </div>
-                </div>--%>
-
-                <div class="row">
-                    <div class="col-md-6">
-                        <div class="form-group row">
-                            <label class="col-sm-3 col-form-label">First Name</label>
-                            <div class="col-sm-9">
-                                <input type="text" class="form-control">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="form-group row">
-                            <label class="col-sm-3 col-form-label">Last Name</label>
-                            <div class="col-sm-9">
-                                <input type="text" class="form-control">
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-6">
-                        <div class="form-group row">
-                            <label class="col-sm-3 col-form-label">Gender</label>
-                            <div class="col-sm-9">
-                                <select class="form-control">
-                                    <option>Male</option>
-                                    <option>Female</option>
-                                </select>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="form-group row">
-                            <label class="col-sm-3 col-form-label">Date of Birth</label>
-                            <div class="col-sm-9">
-                                <input class="form-control" placeholder="dd/mm/yyyy">
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-6">
-                        <div class="form-group row">
-                            <label class="col-sm-3 col-form-label">Category</label>
-                            <div class="col-sm-9">
-                                <select class="form-control">
-                                    <option>Category1</option>
-                                    <option>Category2</option>
-                                    <option>Category3</option>
-                                    <option>Category4</option>
-                                </select>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="form-group row">
-                            <label class="col-sm-3 col-form-label">Membership</label>
-                            <div class="col-sm-4">
-                                <div class="form-check">
-                                    <label class="form-check-label">
-                                        <input type="radio" class="form-check-input" name="membershipRadios" id="membershipRadios1" value="" checked="">
-                                        Free <i class="input-helper"></i>
-                                    </label>
-                                </div>
-                            </div>
-                            <div class="col-sm-5">
-                                <div class="form-check">
-                                    <label class="form-check-label">
-                                        <input type="radio" class="form-check-input" name="membershipRadios" id="membershipRadios2" value="option2">
-                                        Professional <i class="input-helper"></i>
-                                    </label>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <p class="card-description">Address </p>
-                <div class="row">
-                    <div class="col-md-6">
-                        <div class="form-group row">
-                            <label class="col-sm-3 col-form-label">Address 1</label>
-                            <div class="col-sm-9">
-                                <input type="text" class="form-control">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="form-group row">
-                            <label class="col-sm-3 col-form-label">State</label>
-                            <div class="col-sm-9">
-                                <input type="text" class="form-control">
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-6">
-                        <div class="form-group row">
-                            <label class="col-sm-3 col-form-label">Address 2</label>
-                            <div class="col-sm-9">
-                                <input type="text" class="form-control">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="form-group row">
-                            <label class="col-sm-3 col-form-label">Postcode</label>
-                            <div class="col-sm-9">
-                                <input type="text" class="form-control">
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-6">
-                        <div class="form-group row">
-                            <label class="col-sm-3 col-form-label">City</label>
-                            <div class="col-sm-9">
-                                <input type="text" class="form-control">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="form-group row">
-                            <label class="col-sm-3 col-form-label">Country</label>
-                            <div class="col-sm-9">
-                                <select class="form-control">
-                                    <option>America</option>
-                                    <option>Italy</option>
-                                    <option>Russia</option>
-                                    <option>Britain</option>
-                                </select>
-                            </div>
-                        </div>
-                    </div>
+                    <asp:FileUpload ID="imageUpload" runat="server" onchange="loadFile(event)" Enabled="true" />
                 </div>
             </div>
+
+            <div class="form-group" style="margin-top: 25px;">
+                <label for="fullname">Full Name</label>
+                <asp:TextBox ID="txtFullname" CssClass="form-control" type="text" runat="server" Enabled="False" Style="border-color: gray;"></asp:TextBox>
+            </div>
+            <div class="form-group">
+                <label for="nric">IC Number</label>
+                <asp:TextBox ID="txtNRIC" CssClass="form-control" type="text" runat="server" Enabled="False" Style="border-color: gray;"></asp:TextBox>
+            </div>
+            <div class="form-group">
+                <label for="gender">Gender</label>
+                <asp:TextBox ID="txtGender" CssClass="form-control" type="text" runat="server" Enabled="False" Style="border-color: gray;"></asp:TextBox>
+                <asp:RadioButtonList ID="RadioButtonList1" runat="server" Enabled="False" Visible="false">
+                    <asp:ListItem>Male</asp:ListItem>
+                    <asp:ListItem>Female</asp:ListItem>
+                </asp:RadioButtonList>
+            </div>
+            <div class="form-group">
+                <label for="email">Email Address</label>
+                <asp:TextBox ID="txtEmail" CssClass="form-control" type="text" runat="server" Enabled="False" Style="border-color: gray;"></asp:TextBox>
+            </div>
+            <div class="form-group">
+                <label for="contact">Contact Number</label>
+                <asp:TextBox ID="txtContact" CssClass="form-control" type="text" runat="server" Enabled="False" Style="border-color: gray;"></asp:TextBox>
+            </div>
+            <div class="form-group">
+                <label for="contact">Date of Birth</label>
+                <asp:TextBox ID="txtDOB" CssClass="form-control" type="text" runat="server" Enabled="False" Style="border-color: gray;"></asp:TextBox>
+            </div>
+            <div class="form-group">
+                <label for="contact">Joined at</label>
+                <asp:TextBox ID="txtDateJoined" CssClass="form-control" type="text" runat="server" Enabled="False" Style="border-color: gray;"></asp:TextBox>
+            </div>
+            <%--</div>--%>
+
+
+            <!-- uni details tab-->
+            <%-- <div id="University" class="tabcontent">--%>
+            <p class="card-description" style="font-size: 17px;">Other Particulars</p>
+            <%--          <div class="form-group">
+                <label for="email" style="margin-top: 9px;">Programme</label>
+                <asp:TextBox ID="txtProgramme" CssClass="form-control" type="text" runat="server" Enabled="False" Style="border-color: gray;"></asp:TextBox>
+            </div>--%>
+
+            <div class="form-group">
+                <label for="contact">Faculty</label>
+                <asp:TextBox ID="txtFaculty" CssClass="form-control" type="text" runat="server" Enabled="False" Style="border-color: gray;"></asp:TextBox>
+            </div>
+
+            <div class="form-group">
+                <label for="contact">Campus branch</label>
+                <asp:TextBox ID="txtBranch" CssClass="form-control" type="text" runat="server" Enabled="False" Style="border-color: gray;"></asp:TextBox>
+            </div>
+
+            <div class="form-group">
+                <label for="contact">Year Intake</label>
+                <asp:TextBox ID="txtYearIntake" CssClass="form-control" type="text" runat="server" Enabled="False" Style="border-color: gray; width: 130px;"></asp:TextBox>
+            </div>
+            <%--</div>--%>
+
+
+            <!-- account details tab-->
+            <%--  <div id="Account" class="tabcontent">--%>
+            <p class="card-description" style="font-size: 17px;"></p>
+            <div class="form-group">
+                <label for="contact">Your current password</label>
+                <asp:TextBox ID="txtCurrentPass" CssClass="form-control" type="text" runat="server" Enabled="False" Style="border-color: gray;"></asp:TextBox>
+            </div>
+
+            <div class="form-group">
+                <label for="contact">Your new password</label>
+                <asp:TextBox ID="txtNewPass" CssClass="form-control" type="text" runat="server" Enabled="False" Style="border-color: gray;"></asp:TextBox>
+            </div>
+
+            <div class="form-group">
+                <label for="contact">Confirm new password</label>
+                <asp:TextBox ID="txtConfNewPass" CssClass="form-control" type="text" runat="server" Enabled="False" Style="border-color: gray;"></asp:TextBox>
+            </div>
+            <%-- </div>--%>
+
+
+
+            <asp:Button ID="btnSave" runat="server" Text="Save Profile" CssClass="btn btn-primary me-2" Style="padding: 10px; width: 120px; margin-top: 10px; margin-right: 13px;" OnClick="btnSave_Click" />
+            <asp:Button ID="btnCancel" runat="server" Text="Cancel" CssClass="btn btn-dark" Style="padding: 10px; width: 100px; margin-top: 10px;" />
+
         </div>
     </div>
-
-
 
 </asp:Content>

@@ -38,7 +38,7 @@ namespace Krous_Ex
                     ck.Path = FormsAuthentication.FormsCookiePath;
                     Response.Cookies.Add(ck);
 
-                    Response.Redirect("Homepage.aspx");
+                    Response.Redirect("StudentDashboard.aspx");
                 } 
                 else
                 {
