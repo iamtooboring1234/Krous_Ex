@@ -18,23 +18,28 @@ namespace Krous_Ex
             
             if (myCookie != null)
             {
-                userType = clsLogin.GetLoginUserType();
-
                 if (!Page.IsPostBack)
                 {
                     FormsAuthentication.SignOut();
                 }
-            }
+            } 
         }
 
         protected void btnBack_Click(object sender, EventArgs e)
         {
-            if (userType == "Staff")
+            if (!String.IsNullOrEmpty(Request.QueryString["UserType"]))
             {
-                Response.Redirect("StaffLogin.aspx");
+                if (Request.QueryString["UserType"].ToString() == "Staff")
+                {
+                    Response.Redirect("StaffLogin.aspx");
+                }
+                else
+                {
+                    Response.Redirect("StudentLogin.aspx");
+                }
             } else
             {
-                Response.Redirect("StudentLogin.aspx");
+                Response.Redirect("Homepage.aspx");
             }
         }
     }

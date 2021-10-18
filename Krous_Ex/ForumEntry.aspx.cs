@@ -20,109 +20,116 @@ namespace Krous_Ex
 
             if (myCookie != null)
             {
-                if (Request.QueryString["ForumType"] == "PublicForum")
+                if (!String.IsNullOrEmpty(Request.QueryString["ForumType"]))
                 {
-                    HyperLink lnkButton = (HyperLink)Master.FindControl("HyperLink1");
-                    lnkButton.CssClass = lnkButton.CssClass.Replace("nav-link", "").Trim();
-                    lnkButton.Attributes.Add("style", "background: transparent;" +
-                        "color: white;" +
-                        "padding: 0.5rem 0.35rem;" +
-                        "font-size: 0.855rem;" +
-                        "position: relative;" +
-                        "line-height: 1;" +
-                        "height: auto;" +
-                        "border-top: 0;" +
-                        "display: -webkit-flex;" +
-                        "display: flex;" +
-                        "-webkit-align-items: center;" +
-                        "align-items: center;" +
-                        "white-space: nowrap;" +
-                        "-webkit-transition-duration: 0.45s;" +
-                        "-moz-transition-duration: 0.45s;" +
-                        "-o-transition-duration: 0.45s;" +
-                        "transition-property: color;" +
-                        "-webkit-transition-property: color;" +
-                        "border-radius: 0px 100px 100px 0px;");
-                    HyperLink lnkButton2 = (HyperLink)Master.FindControl("HyperLink2");
-                    lnkButton2.CssClass = lnkButton2.CssClass.Replace("nav-link", "").Trim();
-                    lnkButton2.Attributes.Add("style", "background: transparent;" +
-                        "color: #6c7293;" +
-                        "padding: 0.5rem 0.35rem;" +
-                        "font-size: 0.855rem;" +
-                        "position: relative;" +
-                        "line-height: 1;" +
-                        "height: auto;" +
-                        "border-top: 0;" +
-                        "display: -webkit-flex;" +
-                        "display: flex;" +
-                        "-webkit-align-items: center;" +
-                        "align-items: center;" +
-                        "white-space: nowrap;" +
-                        "-webkit-transition-duration: 0.45s;" +
-                        "-moz-transition-duration: 0.45s;" +
-                        "-o-transition-duration: 0.45s;" +
-                        "transition-property: color;" +
-                        "-webkit-transition-property: color;" +
-                        "border-radius: 0px 100px 100px 0px;");
-                } else
-                {
-                    HyperLink lnkButton = (HyperLink)Master.FindControl("HyperLink1");
-                    lnkButton.CssClass = lnkButton.CssClass.Replace("nav-link", "").Trim();
-                    lnkButton.Attributes.Add("style", "background: transparent;" +
-                        "color: #6c7293;" +
-                        "padding: 0.5rem 0.35rem;" +
-                        "font-size: 0.855rem;" +
-                        "position: relative;" +
-                        "line-height: 1;" +
-                        "height: auto;" +
-                        "border-top: 0;" +
-                        "display: -webkit-flex;" +
-                        "display: flex;" +
-                        "-webkit-align-items: center;" +
-                        "align-items: center;" +
-                        "white-space: nowrap;" +
-                        "-webkit-transition-duration: 0.45s;" +
-                        "-moz-transition-duration: 0.45s;" +
-                        "-o-transition-duration: 0.45s;" +
-                        "transition-property: color;" +
-                        "-webkit-transition-property: color;" +
-                        "border-radius: 0px 100px 100px 0px;");
-                    HyperLink lnkButton2 = (HyperLink)Master.FindControl("HyperLink2");
-                    lnkButton2.CssClass = lnkButton2.CssClass.Replace("nav-link", "").Trim();
-                    lnkButton2.Attributes.Add("style", "background: transparent;" +
-                        "color: white;" +
-                        "padding: 0.5rem 0.35rem;" +
-                        "font-size: 0.855rem;" +
-                        "position: relative;" +
-                        "line-height: 1;" +
-                        "height: auto;" +
-                        "border-top: 0;" +
-                        "display: -webkit-flex;" +
-                        "display: flex;" +
-                        "-webkit-align-items: center;" +
-                        "align-items: center;" +
-                        "white-space: nowrap;" +
-                        "-webkit-transition-duration: 0.45s;" +
-                        "-moz-transition-duration: 0.45s;" +
-                        "-o-transition-duration: 0.45s;" +
-                        "transition-property: color;" +
-                        "-webkit-transition-property: color;" +
-                        "border-radius: 0px 100px 100px 0px;");
-                }
-
-                if (IsPostBack != true)
-                {
-
-                    loadForumCategory();
-
-                    if (!String.IsNullOrEmpty(Request.QueryString["FAQGUID"]))
+                    if (Request.QueryString["ForumType"] == "Public")
                     {
-
+                        HyperLink lnkButton = (HyperLink)Master.FindControl("HyperLink1");
+                        lnkButton.CssClass = lnkButton.CssClass.Replace("nav-link", "").Trim();
+                        lnkButton.Attributes.Add("style", "background: transparent;" +
+                            "color: white;" +
+                            "padding: 0.5rem 0.35rem;" +
+                            "font-size: 0.855rem;" +
+                            "position: relative;" +
+                            "line-height: 1;" +
+                            "height: auto;" +
+                            "border-top: 0;" +
+                            "display: -webkit-flex;" +
+                            "display: flex;" +
+                            "-webkit-align-items: center;" +
+                            "align-items: center;" +
+                            "white-space: nowrap;" +
+                            "-webkit-transition-duration: 0.45s;" +
+                            "-moz-transition-duration: 0.45s;" +
+                            "-o-transition-duration: 0.45s;" +
+                            "transition-property: color;" +
+                            "-webkit-transition-property: color;" +
+                            "border-radius: 0px 100px 100px 0px;");
+                        HyperLink lnkButton2 = (HyperLink)Master.FindControl("HyperLink2");
+                        lnkButton2.CssClass = lnkButton2.CssClass.Replace("nav-link", "").Trim();
+                        lnkButton2.Attributes.Add("style", "background: transparent;" +
+                            "color: #6c7293;" +
+                            "padding: 0.5rem 0.35rem;" +
+                            "font-size: 0.855rem;" +
+                            "position: relative;" +
+                            "line-height: 1;" +
+                            "height: auto;" +
+                            "border-top: 0;" +
+                            "display: -webkit-flex;" +
+                            "display: flex;" +
+                            "-webkit-align-items: center;" +
+                            "align-items: center;" +
+                            "white-space: nowrap;" +
+                            "-webkit-transition-duration: 0.45s;" +
+                            "-moz-transition-duration: 0.45s;" +
+                            "-o-transition-duration: 0.45s;" +
+                            "transition-property: color;" +
+                            "-webkit-transition-property: color;" +
+                            "border-radius: 0px 100px 100px 0px;");
                     }
                     else
                     {
-
+                        HyperLink lnkButton = (HyperLink)Master.FindControl("HyperLink1");
+                        lnkButton.CssClass = lnkButton.CssClass.Replace("nav-link", "").Trim();
+                        lnkButton.Attributes.Add("style", "background: transparent;" +
+                            "color: #6c7293;" +
+                            "padding: 0.5rem 0.35rem;" +
+                            "font-size: 0.855rem;" +
+                            "position: relative;" +
+                            "line-height: 1;" +
+                            "height: auto;" +
+                            "border-top: 0;" +
+                            "display: -webkit-flex;" +
+                            "display: flex;" +
+                            "-webkit-align-items: center;" +
+                            "align-items: center;" +
+                            "white-space: nowrap;" +
+                            "-webkit-transition-duration: 0.45s;" +
+                            "-moz-transition-duration: 0.45s;" +
+                            "-o-transition-duration: 0.45s;" +
+                            "transition-property: color;" +
+                            "-webkit-transition-property: color;" +
+                            "border-radius: 0px 100px 100px 0px;");
+                        HyperLink lnkButton2 = (HyperLink)Master.FindControl("HyperLink2");
+                        lnkButton2.CssClass = lnkButton2.CssClass.Replace("nav-link", "").Trim();
+                        lnkButton2.Attributes.Add("style", "background: transparent;" +
+                            "color: white;" +
+                            "padding: 0.5rem 0.35rem;" +
+                            "font-size: 0.855rem;" +
+                            "position: relative;" +
+                            "line-height: 1;" +
+                            "height: auto;" +
+                            "border-top: 0;" +
+                            "display: -webkit-flex;" +
+                            "display: flex;" +
+                            "-webkit-align-items: center;" +
+                            "align-items: center;" +
+                            "white-space: nowrap;" +
+                            "-webkit-transition-duration: 0.45s;" +
+                            "-moz-transition-duration: 0.45s;" +
+                            "-o-transition-duration: 0.45s;" +
+                            "transition-property: color;" +
+                            "-webkit-transition-property: color;" +
+                            "border-radius: 0px 100px 100px 0px;");
                     }
+
+                    if (IsPostBack != true)
+                    {
+
+                        loadForumCategory();
+
+                        if (!String.IsNullOrEmpty(Request.QueryString["FAQGUID"]))
+                        {
+
+                        }
+                        else
+                        {
+
+                        }
+                    }
+                } else
+                {
+                    Response.Redirect("ForumEntry?ForumType=Public");
                 }
             }
             else
@@ -191,7 +198,7 @@ namespace Krous_Ex
                 SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["Krous_Ex"].ConnectionString);
                 con.Open();
 
-                SqlCommand InsertCommand = new SqlCommand("INSERT INTO FORUM VALUES(@ForumGUID,@StaffGUID,@ForumTopic,@ForumDesc,@ForumCategory,@ForumStatus,@ForumCreatedBy,@ForumCreatedDate,@ForumLastUpdatedBy,@ForumLastUpdatedDate)", con);
+                SqlCommand InsertCommand = new SqlCommand("INSERT INTO FORUM VALUES(@ForumGUID,@StaffGUID,@ForumTopic,@ForumDesc,@ForumCategory,@ForumStatus,@ForumType,@ForumCreatedBy,@ForumCreatedDate,@ForumLastUpdatedBy,@ForumLastUpdatedDate)", con);
 
                 InsertCommand.Parameters.AddWithValue("@ForumGUID", ForumGUID);
                 InsertCommand.Parameters.AddWithValue("@StaffGUID", staffGUID);
@@ -199,6 +206,7 @@ namespace Krous_Ex
                 InsertCommand.Parameters.AddWithValue("@ForumDesc", txtForumDesc.Text);
                 InsertCommand.Parameters.AddWithValue("@ForumCategory", ForumCategory);
                 InsertCommand.Parameters.AddWithValue("@ForumStatus", ddlForumStatus.SelectedValue);
+                InsertCommand.Parameters.AddWithValue("@ForumType", Request.QueryString["ForumType"].ToString());
                 InsertCommand.Parameters.AddWithValue("@ForumCreatedBy", Username);
                 InsertCommand.Parameters.AddWithValue("@ForumCreatedDate", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
                 InsertCommand.Parameters.AddWithValue("@ForumLastUpdatedBy", Username);

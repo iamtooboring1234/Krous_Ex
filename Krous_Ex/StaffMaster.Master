@@ -142,8 +142,8 @@
             </a>
             <div class="collapse" id="Forum">
               <ul class="nav flex-column sub-menu">
-                <li class="nav-item"><asp:HyperLink ID="HyperLink1" CssClass="nav-link nav-forum-link" runat="server" href="ForumEntry.aspx?ForumType=PublicForum">Public Forum Entry</asp:HyperLink></li>
-                <li class="nav-item"><asp:HyperLink ID="HyperLink2" CssClass="nav-link nav-forum-link" runat="server" href="ForumEntry.aspx?ForumType=PrivateForum">Private Forum Entry</asp:HyperLink></li>
+                <li class="nav-item"><asp:HyperLink ID="HyperLink1" CssClass="nav-link nav-forum-link" runat="server" href="ForumEntry.aspx?ForumType=Public">Public Forum Entry</asp:HyperLink></li>
+                <li class="nav-item"><asp:HyperLink ID="HyperLink2" CssClass="nav-link nav-forum-link" runat="server" href="ForumEntry.aspx?ForumType=Private">Private Forum Entry</asp:HyperLink></li>
               </ul>
             </div>
           </li>
@@ -382,7 +382,7 @@
                     </div>
                   </a>
                   <div class="dropdown-divider"></div>
-                  <a class="dropdown-item preview-item" href="Logout.aspx">
+                  <a class="dropdown-item preview-item" href="Logout.aspx?UserType=Staff">
                     <div class="preview-thumbnail">
                       <div class="preview-icon bg-dark rounded-circle">
                         <i class="mdi mdi-logout text-danger"></i>

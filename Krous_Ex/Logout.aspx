@@ -30,7 +30,7 @@
                             </div>
                         </div>
 
-                        <asp:Button ID="btnBack" runat="server" type="submit" CssClass="submit-btn" Text="Back To Homepage" OnClick="btnBack_Click"></asp:Button>
+                        <asp:Button ID="btnBack" runat="server" type="submit" CssClass="submit-btn" Text="Back To Login" OnClick="btnBack_Click"></asp:Button>
 
                     </div>
                     <hr style="border-bottom:1px solid #DDDDDD" />

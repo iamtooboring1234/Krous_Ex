@@ -65,6 +65,7 @@ CREATE TABLE [dbo].[Staff] (
     [StaffFullName]  VARCHAR (50)     NOT NULL,
     [Gender]         VARCHAR (10)     NOT NULL,
     [StaffRole]      VARCHAR (50)     NOT NULL,
+	[StaffPositiion] VARCHAR (100)    NOT NULL,
     [StaffStatus]    VARCHAR (10)     NOT NULL,
     [PhoneNumber]    VARCHAR (15)     NOT NULL,
     [Email]          VARCHAR (100)    NOT NULL,
@@ -76,8 +77,6 @@ CREATE TABLE [dbo].[Staff] (
     CONSTRAINT [fk_staff_branches] FOREIGN KEY ([BranchesGUID]) REFERENCES [dbo].[Branches] ([BranchesGUID]),
     CONSTRAINT [fk_staff_faculty] FOREIGN KEY ([FacultyGUID]) REFERENCES [dbo].[Faculty] ([FacultyGUID])
 );
-
-
 
 CREATE TABLE [Course] (
 	[CourseGUID] UNIQUEIDENTIFIER NOT NULL,
@@ -180,6 +179,7 @@ CREATE TABLE [dbo].[Forum] (
     [ForumDesc]            VARCHAR (999)    NOT NULL,
     [ForumCategory]        VARCHAR (100)    NOT NULL,
     [ForumStatus]          VARCHAR (10)     NOT NULL,
+	[ForumType]			   VARCHAR (10)		NOT NULL,
 	[ForumCreatedBy]       VARCHAR (50)     NOT NULL,
     [ForumCreatedDate]     DATETIME         NOT NULL,
     [ForumLastUpdatedBy]   VARCHAR (50)     NOT NULL,
