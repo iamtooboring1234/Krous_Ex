@@ -145,8 +145,8 @@
                                         <div class="form-radio">
                                             <asp:Label ID="lblGender" class="form-label" runat="server" Text="">Gender</asp:Label>
                                             <asp:RadioButtonList ID="rbGender" runat="server">
-                                                <asp:ListItem Text="Male" Value="male"></asp:ListItem>
-                                                <asp:ListItem Text="Female" Value="female"></asp:ListItem>
+                                                <asp:ListItem Text="Male" Value="Male"></asp:ListItem>
+                                                <asp:ListItem Text="Female" Value="Female"></asp:ListItem>
                                             </asp:RadioButtonList>
                                         </div>
 
