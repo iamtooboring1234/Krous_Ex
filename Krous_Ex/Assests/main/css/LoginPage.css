@@ -1,5 +1,11 @@
-﻿body {
+﻿/*body {
     background-color:black;
+}*/
+
+body {
+    background-image: url('../img/staffLoginBack.jpg');
+    background-repeat: no-repeat;
+    background-attachment: fixed;
 }
 
 .form-structor {
@@ -129,7 +135,8 @@ p {
     color: lightgray;
     background-color: transparent;
     text-decoration: none;
-    font-family: Franklin Gothic Medium;
+    /*    font-family: Franklin Gothic Medium;*/
+    font-family: sans-serif;
     text-align: center;
     margin: 13px 0px 5px 0px;
     font-family: 'Open Sans',sans-serif;

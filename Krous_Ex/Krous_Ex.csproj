@@ -163,6 +163,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="App_Data\Insert.sql" />
     <Content Include="App_Data\Krous-Ex.sql" />
     <Content Include="App_Data\Krous_Ex.mdf" />
     <Content Include="App_Data\Krous_Ex_log.ldf">
@@ -378,7 +379,9 @@
     <Content Include="Assests\main\img\logo.png" />
     <Content Include="Assests\main\img\online-course.png" />
     <Content Include="Assests\main\img\presentation.png" />
+    <Content Include="Assests\main\img\staffLoginBack.jpg" />
     <Content Include="Assests\main\img\student.png" />
+    <Content Include="Assests\main\img\studentLoginBack.jpg" />
     <Content Include="Assests\main\img\teacher.png" />
     <Content Include="Assests\main\img\user.jpg" />
     <Content Include="Assests\main\js\bootstrap.min.js" />
@@ -1212,6 +1215,7 @@
     <Content Include="StaffListings.aspx" />
     <Content Include="StaffLogin.aspx" />
     <Content Include="StudentLogin.aspx" />
+    <Content Include="StudentProfile.aspx" />
     <Content Include="Testing2.aspx" />
     <Content Include="Testing3.aspx" />
     <Content Include="ViewSwitcher.ascx" />
@@ -1472,6 +1476,20 @@
     <Compile Include="StudentLogin.aspx.designer.cs">
       <DependentUpon>StudentLogin.aspx</DependentUpon>
     </Compile>
+    <Compile Include="StudentMaster.Master.cs">
+      <DependentUpon>StudentMaster.Master</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="StudentMaster.Master.designer.cs">
+      <DependentUpon>StudentMaster.Master</DependentUpon>
+    </Compile>
+    <Compile Include="StudentProfile.aspx.cs">
+      <DependentUpon>StudentProfile.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="StudentProfile.aspx.designer.cs">
+      <DependentUpon>StudentProfile.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Student_Site.Master.cs">
       <DependentUpon>Student_Site.Master</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -1520,6 +1538,7 @@
     <Content Include="Scripts\popper-utils.js.map" />
     <Content Include="Scripts\jquery-3.6.0.slim.min.map" />
     <Content Include="Scripts\jquery-3.6.0.min.map" />
+    <Content Include="StudentMaster.Master" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
