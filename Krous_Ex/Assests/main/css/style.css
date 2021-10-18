@@ -20753,7 +20753,7 @@ div.tagsinput {
         .sidebar .nav .nav-item.active > .nav-link .menu-title {
           color: #ffffff; }
         .sidebar .nav .nav-item.active > .nav-link i {
-          color: #ffffff; }
+          color: inherit !important; }
       .sidebar .nav .nav-item.nav-profile .nav-link {
         height: auto;
         line-height: 1;
@@ -21137,3 +21137,13 @@ div.tagsinput {
   flex-grow: 1; }
 
 /*# sourceMappingURL=maps/style.css.map */
+
+/*Extra*/
+.nav-forum-link {
+    font-size: 40px;
+}
+
+.nav-forum-link:hover {
+    color: white !important;
+    text-decoration: none;
+}

@@ -32,17 +32,17 @@ namespace Krous_Ex
                     {
                         FAQGUID = Guid.Parse(Request.QueryString["FAQGUID"]);
                         loadFAQ();
-                        //btnSave.Visible = false;
-                        //btnUpdate.Visible = true;
-                        //btnDelete.Visible = true;
-                        //btnBack.Visible = true;
+                        btnSave.Visible = false;
+                        btnUpdate.Visible = true;
+                        btnDelete.Visible = true;
+                        btnBack.Visible = true;
                     }
                     else
                     {
-                        //btnSave.Visible = true;
-                        //btnUpdate.Visible = false;
-                        //btnDelete.Visible = false;
-                        //btnBack.Visible = false;
+                        btnSave.Visible = true;
+                        btnUpdate.Visible = false;
+                        btnDelete.Visible = false;
+                        btnBack.Visible = false;
                     }
                 }
             }
