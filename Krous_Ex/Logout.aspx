@@ -13,7 +13,7 @@
 <body>
     <form id="form1" runat="server">
         <div class="container vh-100 d-flex">
-            <div class="content-wrapper  align-self-center justify-content-center">
+            <div class="content-wrapper  align-self-center justify-content-center" style="background: none !important">
                 <div class="card col-md-6 mx-auto" style="border: 2px solid white;border-radius: 20px;">
                     <div class="card-body pb-0" >
                         <div class="form-group">

@@ -22,7 +22,10 @@ namespace Krous_Ex
 
         protected void Page_Load(object sender, EventArgs e)
         {
-
+            if (!String.IsNullOrEmpty(Request.QueryString["FromURL"]))
+            {
+                HyperLink1.NavigateUrl = "StaffLogin.aspx?FromURL=" + Request.QueryString["FromURL"];
+            }
         }
 
         protected void btnLogin_Click(object sender, EventArgs e)
@@ -38,7 +41,12 @@ namespace Krous_Ex
                     ck.Path = FormsAuthentication.FormsCookiePath;
                     Response.Cookies.Add(ck);
 
-                    Response.Redirect("StudentDashboard.aspx");
+                    if (String.IsNullOrEmpty(Request.QueryString["FromURL"]))
+                    {
+                        Response.Redirect("StudentDashboard.aspx", true);
+                    } else {
+                        Response.Redirect(Request.QueryString["FromURL"], true);
+                    }
                 } 
                 else
                 {

@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="StaffLogin.aspx.cs" Inherits="Krous_Ex.StaffLogin" %>
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="StaffLogin.aspx.cs" Inherits="Krous_Ex.StaffLogin" %>
 
 <!DOCTYPE html>
 
@@ -29,6 +29,7 @@
                 <div class="card col-md-6 mx-auto">
                     <div class="card-body">
                         <a href="Default.aspx">Back to Home Page</a>
+                        <asp:HyperLink ID="HyperLink1" runat="server" CssClass="float-right">Switch To Student</asp:HyperLink>
                         <div class="form-title">
                             <asp:Image ID="teacherImage" runat="server" ImageUrl="~/Assests/main/img/teacher.png" Height="60px" Width="68px" />
                             <asp:Label ID="lblLogin" runat="server" Text="" Style="font-size: 33px;">Staff Login</asp:Label>

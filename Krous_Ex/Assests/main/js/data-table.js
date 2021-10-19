@@ -44,6 +44,11 @@
                 [1, 5, 10, 15, -1],
                 [1, 5, 10, 15, "All"]
             ],
+            columnDefs: [{
+                'targets': [0], /* column index [0,1,2,3]*/
+                'orderable': false, /* true or false */
+            }],
+            "order": [[1, 'asc']],
             "iDisplayLength": 10,
             "language": {
                 search: ""

@@ -1083,6 +1083,7 @@
     <Content Include="Assests\main\vendors\mdi\fonts\materialdesignicons-webfont.woff2" />
     <Content Include="KrousExDiscussionListings.aspx" />
     <Content Include="KrousExForumListings.aspx" />
+    <Content Include="KrousExViewDiscussion.aspx" />
     <Content Include="libman.json" />
     <Content Include="Scripts\bootstrap.bundle.js" />
     <Content Include="Scripts\bootstrap.bundle.min.js" />
@@ -1409,6 +1410,13 @@
     </Compile>
     <Compile Include="KrousExForumListings.aspx.designer.cs">
       <DependentUpon>KrousExForumListings.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="KrousExViewDiscussion.aspx.cs">
+      <DependentUpon>KrousExViewDiscussion.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="KrousExViewDiscussion.aspx.designer.cs">
+      <DependentUpon>KrousExViewDiscussion.aspx</DependentUpon>
     </Compile>
     <Compile Include="Login.aspx.cs">
       <DependentUpon>Login.aspx</DependentUpon>

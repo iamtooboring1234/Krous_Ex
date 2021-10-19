@@ -15,11 +15,13 @@
                                     <h4 class="card-title">Forums</h4>
                                     <asp:Panel ID="panelLogin" runat="server" Visible="true">
                                         <p class="card-description">
-                                            <asp:HyperLink ID="HyperLink1" runat="server" href="#">Login</asp:HyperLink> to post new forum
+                                            <asp:HyperLink ID="HyperLink1" runat="server" href="StudentLogin.aspx?FromURL=KrousExForumListings">Login</asp:HyperLink> to post new forum
                                         </p>
                                     </asp:Panel>
                                     <asp:Panel ID="panelPost" runat="server" Visible="false">
-                                        <asp:HyperLink ID="HyperLink2" runat="server">Login</asp:HyperLink>
+                                        <p class="card-description">
+                                            <asp:HyperLink ID="HyperLink2" runat="server" href="DiscussionEntry">Post</asp:HyperLink> a new forum
+                                        </p>
                                     </asp:Panel>
                                     </div>
 

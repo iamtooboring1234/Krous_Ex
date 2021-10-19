@@ -5,6 +5,7 @@ using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Web;
+using System.Web.Security;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 
@@ -15,6 +16,15 @@ namespace Krous_Ex
         protected void Page_Load(object sender, EventArgs e)
         {
             loadGV();
+
+            var myCookie = Request.Cookies[FormsAuthentication.FormsCookieName];
+
+            if (myCookie != null)
+            {
+                panelLogin.Visible = false;
+                panelPost.Visible = true;
+            }
+
         }
 
         private void loadGV()
@@ -58,9 +68,9 @@ namespace Krous_Ex
                         strTable += "</tr>";
                         strTable += "<tr style=\"text-align:left\">";
                         strTable += "<td class=\"text-center\" align=\"center\" style=\"width:120px;\">";
-                        strTable += "<a href=\"DiscussionEntry.aspx?ForumGUID=" + dtForum.Rows[i]["ForumGUID"] + "\">View</a>";
+                        strTable += "<a href=\"KrousExDiscussionListings.aspx?ForumGUID=" + dtForum.Rows[i]["ForumGUID"] + "\">View</a>";
                         strTable += "</td>";
-                        strTable += "<td><p><a href=\"DiscussionEntry.aspx?ForumGUID=" + dtForum.Rows[i]["ForumGUID"] + "\">General Discussion</a></p>Discuss School Related</td>";
+                        strTable += "<td><p><a href=\"KrousExDiscussionListings.aspx?ForumGUID=" + dtForum.Rows[i]["ForumGUID"] + "\">General Discussion</a></p>Discuss School Related</td>";
                         strTable += "<td style=\"width:20px;text-align:center\">" + dtForum.Rows[i]["TotalDisc"] + "</td>";
                         strTable += "<td style=\"width:20px;text-align:center\">" + dtForum.Rows[i]["TotalReply"] + "</td>";
                         strTable += "<td style=\"width:20px\">" + dtForum.Rows[i]["LastUpdated"] + "</td>";
