@@ -63,3 +63,16 @@ div.dataTables_wrapper div.dataTables_info {
     display: flex;
     align-items: center;
 }
+
+.pinned-thread td {
+    background-color: #2b3142;
+}
+
+.forum-link{
+    color: white;
+}
+
+.forum-link:hover,
+.active-forum-link:hover{
+    text-decoration: none;
+}
