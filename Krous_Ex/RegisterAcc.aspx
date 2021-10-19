@@ -88,16 +88,16 @@
                             <div class="content clearfix">
                                 <fieldset id="signup-form-p-0" role="tabpanel" aria-labelledby="signup-form-h-0" class="body current" aria-hidden="false">
                                     <div class="fieldset-content">
-                                        <div class="form-group">
+                                        <div class="form-group" style="margin-left:13px;">
                                             <asp:Label ID="lblUsername" class="form-label" runat="server" Text="">Username</asp:Label>
                                             <asp:TextBox ID="txtUsername" type="text" runat="server" placeholder="Username" Style="color: white"></asp:TextBox>
                                         </div>
-                                        <div class="form-group form-password">
+                                        <div class="form-group form-password" style="margin-left:13px;">
                                             <asp:Label ID="lblPassw" class="form-label" runat="server" Text="">Password</asp:Label>
                                             <asp:TextBox ID="txtPassword" type="password" runat="server" placeholder="Password" Style="color: white"></asp:TextBox>
                                             <span id="eyeIcon" class="fa fa-fw fa-eye field-icon" style="color: white;"></span>                                       
                                         </div>
-                                        <div class="form-group form-password">
+                                        <div class="form-group form-password" style="margin-left:13px;">
                                             <asp:Label ID="lblConfPass" class="form-label" runat="server" Text="">Confirm Password</asp:Label>
                                             <asp:TextBox ID="txtConfPass" type="password" runat="server" placeholder="Confirm Password" Style="color: white"></asp:TextBox>                                         
                                         </div>
@@ -271,6 +271,11 @@
                                         <div class="form-group" style="margin-left: 1px">
                                             <asp:Label ID="lblEmail" class="form-label" runat="server" Text="">Email Address</asp:Label>
                                             <asp:TextBox ID="txtEmail" type="text" runat="server" placeholder="Your Email" Style="color: white"></asp:TextBox>
+                                        </div>
+
+                                        <div class="form-group" style="margin-left: 1px">
+                                            <asp:Label ID="lblAddress" class="form-label" runat="server" Text="">Home Address</asp:Label>
+                                            <asp:TextBox ID="txtAddress" runat="server" TextMode="MultiLine" placeholder="Your Address" Style="color: white"></asp:TextBox>
                                         </div>
                                     </div>
 

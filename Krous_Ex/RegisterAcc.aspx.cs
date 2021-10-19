@@ -56,8 +56,8 @@ namespace Krous_Ex
                 con = new SqlConnection(strCon);
                 con.Open();
 
-                cmd = new SqlCommand("INSERT INTO Student(StudentGUID, StudentUsername, StudentPassword, StudentFullName, Gender, DOB, PhoneNumber, Email, NRIC, YearIntake, AccountRegisterDate, BranchesGUID, FacultyGUID) " +
-                                                "VALUES (@StudentGUID, @StudentUsername, @StudentPassword, @StudentFullName, @Gender, @DOB, @PhoneNumber, @Email, @NRIC, @YearIntake, @AccountRegisterDate, @BranchesGUID, @FacultyGUID)", con);
+                cmd = new SqlCommand("INSERT INTO Student(StudentGUID, StudentUsername, StudentPassword, StudentFullName, Gender, DOB, PhoneNumber, Email, NRIC, Address, YearIntake, AccountRegisterDate) " +
+                                                "VALUES (@StudentGUID, @StudentUsername, @StudentPassword, @StudentFullName, @Gender, @DOB, @PhoneNumber, @Email, @NRIC, @Address, @YearIntake, @AccountRegisterDate)", con);
                 cmd.Parameters.AddWithValue("@StudentGUID", studentGUID);
                 cmd.Parameters.AddWithValue("@StudentUsername", txtUsername.Text);
                 cmd.Parameters.AddWithValue("@StudentPassword", Encrypt(txtPassword.Text.Trim()));
@@ -67,10 +67,11 @@ namespace Krous_Ex
                 cmd.Parameters.AddWithValue("@PhoneNumber", txtPhoneNo.Text);
                 cmd.Parameters.AddWithValue("@Email", txtEmail.Text);
                 cmd.Parameters.AddWithValue("@NRIC", txtNRIC.Text);
-                cmd.Parameters.AddWithValue("@YearIntake", 2021);
+                cmd.Parameters.AddWithValue("@Address", txtAddress.Text);
+                cmd.Parameters.AddWithValue("@YearIntake", DateTime.Now.Year);
                 cmd.Parameters.AddWithValue("@AccountRegisterDate", DateTime.Now);
-                cmd.Parameters.AddWithValue("@BranchesGUID", "B1001");
-                cmd.Parameters.AddWithValue("@FacultyGUID", "F1001");
+                //cmd.Parameters.AddWithValue("@BranchesGUID", "c44f8b97-b8f9-44e1-94ab-b21d4518cb29");
+                //cmd.Parameters.AddWithValue("@FacultyGUID", "c913ca56-1809-4792-b5e7-f3f2b0eebd9c");
 
                 cmd.ExecuteNonQuery();
                 cmd.Dispose();
@@ -151,6 +152,7 @@ namespace Krous_Ex
                 return false;
             }
 
+            //need to check password pattern (8-20)
             if (txtPassword.Text == "")
             {
                 clsFunction.DisplayAJAXMessage(this, "Please enter your password.");
@@ -243,6 +245,12 @@ namespace Krous_Ex
             else
             {
                 clsFunction.DisplayAJAXMessage(this, "Please enter your email.");
+                return false;
+            }
+
+            if(txtAddress.Text == "")
+            {
+                clsFunction.DisplayAJAXMessage(this, "Please enter your home address.");
                 return false;
             }
 

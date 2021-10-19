@@ -144,7 +144,7 @@ span.error-msg {
 
 body {
     background-color: black;
-    font-family: 'Roboto Slab';
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
 }
 
 .container {
@@ -166,7 +166,7 @@ body {
 }
 
 .main {
-    padding: 95px 0;
+    padding: 50px 0;
 }
 
 .signup-form {
@@ -181,7 +181,7 @@ body {
     -webkit-align-items: center;
     -o-align-items: center;
     -ms-align-items: center;
-    margin-bottom: 30px;
+    margin-bottom: 15px;
     position: relative;
 }
 
@@ -218,14 +218,14 @@ input, select, textarea {
     font-size: 14px;
     padding: 15px 20px;
     border: 1px solid #ebebeb;
-    font-family: 'Roboto Slab';
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
     border-radius: 5px;
     -moz-border-radius: 5px;
     -webkit-border-radius: 5px;
     -o-border-radius: 5px;
     -ms-border-radius: 5px;
     display: block;
-    width: 345px;
+    width: 400px;
     margin-right: 20px;
     font-weight: bold;
 }
@@ -272,7 +272,7 @@ select {
 .form-radio-item input {
     width: 0;
     height: 0;
-    position: absolute;
+    position:relative;
     left: -9999px;
 }
 
@@ -375,7 +375,7 @@ select {
 
 .form-date {
     clear: both;
-    margin-left: 70px;
+    margin-left: 68px;
 }
 
 .form-date-item {
@@ -460,7 +460,7 @@ input[type='file'] {
     font-weight: bold;
     pointer-events: none;
     border: 1px solid #ebebeb;
-    font-family: 'Roboto Slab';
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
     border-radius: 5px;
     -moz-border-radius: 5px;
     -webkit-border-radius: 5px;
@@ -764,7 +764,7 @@ fieldset {
 }
 
     .content .current {
-        padding-top: 56px;
+        padding-top: 28px;
     }
 
     .content h3 {
@@ -772,9 +772,10 @@ fieldset {
     }
 
 .fieldset-content {
-    height: 500px;
+    height: 540px;
     border-bottom: 1px solid #ebebeb;
-    padding-right: 110px;
+    /*padding-right: 110px;*/
+    margin-left: 53px;
 }
 
 .fieldset-footer {
@@ -914,9 +915,9 @@ fieldset {
         padding-right: 30px;
     }
 
-    .form-radio-flex input + label {
+/*    .form-radio-flex input + label {
         margin-bottom: 20px;
-    }
+    }*/
 
     .form-flex {
         flex-direction: column;

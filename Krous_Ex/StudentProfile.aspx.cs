@@ -37,7 +37,7 @@ namespace Krous_Ex
                 con = new SqlConnection(strCon);
                 con.Open();
 
-                //change the join date format
+                //change the join date format  
 
                 cmd = new SqlCommand("SELECT s.StudentGUID, s.StudentFullName, s.Gender, CONVERT(varchar, s.DOB) as DOB, s.PhoneNumber, s.Email, s.NRIC, s.YearIntake, s.AccountRegisterDate, CONCAT(f.facultyname, ' ', (f.facultyAbbrv)) AS FacultyName, b.BranchesName FROM Student s LEFT JOIN Branches b ON s.BranchesGUID = b.BranchesGUID LEFT JOIN Faculty f ON s.FacultyGUID = f.FacultyGUID WHERE s.StudentGUID = @StudentGUID", con);
                 cmd.Parameters.AddWithValue("@StudentGUID", userGUID);
