@@ -43,7 +43,8 @@ namespace Krous_Ex
             try
             {
                 string sqlQuery;
-                string strTable = "";
+                string strTableHead = "";
+                string strTableBody = "";
                 string strLink = "";
                 int y = 1;
 
@@ -63,36 +64,38 @@ namespace Krous_Ex
 
                 if (dtReply.Rows.Count != 0)
                 {
-                    strTable += "<tr class=\"disc-head-content\">";
-                    strTable += "<td hidden></td>";
-                    strTable += "<td style = \"padding: 0.5rem 0.25rem 0.5rem 20px!important; background:#2f3545;\" colspan = \"2\">" + dtReply.Rows[0]["CreatedDate"] + "<span class=\"float-right\" style=\"padding-right:10px\">" + dtReply.Rows.Count + " replies</span></td>";
-                    strTable += "</tr>";
-                    strTable += "<tr class=\"disc-body-content\">";
-                    strTable += "<td style=\"text-align:center\">";
-                    strTable += "<img src=\"Assests/main/images/faces/face1.jpg\"/>";
-                    strTable += "<p class=\"pt-3\">" + dtReply.Rows[0]["CreatedBy"] + " </p> ";
-                    strTable += "</td>";
-                    strTable += "<td style=\"padding: 10px 0.25rem 0.25rem 20px !important; vertical-align:top\">" + dtReply.Rows[0]["DiscContent"];
-                    strTable += "</td>";
-                    strTable += "</tr>";
+
+                    strTableHead += "<tr class=\"disc-head-content\">";
+                    strTableHead += "<td hidden></td>";
+                    strTableHead += "<td style = \"padding: 0.5rem 0.25rem 0.5rem 20px!important; background:#2f3545;\" colspan = \"2\">" + dtReply.Rows[0]["CreatedDate"] + "<span class=\"float-right\" style=\"padding-right:10px\">" + dtReply.Rows.Count + " replies</span></td>";
+                    strTableHead += "</tr>";
+
+                    strTableHead += "<tr class=\"disc-body-content\">";
+                    strTableHead += "<td style=\"text-align:center\">";
+                    strTableHead += "<img src=\"Assests/main/images/faces/face1.jpg\"/>";
+                    strTableHead += "<p class=\"pt-3\">" + dtReply.Rows[0]["CreatedBy"] + " </p> ";
+                    strTableHead += "</td>";
+                    strTableHead += "<td style=\"padding: 10px 0.25rem 0.25rem 20px !important; vertical-align:top\">" + dtReply.Rows[0]["DiscContent"];
+                    strTableHead += "</td>";
+                    strTableHead += "</tr>";
 
                     
                     for (int i = 0; i < dtReply.Rows.Count; i++)
                     {
                         if (!String.IsNullOrEmpty(dtReply.Rows[i]["RepliedContent"].ToString()))
                         {
-                            strTable += "<tr>";
-                            strTable += "<td hidden></td>";
-                            strTable += "<td style = \"padding: 0.5rem 0.25rem 0.5rem 20px!important; background:#2f3545;\" colspan = \"2\">" + dtReply.Rows[i]["RepliedDate"] + "<span class=\"float-right\" style=\"padding-right:10px\">#" + y + "</span></td>";
-                            strTable += "</tr>";
-                            strTable += "<tr>";
-                            strTable += "<td style=\"text-align:center\">";
-                            strTable += "<img src=\"Assests/main/images/faces/face1.jpg\"/>";
-                            strTable += "<p class=\"pt-3\">" + dtReply.Rows[i]["RepliedBy"] + " </p> ";
-                            strTable += "</td>";
-                            strTable += "<td style=\"padding: 10px 0.25rem 0.25rem 20px !important; vertical-align:top\">" + dtReply.Rows[i]["RepliedContent"];
-                            strTable += "</td>";
-                            strTable += "</tr>";
+                            strTableBody += "<tr>";
+                            strTableBody += "<td hidden></td>";
+                            strTableBody += "<td style = \"padding: 0.5rem 0.25rem 0.5rem 20px!important; background:#2f3545;\" colspan = \"2\">" + dtReply.Rows[i]["RepliedDate"] + "<span class=\"float-right\" style=\"padding-right:10px\">#" + y + "</span></td>";
+                            strTableBody += "</tr>";
+                            strTableBody += "<tr>";
+                            strTableBody += "<td style=\"text-align:center\">";
+                            strTableBody += "<img src=\"Assests/main/images/faces/face1.jpg\"/>";
+                            strTableBody += "<p class=\"pt-3\">" + dtReply.Rows[i]["RepliedBy"] + " </p> ";
+                            strTableBody += "</td>";
+                            strTableBody += "<td style=\"padding: 10px 0.25rem 0.25rem 20px !important; vertical-align:top\">" + dtReply.Rows[i]["RepliedContent"];
+                            strTableBody += "</td>";
+                            strTableBody += "</tr>";
                         }
 
                         y++;
@@ -100,7 +103,8 @@ namespace Krous_Ex
 
                     strLink = "> <a href =\"KrousExForumListings.aspx\" class=\"forum-link\">" + dtReply.Rows[0]["ForumCategory"] + "</a> > <a href =\"KrousExDiscussionListings.aspx?ForumGUID=" + dtReply.Rows[0]["ForumGUID"] + "\" class=\"active-forum-link\">" + dtReply.Rows[0]["ForumTopic"] + "</a>";
 
-                    Literal1.Text = strTable;
+                    tableHead.Text = strTableHead;
+                    tableBody.Text = strTableBody;
                     Literal2.Text = strLink;
 
                 }

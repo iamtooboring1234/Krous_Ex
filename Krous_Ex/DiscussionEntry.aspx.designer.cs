@@ -11,7 +11,7 @@ namespace Krous_Ex
 {
 
 
-    public partial class Testing3
+    public partial class DiscussionEntry
     {
     }
 }

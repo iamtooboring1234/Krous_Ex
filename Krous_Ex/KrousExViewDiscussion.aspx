@@ -3,7 +3,7 @@
 
     <script src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js"></script>
     <link href="Assests/main/css/table.css" rel="stylesheet" />
-
+    <script src="https://cdn.datatables.net/plug-ins/1.10.19/sorting/absolute.js"></script>
 </asp:Content>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="body" runat="server">
@@ -39,20 +39,32 @@
                                 <div class="gv-section text-center">
                                 <div>
                                 <table class="table table-bordered" cellspacing="2" cellpadding="10" rules="all" border="0" id="gvReply" style="width:100%;">
-                                <thead hidden>
-                                <tr class="header-style" align="left" style="background-color:#191C24;font-weight:bold;">
-                                <th scope="col" width="150px"></th> <th scope="col"></th>
+                                <thead>
+                                <tr class="header-style" align="left" style="background-color:#191C24;font-weight:bold;border:none">
+                                <th scope="col" width="150px" style="border:none"></th> <th scope="col" style="border:none"></th>
                                 </tr>
+                                <asp:Literal ID="tableHead" runat="server"></asp:Literal>
                                 </thead>
                                 <tbody>
 
-                                    <asp:Literal ID="Literal1" runat="server"></asp:Literal>
+                                    <asp:Literal ID="tableBody" runat="server"></asp:Literal>
 
                                 </tbody>
                                 </table>
                                 </div>
                                 </div>
                                 </div>
+
+                                <asp:Panel ID="panelDelete" runat="server" Visible="true">
+                                    <div class="row">
+                                    <div class="col-md-12 mt-5 text-right">
+                                        <p class="card-description">
+                                            <asp:HyperLink ID="HyperLink4" runat="server" href="DiscussionEntry">Post</asp:HyperLink> a new forum / <a href="#postReplyContainer">Post</a> a reply
+                                        </p>
+                                    </div>
+                                    </div>
+                                </asp:Panel>
+
                             </div>
                         </div>
 
@@ -87,5 +99,27 @@
     </div>
 
     <script src="Assests/main/js/data-table.js"></script>
+
+    <script>
+    $(document).ready(function () {
+
+        function updateHeader(data) {
+
+            var table = $('#example').DataTable();
+            table.row.add(data).draw();
+
+            $('.rowData', table.table().header()).each(function (i) {
+
+                $(this).html(data[i]);
+
+            });
+        }
+
+        var table = $('#example').DataTable({
+            "sorting": false
+        });
+
+    });
+    </script>
 
 </asp:Content>

@@ -377,6 +377,7 @@
     <Content Include="Assests\main\img\19197906.jpg" />
     <Content Include="Assests\main\img\2021-06-29_215318.png" />
     <Content Include="Assests\main\img\contract.png" />
+    <Content Include="DiscussionEntry.aspx" />
     <Content Include="ProgrammeEntry.aspx" />
     <Content Include="StaffProfile.aspx" />
     <Content Include="Uploads\ProfileImage\defaultUserProfile.png" />
@@ -1302,6 +1303,13 @@
     </Compile>
     <Compile Include="Default.aspx.designer.cs">
       <DependentUpon>Default.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="DiscussionEntry.aspx.cs">
+      <DependentUpon>DiscussionEntry.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="DiscussionEntry.aspx.designer.cs">
+      <DependentUpon>DiscussionEntry.aspx</DependentUpon>
     </Compile>
     <Compile Include="KrousExDiscussionEntry.aspx.cs">
       <DependentUpon>KrousExDiscussionEntry.aspx</DependentUpon>

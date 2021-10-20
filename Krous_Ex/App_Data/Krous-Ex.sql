@@ -51,8 +51,10 @@ CREATE TABLE [dbo].[Student] (
     [NRIC]                VARCHAR (15)     NOT NULL,
 	[Address]			  VARCHAR(150)	   NOT NULL,
 	[ProfileImage]		  VARCHAR(500)     NULL,
+	[LastUpdateInfo]      DATETIME		   NOT NULL,
     [YearIntake]          VARCHAR (15)     NOT NULL,
     [AccountRegisterDate] DATETIME         NOT NULL,
+	[LastUpdateInfo]      DATETIME         NULL,
     [BranchesGUID]        UNIQUEIDENTIFIER         NOT NULL,
     [FacultyGUID]         UNIQUEIDENTIFIER         NOT NULL,
     CONSTRAINT [pk_student] PRIMARY KEY CLUSTERED ([StudentGUID] ASC),
@@ -73,6 +75,7 @@ CREATE TABLE [dbo].[Staff] (
     [Email]          VARCHAR (100)    NOT NULL,
     [NRIC]           VARCHAR (15)     NOT NULL,
 	[ProfileImage]   VARCHAR (500)    NULL,
+	[LastUpdateInfo] DATETIME         NULL,
     [Specialization] VARCHAR (399)    NOT NULL,
     [BranchesGUID]   UNIQUEIDENTIFIER NOT NULL,
     [FacultyGUID]    UNIQUEIDENTIFIER NOT NULL,
@@ -98,6 +101,7 @@ CREATE TABLE [Programme] (
 	[ProgrammeName] varchar(100) NOT NULL,
 	[ProgrammeDesc] varchar(999) NOT NULL,
 	[ProgrammeDuration] varchar (30) NOT NULL,
+	[ProgrammeCategory] varchar(30) NOT NULL,
 	CONSTRAINT pk_programme PRIMARY KEY (ProgrammeGUID),
 )
 
