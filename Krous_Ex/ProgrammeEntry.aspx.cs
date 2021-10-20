@@ -34,10 +34,6 @@ namespace Krous_Ex
             }
 
             rblFullorPart.Visible = false;
-            if(ddlProgCategory.SelectedItem.Value == "Master")
-            {
-                rblFullorPart.Visible = true;
-            }
         }
 
         protected bool addNewProgramme()
@@ -53,13 +49,14 @@ namespace Krous_Ex
                 con = new SqlConnection(strCon);
                 con.Open();
 
-                insertCmd = new SqlCommand("INSERT INTO Programme VALUES (@ProgrammeGUID, @ProgrammeAbbrv, @ProgrammeName, @ProgrammeDesc, @ProgrammeDuration, @ProgrammeCategory)", con);
+                insertCmd = new SqlCommand("INSERT INTO Programme VALUES (@ProgrammeGUID, @ProgrammeAbbrv, @ProgrammeName, @ProgrammeDesc, @ProgrammeDuration, @ProgrammeCategory, @ProgrammeFullorPart)", con);
                 insertCmd.Parameters.AddWithValue("@ProgrammeGUID", progGUID);
                 insertCmd.Parameters.AddWithValue("@ProgrammeAbbrv", txtProgAbbrv.Text);
                 insertCmd.Parameters.AddWithValue("@ProgrammeName", txtProgName.Text);
                 insertCmd.Parameters.AddWithValue("@ProgrammeDesc", txtProgDesc.Text);
                 insertCmd.Parameters.AddWithValue("@ProgrammeDuration", ddlProgDuration.SelectedValue);
                 insertCmd.Parameters.AddWithValue("@ProgrammeCategory", ddlProgCategory.SelectedValue);
+                insertCmd.Parameters.AddWithValue("@ProgrammeFullorPart", rblFullorPart.SelectedValue);
                 insertCmd.ExecuteNonQuery();
 
                 con.Close();
@@ -82,6 +79,7 @@ namespace Krous_Ex
                 txtProgDesc.Text = string.Empty;
                 ddlProgDuration.SelectedIndex = 0;
                 ddlProgCategory.SelectedIndex = 0;
+                rblFullorPart.ClearSelection();
                 rblFullorPart.Visible = false;
                 txtProgName.Focus();
             }
@@ -99,8 +97,21 @@ namespace Krous_Ex
             txtProgDesc.Text = string.Empty;
             ddlProgDuration.SelectedIndex = 0;
             ddlProgCategory.SelectedIndex = 0;
+            rblFullorPart.ClearSelection();
             rblFullorPart.Visible = false;
             txtProgName.Focus();
+        }
+
+        protected void ddlProgCategory_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (ddlProgCategory.SelectedValue == "Master" || ddlProgCategory.SelectedValue == "Doctor of Philosophy")
+            {
+                rblFullorPart.Visible = true;
+            }
+            else
+            {
+                rblFullorPart.Visible = false;
+            }
         }
     }
 }

@@ -62,8 +62,8 @@
                                         <div class="col-md-3">
                                             <asp:Label ID="lblProgCategory" runat="server">Programme Category</asp:Label><span style="color: red;">*</span>
                                         </div>
-                                        <div class="col-md-2">
-                                            <asp:DropDownList ID="ddlProgCategory" runat="server" CssClass="form-control">
+                                        <div class="col-md-3">
+                                            <asp:DropDownList ID="ddlProgCategory" runat="server" CssClass="form-control" AutoPostBack="true" OnSelectedIndexChanged="ddlProgCategory_SelectedIndexChanged">
                                                 <asp:ListItem Selected="True" Value="">Category</asp:ListItem>
                                                 <asp:ListItem Value="Foundation">Foundation</asp:ListItem>
                                                 <asp:ListItem Value="Diploma">Diploma</asp:ListItem>
