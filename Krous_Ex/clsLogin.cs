@@ -59,10 +59,10 @@ namespace Krous_Ex
             {
                 string UserType;
 
-                if (GetLoginUserType() != "Citizen")
+                if (GetLoginUserType() != "Student")
                     UserType = "Staff";
                 else
-                    UserType = "Citizen";
+                    UserType = "Student";
 
                 SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["Krous_Ex"].ConnectionString);
                 con.Open();

@@ -21,10 +21,13 @@ namespace Krous_Ex
 
                 var myCookie = Request.Cookies[FormsAuthentication.FormsCookieName];
 
-                if (myCookie != null)
+                if (IsPostBack != true)
                 {
-                    panelLogin.Visible = false;
-                    panelPost.Visible = true;
+                    if (myCookie != null)
+                    {
+                        panelLogin.Visible = false;
+                        panelPost.Visible = true;
+                    }
                 }
             }
             else
@@ -43,7 +46,7 @@ namespace Krous_Ex
                 string strTable = "";
                 string strLink = "";
 
-                sqlQuery = " SELECT t1.ForumCategory, t1.DiscGUID, t1.DiscTopic, t1.DiscIsPinned, t1.TotalReply, t1.DiscCreatedBy, t1.CreatedDate, t2.LastReplyBy, t2.LastReplyDate ";
+                sqlQuery = "SELECT t1.ForumCategory, t1.DiscGUID, t1.DiscTopic, t1.DiscIsPinned, t1.TotalReply, t1.DiscCreatedBy, t1.CreatedDate, t2.LastReplyBy, CONVERT(varchar, t2.Reply_Date, 120) as LastReplyDate ";
                 sqlQuery += "FROM ";
                 sqlQuery += "(SELECT F.ForumCategory, D.DiscGUID, D.DiscTopic, D.DiscIsPinned, COUNT(R.ReplyGUID) as TotalReply, D.DiscCreatedBy, Convert(varchar, D.DiscCreatedDate, 120) as CreatedDate ";
                 sqlQuery += "FROM Forum F LEFT JOIN Discussion D ON F.ForumGUID = D.ForumGUID LEFT OUTER JOIN Replies R ";
@@ -51,12 +54,15 @@ namespace Krous_Ex
                 sqlQuery += "WHERE F.ForumGUID = @ForumGUID ";
                 sqlQuery += "GROUP BY D.DiscGUID, D.DiscTopic, D.DiscCreatedBy, D.DiscCreatedDate, D.DiscIsPinned, F.ForumCategory) t1 ";
                 sqlQuery += "LEFT JOIN ";
-                sqlQuery += "(SELECT D.DiscGUID, R.Reply_By as LastReplyBy, convert(varchar, max(R.Reply_Date), 120) as LastReplyDate ";
-                sqlQuery += "FROM Discussion D, Replies R ";
-                sqlQuery += "WHERE D.DiscGUID = R.DiscGUID ";
-                sqlQuery += "GROUP BY D.DiscGUID, R.Reply_By) t2 ";
-                sqlQuery += "ON t1.DiscGUID = t2.DiscGUID ";
-                sqlQuery += "ORDER BY t1.DiscIsPinned desc ";
+                sqlQuery += "(SELECT D.DiscGUID, R1.Reply_By as LastReplyBy, R1.Reply_Date ";
+                sqlQuery += "FROM Discussion D LEFT JOIN Replies R1 ON ";
+                sqlQuery += "D.DiscGUID = R1.DiscGUID ";
+                sqlQuery += "LEFT JOIN(SELECT DiscGUID, MAX(Reply_Date) as LatestReplyDate FROM Replies GROUP BY DiscGUID) R2 on ";
+                sqlQuery += " R1.DiscGUID = R2.DiscGUID ";
+                sqlQuery += "WHERE D.DiscGUID = R1.DiscGUID AND R1.Reply_Date = LatestReplyDate) t2 ";
+                sqlQuery += " ON t1.DiscGUID = t2.DiscGUID ";
+                sqlQuery += " WHERE t1.DiscGUID IS NOT NULL ";
+                sqlQuery += " ORDER BY t1.DiscIsPinned desc ";
 
                 SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["Krous_Ex"].ConnectionString);
                 con.Open();
@@ -70,13 +76,15 @@ namespace Krous_Ex
 
                 if (dtDisc.Rows.Count != 0)
                 {
+                    panelDiscList.Visible = true;
+                    panelNoRecord.Visible = false;
                     for (int i = 0; i < dtDisc.Rows.Count; i++)
                     {
                         if(dtDisc.Rows[i]["DiscIsPinned"].ToString() == "Yes") { strTable += "<tr style=\"text-align:left\" class=\"pinned-thread\">"; } else { strTable += "<tr style=\"text-align:left\">"; }
                         strTable += "<td class=\"text-center\" align=\"center\" style=\"width:120px;\">";
-                        strTable += "<a href=\"KrousExViewDiscussion.aspx?ForumGUID=" + dtDisc.Rows[i]["DiscGUID"] + "\">View</a>";
+                        strTable += "<a href=\"KrousExViewDiscussion.aspx?DiscGUID=" + dtDisc.Rows[i]["DiscGUID"] + "\">View</a>";
                         strTable += "</td>";
-                        if (dtDisc.Rows[i]["DiscIsPinned"].ToString() == "Yes") { strTable += "<td><p><a href=\"KrousExViewDiscussion.aspx?ForumGUID=" + dtDisc.Rows[i]["DiscGUID"] + "\">General Discussion<i class=\"fas fa-thumbtack pl-2\" style=\"color:yellow\"></i></a></p>Discuss School Related</td>"; } else { strTable += "<td><p><a href=\"DiscussionEntry.aspx?ForumGUID=" + dtDisc.Rows[i]["DiscGUID"] + "\">General Discussion</a></p>Discuss School Related</td>"; }
+                        if (dtDisc.Rows[i]["DiscIsPinned"].ToString() == "Yes") { strTable += "<td><a href=\"KrousExViewDiscussion.aspx?DiscGUID=" + dtDisc.Rows[i]["DiscGUID"] + "\">" + dtDisc.Rows[i]["DiscTopic"] + "<i class=\"fas fa-thumbtack pl-2\" style=\"color:yellow\"></i></a></td>"; } else { strTable += "<td><a href=\"DiscussionEntry.aspx?ForumGUID=" + dtDisc.Rows[i]["DiscGUID"] + "\">" + dtDisc.Rows[i]["DiscTopic"] + "</a></td>"; }
                         strTable += "<td style=\"width:20px;text-align:center\">" + dtDisc.Rows[i]["TotalReply"] + "</td>";
                         strTable += "<td style=\"width:20px\">by " + dtDisc.Rows[i]["DiscCreatedBy"] + "<br/>" + dtDisc.Rows[i]["CreatedDate"] + "</td>";
                         if (String.IsNullOrEmpty(dtDisc.Rows[i]["LastReplyDate"].ToString()))
@@ -91,13 +99,20 @@ namespace Krous_Ex
                         strLink = dtDisc.Rows[i]["ForumCategory"].ToString();
                     }
 
-                    Literal1.Text = strTable;
-                    Literal2.Text = "> <a href=\"KrousExForumListings.aspx\" class=\"active-forum-link\">" + strLink + "</a>";
-
                 }
                 else
                 {
+                    panelDiscList.Visible = false;
+                    panelNoRecord.Visible = true;
+                }
 
+                Literal1.Text = strTable;
+                if (strLink != "")
+                {
+                    Literal2.Text = "> <a href=\"KrousExForumListings.aspx\" class=\"active-forum-link\">" + strLink + "</a>";
+                } else
+                {
+                    Literal2.Text = "> <a href=\"KrousExForumListings.aspx\" class=\"active-forum-link\">" + Request.QueryString["ForumCategory"] + "</a>";
                 }
             }
 

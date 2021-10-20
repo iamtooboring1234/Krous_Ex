@@ -949,7 +949,7 @@
     <Content Include="CourseEntry.aspx" />
     <Content Include="CourseListings.aspx" />
     <Content Include="Default.aspx" />
-    <Content Include="DiscussionEntry.aspx" />
+    <Content Include="KrousExDiscussionEntry.aspx" />
     <Content Include="Error_Page\Error_404.aspx" />
     <Content Include="ExamEntry.aspx" />
     <Content Include="ExaminationDashboard.aspx" />
@@ -1298,12 +1298,12 @@
     <Compile Include="Default.aspx.designer.cs">
       <DependentUpon>Default.aspx</DependentUpon>
     </Compile>
-    <Compile Include="DiscussionEntry.aspx.cs">
-      <DependentUpon>DiscussionEntry.aspx</DependentUpon>
+    <Compile Include="KrousExDiscussionEntry.aspx.cs">
+      <DependentUpon>KrousExDiscussionEntry.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="DiscussionEntry.aspx.designer.cs">
-      <DependentUpon>DiscussionEntry.aspx</DependentUpon>
+    <Compile Include="KrousExDiscussionEntry.aspx.designer.cs">
+      <DependentUpon>KrousExDiscussionEntry.aspx</DependentUpon>
     </Compile>
     <Compile Include="Error_Page\Error_404.aspx.cs">
       <DependentUpon>Error_404.aspx</DependentUpon>

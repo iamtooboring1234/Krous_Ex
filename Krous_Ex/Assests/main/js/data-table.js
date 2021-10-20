@@ -9,7 +9,7 @@
         "iDisplayLength": 10,
         "language": {
         search: ""
-        }
+        } 
     });
     });
     $(function () {
@@ -50,6 +50,25 @@
             }],
             "order": [[1, 'asc']],
             "iDisplayLength": 10,
+            "language": {
+                search: ""
+            }
+        });
+    });
+    $(function () {
+        $('#gvReply').DataTable({
+            "searching": false,
+            "ordering": false,
+            "bInfo": false,
+            "aLengthMenu": [
+                [10, 20, 40, 50, -1],
+                [10, 20, 40, 50, "All"]
+            ],
+            columnDefs: [{
+                'targets': [0], /* column index [0,1,2,3]*/
+                'orderable': false, /* true or false */
+            }],
+            "iDisplayLength": 20,
             "language": {
                 search: ""
             }

@@ -18,6 +18,7 @@ namespace Krous_Ex
             {
                 panelLogon.Visible = true;
                 panelLogin.Visible = false;
+                litLogonName.Text = clsLogin.GetLoginUserName();
             }
             else
             {

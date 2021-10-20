@@ -51,13 +51,13 @@ namespace Krous_Ex
         protected global::System.Web.UI.WebControls.Label lblForumTopic;
 
         /// <summary>
-        /// txrForumTopic control.
+        /// txtForumTopic control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txrForumTopic;
+        protected global::System.Web.UI.WebControls.TextBox txtForumTopic;
 
         /// <summary>
         /// RequiredFieldValidator1 control.
