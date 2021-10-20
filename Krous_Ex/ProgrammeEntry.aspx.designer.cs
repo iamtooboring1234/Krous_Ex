@@ -114,6 +114,24 @@ namespace Krous_Ex
         protected global::System.Web.UI.WebControls.RequiredFieldValidator RequiredFieldValidator3;
 
         /// <summary>
+        /// lblProgCategory control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblProgCategory;
+
+        /// <summary>
+        /// ddlProgCategory control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList ddlProgCategory;
+
+        /// <summary>
         /// lblProgDuration control.
         /// </summary>
         /// <remarks>
@@ -132,22 +150,13 @@ namespace Krous_Ex
         protected global::System.Web.UI.WebControls.DropDownList ddlProgDuration;
 
         /// <summary>
-        /// lblProgCategory control.
+        /// rblFullorPart control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblProgCategory;
-
-        /// <summary>
-        /// ddlProgCategory control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList ddlProgCategory;
+        protected global::System.Web.UI.WebControls.RadioButtonList rblFullorPart;
 
         /// <summary>
         /// btnSave control.

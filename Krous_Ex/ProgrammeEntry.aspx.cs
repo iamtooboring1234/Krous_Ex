@@ -32,6 +32,12 @@ namespace Krous_Ex
             {
                 Response.Redirect("StudentLogin.aspx");
             }
+
+            rblFullorPart.Visible = false;
+            if(ddlProgCategory.SelectedItem.Value == "Master")
+            {
+                rblFullorPart.Visible = true;
+            }
         }
 
         protected bool addNewProgramme()
@@ -76,6 +82,7 @@ namespace Krous_Ex
                 txtProgDesc.Text = string.Empty;
                 ddlProgDuration.SelectedIndex = 0;
                 ddlProgCategory.SelectedIndex = 0;
+                rblFullorPart.Visible = false;
                 txtProgName.Focus();
             }
             else
@@ -92,6 +99,7 @@ namespace Krous_Ex
             txtProgDesc.Text = string.Empty;
             ddlProgDuration.SelectedIndex = 0;
             ddlProgCategory.SelectedIndex = 0;
+            rblFullorPart.Visible = false;
             txtProgName.Focus();
         }
     }

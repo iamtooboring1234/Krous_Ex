@@ -60,6 +60,23 @@
                                 <div class="form-group pdForm">
                                     <div class="row">
                                         <div class="col-md-3">
+                                            <asp:Label ID="lblProgCategory" runat="server">Programme Category</asp:Label><span style="color: red;">*</span>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <asp:DropDownList ID="ddlProgCategory" runat="server" CssClass="form-control">
+                                                <asp:ListItem Selected="True" Value="">Category</asp:ListItem>
+                                                <asp:ListItem Value="Foundation">Foundation</asp:ListItem>
+                                                <asp:ListItem Value="Diploma">Diploma</asp:ListItem>
+                                                <asp:ListItem Value="Bachelor Degree">Bachelor Degree</asp:ListItem>
+                                                <asp:ListItem Value="Master">Master</asp:ListItem>
+                                                <asp:ListItem Value="Doctor of Philosophy">Doctor of Philosophy</asp:ListItem>
+                                            </asp:DropDownList>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group pdForm">
+                                    <div class="row">
+                                        <div class="col-md-3">
                                             <asp:Label ID="lblProgDuration" runat="server">Programme Duration - Year(s)</asp:Label><span style="color: red;">*</span>
                                         </div>
                                         <div class="col-md-2">
@@ -76,26 +93,17 @@
                                                 <asp:ListItem Value="9">9</asp:ListItem>
                                             </asp:DropDownList>
                                         </div>
-                                    </div>
-                                </div>
-                                <div class="form-group pdForm">
-                                    <div class="row">
-                                        <div class="col-md-3">
-                                            <asp:Label ID="lblProgCategory" runat="server">Programme Category</asp:Label><span style="color: red;">*</span>
-                                        </div>
-                                        <div class="col-md-2">
-                                            <asp:DropDownList ID="ddlProgCategory" runat="server" CssClass="form-control">
-                                                <asp:ListItem Selected="True" Value="">Category</asp:ListItem>
-                                                <asp:ListItem Value="Foundation">Foundation</asp:ListItem>
-                                                <asp:ListItem Value="Diploma">Diploma</asp:ListItem>
-                                                <asp:ListItem Value="Bachelor Degree">Bachelor Degree</asp:ListItem>
-                                                <asp:ListItem Value="Master">Master</asp:ListItem>
-                                                <asp:ListItem Value="Doctor of Philosophy">Doctor of Philosophy</asp:ListItem>
-                                            </asp:DropDownList>
+                                        <!--if they select master, only display-->
+                                        <div class="col-md-4">
+                                            <asp:RadioButtonList ID="rblFullorPart" runat="server" RepeatDirection="Horizontal" CssClass="rdBtn">
+                                                <asp:ListItem>Full Time</asp:ListItem>
+                                                <asp:ListItem>Part Time</asp:ListItem>
+                                            </asp:RadioButtonList>
                                         </div>
                                     </div>
                                 </div>
 
+                                <!--after that need to include choosing the faculty-->
 
                                 <hr />
                                 <div class="form-group pdForm">
