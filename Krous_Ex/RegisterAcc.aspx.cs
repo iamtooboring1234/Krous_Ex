@@ -110,7 +110,8 @@ namespace Krous_Ex
 
         protected void btnNext_Click(object sender, EventArgs e)
         {
-            if(txtUsername.Text == "")
+           
+            if (txtUsername.Text == "")
             {
                 clsFunction.DisplayAJAXMessage(this, "Please enter your username.");
             }
@@ -125,6 +126,10 @@ namespace Krous_Ex
             else if (txtConfPass.Text != txtPassword.Text)
             {
                 clsFunction.DisplayAJAXMessage(this, "Your confirm password does not match!");
+            }
+            else if (!(clsValidation.CheckPasswordFormat(txtPassword.Text)))
+            {
+                clsFunction.DisplayAJAXMessage(this, "Password should have 8 - 20 characters with at least 1 uppercase, 1 number !");
             }
             else
             {
@@ -152,7 +157,6 @@ namespace Krous_Ex
                 return false;
             }
 
-            //need to check password pattern (8-20)
             if (txtPassword.Text == "")
             {
                 clsFunction.DisplayAJAXMessage(this, "Please enter your password.");
@@ -168,6 +172,12 @@ namespace Krous_Ex
             if (txtConfPass.Text != txtPassword.Text)
             {
                 clsFunction.DisplayAJAXMessage(this, "Your confirm password does not match!");
+                return false;
+            }
+
+            if (!(clsValidation.CheckPasswordFormat(txtPassword.Text)))
+            {
+                clsFunction.DisplayAJAXMessage(this, "Password should have 8 - 20 characters with at least 1 uppercase, 1 number !");
                 return false;
             }
 
@@ -203,20 +213,25 @@ namespace Krous_Ex
 
             if (txtNRIC.Text == "")
             {
-                clsFunction.DisplayAJAXMessage(this, "Please enter your IC number.");
+                clsFunction.DisplayAJAXMessage(this, "Please enter your IC number");
                 return false;
             }
-            else if(txtNRIC.Text.Length > 12)
+            else if(txtNRIC.Text.Length > 14)
             {
                 clsFunction.DisplayAJAXMessage(this, "Invalid IC number entered.");
                 return false;
             }
+            //else if(!(clsValidation.CheckDuplicateICNo(txtNRIC.Text)))
+            //{
+            //    clsFunction.DisplayAJAXMessage(this, "Duplicated NRIC entered!");
+            //    return false;
+            //}
 
             if (!(txtPhoneNo.Text.Equals("")))
             {
                 if (!(int.TryParse(txtPhoneNo.Text, out _)))
                 {
-                    DisplayAlertMsg("Your contact number can only be in numeric form and without a dash.");
+                    clsFunction.DisplayAJAXMessage(this, "Your contact number can only be in numeric form.");
                     return false;
                 }
             }
@@ -228,27 +243,22 @@ namespace Krous_Ex
 
             if(txtPhoneNo.Text.Length > 12)
             {
-                DisplayAlertMsg("Invalid contact number entered.");
+                clsFunction.DisplayAJAXMessage(this, "Invalid contact number entered.");
                 return false;
             }
 
-            if (!(txtEmail.Text.Equals("")))
+            if (txtEmail.Text == "")
             {
-                string strRegex = "\\w+([-+.']\\w+)*@\\w+([-.]\\w+)*\\.\\w+([-.]\\w+)*";
-                Regex re = new Regex(strRegex);
-                if (!(re.IsMatch(txtEmail.Text)))
-                {
-                    DisplayAlertMsg("Please enter a valid email");
-                    return false;
-                }
+                clsFunction.DisplayAJAXMessage(this, "Please enter a valid email address.");
+                return false;
             }
-            else
+            else if (!(clsValidation.IsEmail(txtEmail.Text)))
             {
-                clsFunction.DisplayAJAXMessage(this, "Please enter your email.");
+                clsFunction.DisplayAJAXMessage(this, "Please enter a valid email address format.");
                 return false;
             }
 
-            if(txtAddress.Text == "")
+            if (txtAddress.Text == "")
             {
                 clsFunction.DisplayAJAXMessage(this, "Please enter your home address.");
                 return false;
