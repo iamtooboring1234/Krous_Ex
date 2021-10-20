@@ -14,7 +14,7 @@ namespace Krous_Ex
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-            if (!Page.IsPostBack) { 
+            if (!IsPostBack) { 
                 loadForumCategory();
             }
 
@@ -24,8 +24,6 @@ namespace Krous_Ex
         {
             try
             {
-                ddlCategory.Items.Clear();
-
                 ListItem oList = new ListItem();
 
                 if (Request.QueryString["FAQGUID"] == null)

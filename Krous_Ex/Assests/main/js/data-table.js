@@ -39,7 +39,7 @@
     });
     $(function () {
         $('#gvDisc').DataTable({
-            "searching": false,
+            "ordering": false,
             "aLengthMenu": [
                 [1, 5, 10, 15, -1],
                 [1, 5, 10, 15, "All"]
@@ -61,8 +61,8 @@
             "ordering": false,
             "bInfo": false,
             "aLengthMenu": [
-                [10, 20, 40, 50, -1],
-                [10, 20, 40, 50, "All"]
+                [2, 10, 20, 40, 50, -1],
+                [2, 10, 20, 40, 50, "All"]
             ],
             columnDefs: [{
                 'targets': [0], /* column index [0,1,2,3]*/

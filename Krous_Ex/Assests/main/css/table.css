@@ -154,14 +154,6 @@ table#gvReply td img {
     padding-top: .25em;
 }
 
-.disc-head-content {
-    border-top: 2px solid white;
-    border-left: 2px solid white;
-    border-right: 2px solid white;
-}
-
-.disc-body-content {
-    border-bottom: 2px solid white;
-    border-left: 2px solid white;
-    border-right: 2px solid white;
+.dataTables_wrapper .dataTables_filter input {
+    background-color: white !important;
 }

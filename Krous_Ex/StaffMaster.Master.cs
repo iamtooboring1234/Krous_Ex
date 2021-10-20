@@ -12,16 +12,15 @@ namespace Krous_Ex
     {
         protected void Page_Load(object sender, EventArgs e)
         {
+            var myCookie = Request.Cookies[FormsAuthentication.FormsCookieName];
 
-        }
-
-        protected void btnLogout_Click(object sender, EventArgs e)
-        {
-
-            FormsAuthentication.SignOut();
-            Response.Redirect("Homepage.aspx");
-
-
+            if (myCookie != null)
+            {
+                litLogonName.Text = clsLogin.GetLoginUserName();
+            } else
+            {
+                Response.Redirect("StaffLogin");
+            }
         }
 
     }

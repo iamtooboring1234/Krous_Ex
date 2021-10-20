@@ -34,6 +34,7 @@ namespace Krous_Ex
                 string sqlQuery;
                 string strTable = "";
                 string lastCategory = "";
+                string lastGUID = "";
 
                 sqlQuery = "SELECT t1.ForumGUID, t1.ForumTopic, t1.ForumCategory, t1.ForumDesc, t1.TotalDisc, t1.TotalReply, t2.DiscCreatedBy as LatestCreatedBy, max(t2.DiscCreatedDate) as LastUpdated ";
                 sqlQuery += "FROM ";
@@ -48,7 +49,7 @@ namespace Krous_Ex
                 sqlQuery += "WHERE D1.DiscCreatedDate = LatestCreatedDate) t2 ";
                 sqlQuery += " ON t1.ForumGUID = t2.ForumGUID ";
                 sqlQuery += " GROUP BY t1.ForumGUID, t1.ForumTopic, t1.ForumCategory, t1.ForumDesc, t1.TotalDisc, t1.TotalReply, t2.DiscCreatedBy ";
-                sqlQuery += " ORDER BY t1.ForumCategory ";
+                sqlQuery += " ORDER BY t1.ForumCategory, LastUpdated DESC ";
 
                 SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["Krous_Ex"].ConnectionString);
                 con.Open();
@@ -64,8 +65,7 @@ namespace Krous_Ex
 
                     for (int i = 0; i < dtForum.Rows.Count; i++)
                     {
-                        
-                        
+
                         if (lastCategory != dtForum.Rows[i]["ForumCategory"].ToString())
                         {
                             strTable += "<tr style=\"border-bottom: 2px solid white\">";
@@ -78,22 +78,28 @@ namespace Krous_Ex
                         strTable += "</td>";
                         strTable += "</tr>";
                         strTable += "<tr style=\"text-align:left\">";
-                        strTable += "<td class=\"text-center\" align=\"center\" style=\"width:120px;\">";
-                        strTable += "<a href=\"KrousExDiscussionListings.aspx?ForumGUID=" + dtForum.Rows[i]["ForumGUID"] + "&ForumCategory=" + dtForum.Rows[i]["ForumCategory"] + "\">View</a>";
-                        strTable += "</td>";
-                        strTable += "<td><p><a href=\"KrousExDiscussionListings.aspx?ForumGUID=" + dtForum.Rows[i]["ForumGUID"] + "&ForumCategory=" + dtForum.Rows[i]["ForumCategory"] + "\">" + dtForum.Rows[i]["ForumTopic"] + "</a></p>" + dtForum.Rows[i]["ForumDesc"] + "</td>";
-                        strTable += "<td style=\"width:20px;text-align:center\">" + dtForum.Rows[i]["TotalDisc"] + "</td>";
-                        strTable += "<td style=\"width:20px;text-align:center\">" + dtForum.Rows[i]["TotalReply"] + "</td>";
-                        if (!String.IsNullOrEmpty(dtForum.Rows[i]["LatestCreatedBy"].ToString()))
+                        if (lastGUID != dtForum.Rows[i]["ForumGUID"].ToString())
                         {
-                            strTable += "<td style=\"width:20px\">" + dtForum.Rows[i]["LatestCreatedBy"] + "<br />" + dtForum.Rows[i]["LastUpdated"] + "</td>";
-                        } else
-                        {
-                            strTable += "<td style=\"width:20px\">n/a</td>";
+                            strTable += "<td class=\"text-center\" align=\"center\" style=\"width:120px;\">";
+                            strTable += "<a href=\"KrousExDiscussionListings.aspx?ForumGUID=" + dtForum.Rows[i]["ForumGUID"] + "&ForumCategory=" + dtForum.Rows[i]["ForumCategory"] + "\">View</a>";
+                            strTable += "</td>";
+                            strTable += "<td><p><a href=\"KrousExDiscussionListings.aspx?ForumGUID=" + dtForum.Rows[i]["ForumGUID"] + "&ForumCategory=" + dtForum.Rows[i]["ForumCategory"] + "\">" + dtForum.Rows[i]["ForumTopic"] + "</a></p>" + dtForum.Rows[i]["ForumDesc"] + "</td>";
+                            strTable += "<td style=\"width:20px;text-align:center\">" + dtForum.Rows[i]["TotalDisc"] + "</td>";
+                            strTable += "<td style=\"width:20px;text-align:center\">" + dtForum.Rows[i]["TotalReply"] + "</td>";
+                        
+                            if (!String.IsNullOrEmpty(dtForum.Rows[i]["LatestCreatedBy"].ToString()))
+                            {
+                                strTable += "<td style=\"width:20px\">" + dtForum.Rows[i]["LatestCreatedBy"] + "<br />" + dtForum.Rows[i]["LastUpdated"] + "</td>";
+                            }
+                            else
+                            {
+                                strTable += "<td style=\"width:20px\">n/a</td>";
+                            }
                         }
                         strTable += "</tr>";
 
                         lastCategory = dtForum.Rows[i]["ForumCategory"].ToString();
+                        lastGUID = dtForum.Rows[i]["ForumGUID"].ToString();
                     }
 
                     Literal1.Text = strTable;
