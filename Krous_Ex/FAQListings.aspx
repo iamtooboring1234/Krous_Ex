@@ -52,7 +52,8 @@
                                 </div>
                                 <div class="col-md-3">
                                     <asp:DropDownList ID="ddlFAQStatus" runat="server" CssClass="form-control">
-                                        <asp:ListItem Selected="True" Value="Active">Active</asp:ListItem>
+                                        <asp:ListItem Selected="True" Value="All">All</asp:ListItem>
+                                        <asp:ListItem Value="Active">Active</asp:ListItem>
                                         <asp:ListItem Value="Inactive">Inactive</asp:ListItem>
                                     </asp:DropDownList>
                                 </div>

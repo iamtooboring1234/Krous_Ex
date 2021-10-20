@@ -118,11 +118,20 @@ namespace Krous_Ex
             {
                 string sqlQuery;
 
-                sqlQuery = "SELECT * FROM FAQ ";
-                sqlQuery += "WHERE CASE WHEN @FAQTitle = '' THEN @FAQTitle ELSE FAQTitle END LIKE '%'+@FAQTitle+'%' AND ";
-                sqlQuery += "CASE WHEN @FAQCategory = '' then @FAQCategory ELSE FAQCategory END = @FAQCategory AND ";
-                sqlQuery += "FAQStatus = @FAQStatus ";
-                sqlQuery += "ORDER BY CreatedDate, FAQCategory";
+                if (ddlFAQStatus.SelectedValue != "All")
+                {
+                    sqlQuery = "SELECT * FROM FAQ ";
+                    sqlQuery += "WHERE CASE WHEN @FAQTitle = '' THEN @FAQTitle ELSE FAQTitle END LIKE '%'+@FAQTitle+'%' AND ";
+                    sqlQuery += "CASE WHEN @FAQCategory = '' then @FAQCategory ELSE FAQCategory END = @FAQCategory AND ";
+                    sqlQuery += "FAQStatus = @FAQStatus ";
+                    sqlQuery += "ORDER BY CreatedDate, FAQCategory";
+                } else
+                {
+                    sqlQuery = "SELECT * FROM FAQ ";
+                    sqlQuery += "WHERE CASE WHEN @FAQTitle = '' THEN @FAQTitle ELSE FAQTitle END LIKE '%'+@FAQTitle+'%' AND ";
+                    sqlQuery += "CASE WHEN @FAQCategory = '' then @FAQCategory ELSE FAQCategory END = @FAQCategory ";
+                    sqlQuery += "ORDER BY CreatedDate, FAQCategory";
+                }
 
                 SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["Krous_Ex"].ConnectionString);
                 con.Open();

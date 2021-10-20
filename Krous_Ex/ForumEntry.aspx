@@ -56,7 +56,7 @@
                                             <asp:Label ID="lblForumTopic" runat="server">Forum Topic</asp:Label><span style="color: red;">*</span>
                                         </div>
                                         <div class="col-md-8">
-                                            <asp:TextBox ID="txrForumTopic" runat="server" CssClass="form-control" onkeydown="return (event.keyCode!=13);"></asp:TextBox>
+                                            <asp:TextBox ID="txtForumTopic" runat="server" CssClass="form-control" onkeydown="return (event.keyCode!=13);"></asp:TextBox>
                                             <asp:RequiredFieldValidator ID="RequiredFieldValidator1" runat="server" ErrorMessage="Required" controltovalidate="txtFAQTitle" Visible="False"></asp:RequiredFieldValidator>
                                         </div>
                                     </div>

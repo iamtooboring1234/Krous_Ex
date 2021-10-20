@@ -20,7 +20,7 @@
                                     </asp:Panel>
                                     <asp:Panel ID="panelPost" runat="server" Visible="false">
                                         <p class="card-description">
-                                            <asp:HyperLink ID="HyperLink2" runat="server" href="DiscussionEntry">Post</asp:HyperLink> a new forum
+                                            <asp:HyperLink ID="HyperLink2" runat="server" href="KrousExDiscussionEntry">Post</asp:HyperLink> a new forum
                                         </p>
                                     </asp:Panel>
                                     </div>

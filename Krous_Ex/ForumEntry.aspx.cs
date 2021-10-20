@@ -202,7 +202,7 @@ namespace Krous_Ex
 
                 InsertCommand.Parameters.AddWithValue("@ForumGUID", ForumGUID);
                 InsertCommand.Parameters.AddWithValue("@StaffGUID", staffGUID);
-                InsertCommand.Parameters.AddWithValue("@ForumTopic", txrForumTopic.Text);
+                InsertCommand.Parameters.AddWithValue("@ForumTopic", txtForumTopic.Text);
                 InsertCommand.Parameters.AddWithValue("@ForumDesc", txtForumDesc.Text);
                 InsertCommand.Parameters.AddWithValue("@ForumCategory", ForumCategory);
                 InsertCommand.Parameters.AddWithValue("@ForumStatus", ddlForumStatus.SelectedValue);

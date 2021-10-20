@@ -8,7 +8,7 @@
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="body" runat="server">
 
-       <div class="container-fluid page-body-wrapper">
+    <div class="container-fluid page-body-wrapper">
         <div class="main-panel">
             <div class="content-wrapper">
                 <div class="row">
@@ -34,10 +34,10 @@
                                     </div>
                                     </div>
                                 </asp:Panel>
-                                    
+                                
                                 <div class="table-responsive">
                                 <div class="gv-section text-center">
-                                <div>
+                                <asp:Panel ID="panelDiscList" runat="server" Visible="false">
                                 <table class="table table-bordered" cellspacing="2" cellpadding="10" rules="all" border="0" id="gvDisc" style="width:100%;">
                                 <thead>
                                 <tr class="header-style" align="left" style="background-color:#191C24;font-weight:bold;">
@@ -50,7 +50,10 @@
 
                                 </tbody>
                                 </table>
-                                </div>
+                                </asp:Panel>
+                                <asp:Panel ID="panelNoRecord" runat="server" Visible="true">
+                                    <h4 class="card-title">No Record Found!</h4>
+                                </asp:Panel>
                                 </div>
                                 </div>
                             </div>

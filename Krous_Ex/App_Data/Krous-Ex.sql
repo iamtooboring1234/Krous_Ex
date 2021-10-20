@@ -200,6 +200,7 @@ CREATE TABLE [dbo].[Discussion] (
     [ForumGUID]           UNIQUEIDENTIFIER NOT NULL,
     [DiscTopic]           VARCHAR (100)    NOT NULL,
     [DiscDesc]            VARCHAR (100)    NOT NULL,
+	[DiscContent]         VARCHAR (999)    NOT NULL,
     [DiscStatus]          VARCHAR (10)     NOT NULL,
 	[DiscIsPinned]		  VARCHAR (4)	   NOT NULL,
     [DiscCreatedBy]       VARCHAR (50)     NOT NULL,
