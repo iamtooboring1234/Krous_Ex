@@ -43,6 +43,7 @@ namespace Krous_Ex
         private bool insertCourse()
         {
             string Category;
+            Guid courseGUID = Guid.NewGuid();
 
             //string Username = clsLogin.GetLoginUserName;
 
@@ -141,5 +142,6 @@ namespace Krous_Ex
         {
             Response.Redirect("CourseListings");
         }
+
     }
 }

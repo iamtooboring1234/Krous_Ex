@@ -14,7 +14,7 @@
                             <div class="col-md-12">
                                 <h3 style="margin-left:20px;">
                                     <i class="fas fa-tachometer-alt"></i>
-                                    <asp:Label ID="lblFAQList" runat="server" Font-Size="large">Staff Dashboard</asp:Label>
+                                    <asp:Label ID="lblFAQList" runat="server" Font-Size="large">Student Dashboard</asp:Label>
                                 </h3>
                             </div>
                         </div>

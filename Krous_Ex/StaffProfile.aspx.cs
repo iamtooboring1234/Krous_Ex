@@ -14,7 +14,7 @@ using System.Web.UI.WebControls;
 
 namespace Krous_Ex
 {
-    public partial class StudentProfile : System.Web.UI.Page
+    public partial class StaffProfile : System.Web.UI.Page
     {
         Guid userGUID;
         protected void Page_Load(object sender, EventArgs e)
@@ -31,9 +31,10 @@ namespace Krous_Ex
                         loadData();
                     }
                 }
-            } else
+            }
+            else
             {
-                Response.Redirect("StudentLogin.aspx");
+                Response.Redirect("StaffLogin.aspx");
             }
         }
 
@@ -49,36 +50,33 @@ namespace Krous_Ex
                 con = new SqlConnection(strCon);
                 con.Open();
 
-                //change the join date format  
-
-                cmd = new SqlCommand("SELECT s.StudentGUID, s.StudentFullName, s.Gender, CONVERT(varchar, s.DOB,1) as DOB, s.PhoneNumber, s.Email, s.NRIC, s.Address, s.ProfileImage, s.YearIntake, CONVERT(varchar, s.AccountRegisterDate, 1) as DateJoined, s.LastUpdateInfo, CONCAT(f.facultyname, ' ', (f.facultyAbbrv)) AS FacultyName, b.BranchesName FROM Student s LEFT JOIN Branches b ON s.BranchesGUID = b.BranchesGUID LEFT JOIN Faculty f ON s.FacultyGUID = f.FacultyGUID WHERE s.StudentGUID = @StudentGUID", con);
-                cmd.Parameters.AddWithValue("@StudentGUID", userGUID);
-                SqlDataReader dtrStudent = cmd.ExecuteReader();
-                DataTable dtStud = new DataTable();
-                dtStud.Load(dtrStudent);
+                cmd = new SqlCommand("SELECT s.StaffGUID, s.StaffFullName, s.Gender, s.PhoneNumber, s.Email, s.NRIC, s.StaffRole, s.StaffPositiion, s.Specialization, CONCAT(f.facultyname, ' ', (f.facultyAbbrv)) AS FacultyName, b.BranchesName, s.ProfileImage, s.LastUpdateInfo FROM Staff s LEFT JOIN Branches b ON s.BranchesGUID = b.BranchesGUID LEFT JOIN Faculty f ON s.FacultyGUID = f.FacultyGUID WHERE s.StaffGUID = @StaffGUID", con);
+                cmd.Parameters.AddWithValue("@StaffGUID", userGUID);
+                SqlDataReader dtrStaff = cmd.ExecuteReader();
+                DataTable dtStaff = new DataTable();
+                dtStaff.Load(dtrStaff);
 
                 con.Close();
 
                 //if got, then load data
-                if(dtStud.Rows.Count > 0)
+                if (dtStaff.Rows.Count > 0)
                 {
-                    txtFullname.Text = dtStud.Rows[0][1].ToString();
-                    txtGender.Text = dtStud.Rows[0][2].ToString();
-                    txtDOB.Text = dtStud.Rows[0][3].ToString();
-                    txtContact.Text = dtStud.Rows[0][4].ToString();
-                    txtEmail.Text = dtStud.Rows[0][5].ToString();
-                    txtNRIC.Text = dtStud.Rows[0][6].ToString();
-                    txtAddress.Text = dtStud.Rows[0][7].ToString();
-                    txtYearIntake.Text = dtStud.Rows[0][9].ToString();
-                    txtDateJoined.Text = dtStud.Rows[0][10].ToString();
-                    txtFaculty.Text = dtStud.Rows[0][12].ToString();
-                    txtBranch.Text = dtStud.Rows[0][13].ToString();
-                    lblUpdateTime.Text = dtStud.Rows[0][11].ToString();
+                    txtFullname.Text = dtStaff.Rows[0][1].ToString();
+                    txtGender.Text = dtStaff.Rows[0][2].ToString();
+                    txtContact.Text = dtStaff.Rows[0][3].ToString();
+                    txtEmail.Text = dtStaff.Rows[0][4].ToString();
+                    txtNRIC.Text = dtStaff.Rows[0][5].ToString();
+                    txtStaffRole.Text = dtStaff.Rows[0][6].ToString();
+                    txtStaffPosition.Text = dtStaff.Rows[0][7].ToString();
+                    txtSpecialization.Text = dtStaff.Rows[0][8].ToString();
+                    txtFaculty.Text = dtStaff.Rows[0][9].ToString();
+                    txtBranch.Text = dtStaff.Rows[0][10].ToString();
+                    lblUpdateTime.Text = dtStaff.Rows[0][12].ToString();           
 
                     string profileImg = "";
-                    if(dtStud.Rows[0][8] != null)
+                    if (dtStaff.Rows[0][11] != null)
                     {
-                        profileImg = ConfigurationManager.AppSettings["ProfileUploadPath"].ToString() + dtStud.Rows[0][8].ToString();
+                        profileImg = ConfigurationManager.AppSettings["ProfileUploadPath"].ToString() + dtStaff.Rows[0][11].ToString();
                     }
                     imgProfile.ImageUrl = profileImg;
                 }
@@ -89,6 +87,7 @@ namespace Krous_Ex
                 System.Diagnostics.Trace.WriteLine(ex.Message);
             }
         }
+
 
         protected bool updateDetails()
         {
@@ -107,18 +106,18 @@ namespace Krous_Ex
 
                 if (Directory.Exists(ProfileImgSavePath))
                 {
-                    if (!String.IsNullOrEmpty(ProfileFullSavePath)) { 
+                    if (!String.IsNullOrEmpty(ProfileFullSavePath))
+                    {
                         imageUpload.PostedFile.SaveAs(ProfileFullSavePath);
                         string strCon = ConfigurationManager.ConnectionStrings["Krous_Ex"].ConnectionString;
                         con = new SqlConnection(strCon);
                         con.Open();
 
-                        cmdUpdate = new SqlCommand("UPDATE Student SET Email = @email, PhoneNumber = @phoneNo, Address = @address, ProfileImage = @profileImage, LastUpdateInfo = @LastUpdateInfo WHERE StudentGUID = @StudentGUID", con);
+                        cmdUpdate = new SqlCommand("UPDATE Staff SET Email = @email, PhoneNumber = @phoneNo, ProfileImage = @profileImage, LastUpdateInfo = @LastUpdateInfo WHERE StaffGUID = @StaffGUID", con);
                         cmdUpdate.Parameters.AddWithValue("@email", txtEmail.Text);
-                        cmdUpdate.Parameters.AddWithValue("@StudentGUID", userGUID);
                         cmdUpdate.Parameters.AddWithValue("@phoneNo", txtContact.Text);
-                        cmdUpdate.Parameters.AddWithValue("@address", txtAddress.Text);
                         cmdUpdate.Parameters.AddWithValue("@profileImage", imgName);
+                        cmdUpdate.Parameters.AddWithValue("@StaffGUID", userGUID);
                         cmdUpdate.Parameters.AddWithValue("@LastUpdateInfo", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
                         cmdUpdate.ExecuteNonQuery();
 
@@ -147,7 +146,6 @@ namespace Krous_Ex
             bool changePassBool = false;
             SqlConnection con = new SqlConnection();
             SqlCommand cmdPassword = new SqlCommand();
-
             String encryptedPassword = "";
             String decryptPassword = "";
 
@@ -157,22 +155,22 @@ namespace Krous_Ex
                 con = new SqlConnection(strCon);
                 con.Open();
 
-                cmdPassword = new SqlCommand("SELECT StudentPassword FROM Student WHERE StudentGUID = @StudentGUID", con);
-                cmdPassword.Parameters.AddWithValue("@StudentGUID", userGUID);
+                cmdPassword = new SqlCommand("SELECT StaffPassword FROM Staff WHERE StaffGUID = @StaffGUID", con);
+                cmdPassword.Parameters.AddWithValue("@StaffGUID", userGUID);
                 SqlDataReader dtrPass = cmdPassword.ExecuteReader();
                 DataTable dt = new DataTable();
                 dt.Load(dtrPass);
 
                 //get the encrypted password and decrypt it 
-                encryptedPassword = dt.Rows[0]["StudentPassword"].ToString();
+                encryptedPassword = dt.Rows[0]["StaffPassword"].ToString();
 
-                if(!(encryptedPassword.Equals("")))
+                if (!(encryptedPassword.Equals("")))
                 {
                     decryptPassword = Decrypt(encryptedPassword);
                     encryptedPassword = Encrypt(txtNewPass.Text);
-                    cmdPassword = new SqlCommand("UPDATE Student SET StudentPassword = @studentPassword WHERE StudentGUID = @StudentGUID", con);
-                    cmdPassword.Parameters.AddWithValue("@studentPassword", encryptedPassword);
-                    cmdPassword.Parameters.AddWithValue("@StudentGUID", userGUID);
+                    cmdPassword = new SqlCommand("UPDATE Staff SET StaffPassword = @StaffPassword WHERE StaffGUID = @StaffGUID", con);
+                    cmdPassword.Parameters.AddWithValue("@StaffPassword", encryptedPassword);
+                    cmdPassword.Parameters.AddWithValue("@StaffGUID", userGUID);
 
                     int affectedRows = cmdPassword.ExecuteNonQuery();
 
@@ -214,7 +212,7 @@ namespace Krous_Ex
         //can update password
         protected void btnChangePass_Click(object sender, EventArgs e)
         {
-            if(!(txtCurrentPass.Text == "" && txtNewPass.Text == "" && txtConfNewPass.Text == ""))
+            if (!(txtCurrentPass.Text == "" && txtNewPass.Text == "" && txtConfNewPass.Text == ""))
             {
                 if (ChangePassword())
                 {
@@ -235,20 +233,14 @@ namespace Krous_Ex
             else
             {
                 clsFunction.DisplayAJAXMessage(this, "Please entered all the three password fields.");
-            } 
+            }
         }
-        
+
         protected bool updateValidation()
         {
             if (!(imageUpload.HasFile))
             {
                 clsFunction.DisplayAJAXMessage(this, "Please choose and upload an image as your profile.");
-                return false;
-            }
-
-            if (txtAddress.Text == "")
-            {
-                clsFunction.DisplayAJAXMessage(this, "Please enter a valid home address.");
                 return false;
             }
 
