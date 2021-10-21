@@ -10,7 +10,6 @@ namespace Krous_Ex
 {
     public partial class Logout : System.Web.UI.Page
     {
-        String userType;
 
         protected void Page_Load(object sender, EventArgs e)
         {

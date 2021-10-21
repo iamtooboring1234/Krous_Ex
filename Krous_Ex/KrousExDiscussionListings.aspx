@@ -20,7 +20,7 @@
                                     <div class="row">
                                     <div class="col-md-10">
                                         <p class="card-description">
-                                            <asp:HyperLink ID="HyperLink1" runat="server" href="StudentLogin.aspx?FromURL=KrousExDiscussionListings">Login</asp:HyperLink> to post new forum
+                                            <asp:HyperLink ID="HyperLink1" runat="server">Login</asp:HyperLink> to post new forum
                                         </p>
                                     </div>
                                     </div>

@@ -36,20 +36,25 @@ namespace Krous_Ex
                 string lastCategory = "";
                 string lastGUID = "";
 
-                sqlQuery = "SELECT t1.ForumGUID, t1.ForumTopic, t1.ForumCategory, t1.ForumDesc, t1.TotalDisc, t1.TotalReply, t2.DiscCreatedBy as LatestCreatedBy, max(t2.DiscCreatedDate) as LastUpdated ";
-                sqlQuery += "FROM ";
-                sqlQuery += "(SELECT F.ForumGUID, F.ForumTopic, F.ForumCategory, F.ForumDesc, COUNT(DISTINCT(D.DiscGUID)) AS TotalDisc, COUNT(R.ReplyGUID) AS TotalReply ";
-                sqlQuery += "FROM Forum F LEFT OUTER JOIN Discussion D on F.ForumGUID = D.ForumGUID LEFT JOIN Replies R ON D.DiscGUID = R.DiscGUID ";
+                sqlQuery = " SELECT t2.ForumGUID, t2.ForumTopic, t2.ForumCategory, t2.ForumDesc, t1.TotalDisc, t1.TotalReply, t3.DiscCreatedBy as LatestCreatedBy, max(t3.DiscCreatedDate) as LastUpdated FROM ";
+                sqlQuery += " (SELECT F.ForumGUID, F.ForumTopic, F.ForumCategory, F.ForumDesc, COUNT(DISTINCT(D.DiscGUID)) AS TotalDisc, COUNT(R.ReplyGUID) AS TotalReply ";
+                sqlQuery += " FROM Forum F LEFT OUTER JOIN Discussion D on F.ForumGUID = D.ForumGUID LEFT OUTER JOIN Replies R ON D.DiscGUID = R.DiscGUID ";
+                sqlQuery += " WHERE F.ForumStatus = 'Active' AND D.DiscStatus = 'Active' ";
+                sqlQuery += " GROUP BY F.ForumGUID, F.ForumTopic, F.ForumCategory, F.ForumDesc) t1 ";
+                sqlQuery += " RIGHT OUTER JOIN ";
+                sqlQuery += " (SELECT F.ForumGUID, F.ForumTopic, F.ForumCategory, F.ForumDesc, COUNT(DISTINCT(D.DiscGUID)) AS TotalDisc, COUNT(R.ReplyGUID) AS TotalReply ";
+                sqlQuery += " FROM Forum F LEFT OUTER JOIN Discussion D on F.ForumGUID = D.ForumGUID LEFT OUTER JOIN Replies R ON D.DiscGUID = R.DiscGUID ";
                 sqlQuery += " WHERE F.ForumStatus = 'Active' ";
-                sqlQuery += "  GROUP BY F.ForumGUID, F.ForumTopic, F.ForumCategory, F.ForumDesc) t1 ";
-                sqlQuery += "  LEFT JOIN ";
+                sqlQuery += " GROUP BY F.ForumGUID, F.ForumTopic, F.ForumCategory, F.ForumDesc) t2 ";
+                sqlQuery += " ON t1.ForumGUID = t2.ForumGUID ";
+                sqlQuery += " LEFT JOIN ";
                 sqlQuery += " (SELECT F.ForumGUID, D1.DiscGUID, D1.DiscCreatedBy, D1.DiscCreatedDate ";
                 sqlQuery += " FROM Forum F LEFT JOIN Discussion D1 On F.ForumGUID = D1.ForumGUID ";
                 sqlQuery += " LEFT JOIN(SELECT DiscGUID, Max(DiscCreatedDate) as LatestCreatedDate FROM Discussion Group by DiscGUID) D2 on D1.DiscGUID = D2.DiscGUID ";
-                sqlQuery += "WHERE D1.DiscCreatedDate = LatestCreatedDate) t2 ";
-                sqlQuery += " ON t1.ForumGUID = t2.ForumGUID ";
-                sqlQuery += " GROUP BY t1.ForumGUID, t1.ForumTopic, t1.ForumCategory, t1.ForumDesc, t1.TotalDisc, t1.TotalReply, t2.DiscCreatedBy ";
-                sqlQuery += " ORDER BY t1.ForumCategory, LastUpdated DESC ";
+                sqlQuery += " WHERE D1.DiscCreatedDate = LatestCreatedDate) t3 ";
+                sqlQuery += " ON t2.ForumGUID = t3.ForumGUID ";
+                sqlQuery += " GROUP BY t2.ForumGUID, t2.ForumTopic, t2.ForumCategory, t2.ForumDesc, t1.TotalDisc, t1.TotalReply, t3.DiscCreatedBy, t3.DiscCreatedDate ";
+                sqlQuery += "  ORDER BY t2.ForumCategory, LastUpdated DESC ";
 
                 SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["Krous_Ex"].ConnectionString);
                 con.Open();
@@ -84,9 +89,23 @@ namespace Krous_Ex
                             strTable += "<a href=\"KrousExDiscussionListings.aspx?ForumGUID=" + dtForum.Rows[i]["ForumGUID"] + "&ForumCategory=" + dtForum.Rows[i]["ForumCategory"] + "\">View</a>";
                             strTable += "</td>";
                             strTable += "<td><p><a href=\"KrousExDiscussionListings.aspx?ForumGUID=" + dtForum.Rows[i]["ForumGUID"] + "&ForumCategory=" + dtForum.Rows[i]["ForumCategory"] + "\">" + dtForum.Rows[i]["ForumTopic"] + "</a></p>" + dtForum.Rows[i]["ForumDesc"] + "</td>";
-                            strTable += "<td style=\"width:20px;text-align:center\">" + dtForum.Rows[i]["TotalDisc"] + "</td>";
-                            strTable += "<td style=\"width:20px;text-align:center\">" + dtForum.Rows[i]["TotalReply"] + "</td>";
-                        
+
+                            if (!String.IsNullOrEmpty(dtForum.Rows[i]["TotalDisc"].ToString()))
+                            {
+                                strTable += "<td style=\"width:20px;text-align:center\">" + dtForum.Rows[i]["TotalDisc"] + "</td>";
+                            } else
+                            {
+                                strTable += "<td style=\"width:20px;text-align:center\">n/a</td>";
+                            }
+
+                            if(!String.IsNullOrEmpty(dtForum.Rows[i]["TotalReply"].ToString()))
+                            {
+                                strTable += "<td style=\"width:20px;text-align:center\">" + dtForum.Rows[i]["TotalReply"] + "</td>";
+                            } else
+                            {
+                                strTable += "<td style=\"width:20px;text-align:center\">n/a</td>";
+                            }
+
                             if (!String.IsNullOrEmpty(dtForum.Rows[i]["LatestCreatedBy"].ToString()))
                             {
                                 strTable += "<td style=\"width:20px\">" + dtForum.Rows[i]["LatestCreatedBy"] + "<br />" + dtForum.Rows[i]["LastUpdated"] + "</td>";
