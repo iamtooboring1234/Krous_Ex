@@ -57,7 +57,7 @@ namespace Krous_Ex.Hubs
 
         public string GetUserImage(string username)
         {
-            string RetimgName = "img/logoKPM.png";
+            string RetimgName = "Assests/main/images/faces/face1.jpg";
             try
             {
                 SqlConnection con = new SqlConnection(strcon);

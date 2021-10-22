@@ -19,20 +19,20 @@
                                 <h4 class="card-title"><asp:HyperLink ID="HyperLink3" runat="server" href="KrousExForumListings" CssClass="forum-link">Forums</asp:HyperLink> <asp:Literal ID="Literal2" runat="server"></asp:Literal> </h4>
                                 <asp:Panel ID="panelLogin" runat="server" Visible="true">
                                     <div class="row">
-                                    <div class="col-md-10">
-                                        <p class="card-description">
-                                            <asp:HyperLink ID="HyperLink1" runat="server" NavigateURL='<%#"StudentLogin.aspx?FromURL=KrousExViewDiscussion&DiscGUID=" + Request.QueryString["DiscGUID"].ToString() %>'>Login</asp:HyperLink> to post new forum / comment
-                                        </p>
-                                    </div>
+                                        <div class="col-md-10">
+                                            <p class="card-description">
+                                                <asp:HyperLink ID="HyperLink1" runat="server" NavigateURL='<%#"StudentLogin.aspx?FromURL=KrousExViewDiscussion&DiscGUID=" + Request.QueryString["DiscGUID"].ToString() %>'>Login</asp:HyperLink> to post new forum / comment
+                                            </p>
+                                        </div>
                                     </div>
                                 </asp:Panel>
                                 <asp:Panel ID="panelPost" runat="server" Visible="false">
                                     <div class="row">
-                                    <div class="col-md-10">
-                                        <p class="card-description">
-                                            <asp:HyperLink ID="HyperLink2" runat="server" href="DiscussionEntry">Post</asp:HyperLink> a new forum / <a href="#postReplyContainer">Post</a> a comment
-                                        </p>
-                                    </div>
+                                        <div class="col-md-10">
+                                            <p class="card-description">
+                                                <asp:HyperLink ID="HyperLink2" runat="server" href="DiscussionEntry">Post</asp:HyperLink> a new forum / <a href="#postReplyContainer">Post</a> a comment
+                                            </p>
+                                        </div>
                                     </div>
                                 </asp:Panel>
 

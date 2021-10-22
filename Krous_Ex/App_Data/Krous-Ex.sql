@@ -218,11 +218,22 @@ CREATE TABLE [dbo].[Discussion] (
 CREATE TABLE [dbo].[Replies] (
     [ReplyGUID]     UNIQUEIDENTIFIER NOT NULL,
     [DiscGUID]      UNIQUEIDENTIFIER NOT NULL,
-    [Reply_Content] VARCHAR (999)    NOT NULL,
-    [Reply_Date]    DATETIME         NOT NULL,
-    [Reply_By]      VARCHAR (50)     NOT NULL,
+    [ReplyContent] VARCHAR (999)    NOT NULL,
+    [ReplyDate]    DATETIME         NOT NULL,
+    [ReplyBy]      VARCHAR (50)     NOT NULL,
     CONSTRAINT [pk_reply] PRIMARY KEY CLUSTERED ([ReplyGUID] ASC),
     CONSTRAINT [fk_disc_reply] FOREIGN KEY ([DiscGUID]) REFERENCES [dbo].[Discussion] ([DiscGUID])
+);
+
+CREATE TABLE [dbo].[ForumReport] (
+    [ForumReportGUID] UNIQUEIDENTIFIER NOT NULL,
+    [DiscGUID]        UNIQUEIDENTIFIER NULL,
+    [ReplyGUID]       UNIQUEIDENTIFIER NULL,
+    [ReportReason]    VARCHAR(999) NOT NULL,
+	[ReportStatus]    VARCHAR (20) NOT NULL,
+    [ReportBy]        VARCHAR (50)     NOT NULL,
+    [ReportDate]      DATETIME         NOT NULL,
+    CONSTRAINT [pk_forumreport] PRIMARY KEY CLUSTERED ([ForumReportGUID] ASC),
 );
 
 CREATE TABLE [FAQ] (
@@ -333,4 +344,16 @@ CREATE TABLE [dbo].[ResetPassword] (
 	PRIMARY KEY CLUSTERED ([ResetPasswordGUID] ASC),
     CONSTRAINT [fk_stundent_resetpassowrd] FOREIGN KEY ([StudentGUID]) REFERENCES [dbo].[Student] ([StudentGUID]),
     CONSTRAINT [fk_staff_resetpassowrd] FOREIGN KEY ([StaffGUID]) REFERENCES [dbo].[Staff] ([StaffGUID])
+);
+
+CREATE TABLE [dbo].[Notification] (
+    [NotificationGUID]         UNIQUEIDENTIFIER    NOT NULL,
+    [CitizenGUID]               UNIQUEIDENTIFIER     NOT NULL,
+    [NotificationSubject]   VARCHAR (50)        NOT NULL,
+    [NotificationContent]     VARCHAR (500)         NOT NULL,
+    [ReadFlag]                CHAR (1)            NOT NULL,
+    [SentDate]                   DATETIME            NOT NULL,
+    [SentBy]                  VARCHAR (50)            NULL,
+    [NotificationDesciption]     VARCHAR (300)           NULL,
+    PRIMARY KEY CLUSTERED ([NotificationGUID] ASC)
 );

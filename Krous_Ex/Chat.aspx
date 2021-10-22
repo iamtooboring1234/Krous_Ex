@@ -153,10 +153,12 @@
                 });
             }
         }
+
         function GetCurrentDateTime(now) {
             var localdate = dateFormat(now, "dddd, mmmm dS, yyyy, h:MM:ss TT");
             return localdate;
         }
+
         function AddUser(chatHub, id, name, UserImage, date) {
             var userId = $('#hdId').val();
             var code = "";
@@ -206,6 +208,7 @@
             $("#divusers").append(code);
             $("#ContactList").append(Clist);
         }
+
         function AddMessage(userName, message, time, userimg) {
             var CurrUser = $('#<%=hdUserName.ClientID%>').val();
             var Side = 'right';
@@ -225,6 +228,7 @@
             var height = $('#divChatWindow')[0].scrollHeight;
             $('#divChatWindow').scrollTop(height);
         }
+
         // Creation and Opening Private Chat Div
         function OpenPrivateChatBox(chatHub, userId, ctrId, userName) {
             var PWClass = $('#PWCount').val();
@@ -360,7 +364,6 @@
         }
     </script>
 
-
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="body" runat="server">
 
@@ -462,7 +465,6 @@
     <span id="time"></span>
     <input id="hdId" type="hidden" />
     <input id="PWCount" type="hidden" value="info" />
-<%--    <input id="hdUserName" type="hidden" />--%>
     <asp:HiddenField ID="hdUserName" runat="server" />
 
 

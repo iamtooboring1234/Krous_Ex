@@ -12,16 +12,26 @@ namespace Krous_Ex
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-            var myCookie = Request.Cookies[FormsAuthentication.FormsCookieName];
+            if (IsPostBack != true)
+            {
+                var myCookie = Request.Cookies[FormsAuthentication.FormsCookieName];
 
-            if (myCookie != null)
-            {
-                litLogonName.Text = clsLogin.GetLoginUserName();
-            } else
-            {
-                Response.Redirect("StaffLogin");
+                if (myCookie != null)
+                {
+                    if (clsLogin.GetLoginUserType() == "Staff")
+                    {
+                        litLogonName.Text = clsLogin.GetLoginUserName();
+                    } else
+                    {
+                        //acces denied
+                        Response.Redirect("Homepage");
+                    }
+                }
+                else
+                {
+                    Response.Redirect("StaffLogin");
+                }
             }
         }
-
     }
 }

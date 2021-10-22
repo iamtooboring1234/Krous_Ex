@@ -49,7 +49,7 @@ namespace Krous_Ex
                 string strTable = "";
                 string strLink = "";
 
-                sqlQuery = "SELECT t1.ForumCategory, t1.DiscGUID, t1.DiscTopic, t1.DiscIsPinned, t1.DiscIsLocked, t1.TotalReply, t1.DiscCreatedBy, t1.CreatedDate, t2.LastReplyBy, CONVERT(varchar, t2.Reply_Date, 120) as LastReplyDate ";
+                sqlQuery = "SELECT t1.ForumCategory, t1.DiscGUID, t1.DiscTopic, t1.DiscIsPinned, t1.DiscIsLocked, t1.TotalReply, t1.DiscCreatedBy, t1.CreatedDate, t2.LastReplyBy, CONVERT(varchar, t2.ReplyDate, 120) as LastReplyDate ";
                 sqlQuery += "FROM ";
                 sqlQuery += "(SELECT F.ForumCategory, D.DiscGUID, D.DiscTopic, D.DiscIsPinned, D.DiscIsLocked, COUNT(R.ReplyGUID) as TotalReply, D.DiscCreatedBy, Convert(varchar, D.DiscCreatedDate, 120) as CreatedDate ";
                 sqlQuery += "FROM Forum F LEFT JOIN Discussion D ON F.ForumGUID = D.ForumGUID LEFT OUTER JOIN Replies R ";
@@ -57,12 +57,12 @@ namespace Krous_Ex
                 sqlQuery += "WHERE F.ForumGUID = @ForumGUID AND D.DiscStatus = 'Active' ";
                 sqlQuery += "GROUP BY D.DiscGUID, D.DiscTopic, D.DiscCreatedBy, D.DiscCreatedDate, D.DiscIsPinned, F.ForumCategory, D.DiscIsLocked) t1 ";
                 sqlQuery += "LEFT JOIN ";
-                sqlQuery += "(SELECT D.DiscGUID, R1.Reply_By as LastReplyBy, R1.Reply_Date ";
+                sqlQuery += "(SELECT D.DiscGUID, R1.ReplyBy as LastReplyBy, R1.ReplyDate ";
                 sqlQuery += "FROM Discussion D LEFT JOIN Replies R1 ON ";
                 sqlQuery += "D.DiscGUID = R1.DiscGUID ";
-                sqlQuery += "LEFT JOIN(SELECT DiscGUID, MAX(Reply_Date) as LatestReplyDate FROM Replies GROUP BY DiscGUID) R2 on ";
+                sqlQuery += "LEFT JOIN(SELECT DiscGUID, MAX(ReplyDate) as LatestReplyDate FROM Replies GROUP BY DiscGUID) R2 on ";
                 sqlQuery += " R1.DiscGUID = R2.DiscGUID ";
-                sqlQuery += "WHERE D.DiscGUID = R1.DiscGUID AND R1.Reply_Date = LatestReplyDate) t2 ";
+                sqlQuery += "WHERE D.DiscGUID = R1.DiscGUID AND R1.ReplyDate = LatestReplyDate) t2 ";
                 sqlQuery += " ON t1.DiscGUID = t2.DiscGUID ";
                 sqlQuery += " WHERE t1.DiscGUID IS NOT NULL ";
                 sqlQuery += " ORDER BY t1.DiscIsPinned desc ";

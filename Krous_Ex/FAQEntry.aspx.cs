@@ -268,7 +268,7 @@ namespace Krous_Ex
             Response.Redirect("FAQListings");
         }
 
-        protected void btnCancel_Click(object sender, EventArgs e)
+        protected void btnReset_Click(object sender, EventArgs e)
         {
             if (!String.IsNullOrEmpty(Request.QueryString["FAQGUID"]))
             {
