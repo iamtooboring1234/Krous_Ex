@@ -53,7 +53,7 @@ namespace Krous_Ex
 
                     if (String.IsNullOrEmpty(Request.QueryString["FromURL"]))
                     {
-                        Response.Redirect("StudentDashboard.aspx", true);
+                        Response.Redirect("StaffDashboard.aspx", true);
                     }
                     else
                     {

@@ -12,18 +12,21 @@ namespace Krous_Ex
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-            var myCookie = Request.Cookies[FormsAuthentication.FormsCookieName];
+            if (IsPostBack != true)
+            {
+                var myCookie = Request.Cookies[FormsAuthentication.FormsCookieName];
 
-            if (myCookie != null)
-            {
-                panelLogon.Visible = true;
-                panelLogin.Visible = false;
-                litLogonName.Text = clsLogin.GetLoginUserName();
-            }
-            else
-            {
-                panelLogon.Visible = false;
-                panelLogin.Visible = true;
+                if (myCookie != null)
+                {
+                    panelLogon.Visible = true;
+                    panelLogin.Visible = false;
+                    litLogonName.Text = clsLogin.GetLoginUserName();
+                }
+                else
+                {
+                    panelLogon.Visible = false;
+                    panelLogin.Visible = true;
+                }
             }
         }
     }

@@ -38,6 +38,19 @@
         });
     });
     $(function () {
+        $('#gvForumReport').DataTable({
+            "searching": false,
+            "aLengthMenu": [
+                [1, 5, 10, 15, -1],
+                [1, 5, 10, 15, "All"]
+            ],
+            "iDisplayLength": 10,
+            "language": {
+                search: ""
+            }
+        });
+    });
+    $(function () {
         $('#gvDisc').DataTable({
             "ordering": false,
             "aLengthMenu": [

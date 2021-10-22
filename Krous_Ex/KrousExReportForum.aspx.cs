@@ -11,7 +11,7 @@ using System.Web.UI.WebControls;
 
 namespace Krous_Ex
 {
-    public partial class KrousExDeleteComment : System.Web.UI.Page
+    public partial class KrousExReportForum : System.Web.UI.Page
     {
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -24,12 +24,14 @@ namespace Krous_Ex
                     if (Request.QueryString["ReplyGUID"] != null)
                     {
                         loadReply();
-                    } else
+                    }
+                    else
                     {
                         Response.Redirect("KrousExForumListings");
                     }
-                    
-                } else
+
+                }
+                else
                 {
                     Response.Redirect("Homepage");
                 }
@@ -65,25 +67,45 @@ namespace Krous_Ex
             }
         }
 
-
         protected void btnYes_Click(object sender, EventArgs e)
         {
+
+            Guid ForumReportGUID = Guid.NewGuid();
+
+            string Username = clsLogin.GetLoginUserName();
+            string Reason;
+
+            if(ddlReason.SelectedValue == "Other")
+            {
+                Reason = txtReason.Text;
+            } else
+            {
+                Reason = ddlReason.SelectedValue;
+            }
+
+
             try
             {
                 SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["Krous_Ex"].ConnectionString);
                 con.Open();
 
-                SqlCommand deleteCommand = new SqlCommand("DELETE FROM Replies WHERE ReplyGUID = @ReplyGUID ", con);
+                SqlCommand InsertCommand = new SqlCommand("INSERT INTO ForumReport VALUES(@ForumReportGUID,@DiscGUID,@ReplyGUID,@ReportReason,@ReportStatus,@ReportBy,@ReportDate)", con);
 
-                deleteCommand.Parameters.AddWithValue("@ReplyGUID", Request.QueryString["ReplyGUID"]);
+                InsertCommand.Parameters.AddWithValue("@ForumReportGUID", ForumReportGUID);
+                InsertCommand.Parameters.AddWithValue("@ReplyGUID", Guid.Parse(Request.QueryString["ReplyGUID"]));
+                InsertCommand.Parameters.AddWithValue("@DiscGUID", Guid.Parse(Request.QueryString["DiscGUID"]));
+                InsertCommand.Parameters.AddWithValue("@ReportReason", Reason);
+                InsertCommand.Parameters.AddWithValue("@ReportStatus", "In Progress");
+                InsertCommand.Parameters.AddWithValue("@ReportBy", Username);
+                InsertCommand.Parameters.AddWithValue("@ReportDate", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
 
-                deleteCommand.ExecuteNonQuery();
+                InsertCommand.ExecuteNonQuery();
 
                 con.Close();
 
                 if (!String.IsNullOrEmpty(Request.QueryString["DiscGUID"].ToString()))
                 {
-                    Session["DeleteReply"] = "Yes";
+                    Session["ReportForum"] = "Yes";
                     Response.Redirect("KrousExViewDiscussion?DiscGUID=" + Request.QueryString["DiscGUID"]);
                 }
                 else
@@ -92,9 +114,9 @@ namespace Krous_Ex
                 }
 
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                clsFunction.DisplayAJAXMessage(this, "Unable to delete.");
+                clsFunction.DisplayAJAXMessage(this, ex.Message);
             }
         }
 
@@ -103,6 +125,17 @@ namespace Krous_Ex
             if (!String.IsNullOrEmpty(Request.QueryString["DiscGUID"].ToString()))
             {
                 Response.Redirect("KrousExViewDiscussion?DiscGUID=" + Request.QueryString["DiscGUID"]);
+            }
+        }
+
+        protected void ddlReason_TextChanged(object sender, EventArgs e)
+        {
+            if(ddlReason.SelectedValue == "Other")
+            {
+                panelOtherReason.Visible = true;
+            } else
+            {
+                panelOtherReason.Visible = false;
             }
         }
     }

@@ -17,6 +17,25 @@ namespace Krous_Ex
         {
             if (IsPostBack != true)
             {
+                if (Session["ReportForum"] != null)
+                {
+                    if(Session["ReportForum"].ToString() == "Yes")
+                    {
+                        clsFunction.DisplayAJAXMessage(this, "Report successfully !");
+                        Session["ReportForum"] = null;
+                    }
+                }
+
+                if (Session["DeleteReply"] != null)
+                {
+                    if (Session["DeleteReply"].ToString() == "Yes")
+                    {
+                        clsFunction.DisplayAJAXMessage(this, "Delete successfully !");
+                        Session["DeleteReply"] = null;
+                    }
+                }
+
+
                 if (!String.IsNullOrEmpty(Request.QueryString["DiscGUID"]))
                 {
                     loadGV();
@@ -49,9 +68,9 @@ namespace Krous_Ex
                 string strLink = "";
                 int y = 1;
 
-                sqlQuery = "SELECT F.ForumGUID, F.ForumTopic,F.ForumCategory, D.DiscGUID, D.DiscContent, D.DiscIsPinned, D.DiscIsLocked, D.DiscCreatedBy as CreatedBy, Convert(varchar, D.DiscCreatedDate, 120) as CreatedDate, R.ReplyGUID, R.Reply_Content as RepliedContent, R.Reply_By as RepliedBy, Convert(varchar, R.Reply_Date, 120) as RepliedDate ";
+                sqlQuery = "SELECT F.ForumGUID, F.ForumTopic,F.ForumCategory, D.DiscGUID, D.DiscContent, D.DiscIsPinned, D.DiscIsLocked, D.DiscCreatedBy as CreatedBy, Convert(varchar, D.DiscCreatedDate, 120) as CreatedDate, R.ReplyGUID, R.ReplyContent as RepliedContent, R.ReplyBy as RepliedBy, Convert(varchar, R.ReplyDate, 120) as RepliedDate ";
                 sqlQuery += " FROM Forum F LEFT OUTER JOIN Discussion D ON F.ForumGUID = D.ForumGUID LEFT OUTER JOIN Replies R ON D.DiscGUID = R.DiscGUID ";
-                sqlQuery += "WHERE D.DiscGUID = @DiscGUID ORDER BY R.Reply_date ";
+                sqlQuery += "WHERE D.DiscGUID = @DiscGUID ORDER BY R.Replydate ";
 
                 SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["Krous_Ex"].ConnectionString);
                 con.Open();
@@ -193,12 +212,12 @@ namespace Krous_Ex
                                 {
                                     if (dtReply.Rows[i]["RepliedBy"].ToString() == clsLogin.GetLoginUserName())
                                     {
-                                        strTableBody += "<p class=\"pt-3\">" + dtReply.Rows[i]["RepliedBy"] + "</p><p><a style=\"color:red\" href=\"KrousExDeleteComment?ReplyGUID=" + dtReply.Rows[i]["ReplyGUID"] + "&DiscGUID=" + dtReply.Rows[i]["DiscGUID"] + "\"><i class=\"fas fa-trash-alt\"></i></a></p>";
+                                        strTableBody += "<p class=\"pt-3\">" + dtReply.Rows[i]["RepliedBy"] + "</p><p><a href=\"KrousExDeleteComment?ReplyGUID=" + dtReply.Rows[i]["ReplyGUID"] + "&DiscGUID=" + dtReply.Rows[i]["DiscGUID"] + "\"><i style=\"color: red;\" class=\"fas fa-trash-alt\"></i></a></p>";
                                     }
                                     else
                                     {
-                                        strTableBody += "<p class=\"pt-3\">" + dtReply.Rows[i]["RepliedBy"] + "</p>";
-                                    }
+                                        strTableBody += "<p class=\"pt-3\">" + dtReply.Rows[i]["RepliedBy"] + "</p><p><a href=\"KrousExReportForum?ReplyGUID=" + dtReply.Rows[i]["ReplyGUID"] + "&DiscGUID=" + dtReply.Rows[i]["DiscGUID"] + "\"><i style=\"background: red;border-radius: 2px;padding: 5px 10px;color: white;\" class=\"fas fa-exclamation\"></i></a></p>";
+                                    } 
                                 }
                             } else
                             {
@@ -376,13 +395,13 @@ namespace Krous_Ex
                 SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["Krous_Ex"].ConnectionString);
                 con.Open();
 
-                SqlCommand InsertCommand = new SqlCommand("INSERT INTO REPLIES VALUES(@ReplyGUID,@DiscGUID,@Reply_Content,@Reply_Date,@Reply_By)", con);
+                SqlCommand InsertCommand = new SqlCommand("INSERT INTO REPLIES VALUES(@ReplyGUID,@DiscGUID,@ReplyContent,@ReplyDate,@ReplyBy)", con);
 
                 InsertCommand.Parameters.AddWithValue("@ReplyGUID", ReplyGUID);
                 InsertCommand.Parameters.AddWithValue("@DiscGUID", Request.QueryString["DiscGUID"]);
-                InsertCommand.Parameters.AddWithValue("@Reply_Content", txtComment.Text);
-                InsertCommand.Parameters.AddWithValue("@Reply_Date", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
-                InsertCommand.Parameters.AddWithValue("@Reply_By", clsLogin.GetLoginUserName());
+                InsertCommand.Parameters.AddWithValue("@ReplyContent", txtComment.Text);
+                InsertCommand.Parameters.AddWithValue("@ReplyDate", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
+                InsertCommand.Parameters.AddWithValue("@ReplyBy", clsLogin.GetLoginUserName());
 
                 InsertCommand.ExecuteNonQuery();
 

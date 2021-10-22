@@ -379,7 +379,9 @@
     <Content Include="Assests\main\img\2021-06-29_215318.png" />
     <Content Include="Assests\main\img\contract.png" />
     <Content Include="DiscussionEntry.aspx" />
+    <Content Include="ForumReportListings.aspx" />
     <Content Include="KrousExDeleteComment.aspx" />
+    <Content Include="KrousExReportForum.aspx" />
     <Content Include="ProgrammeEntry.aspx" />
     <Content Include="Scripts\date.format.js" />
     <Content Include="StaffProfile.aspx" />
@@ -965,7 +967,7 @@
     <Content Include="ExamListings.aspx" />
     <Content Include="FacultyEntry.aspx" />
     <Content Include="FacultyListings.aspx" />
-    <Content Include="FAQ.aspx" />
+    <Content Include="KrousExFAQ.aspx" />
     <Content Include="FAQEntry.aspx" />
     <Content Include="FAQListings.aspx" />
     <Content Include="favicon.ico" />
@@ -1314,6 +1316,13 @@
     <Compile Include="DiscussionEntry.aspx.designer.cs">
       <DependentUpon>DiscussionEntry.aspx</DependentUpon>
     </Compile>
+    <Compile Include="ForumReportListings.aspx.cs">
+      <DependentUpon>ForumReportListings.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="ForumReportListings.aspx.designer.cs">
+      <DependentUpon>ForumReportListings.aspx</DependentUpon>
+    </Compile>
     <Compile Include="KrousExDeleteComment.aspx.cs">
       <DependentUpon>KrousExDeleteComment.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -1370,12 +1379,12 @@
     <Compile Include="FacultyListings.aspx.designer.cs">
       <DependentUpon>FacultyListings.aspx</DependentUpon>
     </Compile>
-    <Compile Include="FAQ.aspx.cs">
-      <DependentUpon>FAQ.aspx</DependentUpon>
+    <Compile Include="KrousExFAQ.aspx.cs">
+      <DependentUpon>KrousExFAQ.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="FAQ.aspx.designer.cs">
-      <DependentUpon>FAQ.aspx</DependentUpon>
+    <Compile Include="KrousExFAQ.aspx.designer.cs">
+      <DependentUpon>KrousExFAQ.aspx</DependentUpon>
     </Compile>
     <Compile Include="FAQEntry.aspx.cs">
       <DependentUpon>FAQEntry.aspx</DependentUpon>
@@ -1436,6 +1445,13 @@
     </Compile>
     <Compile Include="KrousExForumListings.aspx.designer.cs">
       <DependentUpon>KrousExForumListings.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="KrousExReportForum.aspx.cs">
+      <DependentUpon>KrousExReportForum.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="KrousExReportForum.aspx.designer.cs">
+      <DependentUpon>KrousExReportForum.aspx</DependentUpon>
     </Compile>
     <Compile Include="KrousExViewDiscussion.aspx.cs">
       <DependentUpon>KrousExViewDiscussion.aspx</DependentUpon>

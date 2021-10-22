@@ -16099,9 +16099,10 @@ code {
     .accordion .card .card-header * {
       font-weight: 500;
       font-size: 1rem; }
-    .accordion .card .card-header a {
+    .accordion .card .card-header a, .faq-title {
       display: block;
       text-decoration: none;
+      cursor:help;
       font-size: 0.9375rem;
       position: relative;
       padding: .75rem 1.70rem .75rem 1.25rem;
@@ -16116,20 +16117,27 @@ code {
       -o-transition: color 0.5s ease;
       transition: color 0.5s ease;
       padding-right: .5rem; }
-      .accordion .card .card-header a:before {
+    .faq-title:hover{
+        text-decoration: none;
+    }
+    .accordion .card .card-header a:before, .faq-title:before {
         font-family: "Material Design Icons";
         position: absolute;
         right: 7px;
         top: 10px;
         font-size: 18px;
         display: block;
-        color: rgba(255, 255, 255, 0.7); }
-      .accordion .card .card-header a[aria-expanded="true"] {
-        color: #0090e7; }
-        .accordion .card .card-header a[aria-expanded="true"]:before {
-          content: "\F140"; }
-      .accordion .card .card-header a[aria-expanded="false"]:before {
-        content: "\F143"; }
+        color: rgba(255, 255, 255, 0.7);
+    }
+    .accordion .card .card-header a[aria-expanded="true"], .faq-title[aria-expanded="true"] {
+        color: #0090e7;
+    }
+    .accordion .card .card-header a[aria-expanded="true"]:before, .faq-title[aria-expanded="true"]:before {
+        content: "\F140";
+    }
+    .accordion .card .card-header a[aria-expanded="false"]:before, .faq-title[aria-expanded="false"]:before {
+        content: "\F143";
+    }
   .accordion .card .card-body {
     font-size: 14px;
     padding: 0 2rem 2rem 2rem;

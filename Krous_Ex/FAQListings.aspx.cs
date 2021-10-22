@@ -31,8 +31,7 @@ namespace Krous_Ex
 
                 sqlQuery = "SELECT * FROM FAQ ";
                 sqlQuery += "WHERE CASE WHEN @FAQTitle = '' THEN @FAQTitle ELSE FAQTitle END LIKE '%'+@FAQTitle+'%' AND ";
-                sqlQuery += "CASE WHEN @FAQCategory = '' then @FAQCategory ELSE FAQCategory END = @FAQCategory AND ";
-                sqlQuery += "FAQStatus = @FAQStatus ";
+                sqlQuery += "CASE WHEN @FAQCategory = '' then @FAQCategory ELSE FAQCategory END = @FAQCategory ";
                 sqlQuery += "ORDER BY CreatedDate, FAQCategory";
 
                 SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["Krous_Ex"].ConnectionString);
@@ -41,7 +40,6 @@ namespace Krous_Ex
                 SqlCommand GetCommand = new SqlCommand(sqlQuery, con);
                 GetCommand.Parameters.AddWithValue("@FAQTitle", txtFAQTitle.Text);
                 GetCommand.Parameters.AddWithValue("@FAQCategory", ddlCategory.SelectedValue);
-                GetCommand.Parameters.AddWithValue("@FAQStatus", ddlFAQStatus.SelectedValue);
                 SqlDataReader reader = GetCommand.ExecuteReader();
                 DataTable dtFAQ = new DataTable();
                 dtFAQ.Load(reader);
