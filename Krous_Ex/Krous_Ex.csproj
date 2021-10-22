@@ -379,6 +379,7 @@
     <Content Include="Assests\main\img\contract.png" />
     <Content Include="DiscussionEntry.aspx" />
     <Content Include="ProgrammeEntry.aspx" />
+    <Content Include="ProgrammeListings.aspx" />
     <Content Include="StaffProfile.aspx" />
     <Content Include="Uploads\ProfileImage\defaultUserProfile.png" />
     <Content Include="Assests\main\img\exit.png" />
@@ -1454,6 +1455,13 @@
     </Compile>
     <Compile Include="ProgrammeEntry.aspx.designer.cs">
       <DependentUpon>ProgrammeEntry.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="ProgrammeListings.aspx.cs">
+      <DependentUpon>ProgrammeListings.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="ProgrammeListings.aspx.designer.cs">
+      <DependentUpon>ProgrammeListings.aspx</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RegisterAcc.aspx.cs">

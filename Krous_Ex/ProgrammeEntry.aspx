@@ -64,7 +64,7 @@
                                         </div>
                                         <div class="col-md-3">
                                             <asp:DropDownList ID="ddlProgCategory" runat="server" CssClass="form-control" AutoPostBack="true" OnSelectedIndexChanged="ddlProgCategory_SelectedIndexChanged">
-                                                <asp:ListItem Selected="True" Value="">Category</asp:ListItem>
+                                                <asp:ListItem Selected="True" Value=""></asp:ListItem>
                                                 <asp:ListItem Value="Foundation">Foundation</asp:ListItem>
                                                 <asp:ListItem Value="Diploma">Diploma</asp:ListItem>
                                                 <asp:ListItem Value="Bachelor Degree">Bachelor Degree</asp:ListItem>
@@ -81,7 +81,7 @@
                                         </div>
                                         <div class="col-md-2">
                                             <asp:DropDownList ID="ddlProgDuration" runat="server" CssClass="form-control">
-                                                <asp:ListItem Selected="True" Value="">Duration</asp:ListItem>
+                                                <asp:ListItem Selected="True" Value=""></asp:ListItem>
                                                 <asp:ListItem Value="1">1</asp:ListItem>
                                                 <asp:ListItem Value="2">2</asp:ListItem>
                                                 <asp:ListItem Value="3">3</asp:ListItem>
@@ -93,9 +93,9 @@
                                                 <asp:ListItem Value="9">9</asp:ListItem>
                                             </asp:DropDownList>
                                         </div>
-                                        <!--if they select master, only display-->
+                                        <!--if they select master or doctor, only display-->
                                         <div class="col-md-4">
-                                            <asp:RadioButtonList ID="rblFullorPart" runat="server" RepeatDirection="Horizontal" CssClass="rdBtn">
+                                            <asp:RadioButtonList ID="rblFullorPart" runat="server" Visible="false" RepeatDirection="Horizontal" CssClass="rdBtn">
                                                 <asp:ListItem>Full Time</asp:ListItem>
                                                 <asp:ListItem>Part Time</asp:ListItem>
                                             </asp:RadioButtonList>
@@ -103,20 +103,31 @@
                                     </div>
                                 </div>
 
-                                <!--after that need to include choosing the faculty-->
+                                <!--choosing the faculty, load from Faculty table-->
+                                <div class="form-group pdForm">
+                                    <div class="row">
+                                        <div class="col-md-3">
+                                            <asp:Label ID="lblFacultyInChg" runat="server">Faculty In-charge</asp:Label><span style="color: red;">*</span>
+                                        </div>
+                                        <div class="col-md-8">
+                                            <asp:DropDownList ID="ddlFacultyInChg" runat="server" CssClass="form-control">
+                                            </asp:DropDownList>
+                                        </div>
+                                    </div>
+                                </div>
 
                                 <hr />
                                 <div class="form-group pdForm">
                                     <div class="row">
                                         <div class="col-md-12 float-right text-right">
-                                            <%--<asp:Button Text="Back" ID="btnBack" runat="server" Width="18%" CssClass="btn mr20 pdForm" OnClick="btnBack_Click" />--%>
+                                            <asp:Button Text="Back" ID="btnBack" runat="server" Width="18%" CssClass="btn mr20 pdForm" OnClick="btnBack_Click" />
                                             <asp:Button Text="Save" ID="btnSave" runat="server" Width="18%" CssClass="btn btn-primary mr20 pdForm" OnClick="btnSave_Click" />
                                             <ajaxToolkit:ConfirmButtonExtender ID="ConfirmButtonExtender1" runat="server" ConfirmText="Are you sure to add these details ?" TargetControlID="btnSave" />
                                             <asp:Button Text="Cancel" ID="btnCancel" runat="server" Width="18%" CssClass="btn btn-dark mr20 pdForm" Style="margin-left: 10px; height: 38px;" OnClick="btnCancel_Click" />
-                                            <%--<asp:Button Text="Update" ID="btnUpdate" runat="server" Width="18%" CssClass="btn mr20 pdForm" OnClick="btnUpdate_Click" />
+                                            <asp:Button Text="Update" ID="btnUpdate" runat="server" Width="18%" CssClass="btn mr20 pdForm" OnClick="btnUpdate_Click" />
                                             <ajaxToolkit:ConfirmButtonExtender ID="ConfirmButtonExtender2" runat="server" ConfirmText="Are you sure to update this FAQ ?" TargetControlID="btnUpdate" />
                                             <asp:Button Text="Delete" ID="btnDelete" runat="server" Width="18%" CssClass="btn mr20 pdForm" OnClick="btnDelete_Click" />
-                                            <ajaxToolkit:ConfirmButtonExtender ID="ConfirmButtonExtender3" runat="server" ConfirmText="Are you sure to delete this FAQ ?" TargetControlID="btnDelete" />--%>
+                                            <ajaxToolkit:ConfirmButtonExtender ID="ConfirmButtonExtender3" runat="server" ConfirmText="Are you sure to delete this FAQ ?" TargetControlID="btnDelete" />
                                         </div>
                                     </div>
                                 </div>
