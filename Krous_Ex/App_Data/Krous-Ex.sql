@@ -95,15 +95,18 @@ CREATE TABLE [Course] (
 	CONSTRAINT pk_course PRIMARY KEY (CourseGUID),
 )
 
-CREATE TABLE [Programme] (
-	[ProgrammeGUID] UNIQUEIDENTIFIER NOT NULL,
-	[ProgrammeAbbrv] varchar (4) NOT NULL,
-	[ProgrammeName] varchar(100) NOT NULL,
-	[ProgrammeDesc] varchar(999) NOT NULL,
-	[ProgrammeDuration] varchar (30) NOT NULL,
-	[ProgrammeCategory] varchar(30) NOT NULL,
-	CONSTRAINT pk_programme PRIMARY KEY (ProgrammeGUID),
-)
+CREATE TABLE [dbo].[Programme] (
+    [ProgrammeGUID]       UNIQUEIDENTIFIER NOT NULL,
+    [ProgrammeAbbrv]      VARCHAR (4)      NOT NULL,
+    [ProgrammeName]       VARCHAR (100)    NOT NULL,
+    [ProgrammeDesc]       VARCHAR (999)    NOT NULL,
+    [ProgrammeDuration]   VARCHAR (30)     NOT NULL,
+    [ProgrammeCategory]   VARCHAR (30)     NOT NULL,
+    [ProgrammeFullorPart] VARCHAR (10)     NULL,
+	[ProgrammeFaculty]    VARCHAR (100)    NOT NULL,
+    CONSTRAINT [pk_programme] PRIMARY KEY CLUSTERED ([ProgrammeGUID] ASC)
+);
+
 
 CREATE TABLE [Payment] (
 	[PaymentGUID] UNIQUEIDENTIFIER NOT NULL,

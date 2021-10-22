@@ -61,6 +61,102 @@ namespace Krous_Ex
             }
         }
 
+        public static bool CheckDuplicateProgrammeName(string ProgrammeName)
+        {
+            try
+            {
+                SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["Krous_Ex"].ConnectionString);
+
+                con.Open();
+                var SelectCommand = new SqlCommand();
+
+                SelectCommand = new SqlCommand("SELECT * FROM Programme WHERE ProgrammeName = @ProgrammeName ", con);
+                SelectCommand.Parameters.AddWithValue("@ProgrammeName", ProgrammeName);
+
+                SqlDataReader reader = SelectCommand.ExecuteReader();
+                DataTable dtFound = new DataTable();
+                dtFound.Load(reader);
+                con.Close();
+                if (dtFound.Rows.Count != 0)
+                {
+                    return true;
+                }
+
+                return false;
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
+        }
+
+        public static bool CheckDuplicateProgrammeAbbrv(string ProgrammeAbbrv)
+        {
+            try
+            {
+                SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["Krous_Ex"].ConnectionString);
+
+                con.Open();
+                var SelectCommand = new SqlCommand();
+
+                SelectCommand = new SqlCommand("SELECT * FROM Programme WHERE ProgrammeAbbrv = @ProgrammeAbbrv ", con);
+                SelectCommand.Parameters.AddWithValue("@ProgrammeAbbrv", ProgrammeAbbrv);
+
+                SqlDataReader reader = SelectCommand.ExecuteReader();
+                DataTable dtFound = new DataTable();
+                dtFound.Load(reader);
+                con.Close();
+                if (dtFound.Rows.Count != 0)
+                {
+                    return true;
+                }
+
+                return false;
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
+        }
+
+        public static bool CheckDuplicateMasterOrDoctor(string ProgrammeCategory, string ProgrammeName)
+        {
+            try
+            {
+                SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["Krous_Ex"].ConnectionString);
+
+                con.Open();
+                var SelectCommand = new SqlCommand();
+
+                SelectCommand = new SqlCommand("SELECT * FROM Programme WHERE ProgrammeCategory = @ProgrammeCategory AND ProgrammeName = @ProgrammeName ", con);
+                SelectCommand.Parameters.AddWithValue("@ProgrammeCategory", ProgrammeCategory);
+                SelectCommand.Parameters.AddWithValue("@ProgrammeName", ProgrammeName);
+
+                SqlDataReader reader = SelectCommand.ExecuteReader();
+                DataTable dtFound = new DataTable();
+                dtFound.Load(reader);
+                con.Close();
+
+                if (ProgrammeCategory == "Master" || ProgrammeCategory == "Doctor of Philosophy")
+                {
+                    if (dtFound.Rows.Count == 2)
+                    {
+                        return true;
+                    }
+                    else
+                    {
+                        return false;
+                    }
+                }
+
+                return false;
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
+        }
+
 
     }
 }
