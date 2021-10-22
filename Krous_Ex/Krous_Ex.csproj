@@ -207,6 +207,7 @@
     <Content Include="Assests\main\css\inquiry.css" />
     <Content Include="Assests\main\css\jquery.dataTables.min.css" />
     <Content Include="Assests\main\css\layouts.css" />
+    <Content Include="Assests\main\css\LiveChat.css" />
     <Content Include="Assests\main\css\LoginPage.css" />
     <Content Include="Assests\main\css\modern-horizontal\style.css" />
     <Content Include="Assests\main\css\Profile.css" />
@@ -378,7 +379,9 @@
     <Content Include="Assests\main\img\2021-06-29_215318.png" />
     <Content Include="Assests\main\img\contract.png" />
     <Content Include="DiscussionEntry.aspx" />
+    <Content Include="KrousExDeleteComment.aspx" />
     <Content Include="ProgrammeEntry.aspx" />
+    <Content Include="Scripts\date.format.js" />
     <Content Include="ProgrammeListings.aspx" />
     <Content Include="StaffProfile.aspx" />
     <Content Include="Uploads\ProfileImage\defaultUserProfile.png" />
@@ -1312,6 +1315,13 @@
     <Compile Include="DiscussionEntry.aspx.designer.cs">
       <DependentUpon>DiscussionEntry.aspx</DependentUpon>
     </Compile>
+    <Compile Include="KrousExDeleteComment.aspx.cs">
+      <DependentUpon>KrousExDeleteComment.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="KrousExDeleteComment.aspx.designer.cs">
+      <DependentUpon>KrousExDeleteComment.aspx</DependentUpon>
+    </Compile>
     <Compile Include="KrousExDiscussionEntry.aspx.cs">
       <DependentUpon>KrousExDiscussionEntry.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -1449,6 +1459,7 @@
     <Compile Include="Logout.aspx.designer.cs">
       <DependentUpon>Logout.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Messages.cs" />
     <Compile Include="ProgrammeEntry.aspx.cs">
       <DependentUpon>ProgrammeEntry.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -1591,6 +1602,7 @@
     <Compile Include="Testing3.aspx.designer.cs">
       <DependentUpon>Testing3.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Users.cs" />
     <Compile Include="ViewSwitcher.ascx.cs">
       <DependentUpon>ViewSwitcher.ascx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>

@@ -206,6 +206,7 @@ CREATE TABLE [dbo].[Discussion] (
 	[DiscContent]         VARCHAR (999)    NOT NULL,
     [DiscStatus]          VARCHAR (10)     NOT NULL,
 	[DiscIsPinned]		  VARCHAR (4)	   NOT NULL,
+	[DiscIsLocked]        VARCHAR (4)      NOT NULL,
     [DiscCreatedBy]       VARCHAR (50)     NOT NULL,
     [DiscCreatedDate]     DATETIME         NOT NULL,
     [DiscLastUpdatedBy]   VARCHAR (50)     NOT NULL,

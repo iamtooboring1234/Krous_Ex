@@ -4,11 +4,12 @@
     <script src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js"></script>
     <link href="Assests/main/css/table.css" rel="stylesheet" />
     <script src="https://cdn.datatables.net/plug-ins/1.10.19/sorting/absolute.js"></script>
+
 </asp:Content>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="body" runat="server">
 
-        <div class="container-fluid page-body-wrapper">
+    <div class="container-fluid page-body-wrapper">
         <div class="main-panel">
             <div class="content-wrapper">
                 <div class="row">
@@ -20,7 +21,7 @@
                                     <div class="row">
                                     <div class="col-md-10">
                                         <p class="card-description">
-                                            <asp:HyperLink ID="HyperLink1" runat="server" href="StudentLogin.aspx?FromURL=KrousExDiscussionListings">Login</asp:HyperLink> to post new forum 
+                                            <asp:HyperLink ID="HyperLink1" runat="server" NavigateURL='<%#"StudentLogin.aspx?FromURL=KrousExViewDiscussion&DiscGUID=" + Request.QueryString["DiscGUID"].ToString() %>'>Login</asp:HyperLink> to post new forum / comment
                                         </p>
                                     </div>
                                     </div>
@@ -29,7 +30,7 @@
                                     <div class="row">
                                     <div class="col-md-10">
                                         <p class="card-description">
-                                            <asp:HyperLink ID="HyperLink2" runat="server" href="DiscussionEntry">Post</asp:HyperLink> a new forum / <a href="#postReplyContainer">Post</a> a reply
+                                            <asp:HyperLink ID="HyperLink2" runat="server" href="DiscussionEntry">Post</asp:HyperLink> a new forum / <a href="#postReplyContainer">Post</a> a comment
                                         </p>
                                     </div>
                                     </div>
@@ -55,23 +56,29 @@
                                 </div>
                                 </div>
 
-                                <asp:Panel ID="panelDelete" runat="server" Visible="true">
+                                <asp:Panel ID="panelManage" runat="server" Visible="false">
                                     <div class="row">
                                     <div class="col-md-12 mt-5 text-right">
                                         <p class="card-description">
-                                            <asp:HyperLink ID="HyperLink4" runat="server" href="DiscussionEntry">Post</asp:HyperLink> a new forum / <a href="#postReplyContainer">Post</a> a reply
+                                            <asp:Button ID="btnPin" runat="server" Text="Pin this discussion" CssClass="btn btn-warning" Width="18%" OnClick="btnPin_Click"/>
+                                            <ajaxToolkit:ConfirmButtonExtender ID="ConfirmButtonExtender1" runat="server" ConfirmText="Are you sure to PIN this discussion ?" TargetControlID="btnPin" />
+                                            <asp:Button ID="btnUnpin" runat="server" Text="Unpin this discussion" CssClass="btn btn-warning" Width="18%" OnClick="btnUnpin_Click"/>
+                                            <ajaxToolkit:ConfirmButtonExtender ID="ConfirmButtonExtender2" runat="server" ConfirmText="Are you sure to PIN this discussion ?" TargetControlID="btnUnpin" />
+                                            <asp:Button ID="btnLock" runat="server" Text="Lock this discussion" CssClass="btn btn-warning" Width="18%" OnClick="btnLock_Click"/>
+                                            <ajaxToolkit:ConfirmButtonExtender ID="ConfirmButtonExtender3" runat="server" ConfirmText="Are you sure to LOCK this discussion ?" TargetControlID="btnLock" />
+                                            <asp:Button ID="btnUnlock" runat="server" Text="Unlock this discussion" CssClass="btn btn-warning" Width="18%" OnClick="btnUnlock_Click"/>
+                                            <ajaxToolkit:ConfirmButtonExtender ID="ConfirmButtonExtender4" runat="server" ConfirmText="Are you sure to UNLOCK this discussion ?" TargetControlID="btnUnlock" />
+                                            <asp:Button ID="btnDelete" runat="server" Text="Delete this discussion" CssClass="btn btn-danger" Width="18%" OnClick="btnDelete_Click"/>
+                                            <ajaxToolkit:ConfirmButtonExtender ID="ConfirmButtonExtender5" runat="server" ConfirmText="Are you sure to DELETE this discussion ?" TargetControlID="btnDelete" />
                                         </p>
                                     </div>
                                     </div>
                                 </asp:Panel>
-
                             </div>
                         </div>
-
-
                     </div>
                 </div>
-                <asp:Panel ID="panelPostReply" runat="server" Visible="true">
+                <asp:Panel ID="panelPostReply" runat="server" Visible="false">
                     <div id="postReplyContainer" class="row">
                         <div class="col-12">
                             <div class="card">
@@ -99,27 +106,5 @@
     </div>
 
     <script src="Assests/main/js/data-table.js"></script>
-
-    <script>
-    $(document).ready(function () {
-
-        function updateHeader(data) {
-
-            var table = $('#example').DataTable();
-            table.row.add(data).draw();
-
-            $('.rowData', table.table().header()).each(function (i) {
-
-                $(this).html(data[i]);
-
-            });
-        }
-
-        var table = $('#example').DataTable({
-            "sorting": false
-        });
-
-    });
-    </script>
 
 </asp:Content>

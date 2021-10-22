@@ -19,6 +19,9 @@ namespace Krous_Ex
             {
                 loadGV();
 
+                HyperLink1.NavigateUrl = "StudentLogin.aspx?FromURL=KrousExDiscussionListings&ForumGUID=" + Request.QueryString["ForumGUID"].ToString() ;
+                
+
                 var myCookie = Request.Cookies[FormsAuthentication.FormsCookieName];
 
                 if (IsPostBack != true)
@@ -46,13 +49,13 @@ namespace Krous_Ex
                 string strTable = "";
                 string strLink = "";
 
-                sqlQuery = "SELECT t1.ForumCategory, t1.DiscGUID, t1.DiscTopic, t1.DiscIsPinned, t1.TotalReply, t1.DiscCreatedBy, t1.CreatedDate, t2.LastReplyBy, CONVERT(varchar, t2.Reply_Date, 120) as LastReplyDate ";
+                sqlQuery = "SELECT t1.ForumCategory, t1.DiscGUID, t1.DiscTopic, t1.DiscIsPinned, t1.DiscIsLocked, t1.TotalReply, t1.DiscCreatedBy, t1.CreatedDate, t2.LastReplyBy, CONVERT(varchar, t2.Reply_Date, 120) as LastReplyDate ";
                 sqlQuery += "FROM ";
-                sqlQuery += "(SELECT F.ForumCategory, D.DiscGUID, D.DiscTopic, D.DiscIsPinned, COUNT(R.ReplyGUID) as TotalReply, D.DiscCreatedBy, Convert(varchar, D.DiscCreatedDate, 120) as CreatedDate ";
+                sqlQuery += "(SELECT F.ForumCategory, D.DiscGUID, D.DiscTopic, D.DiscIsPinned, D.DiscIsLocked, COUNT(R.ReplyGUID) as TotalReply, D.DiscCreatedBy, Convert(varchar, D.DiscCreatedDate, 120) as CreatedDate ";
                 sqlQuery += "FROM Forum F LEFT JOIN Discussion D ON F.ForumGUID = D.ForumGUID LEFT OUTER JOIN Replies R ";
                 sqlQuery += "On D.DiscGUID = R.DiscGUID ";
-                sqlQuery += "WHERE F.ForumGUID = @ForumGUID ";
-                sqlQuery += "GROUP BY D.DiscGUID, D.DiscTopic, D.DiscCreatedBy, D.DiscCreatedDate, D.DiscIsPinned, F.ForumCategory) t1 ";
+                sqlQuery += "WHERE F.ForumGUID = @ForumGUID AND D.DiscStatus = 'Active' ";
+                sqlQuery += "GROUP BY D.DiscGUID, D.DiscTopic, D.DiscCreatedBy, D.DiscCreatedDate, D.DiscIsPinned, F.ForumCategory, D.DiscIsLocked) t1 ";
                 sqlQuery += "LEFT JOIN ";
                 sqlQuery += "(SELECT D.DiscGUID, R1.Reply_By as LastReplyBy, R1.Reply_Date ";
                 sqlQuery += "FROM Discussion D LEFT JOIN Replies R1 ON ";
@@ -96,9 +99,10 @@ namespace Krous_Ex
                             strTable += "<td style=\"width:20px\">" + dtDisc.Rows[i]["LastReplyBy"] + "<br/>" +  dtDisc.Rows[i]["LastReplyDate"] + "</td>";
                         }
                         strTable += "</tr>";
-                        strLink = dtDisc.Rows[i]["ForumCategory"].ToString();
-                    }
 
+                        strLink = dtDisc.Rows[i]["ForumCategory"].ToString();
+
+                    }
                 }
                 else
                 {

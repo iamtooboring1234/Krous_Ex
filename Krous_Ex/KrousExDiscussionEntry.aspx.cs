@@ -26,13 +26,13 @@ namespace Krous_Ex
             {
                 ListItem oList = new ListItem();
 
-                if (Request.QueryString["FAQGUID"] == null)
-                {
-                    oList = new ListItem();
-                    oList.Text = "";
-                    oList.Value = "";
-                    ddlCategory.Items.Add(oList);
-                }
+                //if (Request.QueryString["FAQGUID"] == null)
+                //{
+                //    oList = new ListItem();
+                //    oList.Text = "";
+                //    oList.Value = "";
+                //    ddlCategory.Items.Add(oList);
+                //}
 
                 SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["Krous_Ex"].ConnectionString);
                 con.Open();
@@ -82,7 +82,7 @@ namespace Krous_Ex
                 SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["Krous_Ex"].ConnectionString);
                 con.Open();
 
-                SqlCommand InsertCommand = new SqlCommand("INSERT INTO Discussion VALUES(@DiscGUID,@ForumGUID,@DiscTopic,@DiscDesc,@DiscContent,@DiscStatus,@DiscIsPinned,@DiscCreatedBy,@DiscCreatedDate, @DiscLastUpdatedBy, @DiscLastUpdatedDate)", con);
+                SqlCommand InsertCommand = new SqlCommand("INSERT INTO Discussion VALUES(@DiscGUID,@ForumGUID,@DiscTopic,@DiscDesc,@DiscContent,@DiscStatus,@DiscIsPinned,@DiscIsLocked,@DiscCreatedBy,@DiscCreatedDate, @DiscLastUpdatedBy, @DiscLastUpdatedDate)", con);
 
                 InsertCommand.Parameters.AddWithValue("@DiscGUID", DiscGUID);
                 InsertCommand.Parameters.AddWithValue("@ForumGUID", Guid.Parse(ddlCategory.SelectedItem.Value));
@@ -91,6 +91,7 @@ namespace Krous_Ex
                 InsertCommand.Parameters.AddWithValue("@DiscContent", txtDiscContent.Text);
                 InsertCommand.Parameters.AddWithValue("@DiscStatus", "Active");
                 InsertCommand.Parameters.AddWithValue("@DiscIsPinned", "No");
+                InsertCommand.Parameters.AddWithValue("@DiscIsLocked", "No");
                 InsertCommand.Parameters.AddWithValue("@DiscCreatedBy", Username);
                 InsertCommand.Parameters.AddWithValue("@DiscCreatedDate", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
                 InsertCommand.Parameters.AddWithValue("@DiscLastUpdatedBy", Username);

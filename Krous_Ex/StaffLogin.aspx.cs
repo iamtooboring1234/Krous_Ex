@@ -24,7 +24,17 @@ namespace Krous_Ex
         {
             if (!String.IsNullOrEmpty(Request.QueryString["FromURL"]))
             {
-                HyperLink1.NavigateUrl = "StudentLogin.aspx?FromURL=" + Request.QueryString["FromURL"];
+                if (!String.IsNullOrEmpty(Request.QueryString["ForumGUID"]))
+                {
+                    HyperLink1.NavigateUrl = "StaffLogin.aspx?FromURL=" + Request.QueryString["FromURL"] + "&ForumGUID=" + Request.QueryString["ForumGUID"] + "&ForumGUID=" + Request.QueryString["ForumCategory"];
+                }
+                else if (!String.IsNullOrEmpty(Request.QueryString["DiscGUID"]))
+                {
+                    HyperLink1.NavigateUrl = "StaffLogin.aspx?FromURL=" + Request.QueryString["FromURL"] + "&ForumGUID=" + Request.QueryString["DiscGUID"];
+                }
+            } else
+            {
+                HyperLink1.NavigateUrl = "StudentLogin";
             }
         }
 
@@ -43,10 +53,18 @@ namespace Krous_Ex
 
                     if (String.IsNullOrEmpty(Request.QueryString["FromURL"]))
                     {
-                        Response.Redirect("StaffDashboard.aspx", true);
-                    } else
+                        Response.Redirect("StudentDashboard.aspx", true);
+                    }
+                    else
                     {
-                        Response.Redirect(Request.QueryString["FromURL"], true);
+                        if (!String.IsNullOrEmpty(Request.QueryString["ForumGUID"]))
+                        {
+                            Response.Redirect(Request.QueryString["FromURL"] + "?ForumGUID=" + Request.QueryString["ForumGUID"] + "&ForumCategory=" + Request.QueryString["ForumCategory"], true);
+                        }
+                        else if (!String.IsNullOrEmpty(Request.QueryString["DiscGUID"]))
+                        {
+                            Response.Redirect(Request.QueryString["FromURL"] + "?DiscGUID=" + Request.QueryString["DiscGUID"], true);
+                        }
                     }
                 }
                 else

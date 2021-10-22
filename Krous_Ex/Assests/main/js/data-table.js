@@ -70,7 +70,8 @@
             }],
             "iDisplayLength": 20,
             "language": {
-                search: ""
+                "search": "",
+                "emptyTable": "Currently, this discussion has no reply."
             }
         });
     });
