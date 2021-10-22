@@ -15,13 +15,13 @@ namespace Krous_Ex
     {
 
         /// <summary>
-        /// lblCourse control.
+        /// lblProgrammEntry control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblCourse;
+        protected global::System.Web.UI.WebControls.Label lblProgrammEntry;
 
         /// <summary>
         /// updatepanel1 control.
@@ -51,15 +51,6 @@ namespace Krous_Ex
         protected global::System.Web.UI.WebControls.TextBox txtProgName;
 
         /// <summary>
-        /// RequiredFieldValidator1 control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.RequiredFieldValidator RequiredFieldValidator1;
-
-        /// <summary>
         /// lblProgAbbrv control.
         /// </summary>
         /// <remarks>
@@ -78,15 +69,6 @@ namespace Krous_Ex
         protected global::System.Web.UI.WebControls.TextBox txtProgAbbrv;
 
         /// <summary>
-        /// RequiredFieldValidator2 control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.RequiredFieldValidator RequiredFieldValidator2;
-
-        /// <summary>
         /// lblProgDesc control.
         /// </summary>
         /// <remarks>
@@ -103,15 +85,6 @@ namespace Krous_Ex
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtProgDesc;
-
-        /// <summary>
-        /// RequiredFieldValidator3 control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.RequiredFieldValidator RequiredFieldValidator3;
 
         /// <summary>
         /// lblProgCategory control.

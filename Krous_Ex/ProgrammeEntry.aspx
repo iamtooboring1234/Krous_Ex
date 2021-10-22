@@ -13,7 +13,7 @@
                 <div class="row">
                     <div class="col-md-12">
                         <h3>
-                            <asp:Label ID="lblCourse" runat="server">Programme Entry</asp:Label>
+                            <asp:Label ID="lblProgrammEntry" runat="server">Programme Entry</asp:Label>
                         </h3>
                         <p class="card-description">Form to insert new programme details</p>
                     </div>
@@ -25,41 +25,38 @@
                             <div class="form-horizontal">
                                 <div class="form-group pdForm">
                                     <div class="row">
-                                        <div class="col-md-3">
+                                        <div class="col-md-3 col-form-label">
                                             <asp:Label ID="lblProgName" runat="server">Programme Name</asp:Label><span style="color: red;">*</span>
                                         </div>
                                         <div class="col-md-8">
                                             <asp:TextBox ID="txtProgName" runat="server" CssClass="form-control" onkeydown="return (event.keyCode!=13);"></asp:TextBox>
-                                            <asp:RequiredFieldValidator ID="RequiredFieldValidator1" runat="server" ErrorMessage="This field is required!" Visible="False"></asp:RequiredFieldValidator>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="form-group pdForm">
                                     <div class="row">
-                                        <div class="col-md-3">
+                                        <div class="col-md-3 col-form-label">
                                             <!-- exp: RSD-->
                                             <asp:Label ID="lblProgAbbrv" runat="server">Programme Abbreviation</asp:Label><span style="color: red;">*</span>
                                         </div>
                                         <div class="col-md-8">
                                             <asp:TextBox ID="txtProgAbbrv" runat="server" CssClass="form-control" onkeydown="return (event.keyCode!=13);"></asp:TextBox>
-                                            <asp:RequiredFieldValidator ID="RequiredFieldValidator2" runat="server" ErrorMessage="This field is required!" Visible="False"></asp:RequiredFieldValidator>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="form-group pdForm">
                                     <div class="row">
-                                        <div class="col-md-3">
+                                        <div class="col-md-3 col-form-label">
                                             <asp:Label ID="lblProgDesc" runat="server">Programme Description</asp:Label><span style="color: red;">*</span>
                                         </div>
                                         <div class="col-md-8">
-                                            <asp:TextBox ID="txtProgDesc" CssClass="form-control" Style="resize: none" TextMode="multiline" Columns="40" Rows="6" runat="server" />
-                                            <asp:RequiredFieldValidator ID="RequiredFieldValidator3" runat="server" ErrorMessage="This field is required!" Visible="False"></asp:RequiredFieldValidator>
+                                            <asp:TextBox ID="txtProgDesc" CssClass="form-control" Style="resize: none" TextMode="multiline" Columns="40" Rows="6" runat="server" />   
                                         </div>
                                     </div>
                                 </div>
                                 <div class="form-group pdForm">
                                     <div class="row">
-                                        <div class="col-md-3">
+                                        <div class="col-md-3 col-form-label">
                                             <asp:Label ID="lblProgCategory" runat="server">Programme Category</asp:Label><span style="color: red;">*</span>
                                         </div>
                                         <div class="col-md-3">
@@ -76,7 +73,7 @@
                                 </div>
                                 <div class="form-group pdForm">
                                     <div class="row">
-                                        <div class="col-md-3">
+                                        <div class="col-md-3 col-form-label">
                                             <asp:Label ID="lblProgDuration" runat="server">Programme Duration - Year(s)</asp:Label><span style="color: red;">*</span>
                                         </div>
                                         <div class="col-md-2">
@@ -106,7 +103,7 @@
                                 <!--choosing the faculty, load from Faculty table-->
                                 <div class="form-group pdForm">
                                     <div class="row">
-                                        <div class="col-md-3">
+                                        <div class="col-md-3 col-form-label">
                                             <asp:Label ID="lblFacultyInChg" runat="server">Faculty In-charge</asp:Label><span style="color: red;">*</span>
                                         </div>
                                         <div class="col-md-8">
