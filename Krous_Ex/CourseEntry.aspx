@@ -7,7 +7,7 @@
     <link href="Assests/main/css/inquiry.css" rel="stylesheet" />
     <link href="Assests/main/css/layouts.css" rel="stylesheet" />
 
-    <script>
+    <%--   <script>
         $(document).ready(function () {
             $("input[data-type='currency']").on({
                 keyup: function () {
@@ -86,8 +86,19 @@
             caret_pos = updated_len - original_len + caret_pos;
             input[0].setSelectionRange(caret_pos, caret_pos);
         }
-    </script>
-
+    </script>--%>
+    <style type="text/css">
+        .auto-style1 {
+            position: relative;
+            width: 100%;
+            flex: 0 0 75%;
+            max-width: 75%;
+            left: 0px;
+            top: 0px;
+            padding-left: 0.75rem;
+            padding-right: 0.75rem;
+        }
+    </style>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="body" runat="server">
 
@@ -112,8 +123,18 @@
                                         <div class="col-md-2 col-form-label">
                                             <asp:Label ID="lblCourseName" runat="server">Course Name</asp:Label><span style="color: red;">*</span>
                                         </div>
-                                        <div class="col-md-10">
-                                            <asp:TextBox ID="txtCourseName" runat="server" CssClass="form-control" onkeydown="return (event.keyCode!=13);" Style="width: 115px;"></asp:TextBox>
+                                        <div class="auto-style1">
+                                            <asp:TextBox ID="txtCourseName" runat="server" CssClass="form-control" onkeydown="return (event.keyCode!=13);"></asp:TextBox>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group pdForm">
+                                    <div class="row">
+                                        <div class="col-md-2 col-form-label">
+                                            <asp:Label ID="lblCourseAbbrv" runat="server">Course Abbreviation</asp:Label><span style="color: red;">*</span>
+                                        </div>
+                                        <div class="col-md-9">
+                                            <asp:TextBox ID="txtCourseAbbrv" runat="server" CssClass="form-control" onkeydown="return (event.keyCode!=13);" placeholder="Example:BACS3183"></asp:TextBox>
                                         </div>
                                     </div>
                                 </div>
@@ -122,8 +143,21 @@
                                         <div class="col-md-2 col-form-label">
                                             <asp:Label ID="lblCourseDesc" runat="server">Course Description</asp:Label><span style="color: red;">*</span>
                                         </div>
-                                        <div class="col-md-10">
-                                            <asp:TextBox ID="txtCourseDesc" runat="server" CssClass="form-control" onkeydown="return (event.keyCode!=13);" Style="width: 750px;"></asp:TextBox>
+                                        <div class="col-md-9">
+                                            <asp:TextBox ID="txtCourseDesc" CssClass="form-control" Style="resize: none" TextMode="multiline" Columns="40" Rows="6" runat="server" />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group pdForm">
+                                    <div class="row">
+                                        <div class="col-md-2 col-form-label">
+                                            <asp:Label ID="lblCourseCategory" runat="server">Course Category</asp:Label><span style="color: red;">*</span>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <asp:RadioButtonList ID="rbCourseCategory" runat="server" RepeatDirection="Horizontal" CssClass="rdBtn">
+                                                <asp:ListItem>Main Course</asp:ListItem>
+                                                <asp:ListItem>Elective Course</asp:ListItem>
+                                            </asp:RadioButtonList>
                                         </div>
                                     </div>
                                 </div>
@@ -133,65 +167,47 @@
                                             <asp:Label ID="lblCreditHour" runat="server">Credit Hours</asp:Label><span style="color: red;">*</span>
                                         </div>
                                         <div class="col-md-3">
-                                            <asp:DropDownList ID="ddlCreditHour" runat="server" CssClass="form-control" Style="width: 115px;">
-                                                <asp:ListItem Selected="True" Value=""></asp:ListItem>
-                                                <asp:ListItem Value="1">1</asp:ListItem>
-                                                <asp:ListItem Value="2">2</asp:ListItem>
-                                                <asp:ListItem Value="3">3</asp:ListItem>
-                                                <asp:ListItem Value="4">4</asp:ListItem>
-                                                <asp:ListItem Value="5">5</asp:ListItem>
-                                                <asp:ListItem Value="6">6</asp:ListItem>
-                                                <asp:ListItem Value="7">7</asp:ListItem>
-                                                <asp:ListItem Value="8">8</asp:ListItem>
-                                                <asp:ListItem Value="9">9</asp:ListItem>
-                                                <asp:ListItem Value="10">10</asp:ListItem>
-                                                <asp:ListItem Value="11">11</asp:ListItem>
-                                                <asp:ListItem Value="12">12</asp:ListItem>
-                                                <asp:ListItem Value="13">13</asp:ListItem>
-                                                <asp:ListItem Value="14">14</asp:ListItem>
-                                                <asp:ListItem Value="15">15</asp:ListItem>
+                                            <asp:TextBox ID="txtCreditHour" runat="server" CssClass="form-control" onkeydown="return (event.keyCode!=13);"></asp:TextBox>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group pdForm">
+                                    <div class="row">
+                                        <div class="col-md-2 col-form-label">
+                                            <asp:Label ID="lblCourseFee" runat="server">Estimated Course Fee</asp:Label><span style="color: red;">*</span>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <asp:TextBox ID="txtCourseFee" runat="server" CssClass="form-control" onkeydown="return (event.keyCode!=13);" placeholder="Example: 1,000 or 1,000.00"></asp:TextBox>
+                                            <%--<asp:TextBox ID="txtCourseFee" type="text" name="currency-field" runat="server" CssClass="form-control" pattern="^\$\d{1,3}(,\d{3})*(\.\d+)?$" value="" data-type="currency" placeholder="RM 1,000.00"></asp:TextBox>--%>
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <!--the course is belongs to which programme-->
+                                <div class="form-group pdForm">
+                                    <div class="row">
+                                        <div class="col-md-2 col-form-label">
+                                            <asp:Label ID="lblProgramme" runat="server">Classified to</asp:Label><span style="color: red;">*</span>
+                                        </div>
+                                        <div class="col-md-9">
+                                            <asp:DropDownList ID="ddlProgramme" runat="server" CssClass="form-control">
                                             </asp:DropDownList>
                                         </div>
                                     </div>
                                 </div>
 
-                                <div class="form-group pdForm">
-                                    <div class="row">
-                                        <div class="col-md-2 col-form-label">
-                                            <asp:Label ID="lblCourseCategory" runat="server">Course Category</asp:Label><span style="color: red;">*</span>
-                                        </div>
-                                        <div class="col-md-3">
-                                            <asp:RadioButton runat="server" ID="rdMain" Text="Main Course" CssClass="rdBtn" Checked="true" GroupName="Category" AutoPostBack="true" />
-                                        </div>
-                                        <div class="col-md-3">
-                                            <asp:RadioButton runat="server" ID="rbElective" Text="Elective Course" CssClass="rdBtn" Checked="true" GroupName="Category" AutoPostBack="true" />
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="form-group pdForm">
-                                    <div class="row">
-                                        <div class="col-md-2 col-form-label">
-                                            <asp:Label for="currency-field" ID="lblCourseFee" runat="server">Estimated Course Fee</asp:Label><span style="color: red;">*</span>
-                                        </div>
-                                        <div class="col-md-10">
-                                            <asp:TextBox ID="txtCourseFee" type="text" name="currency-field" runat="server" CssClass="form-control" pattern="^\$\d{1,3}(,\d{3})*(\.\d+)?$" value="" data-type="currency" placeholder="RM 1,000.00" Style="width: 326px;"></asp:TextBox>
-                                            <%--<input type="text" name="currency-field" id="currency-field" class="form-control" pattern="^\$\d{1,3}(,\d{3})*(\.\d+)?$" value="" data-type="currency" placeholder="RM 1,000.00" style="width:326px;">--%>
-                                        </div>
-                                    </div>
-                                </div>
 
                                 <hr />
                                 <div class="form-group pdForm">
                                     <div class="row">
                                         <div class="col-md-12 float-right text-right">
-                                            <asp:Button Text="Back" ID="btnBack" runat="server" Width="18%" CssClass="btn mr20 pdForm"/>
-                                            <asp:Button Text="Save" ID="btnSave" runat="server" Width="18%" CssClass="btn btn-primary mr20 pdForm"/>
+                                            <asp:Button Text="Back" ID="btnBack" runat="server" Width="18%" CssClass="btn mr20 pdForm" OnClick="btnBack_Click" />
+                                            <asp:Button Text="Save" ID="btnSave" runat="server" Width="18%" CssClass="btn btn-primary mr20 pdForm" OnClick="btnSave_Click" />
                                             <ajaxToolkit:ConfirmButtonExtender ID="ConfirmButtonExtender1" runat="server" ConfirmText="Are you sure to add these details ?" TargetControlID="btnSave" />
-                                            <asp:Button Text="Cancel" ID="btnCancel" runat="server" Width="18%" CssClass="btn btn-dark mr20 pdForm" Style="margin-left: 10px; height: 38px;"/>
-                                            <asp:Button Text="Update" ID="btnUpdate" runat="server" Width="18%" CssClass="btn mr20 pdForm"/>
+                                            <asp:Button Text="Cancel" ID="btnCancel" runat="server" Width="18%" CssClass="btn btn-dark mr20 pdForm" Style="margin-left: 10px; height: 38px;" OnClick="btnCancel_Click" />
+                                            <asp:Button Text="Update" ID="btnUpdate" runat="server" Width="18%" CssClass="btn mr20 pdForm" OnClick="btnUpdate_Click" />
                                             <ajaxToolkit:ConfirmButtonExtender ID="ConfirmButtonExtender2" runat="server" ConfirmText="Are you sure to update this FAQ ?" TargetControlID="btnUpdate" />
-                                            <asp:Button Text="Delete" ID="btnDelete" runat="server" Width="18%" CssClass="btn mr20 pdForm" />
+                                            <asp:Button Text="Delete" ID="btnDelete" runat="server" Width="18%" CssClass="btn mr20 pdForm" OnClick="btnDelete_Click" />
                                             <ajaxToolkit:ConfirmButtonExtender ID="ConfirmButtonExtender3" runat="server" ConfirmText="Are you sure to delete this FAQ ?" TargetControlID="btnDelete" />
                                         </div>
                                     </div>

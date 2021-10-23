@@ -378,6 +378,7 @@
     <Content Include="Assests\main\img\19197906.jpg" />
     <Content Include="Assests\main\img\2021-06-29_215318.png" />
     <Content Include="Assests\main\img\contract.png" />
+    <Content Include="CourseListings.aspx" />
     <Content Include="DiscussionEntry.aspx" />
     <Content Include="ForumReportListings.aspx" />
     <Content Include="KrousExDeleteComment.aspx" />
@@ -959,7 +960,6 @@
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="CourseEntry.aspx" />
-    <Content Include="CourseListings.aspx" />
     <Content Include="Default.aspx" />
     <Content Include="KrousExDiscussionEntry.aspx" />
     <Content Include="Error_Page\Error_404.aspx" />

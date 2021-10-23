@@ -12,136 +12,313 @@ namespace Krous_Ex
 {
     public partial class CourseEntry : System.Web.UI.Page
     {
+        Guid courseGUID;
         protected void Page_Load(object sender, EventArgs e)
         {
-            loadCourseCategory();
+            if (!IsPostBack)
+            {
+                loadProgrammeList();
+                if (!String.IsNullOrEmpty(Request.QueryString["CourseGUID"]))
+                {
+                    courseGUID = Guid.Parse(Request.QueryString["CourseGUID"]);
+                    //loadProgInfo();
+                    btnSave.Visible = false;
+                    btnBack.Visible = true;
+                    btnUpdate.Visible = true;
+                    btnDelete.Visible = true;
+                }
+                else
+                {
+                    btnSave.Visible = true;
+                    btnBack.Visible = false;
+                    btnUpdate.Visible = false;
+                    btnDelete.Visible = false;
+                }
+            }
         }
 
-        private void loadCourseCategory()
+        protected void loadProgrammeList()
         {
             try
             {
-                //ddlCreditHour.Items.Clear();
+                ddlProgramme.Items.Clear();
+                ListItem facultyList = new ListItem();
+                SqlConnection con = new SqlConnection();
+                SqlCommand loadCmd = new SqlCommand();
 
-                //SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["Krous_Ex"].ConnectionString);
-                //con.Open();
-                //SqlCommand selectCmd = new SqlCommand("SELECT CreditHour FROM Course Group By CreditHour Order By CreditHour", con);
-                //SqlDataReader reader = selectCmd.ExecuteReader();
+                string strCon = ConfigurationManager.ConnectionStrings["Krous_Ex"].ConnectionString;
+                con = new SqlConnection(strCon);
+                con.Open();
 
-                //DataTable dtFAQ = new DataTable();
-                //dtFAQ.Load(reader);
-                //con.Close();
-
+                loadCmd = new SqlCommand("SELECT ProgrammeGUID, ProgrammeName FROM Programme GROUP BY ProgrammeGUID, ProgrammeName ORDER BY ProgrammeName", con);
+                SqlDataAdapter da = new SqlDataAdapter(loadCmd);
+                DataSet ds = new DataSet();
+                da.Fill(ds);
+                ddlProgramme.DataSource = ds;
+                ddlProgramme.DataTextField = "ProgrammeName";
+                ddlProgramme.DataValueField = "ProgrammeName";
+                ddlProgramme.DataBind();
+                ddlProgramme.Items.Insert(0, new ListItem("", "0"));
+                con.Close();
             }
             catch (Exception ex)
             {
-                clsFunction.DisplayAJAXMessage(this, "Error");
+                System.Diagnostics.Trace.WriteLine(ex.Message);
             }
-
         }
 
         private bool insertCourse()
         {
-            string Category;
             Guid courseGUID = Guid.NewGuid();
-
-            //string Username = clsLogin.GetLoginUserName;
-
-            if (rdMain.Checked == true)
-            {
-                Category = "Main Course";
-            }
-            else
-            {
-                Category = "Elective Course";
-            }
 
             try
             {
                 SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["Krous_Ex"].ConnectionString);
                 con.Open();
 
-                SqlCommand insertCourCmd = new SqlCommand("INSERT INTO COURSE VALUES(@CourseID,@CourseName,@CourseDesc,@CreditHour,@Category,@CourseFee)", con);
+                SqlCommand insertCourCmd = new SqlCommand("INSERT INTO COURSE VALUES(@CourseGUID, @CourseAbbrv, @CourseName, @CourseDesc, @CreditHour, @Category, @CourseFee, @CourseProgramme)", con);
 
-                insertCourCmd.Parameters.AddWithValue("@CourseID", txtCourseID.Text);
+                insertCourCmd.Parameters.AddWithValue("@CourseGUID", courseGUID);
+                insertCourCmd.Parameters.AddWithValue("@CourseAbbrv", txtCourseAbbrv.Text.ToUpper());
                 insertCourCmd.Parameters.AddWithValue("@CourseName", txtCourseName.Text);
                 insertCourCmd.Parameters.AddWithValue("@CourseDesc", txtCourseDesc.Text);
-                insertCourCmd.Parameters.AddWithValue("@CreditHour", ddlCreditHour.SelectedValue);
-                insertCourCmd.Parameters.AddWithValue("@Category", Category);
-                insertCourCmd.Parameters.AddWithValue("@CourseFee", txtCourseFee.Text);
-
+                insertCourCmd.Parameters.AddWithValue("@CreditHour", txtCreditHour.Text);
+                insertCourCmd.Parameters.AddWithValue("@Category", rbCourseCategory.SelectedValue);
+                insertCourCmd.Parameters.AddWithValue("@CourseFee", Decimal.Parse(txtCourseFee.Text));
+                insertCourCmd.Parameters.AddWithValue("@CourseProgramme", ddlProgramme.SelectedValue);
                 insertCourCmd.ExecuteNonQuery();
 
                 con.Close();
-
                 return true;
             }
             catch (Exception ex)
             {
-                Response.Write(ex);
+                System.Diagnostics.Trace.WriteLine(ex.Message);
                 return false;
             }
         }
 
-        private bool validateCourse()
+        protected bool updateCourse()
         {
-            string Category;
-
-            if (txtCourseID.Text == "")
+            courseGUID = Guid.Parse(Request.QueryString["CourseGUID"]);
+            try
             {
+                SqlConnection con = new SqlConnection();
+                SqlCommand updateCmd = new SqlCommand();
+
+                string strCon = ConfigurationManager.ConnectionStrings["Krous_Ex"].ConnectionString;
+                con = new SqlConnection(strCon);
+                con.Open();
+
+                updateCmd = new SqlCommand("UPDATE Course SET CourseAbbrv = @CourseAbbrv, CourseName = @CourseName, CourseDesc = @CourseDesc, CreditHour = @CreditHour, Category = @Category, CourseFee = @CourseFee, CourseProgramme = @CourseProgramme WHERE CourseGUID = @CourseGUID", con);
+                updateCmd.Parameters.AddWithValue("@CourseGUID", courseGUID);
+                updateCmd.Parameters.AddWithValue("@CourseAbbrv", txtCourseAbbrv.Text.ToUpper());
+                updateCmd.Parameters.AddWithValue("@CourseName", txtCourseName.Text);
+                updateCmd.Parameters.AddWithValue("@CourseDesc", txtCourseDesc.Text);
+                updateCmd.Parameters.AddWithValue("@CreditHour", txtCreditHour.Text);
+                updateCmd.Parameters.AddWithValue("@Category", rbCourseCategory.SelectedValue);
+                updateCmd.Parameters.AddWithValue("@CourseFee", Decimal.Parse(txtCourseFee.Text));
+                updateCmd.Parameters.AddWithValue("@CourseProgramme", ddlProgramme.SelectedValue);
+                updateCmd.ExecuteNonQuery();
+
+                con.Close();
+                return true;
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Trace.WriteLine(ex.Message);
                 return false;
             }
-
-            if (txtCourseName.Text == "")
-            {
-                return false;
-            }
-
-            if (txtCourseDesc.Text == "")
-            {
-                return false;
-            }
-
-            if (txtCourseFee.Text == "")
-            {
-                return false;
-            }
-
-            if (rdMain.Checked == true)
-            {
-                Category = "Main Course";
-            }
-            else
-            {
-                Category = "Elective Course";
-            }
-
-            return true;
         }
 
-        protected void btnSave_CLick(object sender, EventArgs e)
+        protected bool deleteProgramme()
         {
-            if (validateCourse())
+            courseGUID = Guid.Parse(Request.QueryString["CourseGUID"]);
+            try
             {
-                if (insertCourse())
+                SqlConnection con = new SqlConnection();
+                SqlCommand deleteCmd = new SqlCommand();
+
+                string strCon = ConfigurationManager.ConnectionStrings["Krous_Ex"].ConnectionString;
+                con = new SqlConnection(strCon);
+                con.Open();
+
+                deleteCmd = new SqlCommand("DELETE FROM Course WHERE CourseGUID = @CourseGUID", con);
+                deleteCmd.Parameters.AddWithValue("@CourseGUID", courseGUID);
+                deleteCmd.ExecuteNonQuery();
+
+                con.Close();
+                return true;
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Trace.WriteLine(ex.Message);
+                return false;
+            }
+        }
+
+        protected void btnSave_Click(object sender, EventArgs e)
+        {
+            if (validateDuplicate())
+            {
+                if (validateCourse())
                 {
-                    ScriptManager.RegisterStartupScript(this, this.GetType(), "none", "ShowPopup();", true);
+                    if (insertCourse())
+                    {
+                        clsFunction.DisplayAJAXMessage(this, "Added new course successfully!");
+                        txtCourseAbbrv.Text = string.Empty;
+                        txtCourseName.Text = string.Empty;
+                        txtCourseDesc.Text = string.Empty;
+                        txtCreditHour.Text = string.Empty;
+                        rbCourseCategory.ClearSelection();
+                        txtCourseFee.Text = string.Empty;
+                        ddlProgramme.SelectedIndex = 0;
+                        txtCourseName.Focus();
+                    }
+                    else
+                    {
+                        clsFunction.DisplayAJAXMessage(this, "Unable to add new course entry.");
+                    }
                 }
                 else
                 {
-                    clsFunction.DisplayAJAXMessage(this, "Unable to insert details. Failed to create.");
+                    clsFunction.DisplayAJAXMessage(this, "Please fill in the required details.");
+                }
+            }
+        }
+
+        protected void btnBack_Click(object sender, EventArgs e)
+        {
+            Response.Redirect("CourseListings");
+        }
+
+        protected void btnCancel_Click(object sender, EventArgs e)
+        {
+            if (!String.IsNullOrEmpty(Request.QueryString["CourseGUID"]))
+            {
+                Response.Redirect("CourseEntry?CourseGUID=" + Request.QueryString["CourseGUID"]);
+            }
+            else
+            {
+                Response.Redirect("CourseEntry");
+            }
+        }
+
+        protected void btnUpdate_Click(object sender, EventArgs e)
+        {
+            if (validateCourse())
+            {
+                if (updateCourse())
+                {
+                    clsFunction.DisplayAJAXMessage(this, "Course details has been updated!");
+                    Response.Redirect("CourseListings");
+                }
+                else
+                {
+                    clsFunction.DisplayAJAXMessage(this, "Unable to update course details.");
                 }
             }
             else
             {
                 clsFunction.DisplayAJAXMessage(this, "Please fill in the required details.");
+            }  
+        }
+
+        protected void btnDelete_Click(object sender, EventArgs e)
+        {
+            if (deleteProgramme())
+            {
+                clsFunction.DisplayAJAXMessage(this, "Course details has been deleted!");
+                Response.Redirect("CourseListings");
+            }
+            else
+            {
+                clsFunction.DisplayAJAXMessage(this, "No such records to be deleted.");
             }
         }
+    
 
-        protected void btnCancel_Click(object sender, EventArgs e)
+        private bool validateCourse()
         {
-            Response.Redirect("CourseListings");
+            if(txtCourseName.Text == "")
+            {
+                clsFunction.DisplayAJAXMessage(this, "Please enter the course name.");
+                return false;
+            }
+
+            if(txtCourseAbbrv.Text == "")
+            {
+                clsFunction.DisplayAJAXMessage(this, "Please enter the course abbreviation.");
+                return false;
+            }
+
+            if (txtCourseDesc.Text == "")
+            {
+                clsFunction.DisplayAJAXMessage(this, "Please enter the course description.");
+                return false;
+            }
+
+            if (rbCourseCategory.SelectedIndex == -1)
+            {
+                clsFunction.DisplayAJAXMessage(this, "Please select the course category.");
+                return false;
+            }
+
+            if (txtCreditHour.Text == "")
+            {
+                clsFunction.DisplayAJAXMessage(this, "Please enter the credit hour for this course.");
+                return false;
+            }
+
+            if (!(double.TryParse(txtCreditHour.Text, out _)))
+            {
+                clsFunction.DisplayAJAXMessage(this, "The credit hour should be in numeric form.");
+                return false;
+            }
+
+            if (txtCourseFee.Text == "")
+            {
+                clsFunction.DisplayAJAXMessage(this, "Please enter the cost for this course.");
+                return false;
+            }
+
+            if (!(double.TryParse(txtCourseFee.Text, out _)))
+            {
+                clsFunction.DisplayAJAXMessage(this, "The course price should be in numeric form.");
+                return false;
+            }
+
+            if (!(clsValidation.CheckPriceFormat(txtCourseFee.Text)))
+            {
+                clsFunction.DisplayAJAXMessage(this, "Please enter a valid price format (###,###,###.##)");
+                return false;
+            }
+
+            if (ddlProgramme.SelectedIndex == 0)
+            {
+                clsFunction.DisplayAJAXMessage(this, "Please select the programme that this course should belongs to.");
+                return false;
+            }
+
+            return true;
         }
 
+        protected bool validateDuplicate()
+        {
+            if (clsValidation.CheckDuplicateCourseName(txtCourseName.Text))
+            {
+                clsFunction.DisplayAJAXMessage(this, "The Course name is already exists in the database!");
+                return false;
+            }
+
+            if (clsValidation.CheckDuplicateCourseAbbrv(txtCourseAbbrv.Text))
+            {
+                clsFunction.DisplayAJAXMessage(this, "The Course Abbreviation is already exists in the database!");
+                return false;
+            }
+
+            return true;
+        }
+        
     }
 }

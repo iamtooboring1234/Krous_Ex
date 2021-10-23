@@ -40,7 +40,7 @@
                                             <asp:Label ID="lblProgAbbrv" runat="server">Programme Abbreviation</asp:Label><span style="color: red;">*</span>
                                         </div>
                                         <div class="col-md-8">
-                                            <asp:TextBox ID="txtProgAbbrv" runat="server" CssClass="form-control" onkeydown="return (event.keyCode!=13);"></asp:TextBox>
+                                            <asp:TextBox ID="txtProgAbbrv" runat="server" CssClass="form-control" onkeydown="return (event.keyCode!=13);" placeholder="Example:RSD"></asp:TextBox>
                                         </div>
                                     </div>
                                 </div>
@@ -130,9 +130,7 @@
                                 </div>
                             </div>
                         </div>
-
                     </ContentTemplate>
-
                 </asp:UpdatePanel>
             </div>
         </div>

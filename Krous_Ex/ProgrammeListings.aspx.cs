@@ -38,13 +38,13 @@ namespace Krous_Ex
                 con = new SqlConnection(strCon);
                 con.Open();
 
-                loadCmd = new SqlCommand("SELECT FacultyName FROM Faculty GROUP BY FacultyName ORDER BY FacultyName", con);
+                loadCmd = new SqlCommand("SELECT FacultyGUID, FacultyName FROM Faculty GROUP BY FacultyGUID, FacultyName ORDER BY FacultyName", con);
                 SqlDataAdapter da = new SqlDataAdapter(loadCmd);
                 DataSet dsName = new DataSet();
                 da.Fill(dsName);
                 ddlFacultyInChg.DataSource = dsName;
                 ddlFacultyInChg.DataTextField = "FacultyName";
-                ddlFacultyInChg.DataValueField = "FacultyName";
+                ddlFacultyInChg.DataValueField = "FacultyGUID";
                 ddlFacultyInChg.DataBind();
                 ddlFacultyInChg.Items.Insert(0, new ListItem("", "")); 
 
@@ -80,13 +80,13 @@ namespace Krous_Ex
                 con = new SqlConnection(strCon);
                 con.Open();
 
-                loadCmd = new SqlCommand("SELECT ProgrammeAbbrv FROM Programme GROUP BY ProgrammeAbbrv ORDER BY ProgrammeAbbrv", con);
+                loadCmd = new SqlCommand("SELECT ProgrammeGUID, ProgrammeAbbrv FROM Programme GROUP BY ProgrammeGUID, ProgrammeAbbrv ORDER BY ProgrammeAbbrv", con);
                 SqlDataAdapter da = new SqlDataAdapter(loadCmd);
                 DataSet dsAbbrv = new DataSet();
                 da.Fill(dsAbbrv);
                 ddlProgCode.DataSource = dsAbbrv;
                 ddlProgCode.DataTextField = "ProgrammeAbbrv";
-                ddlProgCode.DataValueField = "ProgrammeAbbrv";
+                ddlProgCode.DataValueField = "ProgrammeGUID";
                 ddlProgCode.DataBind();
                 ddlProgCode.Items.Insert(0, new ListItem("", "")); //the first drop down value will be empty
                 con.Close();

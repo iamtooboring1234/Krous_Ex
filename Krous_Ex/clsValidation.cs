@@ -17,6 +17,12 @@ namespace Krous_Ex
             return regex.IsMatch(email);
         }
 
+        public static bool CheckPriceFormat(string price)
+        {
+            Regex regex = new Regex(@"^\d+(,\d{3})*(\.\d{1,2})?$");
+            return regex.IsMatch(price);
+        }
+
         public static bool CheckPasswordFormat(string password)
         {
             Regex regex = new Regex(@"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,20}$");
@@ -147,6 +153,64 @@ namespace Krous_Ex
                     {
                         return false;
                     }
+                }
+
+                return false;
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
+        }
+
+        public static bool CheckDuplicateCourseName(string CourseName)
+        {
+            try
+            {
+                SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["Krous_Ex"].ConnectionString);
+
+                con.Open();
+                var SelectCommand = new SqlCommand();
+
+                SelectCommand = new SqlCommand("SELECT * FROM Course WHERE CourseName = @CourseName ", con);
+                SelectCommand.Parameters.AddWithValue("@CourseName", CourseName);
+
+                SqlDataReader reader = SelectCommand.ExecuteReader();
+                DataTable dtFound = new DataTable();
+                dtFound.Load(reader);
+                con.Close();
+                if (dtFound.Rows.Count != 0)
+                {
+                    return true;
+                }
+
+                return false;
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
+        }
+
+        public static bool CheckDuplicateCourseAbbrv(string CourseAbbrv)
+        {
+            try
+            {
+                SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["Krous_Ex"].ConnectionString);
+
+                con.Open();
+                var SelectCommand = new SqlCommand();
+
+                SelectCommand = new SqlCommand("SELECT * FROM Course WHERE CourseAbbrv = @CourseAbbrv ", con);
+                SelectCommand.Parameters.AddWithValue("@CourseAbbrv", CourseAbbrv);
+
+                SqlDataReader reader = SelectCommand.ExecuteReader();
+                DataTable dtFound = new DataTable();
+                dtFound.Load(reader);
+                con.Close();
+                if (dtFound.Rows.Count != 0)
+                {
+                    return true;
                 }
 
                 return false;

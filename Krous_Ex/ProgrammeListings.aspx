@@ -133,7 +133,7 @@
                             <PagerStyle BackColor="#CCCCCC" ForeColor="Black" HorizontalAlign="Center" />
                             <RowStyle BackColor="" HorizontalAlign="Center" />
                         </asp:GridView>
-                        <asp:Label ID="lblNoData" runat="server" Visible="false" Font-Size="Large" Font-Bold="true" Text="No FAQ Record Found !"></asp:Label>
+                        <asp:Label ID="lblNoData" runat="server" Visible="false" Font-Size="Large" Font-Bold="true" Text="No Programme Record Found !"></asp:Label>
                     </div>
                 </div>
             </div>
