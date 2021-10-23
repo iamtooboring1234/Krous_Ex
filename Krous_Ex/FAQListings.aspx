@@ -66,6 +66,7 @@
                                 </div>
                                 <div class="col-md-8">
                                     <asp:Button text="Search" id="btnSearch" runat="server" Width="18%" CssClass="btn btn-primary" OnClick="btnSearch_Click"/>
+                                    <asp:Button text="Add" id="btnAdd" runat="server" Width="18%" CssClass="btn btn-secondary" OnClick="btnAdd_Click"/>
                                 </div>
                             </div>
                         </div>

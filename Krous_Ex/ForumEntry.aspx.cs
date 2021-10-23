@@ -16,125 +16,146 @@ namespace Krous_Ex
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-            var myCookie = Request.Cookies[FormsAuthentication.FormsCookieName];
-
-            if (myCookie != null)
+            if (IsPostBack != true)
             {
-                if (!String.IsNullOrEmpty(Request.QueryString["ForumType"]))
+                if (Session["UpdateForum"] != null)
                 {
-                    if (Request.QueryString["ForumType"] == "Public")
+                    if (Session["UpdateForum"].ToString() == "Yes")
                     {
-                        HyperLink lnkButton = (HyperLink)Master.FindControl("HyperLink1");
-                        lnkButton.CssClass = lnkButton.CssClass.Replace("nav-link", "").Trim();
-                        lnkButton.Attributes.Add("style", "background: transparent;" +
-                            "color: white;" +
-                            "padding: 0.5rem 0.35rem;" +
-                            "font-size: 0.855rem;" +
-                            "position: relative;" +
-                            "line-height: 1;" +
-                            "height: auto;" +
-                            "border-top: 0;" +
-                            "display: -webkit-flex;" +
-                            "display: flex;" +
-                            "-webkit-align-items: center;" +
-                            "align-items: center;" +
-                            "white-space: nowrap;" +
-                            "-webkit-transition-duration: 0.45s;" +
-                            "-moz-transition-duration: 0.45s;" +
-                            "-o-transition-duration: 0.45s;" +
-                            "transition-property: color;" +
-                            "-webkit-transition-property: color;" +
-                            "border-radius: 0px 100px 100px 0px;");
-                        HyperLink lnkButton2 = (HyperLink)Master.FindControl("HyperLink2");
-                        lnkButton2.CssClass = lnkButton2.CssClass.Replace("nav-link", "").Trim();
-                        lnkButton2.Attributes.Add("style", "background: transparent;" +
-                            "color: #6c7293;" +
-                            "padding: 0.5rem 0.35rem;" +
-                            "font-size: 0.855rem;" +
-                            "position: relative;" +
-                            "line-height: 1;" +
-                            "height: auto;" +
-                            "border-top: 0;" +
-                            "display: -webkit-flex;" +
-                            "display: flex;" +
-                            "-webkit-align-items: center;" +
-                            "align-items: center;" +
-                            "white-space: nowrap;" +
-                            "-webkit-transition-duration: 0.45s;" +
-                            "-moz-transition-duration: 0.45s;" +
-                            "-o-transition-duration: 0.45s;" +
-                            "transition-property: color;" +
-                            "-webkit-transition-property: color;" +
-                            "border-radius: 0px 100px 100px 0px;");
+                        clsFunction.DisplayAJAXMessage(this, "Updated successfully !");
+                        Session["UpdateForum"] = null;
                     }
-                    else
+                }
+
+                if (Session["DeleteForum"] != null)
+                {
+                    if (Session["DeleteForum"].ToString() == "Yes")
                     {
-                        HyperLink lnkButton = (HyperLink)Master.FindControl("HyperLink1");
-                        lnkButton.CssClass = lnkButton.CssClass.Replace("nav-link", "").Trim();
-                        lnkButton.Attributes.Add("style", "background: transparent;" +
-                            "color: #6c7293;" +
-                            "padding: 0.5rem 0.35rem;" +
-                            "font-size: 0.855rem;" +
-                            "position: relative;" +
-                            "line-height: 1;" +
-                            "height: auto;" +
-                            "border-top: 0;" +
-                            "display: -webkit-flex;" +
-                            "display: flex;" +
-                            "-webkit-align-items: center;" +
-                            "align-items: center;" +
-                            "white-space: nowrap;" +
-                            "-webkit-transition-duration: 0.45s;" +
-                            "-moz-transition-duration: 0.45s;" +
-                            "-o-transition-duration: 0.45s;" +
-                            "transition-property: color;" +
-                            "-webkit-transition-property: color;" +
-                            "border-radius: 0px 100px 100px 0px;");
-                        HyperLink lnkButton2 = (HyperLink)Master.FindControl("HyperLink2");
-                        lnkButton2.CssClass = lnkButton2.CssClass.Replace("nav-link", "").Trim();
-                        lnkButton2.Attributes.Add("style", "background: transparent;" +
-                            "color: white;" +
-                            "padding: 0.5rem 0.35rem;" +
-                            "font-size: 0.855rem;" +
-                            "position: relative;" +
-                            "line-height: 1;" +
-                            "height: auto;" +
-                            "border-top: 0;" +
-                            "display: -webkit-flex;" +
-                            "display: flex;" +
-                            "-webkit-align-items: center;" +
-                            "align-items: center;" +
-                            "white-space: nowrap;" +
-                            "-webkit-transition-duration: 0.45s;" +
-                            "-moz-transition-duration: 0.45s;" +
-                            "-o-transition-duration: 0.45s;" +
-                            "transition-property: color;" +
-                            "-webkit-transition-property: color;" +
-                            "border-radius: 0px 100px 100px 0px;");
+                        clsFunction.DisplayAJAXMessage(this, "Deleted successfully !");
+                        Session["DeleteForum"] = null;
                     }
+                }
 
-                    if (IsPostBack != true)
+                var myCookie = Request.Cookies[FormsAuthentication.FormsCookieName];
+
+                if (myCookie != null)
+                {
+                    if (!String.IsNullOrEmpty(Request.QueryString["ForumType"]))
                     {
-
-                        loadForumCategory();
-
-                        if (!String.IsNullOrEmpty(Request.QueryString["FAQGUID"]))
+                        if (Request.QueryString["ForumType"] == "Public")
                         {
-
+                            HyperLink lnkButton = (HyperLink)Master.FindControl("HyperLink1");
+                            lnkButton.CssClass = lnkButton.CssClass.Replace("nav-link", "").Trim();
+                            lnkButton.Attributes.Add("style", "background: transparent;" +
+                                "color: white;" +
+                                "padding: 0.5rem 0.35rem;" +
+                                "font-size: 0.855rem;" +
+                                "position: relative;" +
+                                "line-height: 1;" +
+                                "height: auto;" +
+                                "border-top: 0;" +
+                                "display: -webkit-flex;" +
+                                "display: flex;" +
+                                "-webkit-align-items: center;" +
+                                "align-items: center;" +
+                                "white-space: nowrap;" +
+                                "-webkit-transition-duration: 0.45s;" +
+                                "-moz-transition-duration: 0.45s;" +
+                                "-o-transition-duration: 0.45s;" +
+                                "transition-property: color;" +
+                                "-webkit-transition-property: color;" +
+                                "border-radius: 0px 100px 100px 0px;");
+                            HyperLink lnkButton2 = (HyperLink)Master.FindControl("HyperLink2");
+                            lnkButton2.CssClass = lnkButton2.CssClass.Replace("nav-link", "").Trim();
+                            lnkButton2.Attributes.Add("style", "background: transparent;" +
+                                "color: #6c7293;" +
+                                "padding: 0.5rem 0.35rem;" +
+                                "font-size: 0.855rem;" +
+                                "position: relative;" +
+                                "line-height: 1;" +
+                                "height: auto;" +
+                                "border-top: 0;" +
+                                "display: -webkit-flex;" +
+                                "display: flex;" +
+                                "-webkit-align-items: center;" +
+                                "align-items: center;" +
+                                "white-space: nowrap;" +
+                                "-webkit-transition-duration: 0.45s;" +
+                                "-moz-transition-duration: 0.45s;" +
+                                "-o-transition-duration: 0.45s;" +
+                                "transition-property: color;" +
+                                "-webkit-transition-property: color;" +
+                                "border-radius: 0px 100px 100px 0px;");
                         }
                         else
                         {
-
+                            HyperLink lnkButton = (HyperLink)Master.FindControl("HyperLink1");
+                            lnkButton.CssClass = lnkButton.CssClass.Replace("nav-link", "").Trim();
+                            lnkButton.Attributes.Add("style", "background: transparent;" +
+                                "color: #6c7293;" +
+                                "padding: 0.5rem 0.35rem;" +
+                                "font-size: 0.855rem;" +
+                                "position: relative;" +
+                                "line-height: 1;" +
+                                "height: auto;" +
+                                "border-top: 0;" +
+                                "display: -webkit-flex;" +
+                                "display: flex;" +
+                                "-webkit-align-items: center;" +
+                                "align-items: center;" +
+                                "white-space: nowrap;" +
+                                "-webkit-transition-duration: 0.45s;" +
+                                "-moz-transition-duration: 0.45s;" +
+                                "-o-transition-duration: 0.45s;" +
+                                "transition-property: color;" +
+                                "-webkit-transition-property: color;" +
+                                "border-radius: 0px 100px 100px 0px;");
+                            HyperLink lnkButton2 = (HyperLink)Master.FindControl("HyperLink2");
+                            lnkButton2.CssClass = lnkButton2.CssClass.Replace("nav-link", "").Trim();
+                            lnkButton2.Attributes.Add("style", "background: transparent;" +
+                                "color: white;" +
+                                "padding: 0.5rem 0.35rem;" +
+                                "font-size: 0.855rem;" +
+                                "position: relative;" +
+                                "line-height: 1;" +
+                                "height: auto;" +
+                                "border-top: 0;" +
+                                "display: -webkit-flex;" +
+                                "display: flex;" +
+                                "-webkit-align-items: center;" +
+                                "align-items: center;" +
+                                "white-space: nowrap;" +
+                                "-webkit-transition-duration: 0.45s;" +
+                                "-moz-transition-duration: 0.45s;" +
+                                "-o-transition-duration: 0.45s;" +
+                                "transition-property: color;" +
+                                "-webkit-transition-property: color;" +
+                                "border-radius: 0px 100px 100px 0px;");
                         }
+
+                        loadForumCategory();
+
+                        if (!String.IsNullOrEmpty(Request.QueryString["ForumGUID"]))
+                        {
+                            btnSave.Visible = false;
+                            loadForum();
+                        }
+                        else
+                        {
+                            btnUpdate.Visible = false;
+                            btnDelete.Visible = false;
+                        }
+
                     }
-                } else
-                {
-                    Response.Redirect("ForumEntry?ForumType=Public");
+                    else
+                    {
+                        Response.Redirect("ForumEntry?ForumType=Public");
+                    }
                 }
-            }
-            else
-            {
-                Response.Redirect("Homepage");
+                else
+                {
+                    Response.Redirect("Homepage");
+                }
             }
         }
 
@@ -146,13 +167,10 @@ namespace Krous_Ex
 
                 ListItem oList = new ListItem();
 
-                if (Request.QueryString["FAQGUID"] == null)
-                {
-                    oList = new ListItem();
-                    oList.Text = "";
-                    oList.Value = "";
-                    ddlCategory.Items.Add(oList);
-                }
+                oList = new ListItem();
+                oList.Text = "";
+                oList.Value = "";
+                ddlCategory.Items.Add(oList);
 
                 SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["Krous_Ex"].ConnectionString);
                 con.Open();
@@ -178,6 +196,45 @@ namespace Krous_Ex
             }
         }
 
+        private void loadForum()
+        {
+            try
+            {
+                string sqlQuery;
+
+                sqlQuery = "SELECT * FROM Forum WHERE ForumGUID= @ForumGUID AND ForumType = @ForumType ";
+
+                SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["Krous_Ex"].ConnectionString);
+                con.Open();
+
+                SqlCommand GetCommand = new SqlCommand(sqlQuery, con);
+                GetCommand.Parameters.AddWithValue("@ForumGUID", Request.QueryString["ForumGUID"]);
+                GetCommand.Parameters.AddWithValue("@ForumType", Request.QueryString["ForumType"]);
+                SqlDataReader reader = GetCommand.ExecuteReader();
+                DataTable dtFAQ = new DataTable();
+                dtFAQ.Load(reader);
+                con.Close();
+
+                if (dtFAQ.Rows.Count != 0)
+                {
+                    txtForumTopic.Text = dtFAQ.Rows[0]["ForumTopic"].ToString();
+                    txtForumDesc.Text = dtFAQ.Rows[0]["ForumDesc"].ToString();
+                    if (ddlCategory.Items.FindByValue(dtFAQ.Rows[0]["ForumCategory"].ToString()).Value != null)
+                    {
+                        ddlCategory.SelectedValue = dtFAQ.Rows[0]["ForumCategory"].ToString().Trim();
+                    }
+                }
+                else
+                {
+                    clsFunction.DisplayAJAXMessage(this, "No such record.");
+                }
+            }
+
+            catch (Exception ex)
+            {
+                clsFunction.DisplayAJAXMessage(this, ex.Message);
+            }
+        }
 
         private bool insertForum()
         {
@@ -225,6 +282,78 @@ namespace Krous_Ex
             }
         }
 
+        private bool updateForum()
+        {
+            Guid ForumGUID = Guid.Parse(Request.QueryString["ForumGUID"]);
+
+            string ForumCategory;
+
+            string Username = clsLogin.GetLoginUserName();
+
+            if (rdExisting.Checked == true)
+                ForumCategory = ddlCategory.SelectedValue;
+            else
+                ForumCategory = txtNewCategory.Text;
+
+            try
+            {
+                SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["Krous_Ex"].ConnectionString);
+                con.Open();
+
+                SqlCommand updateCommand = new SqlCommand("UPDATE Forum SET ForumTopic = @ForumTopic, ForumDesc = @ForumDesc, ForumCategory = @ForumCategory, ForumStatus = @ForumStatus, ForumLastUpdatedBy = @ForumLastUpdatedBy, ForumLastUpdatedDate = @ForumLastUpdatedDate WHERE ForumGUID = @ForumGUID;", con);
+
+                updateCommand.Parameters.AddWithValue("@ForumGUID", ForumGUID);
+                updateCommand.Parameters.AddWithValue("@ForumTopic", txtForumTopic.Text);
+                updateCommand.Parameters.AddWithValue("@ForumDesc", txtForumDesc.Text);
+                updateCommand.Parameters.AddWithValue("@ForumCategory", ForumCategory);
+                updateCommand.Parameters.AddWithValue("@ForumStatus", ddlForumStatus.SelectedValue);
+                updateCommand.Parameters.AddWithValue("@ForumLastUpdatedBy", Username);
+                updateCommand.Parameters.AddWithValue("@ForumLastUpdatedDate", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
+
+                updateCommand.ExecuteNonQuery();
+
+                con.Close();
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                Response.Write(ex);
+                return false;
+            }
+        }
+
+        private bool deleteForum()
+        {
+            Guid ForumGUID = Guid.Parse(Request.QueryString["ForumGUID"]);
+
+            string Username = clsLogin.GetLoginUserName();
+
+            try
+            {
+                SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["Krous_Ex"].ConnectionString);
+                con.Open();
+
+                SqlCommand updateCommand = new SqlCommand("UPDATE Forum SET ForumStatus = @ForumStatus, ForumLastUpdatedBy = @ForumLastUpdatedBy, ForumLastUpdatedDate = @ForumLastUpdatedDate WHERE ForumGUID = @ForumGUID;", con);
+
+                updateCommand.Parameters.AddWithValue("@ForumGUID", ForumGUID);
+                updateCommand.Parameters.AddWithValue("@ForumStatus", "Inactive");
+                updateCommand.Parameters.AddWithValue("@ForumLastUpdatedBy", Username);
+                updateCommand.Parameters.AddWithValue("@ForumLastUpdatedDate", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
+
+                updateCommand.ExecuteNonQuery();
+
+                con.Close();
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                Response.Write(ex);
+                return false;
+            }
+        }
+
         protected void btnSave_Click(object sender, EventArgs e)
         {
             if (insertForum())
@@ -239,15 +368,46 @@ namespace Krous_Ex
             
         }
 
-        protected void btnCancel_Click(object sender, EventArgs e)
+        protected void btnUpdate_Click(object sender, EventArgs e)
         {
-            if (!String.IsNullOrEmpty(Request.QueryString["FAQGUID"]))
+            if (updateForum())
             {
-                Response.Redirect("FAQEntry?FAQGUID=" + Request.QueryString["FAQGUID"]);
+                Session["UpdateForum"] = "Yes";
+                Response.Redirect("ForumEntry?FAQGUID=" + Request.QueryString["ForumGUID"] + "&ForumType=" + Request.QueryString["ForumType"]);
             }
             else
             {
-                Response.Redirect("FAQEntry");
+                clsFunction.DisplayAJAXMessage(this, "Unable to update. Failed to update.");
+            }
+        }
+
+        protected void btnDelete_Click(object sender, EventArgs e)
+        {
+            if (deleteForum())
+            {
+                Session["DeleteForum"] = "Yes";
+                Response.Redirect("ForumEntry");
+            }
+            else
+            {
+                clsFunction.DisplayAJAXMessage(this, "Unable to delete. Failed to delete.");
+            }
+        }
+
+        protected void btnBack_Click(object sender, EventArgs e)
+        {
+            Response.Redirect("ForumListings");
+        }
+
+        protected void btnReset_Click(object sender, EventArgs e)
+        {
+            if (!String.IsNullOrEmpty(Request.QueryString["ForumGUID"]))
+            {
+                loadForum();
+            }
+            else
+            {
+                Response.Redirect("ForumEntry");
             }
         }
 
@@ -255,6 +415,7 @@ namespace Krous_Ex
         {
             if (rdExisting.Checked == true)
             {
+                loadForum();
                 txtNewCategory.Text = "";
                 txtNewCategory.Enabled = false;
                 ddlCategory.Enabled = true;
@@ -265,7 +426,7 @@ namespace Krous_Ex
         {
             if (rdNew.Checked == true)
             {
-                ddlCategory.SelectedValue = "";
+                ddlCategory.SelectedValue = null;
                 ddlCategory.Enabled = false;
                 txtNewCategory.Enabled = true;
             }

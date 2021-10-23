@@ -116,20 +116,6 @@
                                 </div>
 
                                 <hr />
-                                <div class="form-group pdForm">
-                                    <div class="row">
-                                        <div class="col-md-12 float-right text-right">
-                                            <%--<asp:Button Text="Back" ID="btnBack" runat="server" Width="18%" CssClass="btn mr20 pdForm" OnClick="btnBack_Click" />--%>
-                                            <asp:Button Text="Save" ID="btnSave" runat="server" Width="18%" CssClass="btn btn-primary mr20 pdForm" OnClick="btnSave_Click" />
-                                            <ajaxToolkit:ConfirmButtonExtender ID="ConfirmButtonExtender1" runat="server" ConfirmText="Are you sure to add these details ?" TargetControlID="btnSave" />
-                                            <asp:Button Text="Cancel" ID="btnCancel" runat="server" Width="18%" CssClass="btn btn-dark mr20 pdForm" OnClick="btnCancel_Click" />
-                                            <%--<asp:Button Text="Update" ID="btnUpdate" runat="server" Width="18%" CssClass="btn mr20 pdForm" OnClick="btnUpdate_Click" />
-                                            <ajaxToolkit:ConfirmButtonExtender ID="ConfirmButtonExtender2" runat="server" ConfirmText="Are you sure to update this FAQ ?" TargetControlID="btnUpdate" />
-                                            <asp:Button Text="Delete" ID="btnDelete" runat="server" Width="18%" CssClass="btn mr20 pdForm" OnClick="btnDelete_Click" />
-                                            <ajaxToolkit:ConfirmButtonExtender ID="ConfirmButtonExtender3" runat="server" ConfirmText="Are you sure to delete this FAQ ?" TargetControlID="btnDelete" />--%>
-                                        </div>
-                                    </div>
-                                </div>
                             </div>
                         </div>
 
@@ -220,22 +206,10 @@
                                 </div>
 
                                 <hr />
-                                <div class="form-group pdForm">
-                                    <div class="row">
-                                        <div class="col-md-12 float-right text-right">
-                                            <%--<asp:Button Text="Back" ID="btnBack" runat="server" Width="18%" CssClass="btn mr20 pdForm" OnClick="btnBack_Click" />--%>
-                                            <asp:Button Text="Save" ID="Button1" runat="server" Width="18%" CssClass="btn btn-primary mr20 pdForm" OnClick="btnSave_Click" />
-                                            <ajaxToolkit:ConfirmButtonExtender ID="ConfirmButtonExtender2" runat="server" ConfirmText="Are you sure to add these details ?" TargetControlID="btnSave" />
-                                            <asp:Button Text="Cancel" ID="Button2" runat="server" Width="18%" CssClass="btn btn-dark mr20 pdForm" OnClick="btnCancel_Click" />
-                                            <%--<asp:Button Text="Update" ID="btnUpdate" runat="server" Width="18%" CssClass="btn mr20 pdForm" OnClick="btnUpdate_Click" />
-                                            <ajaxToolkit:ConfirmButtonExtender ID="ConfirmButtonExtender2" runat="server" ConfirmText="Are you sure to update this FAQ ?" TargetControlID="btnUpdate" />
-                                            <asp:Button Text="Delete" ID="btnDelete" runat="server" Width="18%" CssClass="btn mr20 pdForm" OnClick="btnDelete_Click" />
-                                            <ajaxToolkit:ConfirmButtonExtender ID="ConfirmButtonExtender3" runat="server" ConfirmText="Are you sure to delete this FAQ ?" TargetControlID="btnDelete" />--%>
-                                        </div>
-                                    </div>
-                                </div>
                             </div>
                         </div>
+
+                                                        
 
                     </ContentTemplate>
                     <Triggers>
@@ -244,6 +218,23 @@
                     </Triggers>
                 </asp:UpdatePanel>
                 </asp:Panel>
+
+                <div class="form-group pdForm">
+                    <div class="row">
+                        <div class="col-md-12 float-right text-right">
+                            <asp:Button Text="Update" ID="btnUpdate" runat="server" Width="18%" CssClass="btn btn-primary p-2" OnClick="btnUpdate_Click" />
+                            <ajaxToolkit:ConfirmButtonExtender ID="ConfirmButtonExtender2" runat="server" ConfirmText="Are you sure to update this Forum ?" TargetControlID="btnUpdate" />
+                            <asp:Button Text="Save" ID="btnSave" runat="server" Width="18%" CssClass="btn btn-primary p-2" OnClick="btnSave_Click" />
+                            <ajaxToolkit:ConfirmButtonExtender ID="ConfirmButtonExtender1" runat="server" ConfirmText="Are you sure to add these details ?" TargetControlID="btnSave" />
+                            <asp:Button Text="Delete" ID="btnDelete" runat="server" Width="18%" CssClass="btn btn-danger p-2" OnClick="btnDelete_Click" />
+                            <ajaxToolkit:ConfirmButtonExtender ID="ConfirmButtonExtender3" runat="server" ConfirmText="Are you sure to delete this Forum ?" TargetControlID="btnDelete" />
+                            <asp:Button Text="Back" ID="btnBack" runat="server" Width="18%" CssClass="btn btn-dark p-2" OnClick="btnBack_Click" />
+                            <asp:Button Text="Reset" ID="btnReset" runat="server" Width="18%" CssClass="btn btn-dark p-2" OnClick="btnReset_Click" />
+
+                        </div>
+                    </div>
+                </div>
+
             </div>
         </div>
     </div>

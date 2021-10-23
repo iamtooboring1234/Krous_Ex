@@ -6,6 +6,7 @@ using System.Data.SqlClient;
 using System.IO;
 using System.Linq;
 using System.Web;
+using System.Web.Security;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 
@@ -20,7 +21,13 @@ namespace Krous_Ex
 
         protected void Page_Load(object sender, EventArgs e)
         {
-            hdUserName.Value = clsLogin.GetLoginUserName();
+            var myCookie = Request.Cookies[FormsAuthentication.FormsCookieName];
+
+            if (myCookie != null)
+            {
+                hdUserName.Value = clsLogin.GetLoginUserName();
+            }
+
         }
 
         public void GetUserImage(string Username)
