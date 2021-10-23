@@ -103,20 +103,21 @@ namespace Krous_Ex
 
                 con.Close();
 
-                if (!String.IsNullOrEmpty(Request.QueryString["DiscGUID"].ToString()))
-                {
-                    Session["ReportForum"] = "Yes";
-                    Response.Redirect("KrousExViewDiscussion?DiscGUID=" + Request.QueryString["DiscGUID"]);
-                }
-                else
-                {
-                    Response.Redirect("KrousExForumListings");
-                }
-
             }
             catch (Exception ex)
             {
                 clsFunction.DisplayAJAXMessage(this, ex.Message);
+            }
+
+
+            if (!String.IsNullOrEmpty(Request.QueryString["DiscGUID"].ToString()))
+            {
+                Session["ReportForum"] = "Yes";
+                Response.Redirect("KrousExViewDiscussion?DiscGUID=" + Request.QueryString["DiscGUID"]);
+            }
+            else
+            {
+                Response.Redirect("KrousExForumListings");
             }
         }
 

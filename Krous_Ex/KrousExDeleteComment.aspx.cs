@@ -81,20 +81,20 @@ namespace Krous_Ex
 
                 con.Close();
 
-                if (!String.IsNullOrEmpty(Request.QueryString["DiscGUID"].ToString()))
-                {
-                    Session["DeleteReply"] = "Yes";
-                    Response.Redirect("KrousExViewDiscussion?DiscGUID=" + Request.QueryString["DiscGUID"]);
-                }
-                else
-                {
-                    Response.Redirect("KrousExForumListings");
-                }
-
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                clsFunction.DisplayAJAXMessage(this, "Unable to delete.");
+                clsFunction.DisplayAJAXMessage(this, ex.Message);
+            }
+
+            if (!String.IsNullOrEmpty(Request.QueryString["DiscGUID"].ToString()))
+            {
+                Session["DeleteReply"] = "Yes";
+                Response.Redirect("KrousExViewDiscussion?DiscGUID=" + Request.QueryString["DiscGUID"]);
+            }
+            else
+            {
+                Response.Redirect("KrousExForumListings");
             }
         }
 

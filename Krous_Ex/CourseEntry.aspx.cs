@@ -63,7 +63,6 @@ namespace Krous_Ex
 
                 SqlCommand insertCourCmd = new SqlCommand("INSERT INTO COURSE VALUES(@CourseID,@CourseName,@CourseDesc,@CreditHour,@Category,@CourseFee)", con);
 
-                insertCourCmd.Parameters.AddWithValue("@CourseID", txtCourseID.Text);
                 insertCourCmd.Parameters.AddWithValue("@CourseName", txtCourseName.Text);
                 insertCourCmd.Parameters.AddWithValue("@CourseDesc", txtCourseDesc.Text);
                 insertCourCmd.Parameters.AddWithValue("@CreditHour", ddlCreditHour.SelectedValue);
@@ -87,10 +86,10 @@ namespace Krous_Ex
         {
             string Category;
 
-            if (txtCourseID.Text == "")
-            {
-                return false;
-            }
+            //if (txtCourseID.Text == "")
+            //{
+            //    return false;
+            //}
 
             if (txtCourseName.Text == "")
             {

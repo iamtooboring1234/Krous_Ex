@@ -107,7 +107,7 @@ namespace Krous_Ex
 
         protected void btnAdd_Click(object sender, EventArgs e)
         {
-            Response.Redirect("FAQEntry");
+            Response.Redirect("ForumEntry");
         }
 
         protected void btnSearch_Click(object sender, EventArgs e)

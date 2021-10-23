@@ -9,7 +9,7 @@
     <script src="Scripts/jquery.signalR-2.4.2.min.js"></script>
     <script src="signalr/hubs" type="text/javascript"></script>
 
-    <script>
+<%--    <script>
         $(function () {
 
             var chat = $.connection.chatHub;
@@ -25,7 +25,7 @@
             $.connection.hub.start()
 
         })
-    </script>
+    </script>--%>
 
     <script>
      var Interval
@@ -342,9 +342,11 @@
             }
             imgDisplay.src = '';
         }
-        function uploadStarted() {
-            $get("imgDisplay").style.display = "none";
+
+        function ClickFileUpload() {
+            document.getElementById("ctl00_body_AsyncFileUpload1_ctl02").click()
         }
+
         function IsValidateFile(fileF) {
             var allowedFiles = [".doc", ".docx", ".pdf", ".txt", ".zip", ".rar", ".xlsx", ".xls", ".png", ".jpg", ".gif"];
             var regex = new RegExp("([a-zA-Z0-9\s_\\.\-:])+(" + allowedFiles.join('|') + ")$");
@@ -368,7 +370,9 @@
 <asp:Content ID="Content2" ContentPlaceHolderID="body" runat="server">
 
 
-<div class="content-wrapper">
+    <div class="container-fluid page-body-wrapper">
+        <div class="main-panel">
+            <div class="content-wrapper">
         <div class="row">
             <div class="col-md-8">
                 <!-- DIRECT CHAT PRIMARY -->
@@ -408,7 +412,7 @@
                     <!-- /.box-body -->
                     <div class="box-footer">
 
-                        <textarea id="txtMessage" class="form-control"></textarea>
+<%--                        <textarea id="txtMessage" class="form-control"></textarea>
 
                         <div class="input-group" style="float: right;">
                             <input class="form-control" style="visibility: hidden;" />
@@ -427,7 +431,29 @@
                             </asp:UpdatePanel>
 
                         </div>
+    --%>
+                        
+                        <div class="input-group justify-content-end" style="float: right;">
+                            <textarea id="txtMessage" class="form-control"></textarea>
+
+
+                         <button type="button" id="btnSendMsg" class="btn btn-primary btn-flat">
+                            <i class="fa fa-paper-plane fa-lg"></i>
+                        </button>
+
+                       <button type="button" id="btnFile" class="btn btn-primary btn-flat" onclick="ClickFileUpload();">
+                            <i class="fa fa-paperclip fa-lg"></i>
+                        </button>
+
+                            
+   
+                                <ajaxToolkit:AsyncFileUpload OnClientUploadComplete="uploadComplete" runat="server" ID="AsyncFileUpload1"
+                                    OnUploadedComplete="FileUploadComplete"  Style="display: none"/>
+      
+                        </div>
+                        
                         <img id="imgDisplay" src="" class="user-image" style="height: 100px;" />
+
                     </div>
                     <!-- /.box-footer-->
                 </div>
@@ -460,6 +486,8 @@
         </div>
     </div>
 
+        </div>
+    </div>
 
 
     <span id="time"></span>
