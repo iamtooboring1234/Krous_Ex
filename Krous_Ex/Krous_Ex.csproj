@@ -378,20 +378,28 @@
     <Content Include="Assests\main\img\19197906.jpg" />
     <Content Include="Assests\main\img\2021-06-29_215318.png" />
     <Content Include="Assests\main\img\contract.png" />
+    <Content Include="Assests\main\img\logo.png" />
+    <Content Include="Assests\main\img\mini_logo.png" />
     <Content Include="CourseListings.aspx" />
     <Content Include="DiscussionEntry.aspx" />
+    <Content Include="FAQChat.aspx" />
     <Content Include="ForumReportListings.aspx" />
+    <Content Include="KrousExContactUs.aspx" />
     <Content Include="KrousExDeleteComment.aspx" />
     <Content Include="KrousExReportForum.aspx" />
+    <Content Include="NotificationEntry.aspx" />
+    <Content Include="ProgrammeCourseEntry.aspx" />
     <Content Include="ProgrammeEntry.aspx" />
     <Content Include="Scripts\date.format.js" />
     <Content Include="ProgrammeListings.aspx" />
+    <Content Include="StaffFAQChatList.aspx" />
     <Content Include="StaffProfile.aspx" />
+    <Content Include="StudentFAQChatList.aspx" />
+    <Content Include="StudentFAQ.aspx" />
     <Content Include="Uploads\ProfileImage\defaultUserProfile.png" />
     <Content Include="Assests\main\img\exit.png" />
     <Content Include="Assests\main\img\graduated.png" />
     <Content Include="Assests\main\img\istockphoto-1124699381-612x612.jpg" />
-    <Content Include="Assests\main\img\logo.png" />
     <Content Include="Assests\main\img\online-course.png" />
     <Content Include="Assests\main\img\presentation.png" />
     <Content Include="Assests\main\img\staffLoginBack.jpg" />
@@ -1317,12 +1325,26 @@
     <Compile Include="DiscussionEntry.aspx.designer.cs">
       <DependentUpon>DiscussionEntry.aspx</DependentUpon>
     </Compile>
+    <Compile Include="FAQChat.aspx.cs">
+      <DependentUpon>FAQChat.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="FAQChat.aspx.designer.cs">
+      <DependentUpon>FAQChat.aspx</DependentUpon>
+    </Compile>
     <Compile Include="ForumReportListings.aspx.cs">
       <DependentUpon>ForumReportListings.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="ForumReportListings.aspx.designer.cs">
       <DependentUpon>ForumReportListings.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="KrousExContactUs.aspx.cs">
+      <DependentUpon>KrousExContactUs.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="KrousExContactUs.aspx.designer.cs">
+      <DependentUpon>KrousExContactUs.aspx</DependentUpon>
     </Compile>
     <Compile Include="KrousExDeleteComment.aspx.cs">
       <DependentUpon>KrousExDeleteComment.aspx</DependentUpon>
@@ -1476,6 +1498,20 @@
       <DependentUpon>Logout.aspx</DependentUpon>
     </Compile>
     <Compile Include="Messages.cs" />
+    <Compile Include="NotificationEntry.aspx.cs">
+      <DependentUpon>NotificationEntry.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="NotificationEntry.aspx.designer.cs">
+      <DependentUpon>NotificationEntry.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="ProgrammeCourseEntry.aspx.cs">
+      <DependentUpon>ProgrammeCourseEntry.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="ProgrammeCourseEntry.aspx.designer.cs">
+      <DependentUpon>ProgrammeCourseEntry.aspx</DependentUpon>
+    </Compile>
     <Compile Include="ProgrammeEntry.aspx.cs">
       <DependentUpon>ProgrammeEntry.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -1540,6 +1576,13 @@
     <Compile Include="StaffEntry.aspx.designer.cs">
       <DependentUpon>StaffEntry.aspx</DependentUpon>
     </Compile>
+    <Compile Include="StaffFAQChatList.aspx.cs">
+      <DependentUpon>StaffFAQChatList.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="StaffFAQChatList.aspx.designer.cs">
+      <DependentUpon>StaffFAQChatList.aspx</DependentUpon>
+    </Compile>
     <Compile Include="StaffListings.aspx.cs">
       <DependentUpon>StaffListings.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -1569,12 +1612,26 @@
       <DependentUpon>StaffProfile.aspx</DependentUpon>
     </Compile>
     <Compile Include="Startup.cs" />
+    <Compile Include="StudentFAQChatList.aspx.cs">
+      <DependentUpon>StudentFAQChatList.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="StudentFAQChatList.aspx.designer.cs">
+      <DependentUpon>StudentFAQChatList.aspx</DependentUpon>
+    </Compile>
     <Compile Include="StudentDashboard.aspx.cs">
       <DependentUpon>StudentDashboard.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="StudentDashboard.aspx.designer.cs">
       <DependentUpon>StudentDashboard.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="StudentFAQ.aspx.cs">
+      <DependentUpon>StudentFAQ.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="StudentFAQ.aspx.designer.cs">
+      <DependentUpon>StudentFAQ.aspx</DependentUpon>
     </Compile>
     <Compile Include="StudentLogin.aspx.cs">
       <DependentUpon>StudentLogin.aspx</DependentUpon>
@@ -1630,6 +1687,7 @@
   <ItemGroup>
     <Folder Include="Controllers\" />
     <Folder Include="Models\" />
+    <Folder Include="Uploads\FAQChatFile\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

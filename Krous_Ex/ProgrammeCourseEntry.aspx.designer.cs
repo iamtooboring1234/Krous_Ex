@@ -11,70 +11,70 @@ namespace Krous_Ex
 {
 
 
-    public partial class AllUserSite
+    public partial class ProgrammeCourseEntry
     {
 
         /// <summary>
-        /// head control.
+        /// Label8 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.ContentPlaceHolder head;
+        protected global::System.Web.UI.WebControls.Label Label8;
 
         /// <summary>
-        /// panelLogin control.
+        /// Label3 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Panel panelLogin;
+        protected global::System.Web.UI.WebControls.Label Label3;
 
         /// <summary>
-        /// panelLogon control.
+        /// ddlProgrammCategory control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Panel panelLogon;
+        protected global::System.Web.UI.WebControls.DropDownList ddlProgrammCategory;
 
         /// <summary>
-        /// imgProfile control.
+        /// Label1 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Image imgProfile;
+        protected global::System.Web.UI.WebControls.Label Label1;
 
         /// <summary>
-        /// litLogonName control.
+        /// ddlProgramme control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Literal litLogonName;
+        protected global::System.Web.UI.WebControls.DropDownList ddlProgramme;
 
         /// <summary>
-        /// HyperLink1 control.
+        /// Label2 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.HyperLink HyperLink1;
+        protected global::System.Web.UI.WebControls.Label Label2;
 
         /// <summary>
-        /// body control.
+        /// ddlSemester control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.ContentPlaceHolder body;
+        protected global::System.Web.UI.WebControls.DropDownList ddlSemester;
     }
 }

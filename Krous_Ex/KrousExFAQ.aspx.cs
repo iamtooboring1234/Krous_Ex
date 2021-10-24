@@ -24,6 +24,7 @@ namespace Krous_Ex
                 string sqlQuery;
                 string strTable = "";
                 string lastCategory = "";
+                string bg = "";
                 bool isNewCategory = true;
                 int y = 1;
 
@@ -44,7 +45,20 @@ namespace Krous_Ex
                     {
                         if (lastCategory != dtFAQ.Rows[i]["FAQCategory"].ToString())
                         {
-                            strTable += "<div class=\"container-fluid bg-success py-2\">";
+                            if (i % 3 == 0)
+                            {
+                                bg = "bg-success";
+                            }
+                            else if (i % 3 == 1)
+                            {
+                                bg = "bg-warning";
+                            }
+                            else
+                            {
+                                bg = "bg-danger";
+                            }
+
+                            strTable += "<div class=\"container-fluid " + bg +  " py-2\">";
                             strTable += "<p class=\"mb-0 text-white\">" + dtFAQ.Rows[i]["FAQCategory"] + "</p>";
                             strTable += "</div>";
                             isNewCategory = true;

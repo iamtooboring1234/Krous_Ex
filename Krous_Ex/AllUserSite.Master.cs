@@ -21,6 +21,15 @@ namespace Krous_Ex
                     panelLogon.Visible = true;
                     panelLogin.Visible = false;
                     litLogonName.Text = clsLogin.GetLoginUserName();
+                    imgProfile.ImageUrl = clsLogin.GetUserImage();
+
+                    if (clsLogin.GetLoginUserType() == "Student")
+                    {
+                        HyperLink1.NavigateUrl = "StudentDashboard.aspx";
+                    } else
+                    {
+                        HyperLink1.NavigateUrl = "StaffDashboard.aspx";
+                    }
                 }
                 else
                 {

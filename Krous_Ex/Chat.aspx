@@ -28,22 +28,29 @@
     </script>--%>
 
     <script>
-     var Interval
+        var IntervalVal;
         $(function () {
-            // Declare a proxy to reference the hub. 
+            // Declare a proxy to reference the hub.
             var chatHub = $.connection.chatHub;
             registerClientMethods(chatHub);
             // Start Hub
             $.connection.hub.start().done(function () {
-                registerEvents(chatHub)
+                registerEvents(chatHub);
+            });
+            // Reset Message Counter on Hover
+            $("#divChatWindow").mouseover(function () {
+                $("#MsgCountMain").html('0');
+                $("#MsgCountMain").attr("title", '0 New Messages');
+                clearInterval(IntervalVal);
+                document.title = 'Live Chat';
             });
             // Stop Title Alert
             window.onfocus = function (event) {
                 if (event.explicitOriginalTarget === window) {
                     clearInterval(IntervalVal);
-                    document.title = 'Live Chat';
+                    document.title = 'SignalR Chat App';
                 }
-            }
+            };
         });
         // Show Title Alert
         function ShowTitleAlert(newMessageTitle, pageTitle) {
@@ -63,16 +70,21 @@
             //send button click
             $('#btnSendMsg').click(function () {
                 var msg = $("#txtMessage").val();
-                if (msg.length > 0) {
-                    var userName = $('#<%=hdUserName.ClientID%>').val();
-                    var date = GetCurrentDateTime(new Date());
-                    chatHub.server.sendMessageToAll(userName, msg, date);
-                    $("#txtMessage").val('');
+                if (document.getElementById("txtMessage").value.trim() == '') {
+                    alert("Message cannot be empty!");
+                } else {
+                    if (msg.length > 0) {
+                        var userName = $('#<%=hdUserName.ClientID%>').val();
+                        var date = GetCurrentDateTime(new Date());
+                        chatHub.server.sendMessageToAll(userName, msg, date);
+                        $("#txtMessage").val('');
+                    }
                 }
             });
             // send message on enter button
             $("#txtMessage").keypress(function (e) {
                 if (e.which == 13) {
+                    e.preventDefault();
                     $('#btnSendMsg').click();
                 }
             });
@@ -239,7 +251,7 @@
             else
                 PWClass = 'info';
             $('#PWCount').val(PWClass);
-            var div1 = ' <div class="col-md-4"> <div  id="' + ctrId + '" class="box box-solid box-' + PWClass + ' direct-chat direct-chat-' + PWClass + '">' +
+            var div1 = ' <div class="col-md-4" id="' + ctrId + '"> <div class="box box-solid box-' + PWClass + ' direct-chat direct-chat-' + PWClass + '">' +
                 '<div class="box-header with-border">' +
                 ' <h3 class="box-title">' + userName + '</h3>' +
                 ' <div class="box-tools pull-right">' +
@@ -249,16 +261,13 @@
                 '  </button>' +
                 '  <button id="imgDelete" type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button></div></div>' +
                 ' <div class="box-body">' +
-                ' <div id="divMessage" class="direct-chat-messages">' +
+                ' <div id="divMessage" class="direct-chat-messages">' + '<p style="color: black;">This chat doesn\'t save into database.</p>' +
                 ' </div>' +
                 '  </div>' +
                 '  <div class="box-footer">' +
+                '<div class="input-group justify-content-end" style="float: right;">' +
                 '    <input type="text" id="txtPrivateMessage" name="message" placeholder="Type Message ..." class="form-control"  />' +
-                '  <div class="input-group">' +
-                '    <input type="text" name="message" placeholder="Type Message ..." class="form-control" style="visibility:hidden;" />' +
-                '   <span class="input-group-btn">' +
-                '          <input type="button" id="btnSendMessage" class="btn btn-' + PWClass + ' btn-flat" value="send" />' +
-                '   </span>' +
+                '       <button type="button" id="btnSendMessage" class="btn btn-' + PWClass + ' ml-1" ><i class="fa fa-paper-plane fa-lg"></i></button>' +
                 '  </div>' +
                 ' </div>' +
                 ' </div></div>';
@@ -373,119 +382,92 @@
     <div class="container-fluid page-body-wrapper">
         <div class="main-panel">
             <div class="content-wrapper">
-        <div class="row">
-            <div class="col-md-8">
-                <!-- DIRECT CHAT PRIMARY -->
-                <div class="box box-primary direct-chat direct-chat-primary">
-                    <div class="box-header with-border">
-                        <h3 class="box-title" style="color: dimgrey;">Welcome to Discussion Room <span id='spanUser'></span></h3>
-                        <div class="box-tools pull-right">
-                            <button type="button" class="btn btn-box-tool" id="btnClearChat" data-toggle="tooltip" title="Clear Chat">
-                                <i class="fa fa-trash-o"></i>
-                            </button>
+                <div class="row">
+                    <div class="col-md-8">
+                        <!-- DIRECT CHAT PRIMARY -->
+                        <div class="box box-primary direct-chat direct-chat-primary">
+                            <div class="box-header with-border">
+                                <h3 class="box-title" style="color: dimgrey;">Welcome to Discussion Room <span id='spanUser'></span></h3>
+                                <div class="box-tools pull-right">
+                                    <button type="button" class="btn btn-box-tool" id="btnClearChat" data-toggle="tooltip" title="Clear Chat">
+                                        <i class="fa fa-trash-o"></i>
+                                    </button>
 
-                            <span data-toggle="tooltip" id="MsgCountMain" title="0 New Messages" class="badge bg-gray">0</span>
-                        </div>
-                    </div>
-                    <!-- /.box-header -->
-                    <div class="box-body">
-                        <!-- Conversations are loaded here -->
-                        <div class="box-body" id="chat-box">
-                            <!-- Conversations are loaded here -->
-
-                            <div id="divChatWindow" class="direct-chat-messages" style="height: 450px;">
+                                    <span data-toggle="tooltip" id="MsgCountMain" title="0 New Messages" class="badge bg-gray">0</span>
+                                </div>
                             </div>
+                            <!-- /.box-header -->
+                            <div class="box-body">
+                                <!-- Conversations are loaded here -->
+                                <div class="box-body" id="chat-box">
+                                    <!-- Conversations are loaded here -->
 
-                            <div class="direct-chat-contacts">
-                                <ul class="contacts-list" id="ContactList">
+                                    <div id="divChatWindow" class="direct-chat-messages" style="height: 450px;">
+                                    </div>
 
-                                    <!-- End Contact Item -->
-                                </ul>
-                                <!-- /.contatcts-list -->
+                                    <div class="direct-chat-contacts">
+                                        <ul class="contacts-list" id="ContactList">
+
+                                            <!-- End Contact Item -->
+                                        </ul>
+                                        <!-- /.contatcts-list -->
+                                    </div>
+                                    <!-- /.direct-chat-pane -->
+
+                                </div>
+
+
                             </div>
-                            <!-- /.direct-chat-pane -->
-
-                        </div>
-
-
-                    </div>
-                    <!-- /.box-body -->
-                    <div class="box-footer">
-
-<%--                        <textarea id="txtMessage" class="form-control"></textarea>
-
-                        <div class="input-group" style="float: right;">
-                            <input class="form-control" style="visibility: hidden;" />
-                            <span class="input-group-btn">
-                                <input type="button" class="btn btn-primary btn-flat" id="btnSendMsg" value="send" />
-
-                            </span>
-                            <asp:UpdatePanel ID="UpdatePanel2" runat="server">
-                                <ContentTemplate>
-                                    <span class="upload-btn-wrapper">
-                                        <button id="btnFile" class="btn btn-default btn-flat"><i class="fas fa-paperclip"></i></button>
-                                        <ajaxToolkit:AsyncFileUpload OnClientUploadComplete="uploadComplete" runat="server" ID="AsyncFileUpload1"
-                                            ThrobberID="imgLoader" OnUploadedComplete="FileUploadComplete" OnClientUploadStarted="uploadStarted" />
-                                    </span>
-                                </ContentTemplate>
-                            </asp:UpdatePanel>
-
-                        </div>
-    --%>
+                            <!-- /.box-body -->
+                            <div class="box-footer">
                         
-                        <div class="input-group justify-content-end" style="float: right;">
-                            <textarea id="txtMessage" class="form-control"></textarea>
+                                <div class="input-group justify-content-end" style="float: right;">
+                                    <textarea id="txtMessage" class="form-control"></textarea>
 
 
-                         <button type="button" id="btnSendMsg" class="btn btn-primary btn-flat">
-                            <i class="fa fa-paper-plane fa-lg"></i>
-                        </button>
+                                 <button type="button" id="btnSendMsg" class="btn btn-primary rounded-circle ml-1 mr-1">
+                                    <i class="fa fa-paper-plane fa-lg"></i>
+                                </button>
 
-                       <button type="button" id="btnFile" class="btn btn-primary btn-flat" onclick="ClickFileUpload();">
-                            <i class="fa fa-paperclip fa-lg"></i>
-                        </button>
+                               <button type="button" id="btnFile" class="btn btn-primary rounded-circle" onclick="ClickFileUpload();">
+                                    <i class="fa fa-paperclip fa-lg"></i>
+                                </button>
 
-                            
-   
-                                <ajaxToolkit:AsyncFileUpload OnClientUploadComplete="uploadComplete" runat="server" ID="AsyncFileUpload1"
-                                    OnUploadedComplete="FileUploadComplete"  Style="display: none"/>
+                                <ajaxToolkit:AsyncFileUpload OnClientUploadComplete="uploadComplete" runat="server" ID="AsyncFileUpload1" OnUploadedComplete="FileUploadComplete"  Style="display: none"/>
       
-                        </div>
+                                </div>
                         
-                        <img id="imgDisplay" src="" class="user-image" style="height: 100px;" />
+                                <img id="imgDisplay" src="" class="user-image" style="height: 100px;" />
 
+                            </div>
+                            <!-- /.box-footer-->
+                        </div>
+                        <!--/.direct-chat -->
                     </div>
-                    <!-- /.box-footer-->
+                    <!-- /.col -->
+                    <div class="col-md-4">
+
+                        <div class="box box-solid box-primary">
+
+                            <div class="box-header with-border">
+                                <h3 class="box-title">Online Users <span id='UserCount'></span></h3>
+                            </div>
+
+                            <div class="box-footer box-comments" id="divusers">
+                            </div>
+
+                        </div>
+                    </div>
                 </div>
-                <!--/.direct-chat -->
-            </div>
-            <!-- /.col -->
-            <div class="col-md-4">
-
-                <div class="box box-solid box-primary">
-
-                    <div class="box-header with-border">
-                        <h3 class="box-title">Online Users <span id='UserCount'></span></h3>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="row" id="PriChatDiv">
+                        </div>
+                        <textarea class="form-control" style="visibility: hidden;"></textarea>
+                        <!--/.private-chat -->
                     </div>
-
-                    <div class="box-footer box-comments" id="divusers">
-                    </div>
-
                 </div>
             </div>
-
-
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="row" id="PriChatDiv">
-                    </div>
-                    <textarea class="form-control" style="visibility: hidden;"></textarea>
-                    <!--/.private-chat -->
-                </div>
-            </div>
-        </div>
-    </div>
-
         </div>
     </div>
 

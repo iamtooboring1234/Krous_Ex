@@ -2,7 +2,6 @@
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
 
-    <link href="Assests/main/css/inquiry.css" rel="stylesheet" />
 
 </asp:Content>
 

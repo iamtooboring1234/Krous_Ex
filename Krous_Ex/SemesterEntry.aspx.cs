@@ -12,54 +12,39 @@ namespace Krous_Ex
     public partial class SemesterEntry : System.Web.UI.Page
     {
 
-        private Guid SemesterGUID;
-
         protected void Page_Load(object sender, EventArgs e)
         {
-            if (!Session["Role"].Equals("Student"))
-            {
 
-                if (IsPostBack != true)
-                {
-                    txtSemesterName.Text = "asd";
-                    txtSemesterStartDate.Text = DateTime.Today.ToString("dd/MM/yyyy");
-                    txtSemesterEndDate.Text = DateTime.Today.AddDays(9).ToString("dd/MM/yyyy");
-                }
-            } else
+
+            if (IsPostBack != true)
             {
-                Response.Redirect("Error_Page/Error_404.aspx"); 
+                if (Session["InsertSemester"] != null)
+                {
+                    if (Session["InsertSemester"].ToString() == "Yes")
+                    {
+                        ClientScript.RegisterStartupScript(GetType(), "Javascript", "javascript:showAddSuccessToast(); ", true);
+                        Session["InsertSemester"] = null;
+                    }
+                }
+
             }
         }
 
-        private bool insertFAQ()
+        private bool insertSemester()
         {
             Guid SemesterGUID = Guid.NewGuid();
-
-            string SemesterCategory;
-
-            //string Username = clsLogin.GetLoginUserName;
-
-            if (rdExisting.Checked == true)
-                SemesterCategory = ddlSemesterCategory.SelectedValue;
-            else
-                SemesterCategory = txtNewCategory.Text;
 
             try
             {
                 SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["Krous_Ex"].ConnectionString);
                 con.Open();
 
-                SqlCommand InsertCommand = new SqlCommand("INSERT INTO SEMESTER VALUES(@SemesterGUID,@SemesterName,@SemesterCatogory,@SemesterStartDate,@SemesterEndDate,@SemesterWeekDuration,@SemesterStudyDayDuration,@SemesterExamDayDuration,@SemesterBreakDayDuration)", con);
+                SqlCommand InsertCommand = new SqlCommand("INSERT INTO SEMESTER VALUES(@SemesterGUID,@SemesterYear,@SemesterSem,@SemesterType)", con);
 
                 InsertCommand.Parameters.AddWithValue("@SemesterGUID", SemesterGUID);
-                InsertCommand.Parameters.AddWithValue("@SemesterName", txtSemesterName.Text);
-                InsertCommand.Parameters.AddWithValue("@SemesterCategory", SemesterCategory);
-                InsertCommand.Parameters.AddWithValue("@SemesterStartDate", txtSemesterStartDate.Text);
-                InsertCommand.Parameters.AddWithValue("@SemesterEndDate", txtSemesterEndDate.Text);
-                InsertCommand.Parameters.AddWithValue("@SemesterWeekDuration", 1);
-                InsertCommand.Parameters.AddWithValue("@SemesterStudyDayDuration", 1);
-                InsertCommand.Parameters.AddWithValue("@SemesterExamDayDuration", 1);
-                InsertCommand.Parameters.AddWithValue("@SemesterBreakDayDuration", 1);
+                InsertCommand.Parameters.AddWithValue("@SemesterYear", txtSemesterYear.Text);
+                InsertCommand.Parameters.AddWithValue("@SemesterSem", txtSemesterYear.Text);
+                InsertCommand.Parameters.AddWithValue("@SemesterType", ddlSemesterType.SelectedValue);
 
                 InsertCommand.ExecuteNonQuery();
 
@@ -76,60 +61,20 @@ namespace Krous_Ex
 
         protected void btnSave_Click(object sender, EventArgs e)
         {
-            insertFAQ();
+            if(insertSemester())
+            {
+                Session["InsertSemester"] = "Yes";
+                Response.Redirect("SemesterEntry");
+            }
+            else
+            {
+                clsFunction.DisplayAJAXMessage(this, "Error! Unable to insert.");
+            }
         }
 
         protected void btnBack_Click(object sender, EventArgs e)
         {
 
-        }
-
-        protected void txtSemesterDuration_TextChanged(object sender, EventArgs e)
-        {
-            int Days = (int.Parse(txtSemesterDuration.Text) * 6) + int.Parse(txtExamDuration.Text) + int.Parse(txtSemesterBreakDuration.Text) + int.Parse(txtStudyDuration.Text);
-            DateTime startDate = DateTime.Parse(txtSemesterStartDate.Text);
-            CalendarExtender2.SelectedDate = startDate.AddDays(Days);
-        }
-
-        protected void txtStudyDuration_TextChanged(object sender, EventArgs e)
-        {
-
-        }
-         
-        protected void txtSemesterEndDate_TextChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        protected void txtSemesterStartDate_TextChanged(object sender, EventArgs e)
-        {
-            if (int.Parse(txtSemesterDuration.Text) > 0 || int.Parse(txtExamDuration.Text) > 0 || int.Parse(txtSemesterBreakDuration.Text) > 0 || int.Parse(txtStudyDuration.Text) > 0) {
-
-                int Days = (int.Parse(txtSemesterDuration.Text) * 6) + int.Parse(txtExamDuration.Text) + int.Parse(txtSemesterBreakDuration.Text) + int.Parse(txtStudyDuration.Text);
-
-                DateTime startDate = DateTime.Parse(txtSemesterStartDate.Text);
-                CalendarExtender2.SelectedDate = startDate.AddDays(Days);
-            }
-        }
-
-        protected void rdExisting_CheckedChanged(object sender, EventArgs e)
-        {
-            if (rdExisting.Checked == true)
-            {
-                txtNewCategory.Text = "";
-                txtNewCategory.Enabled = false;
-                ddlSemesterCategory.Enabled = true;
-            }
-        }
-
-        protected void rdNew_CheckedChanged(object sender, EventArgs e)
-        {
-            if (rdNew.Checked == true)
-            {
-                ddlSemesterCategory.SelectedValue = "";
-                ddlSemesterCategory.Enabled = false;
-                txtNewCategory.Enabled = true;
-            }
         }
     }
 }

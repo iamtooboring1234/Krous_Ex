@@ -25,7 +25,7 @@ namespace Krous_Ex
                 if (ticket != null)
                     LoginUserGUID = ticket.Name;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 LoginUserGUID = "";
             }
@@ -46,7 +46,7 @@ namespace Krous_Ex
                 if (ticket != null)
                     LoginUserType = ticket.UserData.ToString();
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 LoginUserType = "";
             }
@@ -78,8 +78,47 @@ namespace Krous_Ex
                 else
                     return "";
             }
+            catch (Exception)
+            {
+                return "";
+            }
+        }
+
+        public static string GetUserImage()
+        {
+            try
+            {
+                string UserType;
+                string imgPath = "";
+
+                if (GetLoginUserType() != "Student")
+                    UserType = "Staff";
+                else
+                    UserType = "Student";
+
+                SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["Krous_Ex"].ConnectionString);
+                con.Open();
+                SqlCommand cmd = new SqlCommand("SELECT ProfileImage FROM " + UserType + " WHERE " + UserType + "GUID = '" + GetLoginUserGUID() + "'", con);
+                SqlDataReader dr = cmd.ExecuteReader();
+                
+
+                if (dr.HasRows)
+                {
+                    while (dr.Read())
+                    {
+                        imgPath = ConfigurationManager.AppSettings["ProfileUploadPath"].ToString() + dr.GetValue(0).ToString();
+                    }
+                } else
+                {
+                    imgPath = "";
+                }
+
+                con.Close();
+                return imgPath;
+            }
             catch (Exception ex)
             {
+                Console.WriteLine(ex.Message);
                 return "";
             }
         }

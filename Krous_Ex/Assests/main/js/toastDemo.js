@@ -1,10 +1,10 @@
 (function($) {
-  showSuccessToast = function() {
+  showAddSuccessToast = function() {
     'use strict';
     resetToastPosition();
     $.toast({
       heading: 'Success',
-      text: 'And these were just the basic demos! Scroll down to check further details on how to customize the output.',
+      text: 'Item Added Successfully.',
       showHideTransition: 'slide',
       icon: 'success',
       loaderBg: '#f96868',

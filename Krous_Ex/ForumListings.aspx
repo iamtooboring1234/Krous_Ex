@@ -1,7 +1,6 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/StaffMaster.Master" AutoEventWireup="true" CodeBehind="ForumListings.aspx.cs" Inherits="Krous_Ex.ForumListings" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
 
-    <link href="Assests/main/css/inquiry.css" rel="stylesheet" />
     <link href="Assests/main/css/table.css" rel="stylesheet" />
 
     <link href="https://cdn.datatables.net/1.11.3/css/jquery.dataTables.min.css" rel="stylesheet" type="text/css" />
