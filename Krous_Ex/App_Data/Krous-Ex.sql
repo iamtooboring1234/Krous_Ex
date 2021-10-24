@@ -51,7 +51,6 @@ CREATE TABLE [dbo].[Student] (
     [NRIC]                VARCHAR (15)     NOT NULL,
 	[Address]			  VARCHAR(150)	   NOT NULL,
 	[ProfileImage]		  VARCHAR(500)     NULL,
-	[LastUpdateInfo]      DATETIME		   NOT NULL,
     [YearIntake]          VARCHAR (15)     NOT NULL,
     [AccountRegisterDate] DATETIME         NOT NULL,
 	[LastUpdateInfo]      DATETIME         NULL,
@@ -184,7 +183,6 @@ CREATE TABLE [Exam_Timetable] (
 
 CREATE TABLE [dbo].[Forum] (
     [ForumGUID]            UNIQUEIDENTIFIER NOT NULL,
-    [StaffGUID]            UNIQUEIDENTIFIER NOT NULL,
     [ForumTopic]           VARCHAR (100)    NOT NULL,
     [ForumDesc]            VARCHAR (999)    NOT NULL,
     [ForumCategory]        VARCHAR (100)    NOT NULL,
@@ -195,7 +193,6 @@ CREATE TABLE [dbo].[Forum] (
     [ForumLastUpdatedBy]   VARCHAR (50)     NOT NULL,
     [ForumLastUpdatedDate] DATETIME         NOT NULL,
     CONSTRAINT [pk_forum] PRIMARY KEY CLUSTERED ([ForumGUID] ASC),
-    CONSTRAINT [fk_staff_forum] FOREIGN KEY ([StaffGUID]) REFERENCES [dbo].[Staff] ([StaffGUID])
 );
 
 CREATE TABLE [dbo].[Discussion] (
@@ -249,27 +246,27 @@ CREATE TABLE [FAQ] (
     CONSTRAINT pk_faq PRIMARY KEY (FAQGUID)
 );
 
-CREATE TABLE [Chat] (
+CREATE TABLE [dbo].[Chat] (
     [ChatGUID]    UNIQUEIDENTIFIER NOT NULL,
     [StudentGUID] UNIQUEIDENTIFIER NOT NULL,
     [StaffGUID]   UNIQUEIDENTIFIER NOT NULL,
-    [ChatStatus]  varchar (30)    NOT NULL,
+    [ChatStatus]  VARCHAR (30)     NOT NULL,
     [CreatedDate] DATETIME         NOT NULL,
     [EndDate]     DATETIME         NULL,
-    CONSTRAINT pk_chat PRIMARY KEY (ChatGUID),
-	CONSTRAINT fk_student_chat FOREIGN KEY (StudentGUID) REFERENCES Student(StudentGUID),
-	CONSTRAINT fk_staff_chat FOREIGN KEY (StaffGUID) REFERENCES Staff(StaffGUID)	
+    CONSTRAINT [pk_chat] PRIMARY KEY CLUSTERED ([ChatGUID] ASC),
+    CONSTRAINT [fk_student_chat] FOREIGN KEY ([StudentGUID]) REFERENCES [dbo].[Student] ([StudentGUID]),
+    CONSTRAINT [fk_staff_chat] FOREIGN KEY ([StaffGUID]) REFERENCES [dbo].[Staff] ([StaffGUID])
 );
 
-CREATE TABLE [Message] (
+CREATE TABLE [dbo].[Message] (
     [MessageGUID]   UNIQUEIDENTIFIER NOT NULL,
     [ChatGUID]      UNIQUEIDENTIFIER NOT NULL,
-    [MessageDetail] varchar (300)   NOT NULL,
-    [MessageType]   varchar (30)    NOT NULL,
-    [UserType]      varchar (30)    NOT NULL,
+    [MessageDetail] VARCHAR (300)    NOT NULL,
+    [MessageType]   VARCHAR (30)     NOT NULL,
+    [UserType]      VARCHAR (30)     NOT NULL,
     [SendDate]      DATETIME         NOT NULL,
-    CONSTRAINT pk_message PRIMARY KEY (MessageGUID),
-	CONSTRAINT fk_chat_message FOREIGN KEY (ChatGUID) REFERENCES Chat(ChatGUID)
+    CONSTRAINT [pk_message] PRIMARY KEY CLUSTERED ([MessageGUID] ASC),
+    CONSTRAINT [fk_chat_message] FOREIGN KEY ([ChatGUID]) REFERENCES [dbo].[Chat] ([ChatGUID])
 );
 
 CREATE TABLE [Assignment] (

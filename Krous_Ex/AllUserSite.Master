@@ -66,8 +66,8 @@
         <nav class="navbar top-navbar col-lg-12 col-12 p-0">
           <div class="container">
             <div class="text-center navbar-brand-wrapper d-flex align-items-center justify-content-center">
-              <a class="navbar-brand brand-logo" href="index.html"><img src="Assests/main/images/logo.svg" alt="logo" /></a>
-              <a class="navbar-brand brand-logo-mini" href="index.html"><img src="Assests/main/images/logo-mini.svg" alt="logo" /></a>
+              <a class="navbar-brand brand-logo" href="Homepage"><img src="Assests/main/images/logo.svg" alt="logo" /></a>
+              <a class="navbar-brand brand-logo-mini" href="Homepage"><img src="Assests/main/images/logo-mini.svg" alt="logo" /></a>
             </div>
             <div class="navbar-menu-wrapper d-flex align-items-center justify-content-end">
                 <ul class="navbar-nav navbar-nav-right">
@@ -243,7 +243,7 @@
                 <li class="nav-item dropdown">
                   <a class="nav-link mr-0" id="profileDropdown" href="#" data-toggle="dropdown">
                     <div class="navbar-profile">
-                      <img class="img-xs rounded-circle" src="Assests/main/images/faces/face15.jpg" alt="">
+                      <asp:Image ID="imgProfile" runat="server" CssClass="img-xs rounded-circle" />
                       <p class="mb-0 d-none d-sm-block navbar-profile-name"><asp:Literal ID="litLogonName" runat="server"></asp:Literal></p>
                       <i class="mdi mdi-menu-down d-none d-sm-block"></i>
                     </div>
@@ -251,16 +251,16 @@
                   <div class="dropdown-menu dropdown-menu-right navbar-dropdown preview-list" aria-labelledby="profileDropdown">
                     <h6 class="p-3 mb-0">Profile</h6>
                     <div class="dropdown-divider"></div>
-                    <a class="dropdown-item preview-item">
+                    <asp:HyperLink ID="HyperLink1" runat="server" CssClass="dropdown-item preview-item">
                       <div class="preview-thumbnail">
                         <div class="preview-icon bg-dark rounded-circle">
                           <i class="mdi mdi-settings text-success"></i>
                         </div>
                       </div>
                       <div class="preview-item-content">
-                        <p class="preview-subject mb-1">Settings</p>
+                        <p class="preview-subject mb-1">My Dashboard</p>
                       </div>
-                    </a>
+                    </asp:HyperLink>
                     <div class="dropdown-divider"></div>
                     <a class="dropdown-item preview-item" href="Logout.aspx">
                       <div class="preview-thumbnail">
@@ -272,8 +272,6 @@
                         <p class="preview-subject mb-1">Log out</p>
                       </div>
                     </a>
-                    <div class="dropdown-divider"></div>
-                    <p class="p-3 mb-0 text-center">Advanced settings</p>
                   </div>
                 </li>
                 </asp:Panel>
@@ -432,9 +430,15 @@
                 </div>
               </li>
               <li class="nav-item menu-items">
-                <a href="http://www.bootstrapdash.com/demo/corona/jquery/documentation/documentation.html" class=" nav-link" target="_blank">
-                  <i class="mdi mdi-file-document-box menu-icon"></i>
-                  <span class="menu-title">Docs</span></a>
+                <a href="#" class="nav-link">
+                  <i class="mdi mdi-webpack menu-icon"></i>
+                  <span class="menu-title">Help</span>
+                  <i class="menu-arrow"></i></a>
+                <div class="submenu">
+                  <ul class="submenu-item">
+                    <li class="nav-item"><a class="nav-link" href="KrousExFAQ">FAQ</a></li>
+                  </ul>
+                </div>
               </li>
             </ul>
           </div>

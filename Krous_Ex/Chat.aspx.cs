@@ -16,7 +16,7 @@ namespace Krous_Ex
     {
         public string UserName = "admin";
         public string UserImage = "img/logoKPM.png";
-        public string UploadFolderPath = "~/Uploads/ChatFile";
+        public string UploadFolderPath = "~/Uploads/ChatFile/";
         string strcon = ConfigurationManager.ConnectionStrings["Krous_Ex"].ConnectionString;
 
         protected void Page_Load(object sender, EventArgs e)

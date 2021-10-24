@@ -12,6 +12,7 @@ namespace Krous_Ex.Hubs
 {
     public class ChatHub : Hub
     {
+        /*Class Group Chat*/
         static List<Users> ConnectedUsers = new List<Users>();
         static List<Messages> CurrentMessage = new List<Messages>();
         string strcon = ConfigurationManager.ConnectionStrings["Krous_Ex"].ConnectionString;
@@ -125,6 +126,77 @@ namespace Krous_Ex.Hubs
                 Clients.Caller.sendPrivateMessage(toUserId, fromUser.UserName, message, UserImg, CurrentDateTime);
             }
 
+        }
+
+        /*FAQ Chat*/
+        public void Send(string CurrentUserGUID, string userType, string message, string ChatGUID, string newChat, string MessageType)
+        {
+            var SendTimeDB = DateTime.Now;
+            string SendTimeStr = SendTimeDB.ToString("hh:mm: tt");
+            ManageMessageDB(CurrentUserGUID, userType, message, ChatGUID, newChat, MessageType, SendTimeDB);
+            Clients.Group(ChatGUID).broadcastMessage(userType, message, MessageType, SendTimeStr);
+        }
+
+        public void Join(string groupName)
+        {
+            Groups.Add(Context.ConnectionId, groupName);
+        }
+
+        public void alertEndChatMsg(string ChatGUID, string userType, string message)
+        {
+            Clients.Group(ChatGUID).alertEndChat(userType, message);
+        }
+
+        private void ManageMessageDB(string CurrentUserGUID, string userType, string message, string ChatGUID, string newChat, string MessageType, DateTime SendDate)
+        {
+            if (newChat == "True")
+            {
+                InsertChat(CurrentUserGUID, ChatGUID);
+            }
+
+            InsertMessage(userType, message, ChatGUID, MessageType, SendDate);
+        }
+
+        private void InsertChat(string CurrentUserGUID, string ChatGUID)
+        {
+            try
+            {
+                var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Krous_Ex"].ConnectionString);
+                con.Open();
+                var InsertCommand = new SqlCommand("INSERT INTO Chat VALUES(@ChatGUID,@StudentGUID,@StaffGUID,@ChatStatus,@createdDate,@EndDate)", con);
+                InsertCommand.Parameters.AddWithValue("@ChatGUID", Guid.Parse(ChatGUID.ToString()));
+                InsertCommand.Parameters.AddWithValue("@StudentGUID", Guid.Parse(CurrentUserGUID.ToString()));
+                InsertCommand.Parameters.AddWithValue("@StaffGUID", DBNull.Value);
+                InsertCommand.Parameters.AddWithValue("@ChatStatus", "Pending");
+                InsertCommand.Parameters.AddWithValue("@CreatedDate", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
+                InsertCommand.Parameters.AddWithValue("@EndDate", DBNull.Value);
+                InsertCommand.ExecuteNonQuery();
+                con.Close();
+            }
+            catch (Exception)
+            {
+            }
+        }
+
+        private void InsertMessage(string userType, string message, string ChatGUID, string MessageType, DateTime SendDate)
+        {
+            try
+            {
+                var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Krous_Ex"].ConnectionString);
+                con.Open();
+                var InsertCommand = new SqlCommand("INSERT INTO [Message] VALUES(@MessageGUID,@ChatGUID,@MessageDetails,@MessageType,@UserType,@SendDate)", con);
+                InsertCommand.Parameters.AddWithValue("@MessageGUID", Guid.NewGuid());
+                InsertCommand.Parameters.AddWithValue("@ChatGUID", Guid.Parse(ChatGUID.ToString()));
+                InsertCommand.Parameters.AddWithValue("@MessageDetails", message);
+                InsertCommand.Parameters.AddWithValue("@MessageType", MessageType);
+                InsertCommand.Parameters.AddWithValue("@UserType", userType);
+                InsertCommand.Parameters.AddWithValue("@SendDate", SendDate.ToString("yyyy-MM-dd HH:mm:ss"));
+                InsertCommand.ExecuteNonQuery();
+                con.Close();
+            }
+            catch (Exception)
+            {
+            }
         }
     }
 }

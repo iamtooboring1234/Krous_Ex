@@ -116,7 +116,8 @@
 }
 
 .ps-container {
-    position: relative
+    position: relative;
+    border: 2px solid white;
 }
 
 .ps-container {
@@ -159,7 +160,6 @@
     background-color: #f5f6f7;
     border-radius: 3px;
     font-weight: 100;
-    color: #27292D
 }
 
 .media > * {
@@ -169,7 +169,8 @@
 .media-chat .media-body p.meta {
     background-color: transparent !important;
     padding: 0;
-    opacity: .8
+    opacity: .8;
+    color: white;
 }
 
 
@@ -177,7 +178,6 @@
     display: flex;
     flex-direction: row;
     margin-bottom: 0;
-    color: #27292D;
     opacity: .8;
     font-weight: 400
 }
@@ -237,14 +237,13 @@
 }
 
 .media-chat.media-chat-reverse .media-body p {
-    float: right;
     clear: right;
     background-color: #48b0f7;
     color: #fff
 }
 
-.media-chat.media-chat-reverse .media-body .meta {
-    color: #27292D;
+.media-chat.media-chat-reverse .media-body p.meta {
+    float: right;
 }
 
 .media-chat .media-body p {
@@ -252,7 +251,8 @@
     padding: 6px 8px;
     margin: 4px 0;
     background-color: #f5f6f7;
-    border-radius: 3px
+    border-radius: 3px;
+    color: black;
 }
 
 .border-light {
@@ -273,13 +273,13 @@
     background-color: #f9fafb
 }
 
-    .publisher > *:first-child {
-        margin-left: 0
-    }
+.publisher > *:first-child {
+    margin-left: 0
+}
 
-    .publisher > * {
-        margin: 0 8px
-    }
+.publisher > * {
+    margin: 0 8px
+}
 
 .publisher-input {
     -webkit-box-flex: 1;
@@ -339,7 +339,6 @@ textarea {
 }
 
 .pdfLinkBlack {
-    color: #27292D;
     text-decoration: underline;
 }
 

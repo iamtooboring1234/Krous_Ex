@@ -243,7 +243,6 @@ namespace Krous_Ex
             string ForumCategory;
 
             string Username = clsLogin.GetLoginUserName();
-            String staffGUID = clsLogin.GetLoginUserGUID();
 
             if (rdExisting.Checked == true)
                 ForumCategory = ddlCategory.SelectedValue;
@@ -255,10 +254,9 @@ namespace Krous_Ex
                 SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["Krous_Ex"].ConnectionString);
                 con.Open();
 
-                SqlCommand InsertCommand = new SqlCommand("INSERT INTO FORUM VALUES(@ForumGUID,@StaffGUID,@ForumTopic,@ForumDesc,@ForumCategory,@ForumStatus,@ForumType,@ForumCreatedBy,@ForumCreatedDate,@ForumLastUpdatedBy,@ForumLastUpdatedDate)", con);
+                SqlCommand InsertCommand = new SqlCommand("INSERT INTO FORUM VALUES(@ForumGUID,@ForumTopic,@ForumDesc,@ForumCategory,@ForumStatus,@ForumType,@ForumCreatedBy,@ForumCreatedDate,@ForumLastUpdatedBy,@ForumLastUpdatedDate)", con);
 
                 InsertCommand.Parameters.AddWithValue("@ForumGUID", ForumGUID);
-                InsertCommand.Parameters.AddWithValue("@StaffGUID", staffGUID);
                 InsertCommand.Parameters.AddWithValue("@ForumTopic", txtForumTopic.Text);
                 InsertCommand.Parameters.AddWithValue("@ForumDesc", txtForumDesc.Text);
                 InsertCommand.Parameters.AddWithValue("@ForumCategory", ForumCategory);

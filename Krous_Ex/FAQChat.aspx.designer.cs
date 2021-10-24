@@ -11,70 +11,79 @@ namespace Krous_Ex
 {
 
 
-    public partial class AllUserSite
+    public partial class FAQChat
     {
 
         /// <summary>
-        /// head control.
+        /// litStudName control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.ContentPlaceHolder head;
+        protected global::System.Web.UI.WebControls.Literal litStudName;
 
         /// <summary>
-        /// panelLogin control.
+        /// litMessage control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Panel panelLogin;
+        protected global::System.Web.UI.WebControls.Literal litMessage;
 
         /// <summary>
-        /// panelLogon control.
+        /// AsyncFileUploadChat control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Panel panelLogon;
+        protected global::AjaxControlToolkit.AsyncFileUpload AsyncFileUploadChat;
 
         /// <summary>
-        /// imgProfile control.
+        /// hdCurrentUserGUID control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Image imgProfile;
+        protected global::System.Web.UI.WebControls.HiddenField hdCurrentUserGUID;
 
         /// <summary>
-        /// litLogonName control.
+        /// hdUserType control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Literal litLogonName;
+        protected global::System.Web.UI.WebControls.HiddenField hdUserType;
 
         /// <summary>
-        /// HyperLink1 control.
+        /// hdChatGUID control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.HyperLink HyperLink1;
+        protected global::System.Web.UI.WebControls.HiddenField hdChatGUID;
 
         /// <summary>
-        /// body control.
+        /// hdNewChat control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.ContentPlaceHolder body;
+        protected global::System.Web.UI.WebControls.HiddenField hdNewChat;
+
+        /// <summary>
+        /// hdCheckDate control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.HiddenField hdCheckDate;
     }
 }

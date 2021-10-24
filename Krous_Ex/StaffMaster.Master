@@ -18,6 +18,7 @@
     <link rel="stylesheet" href="Assests/main/vendors/flag-icon-css/css/flag-icon.min.css">
     <link rel="stylesheet" href="Assests/main/vendors/owl-carousel-2/owl.carousel.min.css">
     <link rel="stylesheet" href="Assests/main/vendors/owl-carousel-2/owl.theme.default.min.css">
+    <link rel="stylesheet" href="Assests/main/css/font-awesome/all.min.css"/>
     <!-- End plugin css for this page -->
     <!-- inject:css -->
     <!-- endinject -->
@@ -241,7 +242,7 @@
                 <!-- partial:partials/_navbar.html -->
                 <nav class="navbar p-0 fixed-top d-flex flex-row">
                     <div class="navbar-brand-wrapper d-flex d-lg-none align-items-center justify-content-center">
-                        <a class="navbar-brand brand-logo-mini" href="index.html">
+                        <a class="navbar-brand brand-logo-mini" href="Homepage">
                             <img src="Assests/main/images/logo-mini.svg" alt="logo" /></a>
                     </div>
                     <div class="navbar-menu-wrapper flex-grow d-flex align-items-stretch">
