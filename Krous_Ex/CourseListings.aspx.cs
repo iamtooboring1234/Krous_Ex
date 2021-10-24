@@ -12,10 +12,8 @@ namespace Krous_Ex
 {
     public partial class CourseListings : System.Web.UI.Page
     {
-        Guid userGUID;
         protected void Page_Load(object sender, EventArgs e)
         {
-            userGUID = Guid.Parse(clsLogin.GetLoginUserGUID());
             if (IsPostBack != true)
             {
                 loadCourseAbbrv();
@@ -28,7 +26,6 @@ namespace Krous_Ex
             try
             {
                 ddlCourseAbbrv.Items.Clear();
-                //ListItem ProgrammeList = new ListItem();
                 SqlConnection con = new SqlConnection();
                 SqlCommand loadCmd = new SqlCommand();
 

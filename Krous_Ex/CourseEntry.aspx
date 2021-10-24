@@ -143,8 +143,8 @@
                                         </div>
                                         <div class="col-md-4">
                                             <asp:RadioButtonList ID="rbCourseCategory" runat="server" RepeatDirection="Horizontal" CssClass="rdBtn">
-                                                <asp:ListItem>Main Course</asp:ListItem>
-                                                <asp:ListItem>Elective Course</asp:ListItem>
+                                                <asp:ListItem Selected="True" Value="Main Course">Main Course</asp:ListItem>
+                                                <asp:ListItem Value="Elective Course">Elective Course</asp:ListItem>
                                             </asp:RadioButtonList>
                                         </div>
                                     </div>

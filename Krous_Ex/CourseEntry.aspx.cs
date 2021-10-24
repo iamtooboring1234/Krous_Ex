@@ -17,7 +17,6 @@ namespace Krous_Ex
         {
             if (!IsPostBack)
             {
-                //loadProgrammeList();
                 if (!String.IsNullOrEmpty(Request.QueryString["CourseGUID"]))
                 {
                     courseGUID = Guid.Parse(Request.QueryString["CourseGUID"]);
@@ -70,36 +69,6 @@ namespace Krous_Ex
                 System.Diagnostics.Trace.WriteLine(ex.Message);
             }
         }
-
-        //protected void loadProgrammeList()
-        //{
-        //    try
-        //    {
-        //        ddlProgramme.Items.Clear();
-        //        ListItem facultyList = new ListItem();
-        //        SqlConnection con = new SqlConnection();
-        //        SqlCommand loadCmd = new SqlCommand();
-
-        //        string strCon = ConfigurationManager.ConnectionStrings["Krous_Ex"].ConnectionString;
-        //        con = new SqlConnection(strCon);
-        //        con.Open();
-
-        //        loadCmd = new SqlCommand("SELECT ProgrammeGUID, ProgrammeName FROM Programme GROUP BY ProgrammeGUID, ProgrammeName ORDER BY ProgrammeName", con);
-        //        SqlDataAdapter da = new SqlDataAdapter(loadCmd);
-        //        DataSet ds = new DataSet();
-        //        da.Fill(ds);
-        //        ddlProgramme.DataSource = ds;
-        //        ddlProgramme.DataTextField = "ProgrammeName";
-        //        ddlProgramme.DataValueField = "ProgrammeName";
-        //        ddlProgramme.DataBind();
-        //        ddlProgramme.Items.Insert(0, new ListItem("", ""));
-        //        con.Close();
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        System.Diagnostics.Trace.WriteLine(ex.Message);
-        //    }
-        //}
 
         private bool insertCourse()
         {

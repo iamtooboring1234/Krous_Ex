@@ -40,13 +40,13 @@ namespace Krous_Ex
                 if (UserType == "Staff")
                 {
                     SelectCommand = new SqlCommand("SELECT * FROM STAFF WHERE Email = @Email AND StaffStatus <> 'Terminated' AND StaffGUID NOT IN (@StaffGUID)", con);
-                    SelectCommand.Parameters.AddWithValue("@ICNo", Email);
+                    SelectCommand.Parameters.AddWithValue("@Email", Email);
                     SelectCommand.Parameters.AddWithValue("@StaffGUID", UserGUID);
                 }
                 else if (UserType == "Student")
                 {
                     SelectCommand = new SqlCommand("SELECT * FROM STUDENT WHERE Email = @Email AND StudentGUID NOT IN (@StudentGUID)", con);
-                    SelectCommand.Parameters.AddWithValue("@NRIC", Email);
+                    SelectCommand.Parameters.AddWithValue("@Email", Email);
                     SelectCommand.Parameters.AddWithValue("@StudentGUID", UserGUID);
                 }
 
