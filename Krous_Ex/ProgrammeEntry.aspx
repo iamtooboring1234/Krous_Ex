@@ -1,7 +1,7 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/StaffMaster.Master" AutoEventWireup="true" CodeBehind="ProgrammeEntry.aspx.cs" Inherits="Krous_Ex.ProgrammeEntry" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
-    <link href="Assests/main/css/inquiry.css" rel="stylesheet" />
+
     <link href="Assests/main/css/layouts.css" rel="stylesheet" />
 
 </asp:Content>
