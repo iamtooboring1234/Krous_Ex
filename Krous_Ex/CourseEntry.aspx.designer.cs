@@ -51,6 +51,24 @@ namespace Krous_Ex
         protected global::System.Web.UI.WebControls.TextBox txtCourseName;
 
         /// <summary>
+        /// lblCourseAbbrv control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblCourseAbbrv;
+
+        /// <summary>
+        /// txtCourseAbbrv control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txtCourseAbbrv;
+
+        /// <summary>
         /// lblCourseDesc control.
         /// </summary>
         /// <remarks>
@@ -69,24 +87,6 @@ namespace Krous_Ex
         protected global::System.Web.UI.WebControls.TextBox txtCourseDesc;
 
         /// <summary>
-        /// lblCreditHour control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblCreditHour;
-
-        /// <summary>
-        /// ddlCreditHour control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList ddlCreditHour;
-
-        /// <summary>
         /// lblCourseCategory control.
         /// </summary>
         /// <remarks>
@@ -96,40 +96,31 @@ namespace Krous_Ex
         protected global::System.Web.UI.WebControls.Label lblCourseCategory;
 
         /// <summary>
-        /// rdMain control.
+        /// rbCourseCategory control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.RadioButton rdMain;
+        protected global::System.Web.UI.WebControls.RadioButtonList rbCourseCategory;
 
         /// <summary>
-        /// rbElective control.
+        /// lblCreditHour control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.RadioButton rbElective;
+        protected global::System.Web.UI.WebControls.Label lblCreditHour;
 
         /// <summary>
-        /// lblCourseFee control.
+        /// txtCreditHour control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblCourseFee;
-
-        /// <summary>
-        /// txtCourseFee control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtCourseFee;
+        protected global::System.Web.UI.WebControls.TextBox txtCreditHour;
 
         /// <summary>
         /// btnBack control.

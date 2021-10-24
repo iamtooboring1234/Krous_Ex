@@ -48,6 +48,7 @@ namespace Krous_Ex
             }
         }
 
+        //when select view on programme listing, will display the details at programme entry page 
         protected void loadProgInfo()
         {
             try
@@ -110,7 +111,7 @@ namespace Krous_Ex
                 con = new SqlConnection(strCon);
                 con.Open();
 
-                loadCmd = new SqlCommand("SELECT FacultyName FROM Faculty GROUP BY FacultyName ORDER BY FacultyName", con);
+                loadCmd = new SqlCommand("SELECT FacultyGUID, FacultyName FROM Faculty GROUP BY FacultyGUID, FacultyName ORDER BY FacultyName", con);
                 SqlDataAdapter da = new SqlDataAdapter(loadCmd);
                 DataSet ds = new DataSet();
                 da.Fill(ds);
@@ -118,7 +119,7 @@ namespace Krous_Ex
                 ddlFacultyInChg.DataTextField = "FacultyName";
                 ddlFacultyInChg.DataValueField = "FacultyName";
                 ddlFacultyInChg.DataBind();
-                ddlFacultyInChg.Items.Insert(0, new ListItem("", "0"));
+                ddlFacultyInChg.Items.Insert(0, new ListItem("", ""));
                 con.Close();
 
                 //SqlDataReader dtrLoad = loadCmd.ExecuteReader();
@@ -204,7 +205,7 @@ namespace Krous_Ex
 
                 updateCmd = new SqlCommand("UPDATE Programme SET ProgrammeAbbrv = @ProgrammeAbbrv, ProgrammeName = @ProgrammeName, ProgrammeDesc = @ProgrammeDesc, ProgrammeDuration = @ProgrammeDuration, ProgrammeCategory = @ProgrammeCategory, ProgrammeFullorPart = @ProgrammeFullorPart, ProgrammeFaculty = @ProgrammeFaculty WHERE ProgrammeGUID = @ProgrammeGUID", con);
                 updateCmd.Parameters.AddWithValue("@ProgrammeGUID", ProgrammeGUID);
-                updateCmd.Parameters.AddWithValue("@ProgrammeAbbrv", txtProgAbbrv.Text);
+                updateCmd.Parameters.AddWithValue("@ProgrammeAbbrv", txtProgAbbrv.Text.ToUpper());
                 updateCmd.Parameters.AddWithValue("@ProgrammeName", txtProgName.Text);
                 updateCmd.Parameters.AddWithValue("@ProgrammeDesc", txtProgDesc.Text);
                 updateCmd.Parameters.AddWithValue("@ProgrammeDuration", ddlProgDuration.SelectedValue);
@@ -397,7 +398,7 @@ namespace Krous_Ex
             }
 
             //programme faculty 
-            if (ddlFacultyInChg.SelectedValue == "")
+            if (ddlFacultyInChg.SelectedIndex == 0)
             {
                 clsFunction.DisplayAJAXMessage(this, "Please select the faculty in-charge for this programme.");
                 return false;

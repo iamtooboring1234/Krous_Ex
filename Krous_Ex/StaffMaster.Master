@@ -178,6 +178,36 @@
                         </div>
                     </li>
                     <li class="nav-item menu-items">
+                        <a class="nav-link" data-toggle="collapse" href="#Course" aria-expanded="false" aria-controls="Course">
+                            <span class="menu-icon">
+                                <i class="mdi mdi-laptop"></i>
+                            </span>
+                            <span class="menu-title">Course</span>
+                            <i class="menu-arrow"></i>
+                        </a>
+                        <div class="collapse" id="Course">
+                            <ul class="nav flex-column sub-menu">
+                                <li class="nav-item"><a class="nav-link" href="CourseEntry">Course Entry</a></li>
+                                <li class="nav-item"><a class="nav-link" href="CourseListings">Course Listings</a></li>
+                            </ul>
+                        </div>
+                    </li>
+                      <li class="nav-item menu-items">
+                        <a class="nav-link" data-toggle="collapse" href="#Branch" aria-expanded="false" aria-controls="Branch">
+                            <span class="menu-icon">
+                                <i class="mdi mdi-laptop"></i>
+                            </span>
+                            <span class="menu-title">Branch</span>
+                            <i class="menu-arrow"></i>
+                        </a>
+                        <div class="collapse" id="Branch">
+                            <ul class="nav flex-column sub-menu">
+                                <li class="nav-item"><a class="nav-link" href="BranchesEntry">Branches Entry</a></li>
+                                <li class="nav-item"><a class="nav-link" href="BranchesListings">Branches Listings</a></li>
+                            </ul>
+                        </div>
+                    </li>
+                    <li class="nav-item menu-items">
                         <a class="nav-link" href="pages/forms/basic_elements.html">
                             <span class="menu-icon">
                                 <i class="mdi mdi-playlist-play"></i>
@@ -396,7 +426,8 @@
                                     <div class="navbar-profile">
                                         <img class="img-xs rounded-circle" src="Assests/main/images/faces/face15.jpg" alt="">
                                         <p class="mb-0 d-none d-sm-block navbar-profile-name">
-                                            <asp:Literal ID="litLogonName" runat="server"></asp:Literal></p>
+                                            <asp:Literal ID="litLogonName" runat="server"></asp:Literal>
+                                        </p>
                                         <i class="mdi mdi-menu-down d-none d-sm-block"></i>
                                     </div>
                                 </a>

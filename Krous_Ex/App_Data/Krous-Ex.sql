@@ -90,7 +90,6 @@ CREATE TABLE [Course] (
 	[CourseDesc] varchar (80) NOT NULL,
 	[CreditHour] int NOT NULL,
 	[Category]   varchar (30) NOT NULL,
-	[CourseFee]  decimal (10, 2) NOT NULL,
 	CONSTRAINT pk_course PRIMARY KEY (CourseGUID),
 )
 
