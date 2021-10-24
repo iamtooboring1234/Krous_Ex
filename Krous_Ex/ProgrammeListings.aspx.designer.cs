@@ -15,22 +15,22 @@ namespace Krous_Ex
     {
 
         /// <summary>
-        /// lblFAQList control.
+        /// lblProgList control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblFAQList;
+        protected global::System.Web.UI.WebControls.Label lblProgList;
 
         /// <summary>
-        /// lblFAQTitle control.
+        /// lblProgName control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblFAQTitle;
+        protected global::System.Web.UI.WebControls.Label lblProgName;
 
         /// <summary>
         /// txtProgName control.

@@ -117,9 +117,9 @@ namespace Krous_Ex
                 da.Fill(ds);
                 ddlFacultyInChg.DataSource = ds;
                 ddlFacultyInChg.DataTextField = "FacultyName";
-                ddlFacultyInChg.DataValueField = "FacultyGUID";
+                ddlFacultyInChg.DataValueField = "FacultyName";
                 ddlFacultyInChg.DataBind();
-                ddlFacultyInChg.Items.Insert(0, new ListItem("", "0"));
+                ddlFacultyInChg.Items.Insert(0, new ListItem("", ""));
                 con.Close();
 
                 //SqlDataReader dtrLoad = loadCmd.ExecuteReader();

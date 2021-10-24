@@ -30,7 +30,7 @@ namespace Krous_Ex
             try
             {
                 ddlFacultyInChg.Items.Clear();
-                ListItem facultyList = new ListItem();
+                //ListItem facultyList = new ListItem();
                 SqlConnection con = new SqlConnection();
                 SqlCommand loadCmd = new SqlCommand();
 
@@ -86,7 +86,7 @@ namespace Krous_Ex
                 da.Fill(dsAbbrv);
                 ddlProgCode.DataSource = dsAbbrv;
                 ddlProgCode.DataTextField = "ProgrammeAbbrv";
-                ddlProgCode.DataValueField = "ProgrammeGUID";
+                ddlProgCode.DataValueField = "ProgrammeAbbrv";
                 ddlProgCode.DataBind();
                 ddlProgCode.Items.Insert(0, new ListItem("", "")); //the first drop down value will be empty
                 con.Close();
@@ -153,11 +153,11 @@ namespace Krous_Ex
                 if(ddlProgCategory.SelectedValue != "All")
                 {
                     searchQuery = "SELECT * FROM Programme ";
-                    searchQuery += "WHERE CASE WHEN @ProgrammeAbbrv = '' THEN @ProgrammeAbbrv ELSE ProgrammeAbbrv END = @ProgrammeAbbrv AND ";
-                    searchQuery += "CASE WHEN @ProgrammeName = '' THEN @ProgrammeName ELSE ProgrammeName END LIKE '%'+@ProgrammeName+'%' AND ";
-                    searchQuery += "CASE WHEN @ProgrammeFaculty = '' then @ProgrammeFaculty ELSE ProgrammeFaculty END = @ProgrammeFaculty AND ";
-                    searchQuery += "CASE WHEN @ProgrammeFullorPart = '' then @ProgrammeFullorPart ELSE ProgrammeFullorPart END = @ProgrammeFullorPart AND ";
-                    searchQuery += "ProgrammeCategory = @ProgrammeCategory ";
+                    searchQuery += "WHERE CASE WHEN @ProgrammeAbbrv = '' THEN @ProgrammeAbbrv ELSE ProgrammeAbbrv END = @ProgrammeAbbrv AND "; //ddl
+                    searchQuery += "CASE WHEN @ProgrammeName = '' THEN @ProgrammeName ELSE ProgrammeName END LIKE '%'+@ProgrammeName+'%' AND "; //text 
+                    searchQuery += "CASE WHEN @ProgrammeFaculty = '' then @ProgrammeFaculty ELSE ProgrammeFaculty END = @ProgrammeFaculty AND "; //ddl 
+                    searchQuery += "CASE WHEN @ProgrammeFullorPart = '' then @ProgrammeFullorPart ELSE ProgrammeFullorPart END = @ProgrammeFullorPart AND "; //ddl 
+                    searchQuery += "ProgrammeCategory = @ProgrammeCategory "; //all ddl
                     searchQuery += "ORDER BY ProgrammeName";
                 }
                 else

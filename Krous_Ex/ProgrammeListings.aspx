@@ -17,7 +17,7 @@
                 <div class="row">
                     <div class="col-md-12">
                         <h3>
-                            <asp:Label ID="lblFAQList" runat="server" Font-Size="large">Programme Listing</asp:Label>
+                            <asp:Label ID="lblProgList" runat="server" Font-Size="large">Programme Listing</asp:Label>
                         </h3>
                         <p class="card-description">List of Programmes Available</p>
                     </div>
@@ -29,7 +29,7 @@
                         <div class="form-group pdForm">
                             <div class="row">
                                 <div class="col-md-3 col-form-label">
-                                    <asp:Label ID="lblFAQTitle" runat="server">Programme Name</asp:Label>
+                                    <asp:Label ID="lblProgName" runat="server">Programme Name</asp:Label>
                                 </div>
                                 <div class="col-md-8">
                                     <asp:TextBox ID="txtProgName" runat="server" CssClass="form-control"></asp:TextBox>

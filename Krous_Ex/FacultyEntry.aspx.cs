@@ -19,9 +19,6 @@ namespace Krous_Ex
         private bool insertFaculty()
         {
             Guid FacultyGUID = Guid.NewGuid();
-
-            //string Username = clsLogin.GetLoginUserName;
-
             try
             {
                 SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["Krous_Ex"].ConnectionString);

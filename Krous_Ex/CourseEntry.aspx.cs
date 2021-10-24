@@ -17,11 +17,11 @@ namespace Krous_Ex
         {
             if (!IsPostBack)
             {
-                loadProgrammeList();
+                //loadProgrammeList();
                 if (!String.IsNullOrEmpty(Request.QueryString["CourseGUID"]))
                 {
                     courseGUID = Guid.Parse(Request.QueryString["CourseGUID"]);
-                    //loadProgInfo();
+                    loadCourseInfo();
                     btnSave.Visible = false;
                     btnBack.Visible = true;
                     btnUpdate.Visible = true;
@@ -37,28 +37,32 @@ namespace Krous_Ex
             }
         }
 
-        protected void loadProgrammeList()
+        protected void loadCourseInfo()
         {
             try
             {
-                ddlProgramme.Items.Clear();
-                ListItem facultyList = new ListItem();
                 SqlConnection con = new SqlConnection();
-                SqlCommand loadCmd = new SqlCommand();
+                SqlCommand loadCourseCmd = new SqlCommand();
 
                 string strCon = ConfigurationManager.ConnectionStrings["Krous_Ex"].ConnectionString;
                 con = new SqlConnection(strCon);
                 con.Open();
 
-                loadCmd = new SqlCommand("SELECT ProgrammeGUID, ProgrammeName FROM Programme GROUP BY ProgrammeGUID, ProgrammeName ORDER BY ProgrammeName", con);
-                SqlDataAdapter da = new SqlDataAdapter(loadCmd);
-                DataSet ds = new DataSet();
-                da.Fill(ds);
-                ddlProgramme.DataSource = ds;
-                ddlProgramme.DataTextField = "ProgrammeName";
-                ddlProgramme.DataValueField = "ProgrammeName";
-                ddlProgramme.DataBind();
-                ddlProgramme.Items.Insert(0, new ListItem("", "0"));
+                loadCourseCmd = new SqlCommand("SELECT * FROM Course WHERE courseGUID = @courseGUID", con);
+                loadCourseCmd.Parameters.AddWithValue("@courseGUID", courseGUID);
+                SqlDataReader dtrLoad = loadCourseCmd.ExecuteReader();
+                DataTable dt = new DataTable();
+                dt.Load(dtrLoad);
+
+                if (dt.Rows.Count != 0)
+                {
+                    txtCourseName.Text = dt.Rows[0]["CourseName"].ToString();
+                    txtCourseAbbrv.Text = dt.Rows[0]["CourseAbbrv"].ToString();
+                    txtCourseDesc.Text = dt.Rows[0]["CourseDesc"].ToString();
+                    txtCreditHour.Text = dt.Rows[0]["CreditHour"].ToString();
+                    rbCourseCategory.SelectedValue = dt.Rows[0]["Category"].ToString();
+                    //ddlProgramme.SelectedValue = dt.Rows[0]["CourseProgramme"].ToString();
+                }
                 con.Close();
             }
             catch (Exception ex)
@@ -66,6 +70,36 @@ namespace Krous_Ex
                 System.Diagnostics.Trace.WriteLine(ex.Message);
             }
         }
+
+        //protected void loadProgrammeList()
+        //{
+        //    try
+        //    {
+        //        ddlProgramme.Items.Clear();
+        //        ListItem facultyList = new ListItem();
+        //        SqlConnection con = new SqlConnection();
+        //        SqlCommand loadCmd = new SqlCommand();
+
+        //        string strCon = ConfigurationManager.ConnectionStrings["Krous_Ex"].ConnectionString;
+        //        con = new SqlConnection(strCon);
+        //        con.Open();
+
+        //        loadCmd = new SqlCommand("SELECT ProgrammeGUID, ProgrammeName FROM Programme GROUP BY ProgrammeGUID, ProgrammeName ORDER BY ProgrammeName", con);
+        //        SqlDataAdapter da = new SqlDataAdapter(loadCmd);
+        //        DataSet ds = new DataSet();
+        //        da.Fill(ds);
+        //        ddlProgramme.DataSource = ds;
+        //        ddlProgramme.DataTextField = "ProgrammeName";
+        //        ddlProgramme.DataValueField = "ProgrammeName";
+        //        ddlProgramme.DataBind();
+        //        ddlProgramme.Items.Insert(0, new ListItem("", ""));
+        //        con.Close();
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        System.Diagnostics.Trace.WriteLine(ex.Message);
+        //    }
+        //}
 
         private bool insertCourse()
         {
@@ -76,7 +110,7 @@ namespace Krous_Ex
                 SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["Krous_Ex"].ConnectionString);
                 con.Open();
 
-                SqlCommand insertCourCmd = new SqlCommand("INSERT INTO COURSE VALUES(@CourseGUID, @CourseAbbrv, @CourseName, @CourseDesc, @CreditHour, @Category, @CourseFee, @CourseProgramme)", con);
+                SqlCommand insertCourCmd = new SqlCommand("INSERT INTO COURSE VALUES(@CourseGUID, @CourseAbbrv, @CourseName, @CourseDesc, @CreditHour, @Category)", con);
 
                 insertCourCmd.Parameters.AddWithValue("@CourseGUID", courseGUID);
                 insertCourCmd.Parameters.AddWithValue("@CourseAbbrv", txtCourseAbbrv.Text.ToUpper());
@@ -84,8 +118,6 @@ namespace Krous_Ex
                 insertCourCmd.Parameters.AddWithValue("@CourseDesc", txtCourseDesc.Text);
                 insertCourCmd.Parameters.AddWithValue("@CreditHour", txtCreditHour.Text);
                 insertCourCmd.Parameters.AddWithValue("@Category", rbCourseCategory.SelectedValue);
-                insertCourCmd.Parameters.AddWithValue("@CourseFee", Decimal.Parse(txtCourseFee.Text));
-                insertCourCmd.Parameters.AddWithValue("@CourseProgramme", ddlProgramme.SelectedValue);
                 insertCourCmd.ExecuteNonQuery();
 
                 con.Close();
@@ -110,15 +142,13 @@ namespace Krous_Ex
                 con = new SqlConnection(strCon);
                 con.Open();
 
-                updateCmd = new SqlCommand("UPDATE Course SET CourseAbbrv = @CourseAbbrv, CourseName = @CourseName, CourseDesc = @CourseDesc, CreditHour = @CreditHour, Category = @Category, CourseFee = @CourseFee, CourseProgramme = @CourseProgramme WHERE CourseGUID = @CourseGUID", con);
+                updateCmd = new SqlCommand("UPDATE Course SET CourseAbbrv = @CourseAbbrv, CourseName = @CourseName, CourseDesc = @CourseDesc, CreditHour = @CreditHour, Category = @Category WHERE CourseGUID = @CourseGUID", con);
                 updateCmd.Parameters.AddWithValue("@CourseGUID", courseGUID);
                 updateCmd.Parameters.AddWithValue("@CourseAbbrv", txtCourseAbbrv.Text.ToUpper());
                 updateCmd.Parameters.AddWithValue("@CourseName", txtCourseName.Text);
                 updateCmd.Parameters.AddWithValue("@CourseDesc", txtCourseDesc.Text);
                 updateCmd.Parameters.AddWithValue("@CreditHour", txtCreditHour.Text);
                 updateCmd.Parameters.AddWithValue("@Category", rbCourseCategory.SelectedValue);
-                updateCmd.Parameters.AddWithValue("@CourseFee", Decimal.Parse(txtCourseFee.Text));
-                updateCmd.Parameters.AddWithValue("@CourseProgramme", ddlProgramme.SelectedValue);
                 updateCmd.ExecuteNonQuery();
 
                 con.Close();
@@ -171,8 +201,6 @@ namespace Krous_Ex
                         txtCourseDesc.Text = string.Empty;
                         txtCreditHour.Text = string.Empty;
                         rbCourseCategory.ClearSelection();
-                        txtCourseFee.Text = string.Empty;
-                        ddlProgramme.SelectedIndex = 0;
                         txtCourseName.Focus();
                     }
                     else
@@ -237,7 +265,6 @@ namespace Krous_Ex
             }
         }
     
-
         private bool validateCourse()
         {
             if(txtCourseName.Text == "")
@@ -276,29 +303,11 @@ namespace Krous_Ex
                 return false;
             }
 
-            if (txtCourseFee.Text == "")
-            {
-                clsFunction.DisplayAJAXMessage(this, "Please enter the cost for this course.");
-                return false;
-            }
-
-            if (!(double.TryParse(txtCourseFee.Text, out _)))
-            {
-                clsFunction.DisplayAJAXMessage(this, "The course price should be in numeric form.");
-                return false;
-            }
-
-            if (!(clsValidation.CheckPriceFormat(txtCourseFee.Text)))
-            {
-                clsFunction.DisplayAJAXMessage(this, "Please enter a valid price format (###,###,###.##)");
-                return false;
-            }
-
-            if (ddlProgramme.SelectedIndex == 0)
-            {
-                clsFunction.DisplayAJAXMessage(this, "Please select the programme that this course should belongs to.");
-                return false;
-            }
+            //if (ddlProgramme.SelectedIndex == 0)
+            //{
+            //    clsFunction.DisplayAJAXMessage(this, "Please select the programme that this course should belongs to.");
+            //    return false;
+            //}
 
             return true;
         }

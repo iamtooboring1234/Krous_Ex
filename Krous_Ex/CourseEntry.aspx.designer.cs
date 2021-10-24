@@ -123,42 +123,6 @@ namespace Krous_Ex
         protected global::System.Web.UI.WebControls.TextBox txtCreditHour;
 
         /// <summary>
-        /// lblCourseFee control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblCourseFee;
-
-        /// <summary>
-        /// txtCourseFee control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtCourseFee;
-
-        /// <summary>
-        /// lblProgramme control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblProgramme;
-
-        /// <summary>
-        /// ddlProgramme control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList ddlProgramme;
-
-        /// <summary>
         /// btnBack control.
         /// </summary>
         /// <remarks>

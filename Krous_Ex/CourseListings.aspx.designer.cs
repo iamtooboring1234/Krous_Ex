@@ -15,103 +15,85 @@ namespace Krous_Ex
     {
 
         /// <summary>
-        /// lblFAQList control.
+        /// lblCourseList control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblFAQList;
+        protected global::System.Web.UI.WebControls.Label lblCourseList;
 
         /// <summary>
-        /// lblFAQTitle control.
+        /// lblCourseName control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblFAQTitle;
+        protected global::System.Web.UI.WebControls.Label lblCourseName;
 
         /// <summary>
-        /// txtProgName control.
+        /// txtCourseName control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtProgName;
+        protected global::System.Web.UI.WebControls.TextBox txtCourseName;
 
         /// <summary>
-        /// lblProgCode control.
+        /// lblCourseAbbrv control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblProgCode;
+        protected global::System.Web.UI.WebControls.Label lblCourseAbbrv;
 
         /// <summary>
-        /// ddlProgCode control.
+        /// ddlCourseAbbrv control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList ddlProgCode;
+        protected global::System.Web.UI.WebControls.DropDownList ddlCourseAbbrv;
 
         /// <summary>
-        /// lblProgCategory control.
+        /// lblCourseCategory control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblProgCategory;
+        protected global::System.Web.UI.WebControls.Label lblCourseCategory;
 
         /// <summary>
-        /// ddlProgCategory control.
+        /// ddlCourseCategory control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList ddlProgCategory;
+        protected global::System.Web.UI.WebControls.DropDownList ddlCourseCategory;
 
         /// <summary>
-        /// lblProgFaculty control.
+        /// lblCreditHour control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblProgFaculty;
+        protected global::System.Web.UI.WebControls.Label lblCreditHour;
 
         /// <summary>
-        /// ddlFacultyInChg control.
+        /// txtCreditHour control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList ddlFacultyInChg;
-
-        /// <summary>
-        /// lblProgFullorPart control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblProgFullorPart;
-
-        /// <summary>
-        /// ddlFullorPart control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList ddlFullorPart;
+        protected global::System.Web.UI.WebControls.TextBox txtCreditHour;
 
         /// <summary>
         /// btnSearch control.
@@ -123,13 +105,22 @@ namespace Krous_Ex
         protected global::System.Web.UI.WebControls.Button btnSearch;
 
         /// <summary>
-        /// gvProgramme control.
+        /// btnAdd control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.GridView gvProgramme;
+        protected global::System.Web.UI.WebControls.Button btnAdd;
+
+        /// <summary>
+        /// gvCourse control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.GridView gvCourse;
 
         /// <summary>
         /// lblNoData control.

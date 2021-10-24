@@ -11,16 +11,19 @@ using System.Configuration;
 using System.Data.SqlClient;
 using System.Data;
 using System.Text.RegularExpressions;
+using System.Web.Security;
 
 namespace Krous_Ex
 {
     public partial class RegisterAcc : System.Web.UI.Page
     {
         String EncryptionKey = ConfigurationManager.AppSettings["EncryptionKey"];
-
+        string userType = clsLogin.GetLoginUserType();
+        Guid userGUID = Guid.Parse(clsLogin.GetLoginUserGUID());
+            
         protected void Page_Load(object sender, EventArgs e)
         {
-           
+          
         }
 
         protected void btnSubmit_Click(object sender, EventArgs e)
@@ -70,8 +73,6 @@ namespace Krous_Ex
                 cmd.Parameters.AddWithValue("@Address", txtAddress.Text);
                 cmd.Parameters.AddWithValue("@YearIntake", DateTime.Now.Year);
                 cmd.Parameters.AddWithValue("@AccountRegisterDate", DateTime.Now);
-                //cmd.Parameters.AddWithValue("@BranchesGUID", "c44f8b97-b8f9-44e1-94ab-b21d4518cb29");
-                //cmd.Parameters.AddWithValue("@FacultyGUID", "c913ca56-1809-4792-b5e7-f3f2b0eebd9c");
 
                 cmd.ExecuteNonQuery();
                 cmd.Dispose();
@@ -216,16 +217,18 @@ namespace Krous_Ex
                 clsFunction.DisplayAJAXMessage(this, "Please enter your IC number");
                 return false;
             }
-            else if(txtNRIC.Text.Length > 14)
+            
+            if(txtNRIC.Text.Length > 14)
             {
                 clsFunction.DisplayAJAXMessage(this, "Invalid IC number entered.");
                 return false;
             }
-            //else if(!(clsValidation.CheckDuplicateICNo(txtNRIC.Text)))
-            //{
-            //    clsFunction.DisplayAJAXMessage(this, "Duplicated NRIC entered!");
-            //    return false;
-            //}
+            
+            if (clsValidation.CheckDuplicateICNo(userType, txtNRIC.Text, userGUID))
+            {
+                clsFunction.DisplayAJAXMessage(this, "Duplicated NRIC entered!");
+                return false;
+            }
 
             if (!(txtPhoneNo.Text.Equals("")))
             {
@@ -249,12 +252,19 @@ namespace Krous_Ex
 
             if (txtEmail.Text == "")
             {
-                clsFunction.DisplayAJAXMessage(this, "Please enter a valid email address.");
+                clsFunction.DisplayAJAXMessage(this, "Please enter a your email address.");
                 return false;
             }
-            else if (!(clsValidation.IsEmail(txtEmail.Text)))
+            
+            if (!(clsValidation.IsEmail(txtEmail.Text)))
             {
                 clsFunction.DisplayAJAXMessage(this, "Please enter a valid email address format.");
+                return false;
+            }
+
+            if(clsValidation.CheckDuplicateEmail(userType, txtEmail.Text, userGUID))
+            {
+                clsFunction.DisplayAJAXMessage(this, "Duplicated Email entered!");
                 return false;
             }
 
@@ -273,10 +283,6 @@ namespace Krous_Ex
             string myScript = String.Format("alert('{0}');", msg);
             ScriptManager.RegisterStartupScript(Page, Page.GetType(), "MyScript", myScript, true);
         }
-
-        //protected void btnSubmit_Click(object sender, EventArgs e)
-        //{
-        //    ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + "Hai" + "');", true);
-        //}
+ 
     }
 }

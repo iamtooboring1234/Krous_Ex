@@ -29,6 +29,44 @@ namespace Krous_Ex
             return regex.IsMatch(password);
         }
 
+        public static bool CheckDuplicateEmail(string UserType, string Email, Guid UserGUID)
+        {
+            try
+            {
+                SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["Krous_Ex"].ConnectionString);
+
+                con.Open();
+                var SelectCommand = new SqlCommand();
+                if (UserType == "Staff")
+                {
+                    SelectCommand = new SqlCommand("SELECT * FROM STAFF WHERE Email = @Email AND StaffStatus <> 'Terminated' AND StaffGUID NOT IN (@StaffGUID)", con);
+                    SelectCommand.Parameters.AddWithValue("@ICNo", Email);
+                    SelectCommand.Parameters.AddWithValue("@StaffGUID", UserGUID);
+                }
+                else if (UserType == "Student")
+                {
+                    SelectCommand = new SqlCommand("SELECT * FROM STUDENT WHERE Email = @Email AND StudentGUID NOT IN (@StudentGUID)", con);
+                    SelectCommand.Parameters.AddWithValue("@NRIC", Email);
+                    SelectCommand.Parameters.AddWithValue("@StudentGUID", UserGUID);
+                }
+
+                SqlDataReader reader = SelectCommand.ExecuteReader();
+                DataTable dtFound = new DataTable();
+                dtFound.Load(reader);
+                con.Close();
+                if (dtFound.Rows.Count != 0)
+                {
+                    return true;
+                }
+
+                return false;
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
+        }
+
         public static bool CheckDuplicateICNo(string UserType, string ICNo, Guid UserGUID)
         {
             try
@@ -43,7 +81,7 @@ namespace Krous_Ex
                     SelectCommand.Parameters.AddWithValue("@ICNo", ICNo);
                     SelectCommand.Parameters.AddWithValue("@StaffGUID", UserGUID);
                 }
-                else if (UserType == "Citizen")
+                else if (UserType == "Student")
                 {
                     SelectCommand = new SqlCommand("SELECT * FROM STUDENT WHERE NRIC = @NRIC AND StudentGUID NOT IN (@StudentGUID)", con);
                     SelectCommand.Parameters.AddWithValue("@NRIC", ICNo);
@@ -130,7 +168,6 @@ namespace Krous_Ex
             try
             {
                 SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["Krous_Ex"].ConnectionString);
-
                 con.Open();
                 var SelectCommand = new SqlCommand();
 
@@ -171,14 +208,13 @@ namespace Krous_Ex
 
                 con.Open();
                 var SelectCommand = new SqlCommand();
-
                 SelectCommand = new SqlCommand("SELECT * FROM Course WHERE CourseName = @CourseName ", con);
                 SelectCommand.Parameters.AddWithValue("@CourseName", CourseName);
-
                 SqlDataReader reader = SelectCommand.ExecuteReader();
                 DataTable dtFound = new DataTable();
                 dtFound.Load(reader);
                 con.Close();
+
                 if (dtFound.Rows.Count != 0)
                 {
                     return true;
@@ -200,10 +236,37 @@ namespace Krous_Ex
 
                 con.Open();
                 var SelectCommand = new SqlCommand();
-
                 SelectCommand = new SqlCommand("SELECT * FROM Course WHERE CourseAbbrv = @CourseAbbrv ", con);
                 SelectCommand.Parameters.AddWithValue("@CourseAbbrv", CourseAbbrv);
+                SqlDataReader reader = SelectCommand.ExecuteReader();
+                DataTable dtFound = new DataTable();
+                dtFound.Load(reader);
+                con.Close();
 
+                if (dtFound.Rows.Count != 0)
+                {
+                    return true;
+                }
+
+                return false;
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
+        }
+
+        public static bool CheckDuplicateBranchName(string BranchesName)
+        {
+            try
+            {
+                SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["Krous_Ex"].ConnectionString);
+
+                con.Open();
+                var SelectCommand = new SqlCommand();
+
+                SelectCommand = new SqlCommand("SELECT * FROM Branches WHERE BranchesName = @BranchesName ", con);
+                SelectCommand.Parameters.AddWithValue("@BranchesName", BranchesName);
                 SqlDataReader reader = SelectCommand.ExecuteReader();
                 DataTable dtFound = new DataTable();
                 dtFound.Load(reader);
@@ -220,6 +283,91 @@ namespace Krous_Ex
                 return false;
             }
         }
+
+        public static bool CheckDuplicateBranchEmail(string BranchesEmail)
+        {
+            try
+            {
+                SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["Krous_Ex"].ConnectionString);
+
+                con.Open();
+                var SelectCommand = new SqlCommand();
+
+                SelectCommand = new SqlCommand("SELECT * FROM Branches WHERE BranchesEmail = @BranchesEmail ", con);
+                SelectCommand.Parameters.AddWithValue("@BranchesEmail", BranchesEmail);
+                SqlDataReader reader = SelectCommand.ExecuteReader();
+                DataTable dtFound = new DataTable();
+                dtFound.Load(reader);
+                con.Close();
+                if (dtFound.Rows.Count != 0)
+                {
+                    return true;
+                }
+
+                return false;
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
+        }
+
+        public static bool CheckDuplicateFacultyName(string FacultyName)
+        {
+            try
+            {
+                SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["Krous_Ex"].ConnectionString);
+
+                con.Open();
+                var SelectCommand = new SqlCommand();
+
+                SelectCommand = new SqlCommand("SELECT * FROM Faculty WHERE FacultyName = @FacultyName ", con);
+                SelectCommand.Parameters.AddWithValue("@FacultyName", FacultyName);
+                SqlDataReader reader = SelectCommand.ExecuteReader();
+                DataTable dtFound = new DataTable();
+                dtFound.Load(reader);
+                con.Close();
+                if (dtFound.Rows.Count != 0)
+                {
+                    return true;
+                }
+
+                return false;
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
+        }
+
+        public static bool CheckDuplicateFacultyAbbrv(string FacultyAbbrv)
+        {
+            try
+            {
+                SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["Krous_Ex"].ConnectionString);
+
+                con.Open();
+                var SelectCommand = new SqlCommand();
+                SelectCommand = new SqlCommand("SELECT * FROM Faculty WHERE FacultyAbbrv = @FacultyAbbrv ", con);
+                SelectCommand.Parameters.AddWithValue("@FacultyAbbrv", FacultyAbbrv);
+                SqlDataReader reader = SelectCommand.ExecuteReader();
+                DataTable dtFound = new DataTable();
+                dtFound.Load(reader);
+                con.Close();
+
+                if (dtFound.Rows.Count != 0)
+                {
+                    return true;
+                }
+
+                return false;
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
+        }
+
 
 
     }
