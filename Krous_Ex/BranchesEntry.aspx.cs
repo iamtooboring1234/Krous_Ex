@@ -17,6 +17,15 @@ namespace Krous_Ex
         {
             if (IsPostBack != true)
             {
+                //if (Session["InsertBranch"] != null)
+                //{
+                //    if (Session["InsertBranch"].ToString() == "Yes")
+                //    {
+                //        ClientScript.RegisterStartupScript(GetType(), "Javascript", "javascript:showAddSuccessToast(); ", true);
+                //        Session["InsertBranch"] = null;
+                //    }
+                //}
+
                 if (!String.IsNullOrEmpty(Request.QueryString["BranchesGUID"]))
                 {
                     branchesGUID = Guid.Parse(Request.QueryString["BranchesGUID"]);
@@ -163,6 +172,8 @@ namespace Krous_Ex
                 {
                     if (insertBranches())
                     {
+                        //Session["InsertBranch"] = "Yes";
+                        //Response.Redirect("BranchesEntry");
                         clsFunction.DisplayAJAXMessage(this, "Added new branch successfully!");
                         Response.Redirect("BranchesEntry");
                     }

@@ -380,6 +380,8 @@
     <Content Include="Assests\main\img\contract.png" />
     <Content Include="Assests\main\img\logo.png" />
     <Content Include="Assests\main\img\mini_logo.png" />
+    <Content Include="Assests\main\js\dropify.js" />
+    <Content Include="Assests\main\js\tabs.js" />
     <Content Include="CourseListings.aspx" />
     <Content Include="DiscussionEntry.aspx" />
     <Content Include="FAQChat.aspx" />
@@ -394,6 +396,7 @@
     <Content Include="ProgrammeListings.aspx" />
     <Content Include="StaffFAQChatList.aspx" />
     <Content Include="StaffProfile.aspx" />
+    <Content Include="StudentProgrammeRegister.aspx" />
     <Content Include="StudentFAQChatList.aspx" />
     <Content Include="StudentFAQ.aspx" />
     <Content Include="Uploads\ProfileImage\defaultUserProfile.png" />
@@ -1612,6 +1615,13 @@
       <DependentUpon>StaffProfile.aspx</DependentUpon>
     </Compile>
     <Compile Include="Startup.cs" />
+    <Compile Include="StudentProgrammeRegister.aspx.cs">
+      <DependentUpon>StudentProgrammeRegister.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="StudentProgrammeRegister.aspx.designer.cs">
+      <DependentUpon>StudentProgrammeRegister.aspx</DependentUpon>
+    </Compile>
     <Compile Include="StudentFAQChatList.aspx.cs">
       <DependentUpon>StudentFAQChatList.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>

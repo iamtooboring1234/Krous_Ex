@@ -1,4 +1,5 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/StaffMaster.Master" AutoEventWireup="true" CodeBehind="ProgrammeCourseEntry.aspx.cs" Inherits="Krous_Ex.ProgrammeCourseEntry" %>
+
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
 
     <link href="Assests/main/css/table.css" rel="stylesheet" />
@@ -9,7 +10,7 @@
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="body" runat="server">
 
-        <div class="col-lg-12">
+    <div class="col-lg-12">
         <div class="card">
             <div class="card-body">
                 <div class="row">
@@ -71,7 +72,7 @@
         </div>
     </div>
 
-    
+
     <div class="col-lg-12 mt-3">
         <div class="card">
             <div class="card-body">
@@ -115,7 +116,6 @@
                         </div>
                     </div>
                 </div>--%>
-
             </div>
         </div>
     </div>

@@ -138,15 +138,14 @@ CREATE TABLE [Programme_In_Charge] (
 	CONSTRAINT fk_staff_pic FOREIGN KEY (StaffGUID) REFERENCES Staff(StaffGUID)
 )
 
-CREATE TABLE [Student_Course_Register] (
+CREATE TABLE [Student_Programme_Register] (
 	[RegisterGUID] UNIQUEIDENTIFIER NOT NULL,
 	[StudentGUID] UNIQUEIDENTIFIER NOT NULL,
-	[CourseID] char(10) NOT NULL,
-	[ProgrammeID] char(5) NOT NULL,
+	[ProgrammeGUID] UNIQUEIDENTIFIER NOT NULL,
 	[CourseRegisterDate] datetime NOT NULL,
+    [Status] VARCHAR (10) NOT NULL,
   	CONSTRAINT pk_register PRIMARY KEY (RegisterGUID),
 	CONSTRAINT fk_student_scr FOREIGN KEY (StudentGUID) REFERENCES Student(StudentGUID),
-	CONSTRAINT fk_course_scr FOREIGN KEY (CourseGUID) REFERENCES Course(CourseGUID),
 	CONSTRAINT fk_programme_scr FOREIGN KEY (ProgrammeGUID) REFERENCES Programme(ProgrammeGUID)
 )
 

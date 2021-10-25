@@ -15,7 +15,6 @@ namespace Krous_Ex
         protected void Page_Load(object sender, EventArgs e)
         {
 
-
             if (IsPostBack != true)
             {
                 if (Session["InsertSemester"] != null)

@@ -1,20 +1,9 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/StaffMaster.Master" AutoEventWireup="true" CodeBehind="StaffEntry.aspx.cs" Inherits="Krous_Ex.StaffEntry" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
-    <link href="Assests/main/css/inquiry.css" rel="stylesheet" />
-    <link href="Assests/main/css/layouts.css" rel="stylesheet" />
-    <link href="Assests/main/css/font-awesome/all.min.css" rel="stylesheet" />
 
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-    <script type="text/javascript">
-        $(function () {
-            $("#eyeIcon").click(function () {
-                $(this).toggleClass("fa-eye fa-eye-slash");
-                var type = $(this).hasClass("fa-eye-slash") ? "text" : "password";
-                $("#txtPassword").attr("type", type);
-            });
-        });
-    </script>
+    <link href="Assests/main/css/layouts.css" rel="stylesheet" />
+    <link href="Assests/main/css/inquiry.css" rel="stylesheet" />
 
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="body" runat="server">
@@ -170,7 +159,7 @@
                                             <asp:Label ID="lblStaffStatus" runat="server">Staff Status</asp:Label>
                                         </div>
                                         <div class="col-md-8">
-                                            <asp:TextBox ID="txtStaffStatus" runat="server" CssClass="form-control" onkeydown="return (event.keyCode!=13);" Enabled ="false"></asp:TextBox>
+                                            <asp:TextBox ID="txtStaffStatus" runat="server" CssClass="form-control" onkeydown="return (event.keyCode!=13);" Enabled="false"></asp:TextBox>
                                         </div>
                                     </div>
                                 </div>
