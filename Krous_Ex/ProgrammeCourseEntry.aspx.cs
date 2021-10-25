@@ -376,7 +376,10 @@ namespace Krous_Ex
                     loadGV();
                 } else
                 {
+                    litStep2.Text = "<p class=\"card-description\"><strong>Please change semester.</strong></p>";
                     clsFunction.DisplayAJAXMessage(this, "Have existing record. Please go listings to manage it.");
+                    gvCourse.DataSource = null;
+                    gvCourse.DataBind();
                 }
             }
             else
@@ -398,7 +401,10 @@ namespace Krous_Ex
                 }
                 else
                 {
+                    litStep2.Text = "<p class=\"card-description\"><strong>Please change semester.</strong></p>";
                     clsFunction.DisplayAJAXMessage(this, "Have existing record. Please go listings to manage it.");
+                    gvCourse.DataSource = null;
+                    gvCourse.DataBind();
                 }
             }
             else
