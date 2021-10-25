@@ -17,7 +17,6 @@ namespace Krous_Ex
         {
             if (IsPostBack != true)
             {
-                //loadProgrammeList();
                 if (!String.IsNullOrEmpty(Request.QueryString["BranchesGUID"]))
                 {
                     branchesGUID = Guid.Parse(Request.QueryString["BranchesGUID"]);
@@ -164,7 +163,7 @@ namespace Krous_Ex
                 {
                     if (insertBranches())
                     {
-                        //ScriptManager.RegisterStartupScript(this, this.GetType(), "none", "ShowPopup();", true);
+                        clsFunction.DisplayAJAXMessage(this, "Added new branch successfully!");
                         Response.Redirect("BranchesEntry");
                     }
                     else
@@ -190,7 +189,7 @@ namespace Krous_Ex
             {
                 if (updateBranches())
                 {
-                    clsFunction.DisplayAJAXMessage(this, "Branches details has been updated!");
+                    clsFunction.DisplayAJAXMessage(this, "Branch details has been updated!");
                     Response.Redirect("CourseListings");
                 }
                 else
@@ -208,7 +207,7 @@ namespace Krous_Ex
         {
             if (deleteBranches())
             {
-                clsFunction.DisplayAJAXMessage(this, "Branche details has been deleted!");
+                clsFunction.DisplayAJAXMessage(this, "Branch details has been deleted!");
                 Response.Redirect("BranchesListings");
             }
             else

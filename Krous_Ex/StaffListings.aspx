@@ -1,30 +1,32 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/StaffMaster.Master" AutoEventWireup="true" CodeBehind="StaffListings.aspx.cs" Inherits="Krous_Ex.StaffListings" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
-    <link href="Assests/main/css/layouts.css" rel="stylesheet" />
+    <link href="Assests/main/css/inquiry.css" rel="stylesheet" />
+    <%--<link href="Assests/main/css/layouts.css" rel="stylesheet" />--%>
     <link href="Assests/main/css/table.css" rel="stylesheet" />
 </asp:Content>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="body" runat="server">
 
-    <div class="col-lg-12">
+     <div class="col-lg-12">
         <div class="card">
             <div class="card-body">
                 <div class="row">
                     <div class="col-md-12">
                         <h3>
-                            <asp:Label ID="lblFAQList" runat="server" Font-Size="large">Staff Listings</asp:Label>
+                            <asp:Label ID="lblStaffList" runat="server" Font-Size="large">Staff Listing</asp:Label>
                         </h3>
-                        <p class="card-description"></p>
+                        <p class="card-description">List of Staff Available</p>
                     </div>
                 </div>
                 <hr />
                 <div class="panel-body">
                     <div class="form-horizontal">
+
                         <div class="form-group pdForm">
                             <div class="row">
                                 <div class="col-md-2 control-label">
-                                    <asp:Label ID="lblStaffUsername" runat="server">Staff Username :</asp:Label>
+                                    <asp:Label ID="lblStaffUsername" runat="server">Staff Username</asp:Label>
                                 </div>
                                 <div class="col-md-8">
                                     <asp:TextBox ID="txtUsername" runat="server" CssClass="form-control"></asp:TextBox>
@@ -35,7 +37,7 @@
                         <div class="form-group pdForm">
                             <div class="row">
                                 <div class="col-md-2 control-label">
-                                    <asp:Label ID="lblStaffFullName" runat="server">Staff Full Name :</asp:Label>
+                                    <asp:Label ID="lblStaffFullName" runat="server">Staff Full Name</asp:Label>
                                 </div>
                                 <div class="col-md-8">
                                     <asp:TextBox ID="txtFullName" runat="server" CssClass="form-control"></asp:TextBox>
@@ -46,10 +48,21 @@
                         <div class="form-group pdForm">
                             <div class="row">
                                 <div class="col-md-2 control-label">
-                                    <asp:Label ID="lblFAQCategory" runat="server">Staff Role :</asp:Label>
+                                    <asp:Label ID="lblStaffRole" runat="server">Staff Role</asp:Label>
                                 </div>
-                                <div class="col-md-3">
-                                    <asp:DropDownList runat="server" ID="ddlCategory" CssClass="form-control"></asp:DropDownList>
+                                <div class="col-md-5">
+                                    <asp:DropDownList runat="server" ID="ddlStaffRole" CssClass="form-control"></asp:DropDownList>
+                                </div>
+                            </div>
+                        </div>
+
+                         <div class="form-group pdForm">
+                            <div class="row">
+                                <div class="col-md-2 control-label">
+                                    <asp:Label ID="lblStaffPosition" runat="server">Staff Position</asp:Label>
+                                </div>
+                                <div class="col-md-5">
+                                    <asp:DropDownList runat="server" ID="ddlPosition" CssClass="form-control"></asp:DropDownList>
                                 </div>
                             </div>
                         </div>
@@ -57,30 +70,10 @@
                         <div class="form-group pdForm">
                             <div class="row">
                                 <div class="col-md-2 control-label">
-                                    <asp:Label ID="Label1" runat="server">Branches :</asp:Label>
+                                    <asp:Label ID="lblStaffSpecialization" runat="server">Staff Specialization</asp:Label>
                                 </div>
-                                <div class="col-md-3">
-                                    <asp:DropDownList runat="server" ID="DropDownList1" CssClass="form-control"></asp:DropDownList>
-                                </div>
-                                <div class="col-md-2 control-label">
-                                    <asp:Label ID="Label2" runat="server">Faculty :</asp:Label>
-                                </div>
-                                <div class="col-md-3">
-                                    <asp:DropDownList ID="DropDownList2" runat="server" CssClass="form-control">
-                                        <asp:ListItem Selected="True" Value="Active">Active</asp:ListItem>
-                                        <asp:ListItem Value="Inactive">Inactive</asp:ListItem>
-                                    </asp:DropDownList>
-                                </div>
-                            </div>
-                        </div>
-                
-                        <div class="form-group pdForm">
-                            <div class="row">
-                                <div class="col-md-2 control-label">
-                                    <asp:Label ID="Label3" runat="server">Staff Specialization :</asp:Label>
-                                </div>
-                                <div class="col-md-8    ">
-                                    <asp:DropDownList runat="server" ID="DropDownList3" CssClass="form-control"></asp:DropDownList>
+                                <div class="col-md-5">
+                                    <asp:DropDownList runat="server" ID="ddlSpecialization" CssClass="form-control"></asp:DropDownList>
                                 </div>
                             </div>
                         </div>
@@ -89,51 +82,71 @@
                             <div class="row">
                                 <div class="col-md-2">
                                 </div>
-                                <div class="col-md-8 text-right">
-                                    <asp:Button text="Search" id="btnSearch" runat="server" Width="18%" CssClass="btn btn-success mr20"/>
-                                    <asp:Button text="Add new staff" id="btnAdd" runat="server" Width="18%" CssClass="btn btn-success mr20"/>
+                                <div class="col-md-8">
+                                    <asp:Button Text="Search" ID="btnSearch" runat="server" Width="18%" CssClass="btn btn-primary" OnClick="btnSearch_Click" />
+                                    <asp:Button Text="Add New" ID="btnAdd" runat="server" Width="18%" CssClass="btn btn-secondary" style="margin-left:12px; padding:10px 0;" OnClick="btnAdd_Click"/>
                                 </div>
                             </div>
                         </div>
-
-                        <hr />
-
-        <%--            <div class="panel-body ">
-                            <div class="table-responsive">
-                                <div class="gv-section gv-staff text-center">
-                                    <asp:GridView ID="gvFAQ" runat="server" Width="100%" CssClass="grdViewCss" AutoGenerateColumns="False" DataKeyNames="FAQGUID" BackColor="#CCCCCC" BorderStyle="none" CellPadding="10" CellSpacing="2" ForeColor="Black">
-                                        <Columns>
-                                            <asp:TemplateField>
-                                                <ItemTemplate>
-                                                    <asp:HyperLink runat="server" NavigateUrl='<%# Eval("FAQGUID", "~/FAQEntry.aspx?FAQGUID={0}") %>' Text="View" />
-                                                </ItemTemplate>
-                                            </asp:TemplateField>
-                                            <asp:BoundField DataField="FAQGUID" HeaderText="FAQGUID" ReadOnly="true" SortExpression="FAQGUID" Visible="false" />
-                                            <asp:BoundField DataField="FAQTitle" HeaderText="Title" SortExpression="FAQTitle" />
-                                            <asp:BoundField DataField="FAQCategory" HeaderText="Category" SortExpression="FAQCategory" />
-                                            <asp:BoundField DataField="FAQStatus" HeaderText="Status" SortExpression="FAQStatus" />
-                                        </Columns>
-                                        <FooterStyle BackColor="#CCCCCC" />
-                                        <HeaderStyle BackColor="#DC3545" Font-Bold="True" ForeColor="White" HorizontalAlign="Center" />
-                                        <PagerStyle BackColor="#CCCCCC" ForeColor="Black" HorizontalAlign="Center" />
-                                        <RowStyle BackColor="White" HorizontalAlign="Center" />
-                                        <SelectedRowStyle BackColor="#000099" Font-Bold="True" ForeColor="White" />
-                                        <SortedAscendingCellStyle BackColor="#F1F1F1" />
-                                        <SortedAscendingHeaderStyle BackColor="#808080" />
-                                        <SortedDescendingCellStyle BackColor="#CAC9C9" />
-                                        <SortedDescendingHeaderStyle BackColor="#383838" />
-                                    </asp:GridView>
-                                    <asp:Label ID="lblNoData" runat="server" Visible="false" Font-Size="Large" Font-Bold="true" Text="No Chat Record Found !"></asp:Label>
-                                </div>
-                            </div>
-                        </div>--%>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 
-    <div class="col-lg-12">
+    <!--table-->
+    <div class="col-lg-12 stretch-card">
+        <div class="card">
+            <div class="card-body">
+                <div class="table-responsive">
+                    <div class="gv-section text-center">
+                        <asp:GridView ID="gvStaff" runat="server" Width="100%" CssClass="table table-bordered" AutoGenerateColumns="False" DataKeyNames="StaffGUID" CellPadding="10" CellSpacing="2" Border="0">
+                            <Columns>
+                                <asp:TemplateField>
+                                    <ItemTemplate>
+                                        <asp:HyperLink runat="server" NavigateUrl='<%# Eval("StaffGUID", "~/StaffEntry.aspx?StaffGUID={0}") %>' Text="View" />
+                                    </ItemTemplate>
+                                    <ItemStyle CssClass="text-center" HorizontalAlign="Center" />
+                                </asp:TemplateField>
+                                <asp:BoundField DataField="StaffGUID" HeaderText="StaffGUID" ReadOnly="true" SortExpression="StaffGUID" Visible="false" />
+                                <asp:BoundField DataField="StaffUsername" HeaderText="Username" SortExpression="StaffUsername" />
+                                <asp:BoundField DataField="StaffFullName" HeaderText="Full Name" SortExpression="StaffFullName" />
+                                <asp:BoundField DataField="StaffRole" HeaderText="Staff Role" SortExpression="StaffRole" />
+                                <asp:BoundField DataField="StaffPositiion" HeaderText="Staff Position" SortExpression="StaffPositiion" />
+                                <asp:BoundField DataField="Specialization" HeaderText="Specialization" SortExpression="Specialization" />
+                            </Columns>
+                            <FooterStyle BackColor="#CCCCCC" />
+                            <HeaderStyle BackColor="#191c24" Font-Bold="True" HorizontalAlign="Left" CssClass="header-style" />
+                            <PagerStyle BackColor="#CCCCCC" ForeColor="Black" HorizontalAlign="Center" />
+                            <RowStyle BackColor="" HorizontalAlign="Center" />
+                        </asp:GridView>
+                        <asp:Label ID="lblNoData" runat="server" Visible="false" Font-Size="Large" Font-Bold="true" Text="No Course Record Found !"></asp:Label>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="Assests/main/js/data-table.js"></script>
+
+    <script>
+        var $ = jQuery.noConflict();
+
+        $(document).ready(function () {
+            $("[id*=gvStaff]").prepend($("<thead></thead>").html($("[id*=gvStaff]").find("tr:first"))).DataTable({
+                "searching": false,
+                "pageLength": 10,
+                "order": [[1, 'asc']],
+                "lengthMenu": [[1, 5, 10, 25, 50, -1], [1, 5, 10, 25, 50, "All"]],
+                columnDefs: [{
+                    'targets': [0], /* column index [0,1,2,3]*/
+                    'orderable': false, /* true or false */
+                }]
+            });
+        });
+    </script>
+
+    <%--<div class="col-lg-12">
         <div class="card">
             <div class="card-body" style="padding-top:0">
                 <div class="row">
@@ -232,6 +245,6 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div>--%>
 
 </asp:Content>

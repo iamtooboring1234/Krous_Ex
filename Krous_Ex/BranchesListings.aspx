@@ -24,16 +24,16 @@
                 <hr />
                 <div class="panel-body">
                     <div class="form-horizontal">
-                        <!-- ddl name-->
+                        <!-- name-->
                         <div class="form-group pdForm">
                             <div class="row">
                                 <div class="col-md-2 col-form-label">
                                     <asp:Label ID="lblBranchName" runat="server">Branch Name</asp:Label>
                                 </div>
                                 <div class="col-md-8">
-                                  <%--  <asp:DropDownList ID="ddlBranchName" runat="server" CssClass="form-control">
-                                    </asp:DropDownList>--%>
-                                    <asp:TextBox ID="txtBranchName" runat="server" CssClass="form-control"></asp:TextBox>
+                                    <asp:DropDownList ID="ddlBranchName" runat="server" CssClass="form-control">
+                                    </asp:DropDownList>
+                                    <%--<asp:TextBox ID="txtBranchName" runat="server" CssClass="form-control"></asp:TextBox>--%>
                                 </div>
                             </div>
                         </div>
@@ -77,8 +77,8 @@
                                 <div class="col-md-2">
                                 </div>
                                 <div class="col-md-8">
-                                    <asp:Button Text="Search" ID="btnSearch" runat="server" Width="18%" CssClass="btn btn-primary" />
-                                    <asp:Button Text="Add New" ID="btnAdd" runat="server" Width="18%" CssClass="btn btn-secondary" style="margin-left:12px; padding:10px 0;" OnClick="btnAdd_Click"/>
+                                    <asp:Button Text="Search" ID="btnSearch" runat="server" Width="18%" CssClass="btn btn-primary" OnClick="btnSearch_Click" />
+                                    <asp:Button Text="Add New" ID="btnAdd" runat="server" Width="18%" CssClass="btn btn-secondary" Style="margin-left: 12px; padding: 10px 0;" OnClick="btnAdd_Click" />
                                 </div>
                             </div>
                         </div>
