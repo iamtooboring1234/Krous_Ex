@@ -19,12 +19,12 @@ namespace Krous_Ex
             {
                 if (Session["AddedProgrammeCourse"].ToString() == "Yes")
                 {
-                    clsFunction.DisplayAJAXMessage(this, "Report approved successfully !");
+                    clsFunction.DisplayAJAXMessage(this, "Programme course added successfully !");
                     Session["AddedProgrammeCourse"] = null;
                 }
                 else
                 {
-                    clsFunction.DisplayAJAXMessage(this, "Report approved unsuccessfully !");
+                    clsFunction.DisplayAJAXMessage(this, "Error! Programme course added  unsuccessfully .");
                     Session["AddedProgrammeCourse"] = null;
                 }
             }
