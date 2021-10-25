@@ -72,9 +72,25 @@
                     <div class="form-horizontal">
                         <div class="form-group pdForm">
                             <div class="row">
-                         
+                                <div class="col-md-2 col-form-label">
+                                    <asp:Label ID="lblUploadIC" runat="server">Upload your IC image</asp:Label><span style="color: red;">*</span>
+                                </div>
+                                <div class="col-md-8">
+                                    <asp:FileUpload ID="UploadNRIC" runat="server"/>
+                                </div>
                             </div>
                         </div>
+                          <div class="form-group pdForm">
+                            <div class="row">
+                                <div class="col-md-2 col-form-label">
+                                    <asp:Label ID="Label2" runat="server">Upload your result slip</asp:Label><span style="color: red;">*</span>
+                                </div>
+                                <div class="col-md-8">
+                                    <asp:FileUpload ID="UploadResultSlip" runat="server" />
+                                </div>
+                            </div>
+                        </div>
+
                     </div>
                 </div>
 
@@ -175,9 +191,7 @@
         </div>
     </div>--%>
 
-<%--    <script src="Assests/main/js/tabs.js"></script>
+    <%--    <script src="Assests/main/js/tabs.js"></script>
     <script src="Assests/main/js/dropify.js"></script>
     <script src="Assests/vendors/dropify/dropify.min.js"></script>--%>
-
-
 </asp:Content>
