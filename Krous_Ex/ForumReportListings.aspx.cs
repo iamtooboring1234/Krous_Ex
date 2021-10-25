@@ -60,13 +60,13 @@ namespace Krous_Ex
                 SqlCommand GetCommand = new SqlCommand(sqlQuery, con);
                 
                 SqlDataReader reader = GetCommand.ExecuteReader();
-                DataTable dtFAQ = new DataTable();
-                dtFAQ.Load(reader);
+                DataTable dtForumReport = new DataTable();
+                dtForumReport.Load(reader);
                 con.Close();
 
-                if (dtFAQ.Rows.Count != 0)
+                if (dtForumReport.Rows.Count != 0)
                 {
-                    gvForumReport.DataSource = dtFAQ;
+                    gvForumReport.DataSource = dtForumReport;
                     gvForumReport.DataBind();
                     gvForumReport.Visible = true;
                     lblNoData.Visible = false;

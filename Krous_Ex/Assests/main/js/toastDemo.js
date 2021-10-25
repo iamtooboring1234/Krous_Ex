@@ -11,6 +11,18 @@
       position: 'top-right'
     })
   };
+    showSuccessToast = function () {
+    'use strict';
+    resetToastPosition();
+    $.toast({
+        heading: 'Success',
+        text: 'Item Added Successfully.',
+        showHideTransition: 'slide',
+        icon: 'success',
+        loaderBg: '#f96868',
+        position: 'top-right'
+    })
+    };
   showInfoToast = function() {
     'use strict';
     resetToastPosition();
