@@ -4,13 +4,13 @@
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
 
-        <link href="Assests/main/css/layouts.css" rel="stylesheet" />
-        <script>
-        function ShowPopup()
-        {
+    <link href="Assests/main/css/layouts.css" rel="stylesheet" />
+    <link href="Assests/main/css/inquiry.css" rel="stylesheet" />
+    <script>
+        function ShowPopup() {
             $('#succeedModal').modal('show');
         }
-        </script>
+    </script>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="body" runat="server">
     <div class="modal fade" id="succeedModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
@@ -19,11 +19,11 @@
                 <div class="modal-header">
                     <h5 class="modal-title" id="exampleModalLongTitle">Successfully</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
+                        <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
                 <div class="modal-body">
-                FAQ created. 
+                    FAQ created. 
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
@@ -55,7 +55,7 @@
                                         </div>
                                         <div class="col-md-8">
                                             <asp:TextBox ID="txtFAQTitle" runat="server" CssClass="form-control" onkeydown="return (event.keyCode!=13);" OnTextChanged="txtFAQTitle_TextChanged"></asp:TextBox>
-                                            <asp:RequiredFieldValidator ID="RequiredFieldValidator1" runat="server" ErrorMessage="Required" controltovalidate="txtFAQTitle" Visible="False"></asp:RequiredFieldValidator>
+                                            <asp:RequiredFieldValidator ID="RequiredFieldValidator1" runat="server" ErrorMessage="Required" ControlToValidate="txtFAQTitle" Visible="False"></asp:RequiredFieldValidator>
                                         </div>
                                     </div>
                                 </div>
@@ -69,7 +69,7 @@
                                             <asp:RadioButton runat="server" ID="rdExisting" Text="Use existing category" CssClass="rdBtn" Checked="true" GroupName="Category" AutoPostBack="true" OnCheckedChanged="rdExisting_CheckedChanged" />
                                         </div>
                                         <div class="col-md-5">
-                                            <asp:DropDownList runat="server" ID="ddlCategory" CssClass="form-control" OnSelectedIndexChanged="ddlCategory_SelectedIndexChanged" ></asp:DropDownList>
+                                            <asp:DropDownList runat="server" ID="ddlCategory" CssClass="form-control" OnSelectedIndexChanged="ddlCategory_SelectedIndexChanged"></asp:DropDownList>
                                         </div>
                                     </div>
                                 </div>
@@ -107,7 +107,7 @@
                                             <asp:Label ID="lblFAQDesc" runat="server">FAQ Description</asp:Label><span style="color: red;">*</span>
                                         </div>
                                         <div class="col-md-8">
-                                            <asp:TextBox ID="txtFAQDesc" CssClass="form-control" Style="resize: none" TextMode="multiline" Columns="60" Rows="6" runat="server"/>
+                                            <asp:TextBox ID="txtFAQDesc" CssClass="form-control" Style="resize: none" TextMode="multiline" Columns="60" Rows="6" runat="server" />
                                         </div>
                                     </div>
                                 </div>

@@ -18,7 +18,7 @@
     <link rel="stylesheet" href="Assests/main/vendors/flag-icon-css/css/flag-icon.min.css">
     <link rel="stylesheet" href="Assests/main/vendors/owl-carousel-2/owl.carousel.min.css">
     <link rel="stylesheet" href="Assests/main/vendors/owl-carousel-2/owl.theme.default.min.css">
-    <link rel="stylesheet" href="Assests/main/css/font-awesome/all.min.css"/>
+    <link rel="stylesheet" href="Assests/main/css/font-awesome/all.min.css" />
     <!-- End plugin css for this page -->
     <!-- inject:css -->
     <!-- endinject -->
@@ -128,21 +128,20 @@
                             <span class="menu-title">Profile</span>
                         </a>
                     </li>
-                  <%--  <li class="nav-item menu-items">
-                        <a class="nav-link" data-toggle="collapse" href="#FAQ" aria-expanded="false" aria-controls="FAQ">
+                    <li class="nav-item menu-items">
+                        <a class="nav-link" data-toggle="collapse" href="#Course" aria-expanded="false" aria-controls="Course">
                             <span class="menu-icon">
                                 <i class="mdi mdi-laptop"></i>
                             </span>
-                            <span class="menu-title">FAQ Management</span>
+                            <span class="menu-title">Course Info</span>
                             <i class="menu-arrow"></i>
                         </a>
-                        <div class="collapse" id="FAQ">
+                        <div class="collapse" id="Course">
                             <ul class="nav flex-column sub-menu">
-                                <li class="nav-item"><a class="nav-link" href="FAQEntry">FAQ Entry</a></li>
-                                <li class="nav-item"><a class="nav-link" href="FAQListings">FAQ Listings</a></li>
+                                <li class="nav-item"><a class="nav-link" href="StudentProgrammeRegister">Programme Registration</a></li>
                             </ul>
                         </div>
-                    </li>--%>
+                    </li>
                     <li class="nav-item menu-items">
                         <a class="nav-link" data-toggle="collapse" href="#ui-basic" aria-expanded="false" aria-controls="ui-basic">
                             <span class="menu-icon">
@@ -377,7 +376,8 @@
                                 <a class="nav-link" id="profileDropdown" href="#" data-toggle="dropdown">
                                     <div class="navbar-profile">
                                         <img class="img-xs rounded-circle" src="Assests/main/images/faces/face15.jpg" alt="">
-                                        <p class="mb-0 d-none d-sm-block navbar-profile-name"><asp:Literal ID="litLogonName" runat="server"></asp:Literal></p>
+                                        <p class="mb-0 d-none d-sm-block navbar-profile-name">
+                                            <asp:Literal ID="litLogonName" runat="server"></asp:Literal></p>
                                         <i class="mdi mdi-menu-down d-none d-sm-block"></i>
                                     </div>
                                 </a>

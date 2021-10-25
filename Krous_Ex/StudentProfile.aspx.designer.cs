@@ -204,6 +204,15 @@ namespace Krous_Ex
         protected global::System.Web.UI.WebControls.Button btnSave;
 
         /// <summary>
+        /// ConfirmButtonExtender1 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::AjaxControlToolkit.ConfirmButtonExtender ConfirmButtonExtender1;
+
+        /// <summary>
         /// btnCancel control.
         /// </summary>
         /// <remarks>
