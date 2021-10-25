@@ -54,15 +54,11 @@ namespace Krous_Ex
             {
                 btnSubmit.Visible = false;
                 btnCancel.Visible = false;
-            } 
+            }
 
-            if(gvSelectedCourse.Rows.Count != 0)
+            if (gvSelectedCourse.Rows.Count == 0)
             {
-                litStep3.Text = "<p class=\"card-description\"><strong>Please select at least one course.</strong></p>";
-
-            } else
-            {
-                litStep3.Text = "<p class=\"card-description\"><strong>Please Complete the above step first.</strong></p>";
+                litStep3.Text = "<p class=\"card-description\"><strong>Please complete all the other step first.</strong></p>";
             }
         }
 
@@ -220,8 +216,6 @@ namespace Krous_Ex
 
         protected void OnSelectedIndexChanged1(object sender, EventArgs e)
         {
-            litStep3.Text = "<p class=\"card-description\"><strong>Step 3: </strong>Confirm the course selected before proceed.</p>";
-
             try
             {
                 int checkSame = 0;
@@ -278,6 +272,11 @@ namespace Krous_Ex
                     btnSubmit.Visible = true;
                     btnCancel.Visible = true;
 
+                    if (gvSelectedCourse.Rows.Count != 0)
+                    {
+                        litStep3.Text = "<p class=\"card-description\"><strong>Step 3: </strong>Confirm the course selected before proceed.</p>";
+                    }
+
                 }
                 else
                 {
@@ -330,7 +329,6 @@ namespace Krous_Ex
                 gvCourse.DataSource = dt;
                 gvCourse.DataBind();
 
-
                 if (gvSelectedCourse.Rows.Count != 0)
                 {
                     btnSubmit.Visible = true;
@@ -340,6 +338,7 @@ namespace Krous_Ex
                 {
                     btnSubmit.Visible = false;
                     btnCancel.Visible = false;
+                    litStep3.Text = "<p class=\"card-description\"><strong>Please select at least one course.</strong></p>";
                 }
             }
             catch (Exception ex)
