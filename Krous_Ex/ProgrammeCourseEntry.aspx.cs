@@ -356,7 +356,11 @@ namespace Krous_Ex
                 ddlSemester.SelectedIndex = 0;
                 ddlProgramme.Enabled = true;
                 ddlSemester.Enabled = true;
-            } else
+                gvCourse.DataSource = null;
+                gvCourse.DataBind();
+                litStep2.Text = "<p class=\"card-description\"><strong>Please select all dropdown list from step 1.</strong></p>";
+            }
+            else
             {
                 gvCourse.DataSource = null;
                 gvCourse.DataBind();
