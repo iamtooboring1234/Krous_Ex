@@ -49,8 +49,8 @@
                                     <asp:Label ID="lblProgrammeName" runat="server">Programme Name</asp:Label><span style="color: red;">*</span>
                                 </div>
                                 <div class="col-md-8">
-                                    <!--Bachelor of blabla-->
-                                    <asp:DropDownList ID="ddlProgrammeName" runat="server" CssClass="form-control" AutoPostBack="true"></asp:DropDownList>
+                                    <!--load programme course-->
+                                    <asp:DropDownList ID="ddlProgrammeCourse" runat="server" CssClass="form-control" AutoPostBack="true"></asp:DropDownList>
                                 </div>
                             </div>
                         </div>
