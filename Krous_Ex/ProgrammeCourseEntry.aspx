@@ -188,9 +188,8 @@
                                         <div class="row">
                                             <div class="col-md-12 mt-5 text-right">
                                                 <asp:Button ID="btnSubmit" runat="server" Text="Submit" CssClass="btn btn-primary p-2" Width="18%" OnClick="btnSubmit_Click" Visible="false"/>
-                                                <ajaxToolkit:ConfirmButtonExtender ID="ConfirmButtonExtender1" runat="server" ConfirmText="Are you sure to PIN this discussion ?" TargetControlID="btnSubmit" />
+                                                <ajaxToolkit:ConfirmButtonExtender ID="ConfirmButtonExtender1" runat="server" ConfirmText="Are you sure to SUBMIT this ?" TargetControlID="btnSubmit" />
                                                 <asp:Button ID="btnCancel" runat="server" Text="Cancel" CssClass="btn btn-danger p-2" Width="18%" Visible="false"/>
-                                                <ajaxToolkit:ConfirmButtonExtender ID="ConfirmButtonExtender2" runat="server" ConfirmText="Are you sure to PIN this discussion ?" TargetControlID="btnCancel" />
                                             </div>
                                         </div>
                                     </div>
