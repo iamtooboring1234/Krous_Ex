@@ -138,7 +138,7 @@
 
         function IsValidateFile(fileF) {
             var allowedFiles = [".pdf", ".png", ".jpg", ".jpeg"];
-            var regex = new RegExp("([a-zA-Z0-9\s_\\.\-:])+(" + allowedFiles.join('|') + ")$");
+            var regex = new RegExp("([a-zA-Z0-9\s_\\.\-:\(\)])+(" + allowedFiles.join('|') + ")$");
             if (!regex.test(fileF.toLowerCase())) {
                 alert("Only allow image and pdf file.");
                 return false;

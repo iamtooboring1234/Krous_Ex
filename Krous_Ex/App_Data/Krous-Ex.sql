@@ -333,7 +333,7 @@ CREATE TABLE [dbo].[ResetPassword] (
     [CreatedTime]                 DATETIME             NOT NULL,
     [ExpiredTime]         DATETIME    NOT NULL,
 	PRIMARY KEY CLUSTERED ([ResetPasswordGUID] ASC),
-    CONSTRAINT [fk_stundent_resetpassowrd] FOREIGN KEY ([StudentGUID]) REFERENCES [dbo].[Student] ([StudentGUID]),
+    CONSTRAINT [fk_student_resetpassowrd] FOREIGN KEY ([StudentGUID]) REFERENCES [dbo].[Student] ([StudentGUID]),
     CONSTRAINT [fk_staff_resetpassowrd] FOREIGN KEY ([StaffGUID]) REFERENCES [dbo].[Staff] ([StaffGUID])
 );
 
@@ -347,4 +347,15 @@ CREATE TABLE [dbo].[Notification] (
     [SentBy]                  VARCHAR (50)            NULL,
     [NotificationDesciption]     VARCHAR (300)           NULL,
     PRIMARY KEY CLUSTERED ([NotificationGUID] ASC)
+);
+
+CREATE TABLE [dbo].[ProgrammeCourse] (
+    [ProgrammeCourseGUID]         UNIQUEIDENTIFIER    NOT NULL,
+    [CourseGUID]               UNIQUEIDENTIFIER     NOT NULL,
+    [SemesterGUID]   UNIQUEIDENTIFIER        NOT NULL,
+    [ProgrammeGUID]     UNIQUEIDENTIFIER         NOT NULL,
+    PRIMARY KEY CLUSTERED ([ProgrammeCourseGUID] ASC),
+    CONSTRAINT [fk_course_progCourse] FOREIGN KEY ([CourseGUID]) REFERENCES [dbo].[Course] ([CourseGUID]),
+    CONSTRAINT [fk_semester_progCourse] FOREIGN KEY ([SemesterGUID]) REFERENCES [dbo].[Semester] ([SemesterGUID]),
+    CONSTRAINT [fk_programme_progCourse] FOREIGN KEY ([ProgrammeGUID]) REFERENCES [dbo].[Programme] ([ProgrammeGUID])
 );

@@ -110,9 +110,9 @@
                         <div class="col-md-12 mt-5 text-right">
                             <p class="card-description">
                                 <asp:Button ID="btnApprove" runat="server" Text="Approve" CssClass="btn btn-primary p-2" Width="18%" OnClick="btnApprove_Click" />
-                                <ajaxToolkit:ConfirmButtonExtender ID="ConfirmButtonExtender1" runat="server" ConfirmText="Are you sure to PIN this discussion ?" TargetControlID="btnApprove" />
+                                <ajaxToolkit:ConfirmButtonExtender ID="ConfirmButtonExtender1" runat="server" ConfirmText="Are you sure to APPROVE this report ?" TargetControlID="btnApprove" />
                                 <asp:Button ID="btnReject" runat="server" Text="Reject" CssClass="btn btn-danger p-2" Width="18%" OnClick="btnReject_Click" />
-                                <ajaxToolkit:ConfirmButtonExtender ID="ConfirmButtonExtender2" runat="server" ConfirmText="Are you sure to PIN this discussion ?" TargetControlID="btnReject" />
+                                <ajaxToolkit:ConfirmButtonExtender ID="ConfirmButtonExtender2" runat="server" ConfirmText="Are you sure to REJECT this report ?" TargetControlID="btnReject" />
                             </p>
                         </div>
                     </div>
