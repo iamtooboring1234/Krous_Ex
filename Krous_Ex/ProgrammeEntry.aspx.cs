@@ -77,7 +77,7 @@ namespace Krous_Ex
                         ddlProgCategory.SelectedValue = dt.Rows[0]["ProgrammeCategory"].ToString();
                         ddlProgDuration.SelectedValue = dt.Rows[0]["ProgrammeDuration"].ToString();
                         rblFullorPart.SelectedValue = dt.Rows[0]["ProgrammeFullorPart"].ToString();
-                        ddlFacultyInChg.SelectedValue = dt.Rows[0]["ProgrammeFaculty"].ToString();
+                        ddlFacultyInChg.SelectedValue = dt.Rows[0]["FacultyGUID"].ToString();
                     }
                     else
                     {
@@ -87,7 +87,7 @@ namespace Krous_Ex
                         ddlProgCategory.SelectedValue = dt.Rows[0]["ProgrammeCategory"].ToString();
                         ddlProgDuration.SelectedValue = dt.Rows[0]["ProgrammeDuration"].ToString();
                         rblFullorPart.SelectedValue = dt.Rows[0]["ProgrammeFullorPart"].ToString();
-                        ddlFacultyInChg.SelectedValue = dt.Rows[0]["ProgrammeFaculty"].ToString();
+                        ddlFacultyInChg.SelectedValue = dt.Rows[0]["FacultyGUID"].ToString();
                     }
                 }
                 con.Close();
@@ -103,7 +103,6 @@ namespace Krous_Ex
             try
             {
                 ddlFacultyInChg.Items.Clear();
-                ListItem facultyList = new ListItem();
                 SqlConnection con = new SqlConnection();
                 SqlCommand loadCmd = new SqlCommand();
 
@@ -117,24 +116,10 @@ namespace Krous_Ex
                 da.Fill(ds);
                 ddlFacultyInChg.DataSource = ds;
                 ddlFacultyInChg.DataTextField = "FacultyName";
-                ddlFacultyInChg.DataValueField = "FacultyName";
+                ddlFacultyInChg.DataValueField = "FacultyGUID";
                 ddlFacultyInChg.DataBind();
                 ddlFacultyInChg.Items.Insert(0, new ListItem("", ""));
                 con.Close();
-
-                //SqlDataReader dtrLoad = loadCmd.ExecuteReader();
-                //DataTable dtLoad = new DataTable();
-                //dtLoad.Load(dtrLoad);
-                //con.Close();
-
-                //for (int i = 0; i <= dtLoad.Rows.Count - 1; i++)
-                //{
-                //    facultyList = new ListItem();
-                //    facultyList.Text = dtLoad.Rows[i]["FacultyName"].ToString();
-                //    facultyList.Value = dtLoad.Rows[i]["FacultyName"].ToString();
-                //    ddlFacultyIng.Items.Add(facultyList);
-                //}
-
             }
             catch (Exception ex)
             {
@@ -157,7 +142,7 @@ namespace Krous_Ex
 
                 if (ddlProgCategory.SelectedValue == "Foundation" || ddlProgCategory.SelectedValue == "Diploma" || ddlProgCategory.SelectedValue == "Bachelor Degree")
                 {
-                    insertCmd = new SqlCommand("INSERT INTO Programme VALUES (@ProgrammeGUID, @ProgrammeAbbrv, @ProgrammeName, @ProgrammeDesc, @ProgrammeDuration, @ProgrammeCategory, @ProgrammeFullorPart, @ProgrammeFaculty)", con);
+                    insertCmd = new SqlCommand("INSERT INTO Programme VALUES (@ProgrammeGUID, @ProgrammeAbbrv, @ProgrammeName, @ProgrammeDesc, @ProgrammeDuration, @ProgrammeCategory, @ProgrammeFullorPart, @FacultyGUID)", con);
                     insertCmd.Parameters.AddWithValue("@ProgrammeGUID", progGUID);
                     insertCmd.Parameters.AddWithValue("@ProgrammeAbbrv", txtProgAbbrv.Text.ToUpper());
                     insertCmd.Parameters.AddWithValue("@ProgrammeName", txtProgName.Text);
@@ -165,12 +150,12 @@ namespace Krous_Ex
                     insertCmd.Parameters.AddWithValue("@ProgrammeDuration", ddlProgDuration.SelectedValue);
                     insertCmd.Parameters.AddWithValue("@ProgrammeCategory", ddlProgCategory.SelectedValue);
                     insertCmd.Parameters.AddWithValue("@ProgrammeFullorPart", "Full Time");
-                    insertCmd.Parameters.AddWithValue("@ProgrammeFaculty", ddlFacultyInChg.SelectedValue);
+                    insertCmd.Parameters.AddWithValue("@FacultyGUID", ddlFacultyInChg.SelectedValue);
                     insertCmd.ExecuteNonQuery();
                 }
                 else
                 {
-                    insertCmd = new SqlCommand("INSERT INTO Programme VALUES (@ProgrammeGUID, @ProgrammeAbbrv, @ProgrammeName, @ProgrammeDesc, @ProgrammeDuration, @ProgrammeCategory, @ProgrammeFullorPart, @ProgrammeFaculty)", con);
+                    insertCmd = new SqlCommand("INSERT INTO Programme VALUES (@ProgrammeGUID, @ProgrammeAbbrv, @ProgrammeName, @ProgrammeDesc, @ProgrammeDuration, @ProgrammeCategory, @ProgrammeFullorPart, @FacultyGUID)", con);
                     insertCmd.Parameters.AddWithValue("@ProgrammeGUID", progGUID);
                     insertCmd.Parameters.AddWithValue("@ProgrammeAbbrv", txtProgAbbrv.Text.ToUpper());
                     insertCmd.Parameters.AddWithValue("@ProgrammeName", txtProgName.Text);
@@ -178,7 +163,7 @@ namespace Krous_Ex
                     insertCmd.Parameters.AddWithValue("@ProgrammeDuration", ddlProgDuration.SelectedValue);
                     insertCmd.Parameters.AddWithValue("@ProgrammeCategory", ddlProgCategory.SelectedValue);
                     insertCmd.Parameters.AddWithValue("@ProgrammeFullorPart", rblFullorPart.SelectedValue);
-                    insertCmd.Parameters.AddWithValue("@ProgrammeFaculty", ddlFacultyInChg.SelectedValue);
+                    insertCmd.Parameters.AddWithValue("@FacultyGUID", ddlFacultyInChg.SelectedValue);
                     insertCmd.ExecuteNonQuery();
                 }
                 con.Close();
@@ -203,7 +188,7 @@ namespace Krous_Ex
                 con = new SqlConnection(strCon);
                 con.Open();
 
-                updateCmd = new SqlCommand("UPDATE Programme SET ProgrammeAbbrv = @ProgrammeAbbrv, ProgrammeName = @ProgrammeName, ProgrammeDesc = @ProgrammeDesc, ProgrammeDuration = @ProgrammeDuration, ProgrammeCategory = @ProgrammeCategory, ProgrammeFullorPart = @ProgrammeFullorPart, ProgrammeFaculty = @ProgrammeFaculty WHERE ProgrammeGUID = @ProgrammeGUID", con);
+                updateCmd = new SqlCommand("UPDATE Programme SET ProgrammeAbbrv = @ProgrammeAbbrv, ProgrammeName = @ProgrammeName, ProgrammeDesc = @ProgrammeDesc, ProgrammeDuration = @ProgrammeDuration, ProgrammeCategory = @ProgrammeCategory, ProgrammeFullorPart = @ProgrammeFullorPart, FacultyGUID = @FacultyGUID WHERE ProgrammeGUID = @ProgrammeGUID", con);
                 updateCmd.Parameters.AddWithValue("@ProgrammeGUID", ProgrammeGUID);
                 updateCmd.Parameters.AddWithValue("@ProgrammeAbbrv", txtProgAbbrv.Text.ToUpper());
                 updateCmd.Parameters.AddWithValue("@ProgrammeName", txtProgName.Text);
@@ -211,7 +196,7 @@ namespace Krous_Ex
                 updateCmd.Parameters.AddWithValue("@ProgrammeDuration", ddlProgDuration.SelectedValue);
                 updateCmd.Parameters.AddWithValue("@ProgrammeCategory", ddlProgCategory.SelectedValue);
                 updateCmd.Parameters.AddWithValue("@ProgrammeFullorPart", rblFullorPart.SelectedValue);
-                updateCmd.Parameters.AddWithValue("@ProgrammeFaculty", ddlFacultyInChg.SelectedValue);     
+                updateCmd.Parameters.AddWithValue("@FacultyGUID", ddlFacultyInChg.SelectedValue);     
                 updateCmd.ExecuteNonQuery();
 
                 con.Close();

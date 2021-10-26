@@ -83,7 +83,7 @@ namespace Krous_Ex
 
                 insertCourCmd.Parameters.AddWithValue("@CourseGUID", courseGUID);
                 insertCourCmd.Parameters.AddWithValue("@CourseAbbrv", txtCourseAbbrv.Text.ToUpper());
-                insertCourCmd.Parameters.AddWithValue("@CourseName", txtCourseName.Text);
+                insertCourCmd.Parameters.AddWithValue("@CourseName", txtCourseName.Text.ToUpper());
                 insertCourCmd.Parameters.AddWithValue("@CourseDesc", txtCourseDesc.Text);
                 insertCourCmd.Parameters.AddWithValue("@CreditHour", txtCreditHour.Text);
                 insertCourCmd.Parameters.AddWithValue("@Category", rbCourseCategory.SelectedValue);

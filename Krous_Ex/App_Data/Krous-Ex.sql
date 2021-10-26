@@ -8,7 +8,7 @@ Drop table Assignment
 Drop table Exam_Timetable
 Drop table Exam_Result_Per_Course
 Drop table Exam_Result
-Drop table Student_Course_Register
+Drop table Student_Programme_Register
 Drop table Programme_In_Charge
 Drop table Programme
 Drop table Receipt
@@ -101,8 +101,9 @@ CREATE TABLE [dbo].[Programme] (
     [ProgrammeDuration]   VARCHAR (30)     NOT NULL,
     [ProgrammeCategory]   VARCHAR (30)     NOT NULL,
     [ProgrammeFullorPart] VARCHAR (10)     NULL,
-	[ProgrammeFaculty]    VARCHAR (100)    NOT NULL,
-    CONSTRAINT [pk_programme] PRIMARY KEY CLUSTERED ([ProgrammeGUID] ASC)
+	[FacultyGUID]         UNIQUEIDENTIFIER NOT NULL,
+    CONSTRAINT [pk_programme] PRIMARY KEY CLUSTERED ([ProgrammeGUID] ASC),
+    CONSTRAINT fk_faulty_prog FOREIGN KEY (FacultyGUID) REFERENCES Faculty(FacultyGUID)
 );
 
 
@@ -129,13 +130,13 @@ CREATE TABLE [Receipt] (
 	CONSTRAINT fk_payment_receipt FOREIGN KEY (PaymentGUID) REFERENCES Payment(PaymentGUID)
 )
 
-CREATE TABLE [Programme_In_Charge] (
-	[ProgInChargeGUID] UNIQUEIDENTIFIER NOT NULL,
-	[ProgrammeID] char(5) NOT NULL,
+CREATE TABLE [Course_In_Charge] (
+	[CourseInChargeGUID] UNIQUEIDENTIFIER NOT NULL,
+	[CourseGUID] UNIQUEIDENTIFIER NOT NULL,
 	[StaffGUID] UNIQUEIDENTIFIER NOT NULL,
-	CONSTRAINT pk_pic PRIMARY KEY (ProgInChargeGUID),
-	CONSTRAINT fk_programme_pic FOREIGN KEY (ProgrammeGUID) REFERENCES Programme(ProgrammeGUID),
-	CONSTRAINT fk_staff_pic FOREIGN KEY (StaffGUID) REFERENCES Staff(StaffGUID)
+	CONSTRAINT pk_cic PRIMARY KEY (CourseInChargeGUID),
+	CONSTRAINT fk_course_cic FOREIGN KEY (CourseGUID) REFERENCES Course(CourseGUID),
+	CONSTRAINT fk_staff_cic FOREIGN KEY (StaffGUID) REFERENCES Staff(StaffGUID)
 )
 
 CREATE TABLE [Student_Programme_Register] (

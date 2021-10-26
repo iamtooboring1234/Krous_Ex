@@ -125,7 +125,7 @@
                                 <asp:BoundField DataField="ProgrammeAbbrv" HeaderText="Abbreviation" SortExpression="ProgrammeAbbrv" />
                                 <asp:BoundField DataField="ProgrammeCategory" HeaderText="Category" SortExpression="ProgrammeCategory" />
                                 <asp:BoundField DataField="ProgrammeFullorPart" HeaderText="Full/Part Time" SortExpression="ProgrammeFullorPart" />
-                                <asp:BoundField DataField="ProgrammeFaculty" HeaderText="Faculty" SortExpression="ProgrammeFaculty" />
+                                <asp:BoundField DataField="FacultyName" HeaderText="Faculty Name" SortExpression="FacultyName" />
                             </Columns>
                             <FooterStyle BackColor="#CCCCCC" />
                             <HeaderStyle BackColor="#191c24" Font-Bold="True" HorizontalAlign="Left" CssClass="header-style" />

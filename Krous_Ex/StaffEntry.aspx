@@ -156,7 +156,7 @@
                                 <div class="form-group pdForm">
                                     <div class="row">
                                         <div class="col-md-2 col-form-label">
-                                            <asp:Label ID="lblStaffStatus" runat="server">Staff Status</asp:Label>
+                                            <asp:Label ID="lblStaffStatus" runat="server" >Staff Status</asp:Label>
                                         </div>
                                         <div class="col-md-8">
                                             <asp:TextBox ID="txtStaffStatus" runat="server" CssClass="form-control" onkeydown="return (event.keyCode!=13);" Enabled="false"></asp:TextBox>
