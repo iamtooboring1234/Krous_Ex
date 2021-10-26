@@ -24,40 +24,31 @@ namespace Krous_Ex
         protected global::System.Web.UI.WebControls.Label lblCourseEntry;
 
         /// <summary>
-        /// Label3 control.
+        /// rblFoundation control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label Label3;
+        protected global::System.Web.UI.WebControls.RadioButtonList rblFoundation;
 
         /// <summary>
-        /// ddlProgrammCategory control.
+        /// rblDiploma control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList ddlProgrammCategory;
+        protected global::System.Web.UI.WebControls.RadioButtonList rblDiploma;
 
         /// <summary>
-        /// lblProgrammeName control.
+        /// rblDegree control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblProgrammeName;
-
-        /// <summary>
-        /// ddlProgrammeCourse control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList ddlProgrammeCourse;
+        protected global::System.Web.UI.WebControls.RadioButtonList rblDegree;
 
         /// <summary>
         /// lblUploadIC control.

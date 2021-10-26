@@ -58,22 +58,23 @@ namespace Krous_Ex
             try
             {
                 SqlConnection con = new SqlConnection();
-                SqlCommand loadCourseCmd = new SqlCommand();
+                SqlCommand loadStaffCmd = new SqlCommand();
+                SqlCommand loadCourse = new SqlCommand();
 
                 string strCon = ConfigurationManager.ConnectionStrings["Krous_Ex"].ConnectionString;
                 con = new SqlConnection(strCon);
                 con.Open();
 
-                loadCourseCmd = new SqlCommand("SELECT * FROM Staff WHERE StaffGUID = @StaffGUID", con);
-                loadCourseCmd.Parameters.AddWithValue("@StaffGUID", staffGUID);
-                SqlDataReader dtrLoad = loadCourseCmd.ExecuteReader();
+                loadStaffCmd = new SqlCommand("SELECT * FROM Staff WHERE StaffGUID = @StaffGUID", con);
+                loadStaffCmd.Parameters.AddWithValue("@StaffGUID", staffGUID);
+                SqlDataReader dtrLoad = loadStaffCmd.ExecuteReader();
                 DataTable dt = new DataTable();
                 dt.Load(dtrLoad);
 
                 if (dt.Rows.Count != 0)
                 {
                     txtUsername.Text = dt.Rows[0]["StaffUsername"].ToString();
-                    txtPassword.Text = dt.Rows[0]["StaffPassword"].ToString();
+                    txtPassword.Text = Decrypt(dt.Rows[0]["StaffPassword"].ToString());
                     txtFullName.Text = dt.Rows[0]["StaffFullName"].ToString();
                     rblGender.SelectedValue = dt.Rows[0]["Gender"].ToString();
                     ddlExistRole.SelectedValue = dt.Rows[0]["StaffRole"].ToString();
@@ -85,7 +86,6 @@ namespace Krous_Ex
                     txtSpecialization.Text = dt.Rows[0]["Specialization"].ToString();
                     ddlBranch.SelectedValue = dt.Rows[0]["BranchesGUID"].ToString();
                     ddlFaculty.SelectedValue = dt.Rows[0]["FacultyGUID"].ToString();
-
                 }
                 con.Close();
             }
@@ -156,6 +156,7 @@ namespace Krous_Ex
         private bool insertStaff()
         {
             Guid StaffGUID = Guid.NewGuid();
+            Guid CourseIncGUID = Guid.NewGuid();
             string StaffRole;
 
             if (rdExistRole.Checked == true)
@@ -217,6 +218,7 @@ namespace Krous_Ex
                 con.Open();
 
                 updateCmd = new SqlCommand("UPDATE Staff SET StaffFullName = @StaffFullName, Gender = @Gender, StaffRole = @StaffRole, StaffPositiion = @StaffPositiion, StaffStatus = @StaffStatus, Specialization = @Specialization, BranchesGUID = @BranchesGUID, FacultyGUID = @FacultyGUID  WHERE StaffGUID = @StaffGUID", con);
+              
                 updateCmd.Parameters.AddWithValue("@StaffGUID", staffGUID);
                 updateCmd.Parameters.AddWithValue("@StaffFullName", txtFullName.Text);
                 updateCmd.Parameters.AddWithValue("@Gender", rblGender.SelectedValue);
@@ -485,6 +487,28 @@ namespace Krous_Ex
                 }
             }
             return clearText;
+        }
+
+        public string Decrypt(string cipherText)
+        {
+            string EncryptionKey = "ABCDEFGHIJKLMNOPQRSTUVWXYZ123456789";
+            byte[] cipherBytes = Convert.FromBase64String(cipherText);
+            using (Aes encryptor = Aes.Create())
+            {
+                Rfc2898DeriveBytes pdb = new Rfc2898DeriveBytes(EncryptionKey, new byte[] { 0x49, 0x76, 0x61, 0x6e, 0x20, 0x4d, 0x65, 0x64, 0x76, 0x65, 0x64, 0x65, 0x76 });
+                encryptor.Key = pdb.GetBytes(32);
+                encryptor.IV = pdb.GetBytes(16);
+                using (MemoryStream ms = new MemoryStream())
+                {
+                    using (CryptoStream cs = new CryptoStream(ms, encryptor.CreateDecryptor(), CryptoStreamMode.Write))
+                    {
+                        cs.Write(cipherBytes, 0, cipherBytes.Length);
+                        cs.Close();
+                    }
+                    cipherText = Encoding.Unicode.GetString(ms.ToArray());
+                }
+            }
+            return cipherText;
         }
 
         protected void rdExistRole_CheckedChanged(object sender, EventArgs e)

@@ -12,20 +12,26 @@ namespace Krous_Ex
 {
     public partial class StudentCourseRegister : System.Web.UI.Page
     {
+        Guid userGUID = Guid.Parse(clsLogin.GetLoginUserGUID());
         protected void Page_Load(object sender, EventArgs e)
         {
-            if(IsPostBack != true)
+            if (IsPostBack != true)
             {
-
+                if(userGUID != null)
+                {
+                    loadDiploma();
+                    loadFoundation();
+                    loadDegree();
+                }
+              
             }
         }
 
 
-        protected void loadProgCourse()
+        protected void loadFoundation()
         {
             try
             {
-                ddlProgrammeCourse.Items.Clear();
                 SqlConnection con = new SqlConnection();
                 SqlCommand loadCmd = new SqlCommand();
 
@@ -33,15 +39,14 @@ namespace Krous_Ex
                 con = new SqlConnection(strCon);
                 con.Open();
 
-                loadCmd = new SqlCommand("SELECT BranchesName FROM ProgrammeCourse GROUP BY BranchesGUID, BranchesName ORDER BY BranchesName", con);
+                loadCmd = new SqlCommand("SELECT p.ProgrammeName FROM Programme p, ProgrammeCourse pc WHERE pc.ProgrammeGUID = p.ProgrammeGUID AND p.ProgrammeCategory = 'Foundation' GROUP BY p.ProgrammeName ORDER BY p.ProgrammeName", con);
                 SqlDataAdapter da = new SqlDataAdapter(loadCmd);
                 DataSet ds = new DataSet();
                 da.Fill(ds);
-                ddlProgrammeCourse.DataSource = ds;
-                ddlProgrammeCourse.DataTextField = "BranchesName";
-                ddlProgrammeCourse.DataValueField = "BranchesName";
-                ddlProgrammeCourse.DataBind();
-                ddlProgrammeCourse.Items.Insert(0, new ListItem("", ""));
+                rblFoundation.DataSource = ds;
+                rblFoundation.DataTextField = "ProgrammeName";
+                rblFoundation.DataValueField = "ProgrammeName";
+                rblFoundation.DataBind();
                 con.Close();
             }
             catch (Exception ex)
@@ -50,6 +55,63 @@ namespace Krous_Ex
             }
         }
 
+        protected void loadDiploma()
+        {
+            try
+            {
+                SqlConnection con = new SqlConnection();
+                SqlCommand loadCmd = new SqlCommand();
+
+                string strCon = ConfigurationManager.ConnectionStrings["Krous_Ex"].ConnectionString;
+                con = new SqlConnection(strCon);
+                con.Open();
+
+                loadCmd = new SqlCommand("SELECT p.ProgrammeName FROM Programme p, ProgrammeCourse pc WHERE pc.ProgrammeGUID = p.ProgrammeGUID AND p.ProgrammeCategory = 'Diploma' GROUP BY p.ProgrammeName ORDER BY p.ProgrammeName", con);
+                SqlDataAdapter da = new SqlDataAdapter(loadCmd);
+                DataSet ds = new DataSet();
+                da.Fill(ds);
+                rblDiploma.DataSource = ds;
+                rblDiploma.DataTextField = "ProgrammeName";
+                rblDiploma.DataValueField = "ProgrammeName";
+                rblDiploma.DataBind();
+                con.Close();
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Trace.WriteLine(ex.Message);
+            }
+        }
+
+        protected void loadDegree()
+        {
+            try
+            {
+                SqlConnection con = new SqlConnection();
+                SqlCommand loadCmd = new SqlCommand();
+
+                string strCon = ConfigurationManager.ConnectionStrings["Krous_Ex"].ConnectionString;
+                con = new SqlConnection(strCon);
+                con.Open();
+
+                loadCmd = new SqlCommand("SELECT p.ProgrammeName FROM Programme p, ProgrammeCourse pc WHERE pc.ProgrammeGUID = p.ProgrammeGUID AND p.ProgrammeCategory = 'Bachelor Degree' GROUP BY p.ProgrammeName ORDER BY p.ProgrammeName", con);
+                SqlDataAdapter da = new SqlDataAdapter(loadCmd);
+                DataSet ds = new DataSet();
+                da.Fill(ds);
+                rblDegree.DataSource = ds;
+                rblDegree.DataTextField = "ProgrammeName";
+                rblDegree.DataValueField = "ProgrammeName";
+                rblDegree.DataBind();
+                con.Close();
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Trace.WriteLine(ex.Message);
+            }
+        }
+
+        //can add bachelor degree
+        //do upload ic, and result slip like spm / o-level 
+        //add icImage, resultSlip into Student_Programme_Register table to save the uploaded file
 
     }
 }

@@ -80,6 +80,17 @@
 
                         <div class="form-group pdForm">
                             <div class="row">
+                                <div class="col-md-2 control-label">
+                                    <asp:Label ID="Label1" runat="server">Staff Course In-charge</asp:Label>
+                                </div>
+                                <div class="col-md-5">
+                                    <asp:DropDownList runat="server" ID="ddlCourseInc" CssClass="form-control"></asp:DropDownList>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group pdForm">
+                            <div class="row">
                                 <div class="col-md-2">
                                 </div>
                                 <div class="col-md-8">
