@@ -3,6 +3,7 @@
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
 
+    <link href="Assests/main/css/inquiry.css" rel="stylesheet" />
     <link href="Assests/main/css/layouts.css" rel="stylesheet" />
     <script>
     function ShowPopup()
@@ -51,7 +52,7 @@
                         <div class="panel-body">
                             <div class="form-horizontal">
                                 <div class="form-group pdForm">
-                                    <div class="row">
+                                    <div class="row justify-content-center">
                                         <div class="col-md-2 col-form-label">
                                             <asp:Label ID="lblForumTopic" runat="server">Forum Topic</asp:Label><span style="color: red;">*</span>
                                         </div>
@@ -63,7 +64,7 @@
                                 </div>
 
                                 <div class="form-group pdForm">
-                                    <div class="row">
+                                    <div class="row justify-content-center">
                                         <div class="col-md-2 col-form-label">
                                             <asp:Label ID="lblForumDesc" runat="server">Forum Description</asp:Label><span style="color: red;">*</span>
                                         </div>
@@ -75,7 +76,7 @@
                                 </div>
 
                                 <div class="form-group pdForm">
-                                    <div class="row">
+                                    <div class="row justify-content-center">
                                         <div class="col-md-2 col-form-label">
                                             <asp:Label ID="lblForumCategory" runat="server">Category</asp:Label><span style="color: red;">*</span>
                                         </div>
@@ -89,7 +90,7 @@
                                 </div>
 
                                 <div class="form-group pdForm">
-                                    <div class="row">
+                                    <div class="row justify-content-center">
                                         <div class="col-md-2">
                                         </div>
                                         <div class="col-md-3">
@@ -102,19 +103,20 @@
                                 </div>
 
                                 <div class="form-group pdForm">
-                                    <div class="row">
+                                    <div class="row justify-content-center">
                                         <div class="col-md-2 col-form-label">
                                             <asp:Label ID="lblForumStatus" runat="server">Forum status</asp:Label><span style="color: red;">*</span>
                                         </div>
-                                        <div class="col-md-3">
-                                            <asp:DropDownList ID="ddlForumStatus" runat="server" CssClass="form-control">
-                                                <asp:ListItem Selected="True" Value="Active">Active</asp:ListItem>
-                                                <asp:ListItem Value="Inactive">Inactive</asp:ListItem>
-                                            </asp:DropDownList>
+                                        <div class="col-md-8">
+                                            <div class="col-md-4 p-0">
+                                                <asp:DropDownList ID="ddlForumStatus" runat="server" CssClass="form-control">
+                                                    <asp:ListItem Selected="True" Value="Active">Active</asp:ListItem>
+                                                    <asp:ListItem Value="Inactive">Inactive</asp:ListItem>
+                                                </asp:DropDownList>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-
                                 <hr />
                             </div>
                         </div>

@@ -359,3 +359,13 @@ CREATE TABLE [dbo].[ProgrammeCourse] (
     CONSTRAINT [fk_semester_progCourse] FOREIGN KEY ([SemesterGUID]) REFERENCES [dbo].[Semester] ([SemesterGUID]),
     CONSTRAINT [fk_programme_progCourse] FOREIGN KEY ([ProgrammeGUID]) REFERENCES [dbo].[Programme] ([ProgrammeGUID])
 );
+
+CREATE TABLE [dbo].[AcademicCalender] (
+    [AcademicCalenderGUID] UNIQUEIDENTIFIER    NOT NULL,
+    [CalenderType] VARCHAR(100) NOT NULL,
+    [Year] int NOT NULL,
+    [Sessions] int NOT NULL,
+    [SemesterStartDate] DATE NOT NULL,
+    [SemesterEndDate] DATE NOT NULL,
+
+);

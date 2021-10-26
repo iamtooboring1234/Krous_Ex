@@ -166,6 +166,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="AcademicCalenderEntry.aspx" />
     <Content Include="App_Data\Insert.sql" />
     <Content Include="App_Data\Krous-Ex.sql" />
     <Content Include="App_Data\Krous_Ex.mdf" />
@@ -1259,6 +1260,13 @@
     <Content Include="AllUserSite.Master" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AcademicCalenderEntry.aspx.cs">
+      <DependentUpon>AcademicCalenderEntry.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="AcademicCalenderEntry.aspx.designer.cs">
+      <DependentUpon>AcademicCalenderEntry.aspx</DependentUpon>
+    </Compile>
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
