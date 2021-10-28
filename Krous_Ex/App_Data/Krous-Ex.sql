@@ -40,22 +40,23 @@ CREATE TABLE [Branches] (
 )
 
 CREATE TABLE [dbo].[Student] (
-	[StudentGUID]            UNIQUEIDENTIFIER NOT NULL,
-	[StudentUsername]        VARCHAR (30)     NOT NULL,
-	[StudentPassword]        VARCHAR (50)     NOT NULL,
-	[StudentFullName]        VARCHAR (50)     NOT NULL,
+    [StudentGUID]         UNIQUEIDENTIFIER NOT NULL,
+    [StudentUsername]     VARCHAR (30)     NOT NULL,
+    [StudentPassword]     VARCHAR (50)     NOT NULL,
+    [StudentFullName]     VARCHAR (50)     NOT NULL,
     [Gender]              VARCHAR (10)     NOT NULL,
     [DOB]                 DATE             NOT NULL,
     [PhoneNumber]         VARCHAR (15)     NOT NULL,
     [Email]               VARCHAR (100)    NOT NULL,
     [NRIC]                VARCHAR (15)     NOT NULL,
-	[Address]			  VARCHAR(150)	   NOT NULL,
-	[ProfileImage]		  VARCHAR(500)     NULL,
-    [YearIntake]          VARCHAR (15)     NOT NULL,
+    [Address]             VARCHAR (150)    NOT NULL,
+    [ProfileImage]        VARCHAR (500)    NULL,
     [AccountRegisterDate] DATETIME         NOT NULL,
-	[LastUpdateInfo]      DATETIME         NULL,
-    [BranchesGUID]        UNIQUEIDENTIFIER         NOT NULL,
-    [FacultyGUID]         UNIQUEIDENTIFIER         NOT NULL,
+    [LastUpdateInfo]      DATETIME         NULL,
+    [StudyStatus]         VARCHAR (20)     NULL,
+    [BranchesGUID]        UNIQUEIDENTIFIER NULL,
+    [FacultyGUID]         UNIQUEIDENTIFIER NULL,
+    [SessionGUID]         UNIQUEIDENTIFIER NULL,
     CONSTRAINT [pk_student] PRIMARY KEY CLUSTERED ([StudentGUID] ASC),
     CONSTRAINT [fk_stundent_branches] FOREIGN KEY ([BranchesGUID]) REFERENCES [dbo].[Branches] ([BranchesGUID]),
     CONSTRAINT [fk_stundent_faculty] FOREIGN KEY ([FacultyGUID]) REFERENCES [dbo].[Faculty] ([FacultyGUID])
@@ -139,16 +140,22 @@ CREATE TABLE [Course_In_Charge] (
 	CONSTRAINT fk_staff_cic FOREIGN KEY (StaffGUID) REFERENCES Staff(StaffGUID)
 )
 
-CREATE TABLE [Student_Programme_Register] (
-	[RegisterGUID] UNIQUEIDENTIFIER NOT NULL,
-	[StudentGUID] UNIQUEIDENTIFIER NOT NULL,
-	[ProgrammeGUID] UNIQUEIDENTIFIER NOT NULL,
-	[CourseRegisterDate] datetime NOT NULL,
-    [Status] VARCHAR (10) NOT NULL,
-  	CONSTRAINT pk_register PRIMARY KEY (RegisterGUID),
-	CONSTRAINT fk_student_scr FOREIGN KEY (StudentGUID) REFERENCES Student(StudentGUID),
-	CONSTRAINT fk_programme_scr FOREIGN KEY (ProgrammeGUID) REFERENCES Programme(ProgrammeGUID)
-)
+CREATE TABLE [dbo].[Student_Programme_Register] (
+    [RegisterGUID]       UNIQUEIDENTIFIER NOT NULL,
+    [StudentGUID]        UNIQUEIDENTIFIER NOT NULL,
+    [ProgrammeGUID]      UNIQUEIDENTIFIER NOT NULL,
+    [SessionGUID]        UNIQUEIDENTIFIER NOT NULL,
+    [CourseRegisterDate] DATETIME         NOT NULL,
+    [Status]             VARCHAR (10)     NOT NULL,
+	[UploadIcImage]		 VARCHAR (500)	  NOT NULL,
+	[UploadResult]		 VARCHAR (500)    NOT NULL,
+    [UploadMedical]      VARCHAR (500)    NULL,
+    CONSTRAINT [pk_register] PRIMARY KEY CLUSTERED ([RegisterGUID] ASC),
+    CONSTRAINT [fk_student_scr] FOREIGN KEY ([StudentGUID]) REFERENCES [dbo].[Student] ([StudentGUID]),
+    CONSTRAINT [fk_programme_scr] FOREIGN KEY ([ProgrammeGUID]) REFERENCES [dbo].[Programme] ([ProgrammeGUID]),
+    CONSTRAINT [fk_session_scr] FOREIGN KEY ([SessionGUID]) REFERENCES [dbo].[Session] ([SessionGUID])
+);
+
 
 CREATE TABLE [Exam_Result] (
 	[Exam_ResultGUID] UNIQUEIDENTIFIER NOT NULL,

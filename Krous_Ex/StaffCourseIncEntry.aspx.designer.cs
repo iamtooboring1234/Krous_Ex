@@ -51,22 +51,40 @@ namespace Krous_Ex
         protected global::System.Web.UI.WebControls.TextBox txtFullname;
 
         /// <summary>
-        /// lblStaffPass control.
+        /// lblCourseList control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblStaffPass;
+        protected global::System.Web.UI.WebControls.Label lblCourseList;
 
         /// <summary>
-        /// txtPassword control.
+        /// cbFoundation control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtPassword;
+        protected global::System.Web.UI.WebControls.CheckBoxList cbFoundation;
+
+        /// <summary>
+        /// cbDiploma control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.CheckBoxList cbDiploma;
+
+        /// <summary>
+        /// cbDegree control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.CheckBoxList cbDegree;
 
         /// <summary>
         /// btnBack control.

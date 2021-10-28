@@ -81,15 +81,14 @@
             </div>
 
             <div class="form-group">
-                <label for="contact">Year Intake</label>
-                <asp:TextBox ID="txtYearIntake" CssClass="form-control" type="text" runat="server" Enabled="False" Style="border-color: gray; width: 130px;"></asp:TextBox>
-            </div>
-
-            <%--<div class="form-group">
                 <label for="email" style="margin-top: 9px;">Programme</label>
                 <asp:TextBox ID="txtProgramme" CssClass="form-control" type="text" runat="server" Enabled="False" Style="border-color: gray;"></asp:TextBox>
-            </div>--%>
-            <!--after that can add programme, course registered date?-->
+            </div>
+
+            <div class="form-group">
+                <label for="contact">Programme Session</label>
+                <asp:TextBox ID="txtProgSession" CssClass="form-control" type="text" runat="server" Enabled="False" Style="border-color: gray; width: 130px;"></asp:TextBox>
+            </div>
 
             <hr style="height: 2px; border-width: 0; color: #64f9db; background-color: #64f9db; margin-top: 23px;">
 
@@ -114,7 +113,7 @@
 
             <asp:Button ID="btnSave" runat="server" Text="Save Profile" CssClass="btn btn-primary me-2" Style="padding: 10px; width: 120px; margin-top: 20px; margin-right: 13px;" OnClick="btnSave_Click" />
             <ajaxToolkit:ConfirmButtonExtender ID="ConfirmButtonExtender1" runat="server" ConfirmText="Are you sure to save your updated details ?" TargetControlID="btnSave" />
-            <asp:Button ID="btnCancel" runat="server" Text="Cancel" CssClass="btn btn-dark" Style="padding: 10px; width: 100px; margin-top: 20px;" />
+            <asp:Button ID="btnCancel" runat="server" Text="Cancel" CssClass="btn btn-dark" Style="padding: 10px; width: 100px; margin-top: 20px;" OnClick="btnCancel_Click" />
 
         </div>
     </div>

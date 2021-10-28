@@ -59,8 +59,8 @@ namespace Krous_Ex
                 con = new SqlConnection(strCon);
                 con.Open();
 
-                cmd = new SqlCommand("INSERT INTO Student(StudentGUID, StudentUsername, StudentPassword, StudentFullName, Gender, DOB, PhoneNumber, Email, NRIC, Address, YearIntake, AccountRegisterDate) " +
-                                                "VALUES (@StudentGUID, @StudentUsername, @StudentPassword, @StudentFullName, @Gender, @DOB, @PhoneNumber, @Email, @NRIC, @Address, @YearIntake, @AccountRegisterDate)", con);
+                cmd = new SqlCommand("INSERT INTO Student(StudentGUID, StudentUsername, StudentPassword, StudentFullName, Gender, DOB, PhoneNumber, Email, NRIC, Address AccountRegisterDate) " +
+                                                "VALUES (@StudentGUID, @StudentUsername, @StudentPassword, @StudentFullName, @Gender, @DOB, @PhoneNumber, @Email, @NRIC, @Address, @AccountRegisterDate)", con);
                 cmd.Parameters.AddWithValue("@StudentGUID", studentGUID);
                 cmd.Parameters.AddWithValue("@StudentUsername", txtUsername.Text);
                 cmd.Parameters.AddWithValue("@StudentPassword", Encrypt(txtPassword.Text.Trim()));
@@ -71,7 +71,6 @@ namespace Krous_Ex
                 cmd.Parameters.AddWithValue("@Email", txtEmail.Text);
                 cmd.Parameters.AddWithValue("@NRIC", txtNRIC.Text);
                 cmd.Parameters.AddWithValue("@Address", txtAddress.Text);
-                cmd.Parameters.AddWithValue("@YearIntake", DateTime.Now.Year);
                 cmd.Parameters.AddWithValue("@AccountRegisterDate", DateTime.Now);
 
                 cmd.ExecuteNonQuery();

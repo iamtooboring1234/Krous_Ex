@@ -50,31 +50,59 @@ namespace Krous_Ex
                 con = new SqlConnection(strCon);
                 con.Open();
 
-                //change the join date format  
+                string loadQuery;
+                loadQuery = "SELECT s.StudentGUID, s.StudentFullName, s.Gender, CONVERT(varchar, s.DOB,1) as DOB, s.PhoneNumber, s.Email, s.NRIC, s.Address, s.ProfileImage, CONVERT(varchar, s.AccountRegisterDate, 1) as DateJoined, s.LastUpdateInfo, CONCAT(f.facultyname, ' ', (f.facultyAbbrv)) AS FacultyName, b.BranchesName, p.ProgrammeName, CONCAT(ss.SessionYear, ss.SessionMonth) AS Session, spr.Status ";
+                loadQuery += "FROM Student s ";
+                loadQuery += "LEFT JOIN Branches b ON s.BranchesGUID = b.BranchesGUID ";
+                loadQuery += "LEFT JOIN Faculty f ON s.FacultyGUID = f.FacultyGUID ";
+                loadQuery += "LEFT JOIN Student_Programme_Register spr ON spr.StudentGUID = s.StudentGUID ";
+                loadQuery += "LEFT JOIN Programme p ON spr.ProgrammeGUID = p.ProgrammeGUID ";
+                loadQuery += "LEFT JOIN Session ss ON s.SessionGUID = ss.SessionGUID ";
+                loadQuery += "WHERE s.StudentGUID = @StudentGUID ";
+                SqlCommand loadGVCmd = new SqlCommand(loadQuery, con);
 
-                cmd = new SqlCommand("SELECT s.StudentGUID, s.StudentFullName, s.Gender, CONVERT(varchar, s.DOB,1) as DOB, s.PhoneNumber, s.Email, s.NRIC, s.Address, s.ProfileImage, s.YearIntake, CONVERT(varchar, s.AccountRegisterDate, 1) as DateJoined, s.LastUpdateInfo, CONCAT(f.facultyname, ' ', (f.facultyAbbrv)) AS FacultyName, b.BranchesName FROM Student s LEFT JOIN Branches b ON s.BranchesGUID = b.BranchesGUID LEFT JOIN Faculty f ON s.FacultyGUID = f.FacultyGUID WHERE s.StudentGUID = @StudentGUID", con);
-                cmd.Parameters.AddWithValue("@StudentGUID", userGUID);
-                SqlDataReader dtrStudent = cmd.ExecuteReader();
+                loadGVCmd.Parameters.AddWithValue("@StudentGUID", userGUID);
+                SqlDataReader dtrStudent = loadGVCmd.ExecuteReader();
                 DataTable dtStud = new DataTable();
                 dtStud.Load(dtrStudent);
 
                 con.Close();
 
-                //if got, then load data
                 if(dtStud.Rows.Count > 0)
                 {
                     txtFullname.Text = dtStud.Rows[0][1].ToString();
-                    txtGender.Text = dtStud.Rows[0][2].ToString();
+                    txtGender.Text = dtStud.Rows[0][2].ToString();  
                     txtDOB.Text = dtStud.Rows[0][3].ToString();
                     txtContact.Text = dtStud.Rows[0][4].ToString();
                     txtEmail.Text = dtStud.Rows[0][5].ToString();
                     txtNRIC.Text = dtStud.Rows[0][6].ToString();
                     txtAddress.Text = dtStud.Rows[0][7].ToString();
-                    txtYearIntake.Text = dtStud.Rows[0][9].ToString();
-                    txtDateJoined.Text = dtStud.Rows[0][10].ToString();
-                    txtFaculty.Text = dtStud.Rows[0][12].ToString();
-                    txtBranch.Text = dtStud.Rows[0][13].ToString();
-                    lblUpdateTime.Text = dtStud.Rows[0][11].ToString();
+                    txtDateJoined.Text = dtStud.Rows[0][9].ToString();
+                    lblUpdateTime.Text = dtStud.Rows[0][10].ToString();
+                    txtFaculty.Text = dtStud.Rows[0][11].ToString();
+                    txtBranch.Text = dtStud.Rows[0][12].ToString();
+
+                    string test = dtStud.Rows[0][13].ToString();
+
+                    if (dtStud.Rows[0][13].ToString() == "")
+                    {
+                        txtProgramme.Text = "N/A";
+                    } else
+                    {
+                        if (dtStud.Rows[0][15].ToString() == "Approved")
+                        {
+                            txtProgramme.Text = dtStud.Rows[0][13].ToString();
+                        } else
+                        {
+                            txtProgramme.Text = "N/A";
+                        }
+                    }
+  
+
+                    if(dtStud.Rows[0][14].ToString() == "")
+                    {
+                        txtProgSession.Text = "N/A";
+                    }
 
                     string profileImg = "";
                     if(dtStud.Rows[0][8] != null)
@@ -330,5 +358,9 @@ namespace Krous_Ex
             return cipherText;
         }
 
+        protected void btnCancel_Click(object sender, EventArgs e)
+        {
+            loadData();
+        }
     }
 }

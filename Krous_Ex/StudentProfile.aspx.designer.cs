@@ -150,13 +150,22 @@ namespace Krous_Ex
         protected global::System.Web.UI.WebControls.TextBox txtBranch;
 
         /// <summary>
-        /// txtYearIntake control.
+        /// txtProgramme control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtYearIntake;
+        protected global::System.Web.UI.WebControls.TextBox txtProgramme;
+
+        /// <summary>
+        /// txtProgSession control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txtProgSession;
 
         /// <summary>
         /// txtCurrentPass control.

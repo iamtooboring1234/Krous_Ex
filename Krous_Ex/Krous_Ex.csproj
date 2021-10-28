@@ -1714,6 +1714,7 @@
     <Folder Include="Controllers\" />
     <Folder Include="Models\" />
     <Folder Include="Uploads\FAQChatFile\" />
+    <Folder Include="Uploads\StudentRegisterFile\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

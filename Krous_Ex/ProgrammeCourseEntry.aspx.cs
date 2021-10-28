@@ -530,9 +530,11 @@ namespace Krous_Ex
 
                 SqlCommand GetCommand = new SqlCommand(sqlQuery, con);
 
+                GetCommand.Parameters.Add("@CourseGUID", SqlDbType.NVarChar);
+
                 foreach (GridViewRow row in gvSelectedCourse.Rows)
                 {
-                    GetCommand.Parameters.AddWithValue("@CourseGUID", Guid.Parse(row.Cells[1].Text));
+                    GetCommand.Parameters["@CourseGUID"].Value = row.Cells[1].Text;
                     SqlDataReader reader = GetCommand.ExecuteReader();
                     dtCourse.Load(reader);
                 }
