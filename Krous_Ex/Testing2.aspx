@@ -10,23 +10,11 @@
 </head>
 <body>
     <form id="form1" runat="server">
-        <div class="input-group date" data-provide="datepicker">
-    <input type="text" class="form-control" />
-    <div class="input-group-addon">
-        <span class="glyphicon glyphicon-th"></span>
-    </div>
-</div>
+
+        <asp:DropDownList ID="DropDownList1" runat="server"></asp:DropDownList>
+
     </form>
 
-<script>
-
-    $(document).ready(function () {
-
-
-
-
-    });
-</script>
 
 
 </body>

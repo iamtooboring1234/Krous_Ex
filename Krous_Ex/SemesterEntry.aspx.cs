@@ -42,7 +42,7 @@ namespace Krous_Ex
 
                 InsertCommand.Parameters.AddWithValue("@SemesterGUID", SemesterGUID);
                 InsertCommand.Parameters.AddWithValue("@SemesterYear", txtSemesterYear.Text);
-                InsertCommand.Parameters.AddWithValue("@SemesterSem", txtSemesterYear.Text);
+                InsertCommand.Parameters.AddWithValue("@SemesterSem", txtSemesterSem.Text);
                 InsertCommand.Parameters.AddWithValue("@SemesterType", ddlSemesterType.SelectedValue);
 
                 InsertCommand.ExecuteNonQuery();

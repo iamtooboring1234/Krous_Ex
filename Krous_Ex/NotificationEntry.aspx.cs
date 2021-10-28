@@ -16,8 +16,9 @@ namespace Krous_Ex
         {
             if (IsPostBack != true)
             {
-                loadBranches();
-                loadFaculty();
+                panelNotification.Visible = true;
+                panelStaff.Visible = false;
+                panelStudent.Visible = false;
             }
         }
 
@@ -25,27 +26,32 @@ namespace Krous_Ex
         {
             if (radNotificationType.SelectedValue == "1")
             {
-                panelAll.Visible = true;
+                panelNotification.Visible = true;
                 panelStaff.Visible = false;
                 panelStudent.Visible = false;
             }
             else if (radNotificationType.SelectedValue == "2")
             {
-                panelAll.Visible = false;
+                panelNotification.Visible = true;
                 panelStaff.Visible = true;
                 panelStudent.Visible = false;
+                loadBranches();
+                loadFaculty();
             }
             else if (radNotificationType.SelectedValue == "3")
             {
-                panelAll.Visible = false;
+                panelNotification.Visible = true;
                 panelStaff.Visible = false;
                 panelStudent.Visible = true;
+                loadBranches();
+                loadFaculty();
             }
         }
 
         private void loadBranches()
         {
             cbBranch.Items.Clear();
+            cbStudentBranch.Items.Clear();
 
             try
             {
@@ -60,12 +66,26 @@ namespace Krous_Ex
                 dt.Load(reader);
                 con.Close();
 
-                for (int i = 0; i <= dt.Rows.Count - 1; i++)
+
+                if (radNotificationType.SelectedValue == "2")
                 {
-                    oList = new ListItem();
-                    oList.Text = dt.Rows[i]["BranchesName"].ToString();
-                    oList.Value = dt.Rows[i]["BranchesGUID"].ToString();
-                    cbBranch.Items.Add(oList);
+                    for (int i = 0; i <= dt.Rows.Count - 1; i++)
+                    {
+                        oList = new ListItem();
+                        oList.Text = dt.Rows[i]["BranchesName"].ToString();
+                        oList.Value = dt.Rows[i]["BranchesGUID"].ToString();
+                        cbBranch.Items.Add(oList);
+                    }
+                }
+                else if (radNotificationType.SelectedValue == "3")
+                {
+                    for (int i = 0; i <= dt.Rows.Count - 1; i++)
+                    {
+                        oList = new ListItem();
+                        oList.Text = dt.Rows[i]["BranchesName"].ToString();
+                        oList.Value = dt.Rows[i]["BranchesGUID"].ToString();
+                        cbStudentBranch.Items.Add(oList);
+                    }
                 }
             }
 
@@ -78,6 +98,7 @@ namespace Krous_Ex
         private void loadFaculty()
         {
             cbFaculty.Items.Clear();
+            cbStudentFaculty.Items.Clear();
 
             try
             {
@@ -92,44 +113,25 @@ namespace Krous_Ex
                 dt.Load(reader);
                 con.Close();
 
-                for (int i = 0; i <= dt.Rows.Count - 1; i++)
+                if (radNotificationType.SelectedValue == "2")
                 {
-                    oList = new ListItem();
-                    oList.Text = dt.Rows[i]["FacultyName"].ToString() + " (" + dt.Rows[i]["FacultyAbbrv"].ToString() + ")";
-                    oList.Value = dt.Rows[i]["FacultyGUID"].ToString();
-                    cbFaculty.Items.Add(oList);
+                    for (int i = 0; i <= dt.Rows.Count - 1; i++)
+                    {
+                        oList = new ListItem();
+                        oList.Text = dt.Rows[i]["FacultyName"].ToString() + " (" + dt.Rows[i]["FacultyAbbrv"].ToString() + ")";
+                        oList.Value = dt.Rows[i]["FacultyGUID"].ToString();
+                        cbFaculty.Items.Add(oList);
+                    }
                 }
-            }
-
-            catch (Exception)
-            {
-                clsFunction.DisplayAJAXMessage(this, "Error loading faculty.");
-            }
-        }
-
-        private void loadProgramme()
-        {
-            ddlProgramme.Items.Clear();
-
-            try
-            {
-                ListItem oList = new ListItem();
-
-                SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["Krous_Ex"].ConnectionString);
-                con.Open();
-                SqlCommand GetCommand = new SqlCommand("SELECT * FROM Faculty ORDER BY FacultyName", con);
-                SqlDataReader reader = GetCommand.ExecuteReader();
-
-                DataTable dt = new DataTable();
-                dt.Load(reader);
-                con.Close();
-
-                for (int i = 0; i <= dt.Rows.Count - 1; i++)
+                else if (radNotificationType.SelectedValue == "3")
                 {
-                    oList = new ListItem();
-                    oList.Text = dt.Rows[i]["FacultyName"].ToString() + " (" + dt.Rows[i]["FacultyAbbrv"].ToString() + ")";
-                    oList.Value = dt.Rows[i]["FacultyGUID"].ToString();
-                    ddlProgramme.Items.Add(oList);
+                    for (int i = 0; i <= dt.Rows.Count - 1; i++)
+                    {
+                        oList = new ListItem();
+                        oList.Text = dt.Rows[i]["FacultyName"].ToString() + " (" + dt.Rows[i]["FacultyAbbrv"].ToString() + ")";
+                        oList.Value = dt.Rows[i]["FacultyGUID"].ToString();
+                        cbStudentFaculty.Items.Add(oList);
+                    }
                 }
             }
 
@@ -156,8 +158,326 @@ namespace Krous_Ex
 
         protected void cbFaculty_SelectedIndexChanged(object sender, EventArgs e)
         {
+            //DataTable dt = new DataTable();
+            //panelProgramme.Visible = false;
+            //cbProgramme.Items.Clear();
             bool isAllChecked = true;
             foreach (ListItem item in cbFaculty.Items)
+            {
+                if (!item.Selected)
+                {
+                    isAllChecked = false;
+                    break;
+                } 
+            }
+
+            //foreach (ListItem item in cbFaculty.Items)
+            //{
+            //    if (item.Selected)
+            //    {
+            //        cbProgramme.Items.Clear();
+
+            //        panelProgramme.Visible = true;
+
+            //        try
+            //        {
+            //            ListItem oList = new ListItem();
+
+            //            SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["Krous_Ex"].ConnectionString);
+            //            con.Open();
+            //            SqlCommand GetCommand = new SqlCommand("SELECT * FROM Programme WHERE FacultyGUID = @FacultyGUID ORDER BY ProgrammeName", con);
+
+            //            GetCommand.Parameters.AddWithValue("@FacultyGUID", item.Value);
+
+            //            SqlDataReader reader = GetCommand.ExecuteReader();
+
+            //            dt.Load(reader);
+            //            con.Close();
+
+            //            for (int i = 0; i <= dt.Rows.Count - 1; i++)
+            //            {
+            //                oList = new ListItem();
+            //                oList.Text = dt.Rows[i]["ProgrammeName"].ToString() + " (" + dt.Rows[i]["ProgrammeAbbrv"].ToString() + ")";
+            //                oList.Value = dt.Rows[i]["ProgrammeGUID"].ToString();
+            //                cbProgramme.Items.Add(oList);
+            //            }
+            //        }
+
+            //        catch (Exception)
+            //        {
+            //            clsFunction.DisplayAJAXMessage(this, "Error loading faculty.");
+            //        }
+            //    } 
+            //}
+
+            cbFacultyAll.Checked = isAllChecked;
+        }
+
+        protected void cbFacultyAll_CheckedChanged(object sender, EventArgs e)
+        {
+            if (cbFacultyAll.Checked == true)
+            {
+                foreach (ListItem item in cbFaculty.Items)
+                {
+                    item.Selected = true;
+                }
+
+                //DataTable dt = new DataTable();
+
+                //cbProgramme.Items.Clear();
+
+                //panelProgramme.Visible = true;
+
+                //try
+                //{
+                //    ListItem oList = new ListItem();
+
+                //    SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["Krous_Ex"].ConnectionString);
+                //    con.Open();
+                //    SqlCommand GetCommand = new SqlCommand("SELECT * FROM Programme ORDER BY ProgrammeName", con);
+
+                //    SqlDataReader reader = GetCommand.ExecuteReader();
+
+                //    dt.Load(reader);
+                //    con.Close();
+
+                //    for (int i = 0; i <= dt.Rows.Count - 1; i++)
+                //    {
+                //        oList = new ListItem();
+                //        oList.Text = dt.Rows[i]["ProgrammeName"].ToString() + " (" + dt.Rows[i]["ProgrammeAbbrv"].ToString() + ")";
+                //        oList.Value = dt.Rows[i]["ProgrammeGUID"].ToString();
+                //        cbProgramme.Items.Add(oList);
+                //    }
+                //}
+
+                //catch (Exception)
+                //{
+                //    clsFunction.DisplayAJAXMessage(this, "Error loading faculty.");
+                //}
+
+            } else
+            {
+                foreach (ListItem item in cbFaculty.Items)
+                {
+                    //panelProgramme.Visible = false;
+                    item.Selected = false;
+                }
+            }
+        }
+
+        protected void cbBranchAll_CheckedChanged(object sender, EventArgs e)
+        {
+            if (cbBranchAll.Checked == true)
+            {
+                foreach (ListItem item in cbBranch.Items)
+                {
+                    item.Selected = true;
+                }
+            }
+            else
+            {
+                foreach (ListItem item in cbBranch.Items)
+                {
+                    //panelProgramme.Visible = false;
+                    item.Selected = false;
+                }
+            }
+        }
+
+        protected void btnSave_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                string sqlQuery = "";
+                string notificationDesc = "This notification is sent to ";
+
+                if (radNotificationType.SelectedValue == "1")
+                {
+
+                }
+                else if (radNotificationType.SelectedValue == "2")
+                {
+                    sqlQuery += "INSERT INTO Notification(NotificationGUID,UserGUID,NotificationSubject,NotificationContent,ReadFlag,SentDate,SentBy,NotificationDescription) ";
+                    sqlQuery += "SELECT newid(),StaffGUID,@Subject,@Content,'N',@SendDate,@SendBy,@NotificationDesc ";
+                    sqlQuery += "FROM Staff S ";
+                    sqlQuery += "LEFT JOIN Branches B ON ";
+                    sqlQuery += "S.BranchesGUID = B.BranchesGUID ";
+                    sqlQuery += "LEFT JOIN Faculty F ON ";
+                    sqlQuery += "S.FacultyGUID = F.FacultyGUID WHERE ";
+
+                    //to check at least one checkbox is checked
+                    if (cbBranch.Items.Cast<ListItem>().Any(li => li.Selected))
+                    {
+                        bool isMultipleSelected = false;
+                        foreach (ListItem item in cbBranch.Items)
+                        {
+                            if (item.Selected)
+                            {
+                                if (isMultipleSelected)
+                                {
+                                    sqlQuery += " OR S.BranchesGUID = '" + item.Value + "'";
+                                }
+                                else
+                                {
+                                    sqlQuery += " S.BranchesGUID = '" + item.Value + "'";
+                                    isMultipleSelected = true;
+                                }
+
+                                notificationDesc += item.Text + ", ";
+                            }
+                        }
+
+                        sqlQuery += " AND ";
+                    }
+                    else
+                    {
+                        clsFunction.DisplayAJAXMessage(this, "Please check at least one branch.");
+                    }
+
+                    if (cbFaculty.Items.Cast<ListItem>().Any(li => li.Selected))
+                    {
+                        bool isMultipleSelected = false;
+                        foreach (ListItem item in cbFaculty.Items)
+                        {
+                            if (item.Selected)
+                            {
+                                if (isMultipleSelected)
+                                {
+                                    sqlQuery += " OR S.FacultyGUID = '" + item.Value + "'";
+                                }
+                                else
+                                {
+                                    sqlQuery += " S.FacultyGUID = '" + item.Value + "'";
+                                    isMultipleSelected = true;
+                                }
+
+                                notificationDesc += item.Text + ", ";
+                            }
+                        }
+
+                        sqlQuery += " AND ";
+
+                    }
+                    else
+                    {
+                        clsFunction.DisplayAJAXMessage(this, "Please check at least one faculty.");
+                    }
+
+                    sqlQuery += "S.StaffRole='" + ddlStaffRole.SelectedValue + "'";
+                    sqlQuery += " AND S.StaffStatus = 'Active'";
+
+                }
+                else
+                {
+                    sqlQuery += "INSERT INTO Notification(NotificationGUID,UserGUID,NotificationSubject,NotificationContent,ReadFlag,SentDate,SentBy,NotificationDescription) ";
+                    sqlQuery += "SELECT newid(),StudentGUID,@Subject,@Content,'N',@SendDate,@SendBy,@NotificationDesc ";
+                    sqlQuery += "FROM Student S ";
+                    sqlQuery += "LEFT JOIN Branches B ON ";
+                    sqlQuery += "S.BranchesGUID = B.BranchesGUID ";
+                    sqlQuery += "LEFT JOIN Faculty F ON ";
+                    sqlQuery += "S.FacultyGUID = F.FacultyGUID WHERE ";
+
+                    //to check at least one checkbox is checked
+                    if (cbBranch.Items.Cast<ListItem>().Any(li => li.Selected))
+                    {
+                        bool isMultipleSelected = false;
+                        foreach (ListItem item in cbStudentBranch.Items)
+                        {
+                            if (item.Selected)
+                            {
+                                if (isMultipleSelected)
+                                {
+                                    sqlQuery += " OR S.BranchesGUID = '" + item.Value + "'";
+                                }
+                                else
+                                {
+                                    sqlQuery += " S.BranchesGUID = '" + item.Value + "'";
+                                    isMultipleSelected = true;
+                                }
+
+                                notificationDesc += item.Text + ", ";
+                            }
+                        }
+
+                        sqlQuery += " AND ";
+                    }
+                    else
+                    {
+                        clsFunction.DisplayAJAXMessage(this, "Please check at least one branch.");
+                    }
+
+                    if (cbFaculty.Items.Cast<ListItem>().Any(li => li.Selected))
+                    {
+                        bool isMultipleSelected = false;
+                        foreach (ListItem item in cbStudentFaculty.Items)
+                        {
+                            if (item.Selected)
+                            {
+                                if (isMultipleSelected)
+                                {
+                                    sqlQuery += " OR S.FacultyGUID = '" + item.Value + "'";
+                                }
+                                else
+                                {
+                                    sqlQuery += " S.FacultyGUID = '" + item.Value + "'";
+                                    isMultipleSelected = true;
+                                }
+
+                                notificationDesc += item.Text + ", ";
+                            }
+                        }
+
+                        sqlQuery += " AND ";
+
+                    }
+                    else
+                    {
+                        clsFunction.DisplayAJAXMessage(this, "Please check at least one faculty.");
+                    }
+                }
+
+                SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["Krous_Ex"].ConnectionString);
+                con.Open();
+                SqlCommand InsertCommand = new SqlCommand(sqlQuery, con);
+
+                InsertCommand.Parameters.AddWithValue("@Subject", txtNotificationSubject.Text);
+                InsertCommand.Parameters.AddWithValue("@Content", txtNotificationContent.Text);
+                InsertCommand.Parameters.AddWithValue("@SendDate", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
+                InsertCommand.Parameters.AddWithValue("@SendBy", clsLogin.GetLoginUserName());
+                InsertCommand.Parameters.AddWithValue("@NotificationDesc", notificationDesc);
+
+                InsertCommand.ExecuteNonQuery();
+
+                con.Close();
+
+            } catch (Exception ex)
+            {
+                Response.Write(ex.Message);
+            }
+        }
+
+        protected void cbStudentFacultyAll_CheckedChanged(object sender, EventArgs e)
+        {
+            if (cbStudentFacultyAll.Checked == true)
+            {
+                foreach (ListItem item in cbStudentFaculty.Items)
+                {
+                    item.Selected = true;
+                }
+            }
+            else
+            {
+                foreach (ListItem item in cbStudentFaculty.Items)
+                {
+                    item.Selected = false;
+                }
+            }
+        }
+
+        protected void cbStudentFaculty_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            bool isAllChecked = true;
+            foreach (ListItem item in cbStudentFaculty.Items)
             {
                 if (!item.Selected)
                 {
@@ -166,23 +486,73 @@ namespace Krous_Ex
                 }
             }
 
-            cbFacultyAll.Checked = isAllChecked;
+            cbStudentFacultyAll.Checked = isAllChecked;
         }
 
-        protected void cbFacultyAll_CheckedChanged(object sender, EventArgs e)
+        protected void cbStudentBranchAll_CheckedChanged(object sender, EventArgs e)
         {
-            foreach (ListItem item in cbFaculty.Items)
+            if (cbStudentBranchAll.Checked == true)
             {
-                item.Selected = true;
+                foreach (ListItem item in cbStudentBranch.Items)
+                {
+                    item.Selected = true;
+                }
+            }
+            else
+            {
+                foreach (ListItem item in cbStudentBranch.Items)
+                {
+                    item.Selected = false;
+                }
             }
         }
 
-        protected void cbBranchAll_CheckedChanged(object sender, EventArgs e)
+        protected void cbStudentBranch_SelectedIndexChanged(object sender, EventArgs e)
         {
-            foreach (ListItem item in cbBranch.Items)
+            bool isAllChecked = true;
+            foreach (ListItem item in cbStudentBranch.Items)
             {
-                item.Selected = true;
+                if (!item.Selected)
+                {
+                    isAllChecked = false;
+                    break;
+                }
             }
+
+            cbStudentBranchAll.Checked = isAllChecked;
         }
+
+        //protected void cbStudentSession_SelectedIndexChanged(object sender, EventArgs e)
+        //{
+        //    bool isAllChecked = true;
+        //    foreach (ListItem item in cbStudentSession.Items)
+        //    {
+        //        if (!item.Selected)
+        //        {
+        //            isAllChecked = false;
+        //            break;
+        //        }
+        //    }
+
+        //    cbStudentSessionAll.Checked = isAllChecked;
+        //}
+
+        //protected void cbStudentSessionAll_CheckedChanged(object sender, EventArgs e)
+        //{
+        //    if (cbStudentSessionAll.Checked == true)
+        //    {
+        //        foreach (ListItem item in cbStudentSession.Items)
+        //        {
+        //            item.Selected = true;
+        //        }
+        //    }
+        //    else
+        //    {
+        //        foreach (ListItem item in cbStudentSession.Items)
+        //        {
+        //            item.Selected = false;
+        //        }
+        //    }
+        //}
     }
 }
