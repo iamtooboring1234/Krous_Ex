@@ -56,7 +56,7 @@
                                             <asp:Label ID="Label3" runat="server">Who to notify?</asp:Label>
                                         </div>
                                         <div class="col-md-8 justify-content-center d-flex form-check p-0 m-0">
-                                            <asp:RadioButtonList ID="radNotificationType" runat="server" CssClass="form-check-input" RepeatDirection="Horizontal" AutoPostBack="True" OnSelectedIndexChanged="radNotificationType_SelectedIndexChanged">
+                                            <asp:RadioButtonList ID="radNotificationType" runat="server" CssClass="form-check-input mt-0" RepeatDirection="Horizontal" AutoPostBack="True" OnSelectedIndexChanged="radNotificationType_SelectedIndexChanged">
                                                 <asp:ListItem Selected="True" Value="1">All</asp:ListItem>
                                                 <asp:ListItem Value="2">Staff</asp:ListItem>
                                                 <asp:ListItem Value="3">Student</asp:ListItem>
@@ -67,32 +67,6 @@
                             </div>
                         </div>
                         <hr />
-                        <asp:Panel ID="panelAll" runat="server" Visible="true">
-                            <div class="panel-body">
-                                <div class="form-horizontal">
-                                    <div class="form-group pdForm">
-                                        <div class="row justify-content-center">
-                                            <div class="col-md-2 col-form-label">
-                                                <asp:Label ID="Label1" runat="server">Notification Subject </asp:Label><span style="color: red;">*</span>
-                                            </div>
-                                            <div class="col-md-8">
-                                                <asp:TextBox ID="txtNotificationSubject" runat="server" CssClass="form-control"></asp:TextBox>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="form-group pdForm">
-                                        <div class="row justify-content-center">
-                                            <div class="col-md-2 col-form-label">
-                                                <asp:Label ID="Label2" runat="server">Notification Subject </asp:Label><span style="color: red;">*</span>
-                                            </div>
-                                            <div class="col-md-8">
-                                                <asp:TextBox ID="txtNotificationContent" TextMode="MultiLine" Rows="15" Width="100% " runat="server" CssClass="form-control"></asp:TextBox>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </asp:Panel>
                         <asp:Panel ID="panelStaff" runat="server" Visible="true">
                             <div class="panel-body">
                                 <div class="form-horizontal">
@@ -123,34 +97,30 @@
                                     <div class="form-group pdForm">
                                         <div class="row justify-content-center">
                                             <div class="col-md-2 col-form-label">
-                                                <asp:Label ID="Label11" runat="server">Programme </asp:Label><span style="color: red;">*</span>
+                                                <asp:Label ID="Label11" runat="server">Staff Role </asp:Label><span style="color: red;">*</span>
                                             </div>
-                                            <div class="col-md-8">
-                                                <asp:DropDownList ID="ddlProgramme" runat="server" CssClass="form-control"></asp:DropDownList>
+                                            <div class="col-md-8 form-check-checkbox">
+                                                <asp:DropDownList ID="ddlStaffRole" runat="server" CssClass="form-control">
+                                                    <asp:ListItem Selected="True" Value="Academic Staff">Academic Staff</asp:ListItem>
+                                                    <asp:ListItem Value="Non-Academic Staff">Non-Academic Staff</asp:ListItem>
+                                                </asp:DropDownList>
                                             </div>
                                         </div>
                                     </div>
 
-                                    <div class="form-group pdForm">
+                                <%--<div class="form-group pdForm">
                                         <div class="row justify-content-center">
                                             <div class="col-md-2 col-form-label">
-                                                <asp:Label ID="Label4" runat="server">Notification Subject </asp:Label><span style="color: red;">*</span>
+                                                <asp:Label ID="Label11" runat="server">Programme </asp:Label><span style="color: red;">*</span>
                                             </div>
-                                            <div class="col-md-8">
-                                                <asp:TextBox ID="TextBox1" runat="server" CssClass="form-control"></asp:TextBox>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="form-group pdForm">
-                                        <div class="row justify-content-center">
-                                            <div class="col-md-2 col-form-label">
-                                                <asp:Label ID="Label5" runat="server">Notification Subject </asp:Label><span style="color: red;">*</span>
-                                            </div>
-                                            <div class="col-md-8">
-                                                <asp:TextBox ID="TextBox2" TextMode="MultiLine" Rows="15" Width="100% " runat="server" CssClass="form-control"></asp:TextBox>
+                                            <div class="col-md-8 form-check-checkbox">
+                                                <asp:Panel ID="panelProgramme" runat="server" Visible="false">
+                                                <asp:CheckBox ID="cbProgrammeAll" runat="server" AutoPostBack="true" Text="All" CssClass="form-check-all"/> 
+                                                <asp:CheckBoxList ID="cbProgramme" runat="server" AutoPostBack="true"></asp:CheckBoxList>
+                                                </asp:Panel>
                                             </div>
                                         </div>
-                                    </div>
+                                    </div>--%>
                                 </div>
                             </div>
                         </asp:Panel>
@@ -160,20 +130,61 @@
                                     <div class="form-group pdForm">
                                         <div class="row justify-content-center">
                                             <div class="col-md-2 col-form-label">
-                                                <asp:Label ID="Label6" runat="server">Notification Subject </asp:Label><span style="color: red;">*</span>
+                                                <asp:Label ID="Label4" runat="server">Branches </asp:Label><span style="color: red;">*</span>
+                                            </div>
+                                            <div class="col-md-8 form-check-checkbox">
+                                                <asp:CheckBox ID="cbStudentBranchAll" runat="server" OnCheckedChanged="cbStudentBranchAll_CheckedChanged" AutoPostBack="true" Text="All" CssClass="form-check-all"/>
+                                                <asp:CheckBoxList ID="cbStudentBranch" runat="server" OnSelectedIndexChanged="cbStudentBranch_SelectedIndexChanged" AutoPostBack="true"></asp:CheckBoxList>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group pdForm">
+                                        <div class="row justify-content-center">
+                                            <div class="col-md-2 col-form-label">
+                                                <asp:Label ID="Label5" runat="server">Faculty </asp:Label><span style="color: red;">*</span>
+                                            </div>
+                                            <div class="col-md-8 form-check-checkbox">
+                                                <asp:CheckBox ID="cbStudentFacultyAll" runat="server" OnCheckedChanged="cbStudentFacultyAll_CheckedChanged" AutoPostBack="true" Text="All" CssClass="form-check-all"/> 
+                                                <asp:CheckBoxList ID="cbStudentFaculty" runat="server" OnSelectedIndexChanged="cbStudentFaculty_SelectedIndexChanged" AutoPostBack="true"></asp:CheckBoxList>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <%--<div class="form-group pdForm">
+                                        <div class="row justify-content-center">
+                                            <div class="col-md-2 col-form-label">
+                                                <asp:Label ID="Label6" runat="server">Staff Role </asp:Label><span style="color: red;">*</span>
+                                            </div>
+                                            <div class="col-md-8 form-check-checkbox">
+                                                <asp:CheckBox ID="cbStudentSessionAll" runat="server" OnCheckedChanged="cbStudentSessionAll_CheckedChanged" AutoPostBack="true" Text="All" CssClass="form-check-all"/> 
+                                                <asp:CheckBoxList ID="cbStudentSession" runat="server" OnSelectedIndexChanged="cbStudentSession_SelectedIndexChanged" AutoPostBack="true"></asp:CheckBoxList>
+                                            </div>
+                                        </div>
+                                    </div>--%>
+                                </div>
+                            </div>
+                        </asp:Panel>
+                        <asp:Panel ID="panelNotification" runat="server" Visible="true">
+                            <div class="panel-body">
+                                <div class="form-horizontal">
+                                    <div class="form-group pdForm">
+                                        <div class="row justify-content-center">
+                                            <div class="col-md-2 col-form-label">
+                                                <asp:Label ID="Label1" runat="server">Notification Subject </asp:Label><span style="color: red;">*</span>
                                             </div>
                                             <div class="col-md-8">
-                                                <asp:TextBox ID="TextBox3" runat="server" CssClass="form-control"></asp:TextBox>
+                                                <asp:TextBox ID="txtNotificationSubject" runat="server" CssClass="form-control"></asp:TextBox>
                                             </div>
                                         </div>
                                     </div>
                                     <div class="form-group pdForm">
                                         <div class="row justify-content-center">
                                             <div class="col-md-2 col-form-label">
-                                                <asp:Label ID="Label7" runat="server">Notification Subject </asp:Label><span style="color: red;">*</span>
+                                                <asp:Label ID="Label2" runat="server">Notification Content </asp:Label><span style="color: red;">*</span>
                                             </div>
                                             <div class="col-md-8">
-                                                <asp:TextBox ID="TextBox4" TextMode="MultiLine" Rows="15" Width="100% " runat="server" CssClass="form-control"></asp:TextBox>
+                                                <asp:TextBox ID="txtNotificationContent" TextMode="MultiLine" Rows="15" Width="100% " runat="server" CssClass="form-control"></asp:TextBox>
                                             </div>
                                         </div>
                                     </div>
@@ -181,6 +192,18 @@
                             </div>
                         </asp:Panel>
                         <hr />
+                        <div class="form-group pdForm">
+                            <div class="row">
+                                <div class="col-md-12 float-right text-right">
+                                    <asp:Button Text="Send" ID="btnSave" runat="server" Width="18%" CssClass="btn btn-primary mr20 pdForm" OnClick="btnSave_Click"/>
+                                    <ajaxToolkit:ConfirmButtonExtender ID="ConfirmButtonExtender1" runat="server" ConfirmText="Are you sure to send this notification ?" TargetControlID="btnSave" />
+                                    <asp:Button Text="Cancel" ID="btnCancel" runat="server" Width="18%" CssClass="btn btn-dark mr20 pdForm" Style="margin-left: 10px; height: 38px;" />
+                                </div>
+                            </div>
+                        </div>
+
+                        <asp:Label ID="testcmd" runat="server"></asp:Label>
+
                     </div>
                 </div>
             </div>

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Configuration;
+using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Web;
@@ -15,31 +16,41 @@ namespace Krous_Ex
         {
             if (IsPostBack != true)
             {
-                txtFirstSemesterStartDate.Text = DateTime.Today.ToString("dd/MM/yyyy");
-                txtFirstSemesterEndDate.Text = DateTime.Today.AddDays(139).ToString("dd/MM/yyyy");
+                if (Session["InsertCalendar"] != null)
+                {
+                    if (Session["InsertCalendar"].ToString() == "Yes")
+                    {
+                        ClientScript.RegisterStartupScript(GetType(), "Javascript", "javascript:showAddSuccessToast(); ", true);
+                        Session["InsertCalendar"] = null;
+                    }
+                }
+
+                txtSemesterStartDate.Text = DateTime.Today.ToString("dd/MM/yyyy");
+                txtSemesterEndDate.Text = DateTime.Today.AddDays(139).ToString("dd/MM/yyyy");
+                loadSession();
             }
         }
 
-        private bool insertFAQ()
+        private bool insertCalendar()
         {
-            Guid SemesterGUID = Guid.NewGuid();
-
-            //string Username = clsLogin.GetLoginUserName;
+            Guid academicCalenderGUID = Guid.NewGuid();
 
             try
             {
                 SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["Krous_Ex"].ConnectionString);
                 con.Open();
 
-                SqlCommand InsertCommand = new SqlCommand("INSERT INTO SEMESTER VALUES(@SemesterGUID,@SemesterName,@SemesterCatogory,@SemesterStartDate,@SemesterEndDate,@SemesterWeekDuration,@SemesterStudyDayDuration,@SemesterExamDayDuration,@SemesterBreakDayDuration)", con);
+                SqlCommand InsertCommand = new SqlCommand("INSERT INTO AcademicCalender VALUES(@AcademicCalenderGUID,@SessionGUID,@CalenderName,@CalenderType,@SemesterStartDate,@SemesterEndDate,@SemesterStudyDuration,@SemesterExaminationDuration,@SemesterBreakDuration)", con);
 
-                InsertCommand.Parameters.AddWithValue("@SemesterGUID", SemesterGUID);
-                InsertCommand.Parameters.AddWithValue("@SemesterStartDate", txtFirstSemesterStartDate.Text);
-                InsertCommand.Parameters.AddWithValue("@SemesterEndDate", txtFirstSemesterEndDate.Text);
-                InsertCommand.Parameters.AddWithValue("@SemesterWeekDuration", 1);
-                InsertCommand.Parameters.AddWithValue("@SemesterStudyDayDuration", 1);
-                InsertCommand.Parameters.AddWithValue("@SemesterExamDayDuration", 1);
-                InsertCommand.Parameters.AddWithValue("@SemesterBreakDayDuration", 1);
+                InsertCommand.Parameters.AddWithValue("@AcademicCalenderGUID", academicCalenderGUID);
+                InsertCommand.Parameters.AddWithValue("@SessionGUID", ddlSession.SelectedValue);
+                InsertCommand.Parameters.AddWithValue("@CalenderName", txtSemesterName.Text);
+                InsertCommand.Parameters.AddWithValue("@CalenderType", ddlCalenderType.SelectedValue);
+                InsertCommand.Parameters.AddWithValue("@SemesterStartDate", DateTime.Parse(txtSemesterStartDate.Text));
+                InsertCommand.Parameters.AddWithValue("@SemesterEndDate", DateTime.Parse(txtSemesterEndDate.Text));
+                InsertCommand.Parameters.AddWithValue("@SemesterStudyDuration", txtSemesterStudyDuration.Text);
+                InsertCommand.Parameters.AddWithValue("@SemesterExaminationDuration", txtSemesterExamDuration.Text);
+                InsertCommand.Parameters.AddWithValue("@SemesterBreakDuration", txtSemesterBreakDuration.Text);
 
                 InsertCommand.ExecuteNonQuery();
 
@@ -56,7 +67,16 @@ namespace Krous_Ex
 
         protected void btnSave_Click(object sender, EventArgs e)
         {
-            insertFAQ();
+            if (insertCalendar())
+            {
+                Session["InsertCalendar"] = "Yes";
+                Response.Redirect("AcademicCalenderEntry");
+            }
+            else
+            {
+                clsFunction.DisplayAJAXMessage(this, "Unable to insert. Failed to create.");
+            }
+           
         }
 
         protected void btnBack_Click(object sender, EventArgs e)
@@ -64,52 +84,142 @@ namespace Krous_Ex
 
         }
 
-        protected void txtYear_TextChanged(object sender, EventArgs e)
+        //protected void txtYear_TextChanged(object sender, EventArgs e)
+        //{
+        //    ddlSession.Items.Clear();
+
+        //    try
+        //    {
+        //        string year = txtYear.Text;
+        //        string[] str = new string[] { "05", "09", "01" };
+
+        //        ListItem oList = new ListItem();
+
+        //        oList = new ListItem();
+        //        oList.Text = "";
+        //        oList.Value = "";
+        //        ddlSession.Items.Add(oList);
+
+        //        foreach (string s in str)
+        //        {
+        //            oList = new ListItem();
+
+        //            if (!s.Equals("01"))
+        //            {
+        //                oList.Text = year + s;
+        //                oList.Value = year + s;
+        //            } else
+        //            {
+        //                int intYear = int.Parse(year) + 1;
+        //                oList.Text = intYear + s;
+        //                oList.Value = intYear + s;
+        //            }
+
+        //            ddlSession.Items.Add(oList);
+        //        }
+
+        //    } catch (Exception ex)
+        //    {
+        //        Console.WriteLine(ex.Message);
+        //    }
+        //}
+
+        protected void radSemesterDuration_SelectedIndexChanged(object sender, EventArgs e)
         {
-            ddlSession.Items.Clear();
-
-            try
+            if (radSemesterDuration.SelectedValue == "1")
             {
-                string year = txtYear.Text;
-                string[] str = new string[] { "05", "09", "01" };
+                txtSemesterDay.Text = "139";
+                int intDays = int.Parse(txtSemesterDay.Text);
 
-                ListItem oList = new ListItem();
-
-                oList = new ListItem();
-                oList.Text = "";
-                oList.Value = "";
-                ddlSession.Items.Add(oList);
-
-                foreach (string s in str)
-                {
-                    oList = new ListItem();
-
-                    if (!s.Equals("01"))
-                    {
-                        oList.Text = year + s;
-                        oList.Value = year + s;
-                    } else
-                    {
-                        int intYear = int.Parse(year) + 1;
-                        oList.Text = intYear + s;
-                        oList.Value = intYear + s;
-                    }
-
-                    ddlSession.Items.Add(oList);
-                }
-
-            } catch (Exception ex)
+                txtSemesterStartDate.Text = DateTime.Today.ToString("dd/MM/yyyy");
+                txtSemesterEndDate.Text = DateTime.Today.AddDays(intDays).ToString("dd/MM/yyyy");
+            } else
             {
-                Console.WriteLine(ex.Message);
+                txtSemesterDay.Text = "83";
+                int intDays = int.Parse(txtSemesterDay.Text);
+
+                txtSemesterStartDate.Text = DateTime.Today.ToString("dd/MM/yyyy");
+                txtSemesterEndDate.Text = DateTime.Today.AddDays(intDays).ToString("dd/MM/yyyy");
             }
         }
 
-        protected void txtFirstSemesterDays_TextChanged(object sender, EventArgs e)
+        protected void txtSemesterDay_TextChanged(object sender, EventArgs e)
         {
-            int intDays = int.Parse(txtFirstSemesterDays.Text);
+            int intDays = int.Parse(txtSemesterDay.Text);
 
-            txtFirstSemesterStartDate.Text = DateTime.Today.ToString("dd/MM/yyyy");
-            txtFirstSemesterEndDate.Text = DateTime.Today.AddDays(intDays).ToString("dd/MM/yyyy");
+            txtSemesterStartDate.Text = DateTime.Today.ToString("dd/MM/yyyy");
+            txtSemesterEndDate.Text = DateTime.Today.AddDays(intDays).ToString("dd/MM/yyyy");
+        }
+
+        private void loadSession()
+        {
+            ddlSession.Items.Clear();
+            string sqlQuery = "";
+            try
+            {
+                ListItem oList = new ListItem();
+
+                SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["Krous_Ex"].ConnectionString);
+                con.Open();
+
+                sqlQuery = "select * from Session S LEFT JOIN AcademicCalender A ON S.SessionGUID = A.SessionGUID ";
+                sqlQuery += "WHERE a.SessionGUID IS NULL ";
+                sqlQuery += "order by S.SessionYear, S.SessionMonth ";
+
+                SqlCommand GetCommand = new SqlCommand(sqlQuery, con);
+                SqlDataReader reader = GetCommand.ExecuteReader();
+
+                DataTable dtSession = new DataTable();
+                dtSession.Load(reader);
+                con.Close();
+
+                for (int i = 0; i <= dtSession.Rows.Count - 1; i++)
+                {
+                    oList = new ListItem();
+                    oList.Text = dtSession.Rows[i]["SessionYear"].ToString() + dtSession.Rows[i]["SessionMonth"].ToString().PadLeft(2, '0');
+                    oList.Value = dtSession.Rows[i]["SessionGUID"].ToString();
+                    ddlSession.Items.Add(oList);
+                }
+            }
+
+            catch (Exception ex)
+            {
+                clsFunction.DisplayAJAXMessage(this, ex.Message);
+            }
+        }
+
+        protected void txtSemesterEndDate_TextChanged(object sender, EventArgs e)
+        {
+            try
+            {
+                DateTime startDate = DateTime.Parse(txtSemesterStartDate.Text);
+                DateTime endDate = DateTime.Parse(txtSemesterEndDate.Text);
+                if (endDate.Subtract(startDate).Days < 0)
+                {
+                    clsFunction.DisplayAJAXMessage(this, "Error! End date must be higher than start date.");
+                    int Days = int.Parse(txtSemesterDay.Text);
+                    CalendarExtender2.SelectedDate = startDate.AddDays(Days);
+                } else
+                {
+                    txtSemesterDay.Text = endDate.Subtract(startDate).Days.ToString();
+                }
+            } catch (Exception)
+            {
+                clsFunction.DisplayAJAXMessage(this, "Error! Entered is not in date format.");
+            }
+        }
+
+        protected void txtSemesterStartDate_TextChanged(object sender, EventArgs e)
+        {
+            try
+            {
+                int Days = int.Parse(txtSemesterDay.Text);
+                DateTime startDate = DateTime.Parse(txtSemesterStartDate.Text);
+                CalendarExtender2.SelectedDate = startDate.AddDays(Days);
+            } catch (Exception)
+            {
+                clsFunction.DisplayAJAXMessage(this, "Error! Entered is not in date format.");
+            }
         }
     }
 }

@@ -340,13 +340,13 @@ CREATE TABLE [dbo].[ResetPassword] (
 
 CREATE TABLE [dbo].[Notification] (
     [NotificationGUID]         UNIQUEIDENTIFIER    NOT NULL,
-    [CitizenGUID]               UNIQUEIDENTIFIER     NOT NULL,
+    [UserGUID]               UNIQUEIDENTIFIER     NOT NULL,
     [NotificationSubject]   VARCHAR (50)        NOT NULL,
     [NotificationContent]     VARCHAR (500)         NOT NULL,
     [ReadFlag]                CHAR (1)            NOT NULL,
     [SentDate]                   DATETIME            NOT NULL,
     [SentBy]                  VARCHAR (50)            NULL,
-    [NotificationDesciption]     VARCHAR (300)           NULL,
+    [NotificationDescription]     VARCHAR (300)           NULL,
     PRIMARY KEY CLUSTERED ([NotificationGUID] ASC)
 );
 
@@ -361,12 +361,27 @@ CREATE TABLE [dbo].[ProgrammeCourse] (
     CONSTRAINT [fk_programme_progCourse] FOREIGN KEY ([ProgrammeGUID]) REFERENCES [dbo].[Programme] ([ProgrammeGUID])
 );
 
+drop table [AcademicCalender]
+drop table session
+
+CREATE TABLE [dbo].[Session] (
+    [SessionGUID] UNIQUEIDENTIFIER    NOT NULL,
+    [SessionYear] INT NOT NULL,
+    [SessionMonth] INT NOT NULL,
+    PRIMARY KEY CLUSTERED ([SessionGUID])
+);
+
 CREATE TABLE [dbo].[AcademicCalender] (
     [AcademicCalenderGUID] UNIQUEIDENTIFIER    NOT NULL,
+    [SessionGUID] UNIQUEIDENTIFIER    NOT NULL,
+    [CalenderName] VARCHAR(100) NOT NULL,
     [CalenderType] VARCHAR(100) NOT NULL,
-    [Year] int NOT NULL,
-    [Sessions] int NOT NULL,
     [SemesterStartDate] DATE NOT NULL,
     [SemesterEndDate] DATE NOT NULL,
-
+    [SemesterStudyDuration] INT NOT NULL,
+    [SemesterExaminationDuration] INT NOT NULL,
+    [SemesterBreakDuration] INT NOT NULL,
+    PRIMARY KEY CLUSTERED ([AcademicCalenderGUID] ASC),
+    CONSTRAINT [fk_session_academicCalender] FOREIGN KEY ([SessionGUID]) REFERENCES [dbo].[Session] ([SessionGUID]),
 );
+
