@@ -1,11 +1,8 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/AllUserSite.Master" AutoEventWireup="true" CodeBehind="KrousExViewAcademicCalendar.aspx.cs" Inherits="Krous_Ex.KrousExViewAcademicCalendar" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/AllUserSite.Master" AutoEventWireup="true" CodeBehind="KrousExViewAcademicCalendar.aspx.cs" Inherits="Krous_Ex.KrousExViewAcademicCalendar" EnableEventValidation="false" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
 
     <link href="Assests/main/css/table.css" rel="stylesheet" />
-
-    <style>
-
-    </style>
+    <link href="Assests/main/css/modern-horizontal/style.css" rel="stylesheet" />
 
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="body" runat="server">
@@ -20,9 +17,16 @@
                                 <div class="row align-items-center">
                                     <div class="col-md-12">
                                         <h4 class="card-title">Academic Calendar</h4>
+                                        <asp:Panel ID="Panel1" runat="server">
                                         <div class="table-responsive">
                                             <asp:Literal ID="litTest" runat="server"></asp:Literal><asp:Table ID="Table1" runat="server"></asp:Table>
                                         </div>
+                                        </asp:Panel>
+                                    </div>
+                                </div>
+                                <div class="row align-items-center">
+                                    <div class="col-md-12">
+                                        <asp:Button ID="btnExport" runat="server" Text="Button" OnClick="btnExport_Click" />
                                     </div>
                                 </div>
                             </div>

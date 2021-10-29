@@ -1,10 +1,12 @@
-﻿using System;
+﻿using iText.Html2pdf;
+using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
 using System.IO;
 using System.Linq;
+using System.Text;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
@@ -57,7 +59,7 @@ namespace Krous_Ex
                         DateTime semExamStartDate = semBreakStartDate.AddDays(-int.Parse(dt.Rows[i]["SemesterExaminationDuration"].ToString()));
                         int x = 1;
 
-                        strTable += "<table class=\"table table-striped mt-3\" style=\"border:2px solid\">";
+                        strTable += "<table class=\"table table-striped mt-3 table-" + i + "\" style=\"border:2px solid\">";
                         strTable += "<thead>";
                         strTable += "<tr>";
                         if (dt.Rows[i]["CalenderType"].ToString() == "DipUnderPost")
@@ -77,7 +79,7 @@ namespace Krous_Ex
                         }
                         strTable += "</tr>";
                         strTable += "<tr>";
-                        strTable += "<th>Week</th>";
+                        strTable += "<th style=\"text-align:center\">Week</th>";
                         strTable += "<th>Date</th>";
                         strTable += "<th>Study Leave</th>";
                         strTable += "<th>Semester Examination</th>";
@@ -88,7 +90,7 @@ namespace Krous_Ex
 
                         for (int j = 0; j < Math.Ceiling(datediff /7); j++)
                         {
-                            strTable += "<tr><td>" + x + "</td><td>" + startDate.ToString("dd MMMM yyyy") + " - " + startDate.AddDays(6).ToString("dd MMMM yyyy") + "</td>";
+                            strTable += "<tr><td style=\"text-align:center\">" + x + "</td><td>" + startDate.ToString("dd MMMM yyyy") + " - " + startDate.AddDays(6).ToString("dd MMMM yyyy") + "</td>";
                             if (dt.Rows[i]["SemesterStudyDuration"].ToString() != "0")
                             {
                                 if (x == 15)
@@ -96,9 +98,12 @@ namespace Krous_Ex
                                     strTable += "<td class=\"text-center\">" + startDate.ToString("dd MMM") + " - " + startDate.AddDays(3).ToString("dd MMM yyyy") + "<br /> (" + dt.Rows[i]["SemesterStudyDuration"].ToString() + " days)" + "</td>";
                                     strTable += "<td class=\"text-center\" rowspan=\"3\">" + semExamStartDate.ToString("dd MMM") + " - " + semExamStartDate.AddDays(int.Parse(dt.Rows[i]["SemesterExaminationDuration"].ToString()) - 1).ToString("dd MMM yyyy") + "<br /> (" + dt.Rows[i]["SemesterExaminationDuration"].ToString() + " days)" + "</td>";
                                 }
-                                else
+                                else if ( x < 15 || x > 17)
                                 {
                                     strTable += "<td></td>";
+                                    strTable += "<td></td>";
+                                } else
+                                {
                                     strTable += "<td></td>";
                                 }
                             }
@@ -148,6 +153,41 @@ namespace Krous_Ex
             }
         }
 
+        public void generatePDF()
+        {
+            string fileName = "Invoice" + DateTime.Now.ToString() + ".pdf";
 
+            Response.Clear();
+            Response.ContentType = "Application/pdf";
+            Response.AddHeader("Content-Disposition", "attachment; filename=" + fileName + ";");
+            HtmlConverter.ConvertToPdf(getPanelHtml(), Response.OutputStream);
+            Response.Flush();
+            Response.Close();
+            Response.End();
+        }
+
+        public string getPanelHtml()
+        {
+            StringBuilder sb = new StringBuilder();
+            StringWriter tw = new StringWriter(sb);
+            HtmlTextWriter hw = new HtmlTextWriter(tw);
+            Panel1.RenderControl(hw);
+            sb.AppendLine("<style>" +
+                " tr td, tr th {border: 0.75px solid} " +
+                "table {width:100%} " +
+                ".table-responsive {display: block;width: 100%;overflow-x: auto;} " +
+                ".table-2 {margin-top: 10px} " +
+                ".table-1 {margin-top: 10px} " +
+                "" +
+                "</style>");
+            var html = sb.ToString();
+
+            return html;
+        }
+
+        protected void btnExport_Click(object sender, EventArgs e)
+        {
+            generatePDF();
+        }
     }
 }
