@@ -157,3 +157,7 @@ table#gvReply td img {
 .dataTables_wrapper .dataTables_filter input {
     background-color: white !important;
 }
+
+.table-striped tbody tr:nth-of-type(odd) td {
+    box-shadow: inset 0 0 0 9999px rgb(0 0 0 / 50%);
+}

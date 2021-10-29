@@ -186,6 +186,33 @@ namespace Krous_Ex
         protected global::System.Web.UI.WebControls.CheckBoxList cbStudentFaculty;
 
         /// <summary>
+        /// Label6 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label Label6;
+
+        /// <summary>
+        /// cbStudentSessionAll control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.CheckBox cbStudentSessionAll;
+
+        /// <summary>
+        /// cbStudentSession control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.CheckBoxList cbStudentSession;
+
+        /// <summary>
         /// panelNotification control.
         /// </summary>
         /// <remarks>

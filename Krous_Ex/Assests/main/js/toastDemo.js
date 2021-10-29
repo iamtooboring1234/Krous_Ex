@@ -11,6 +11,18 @@
       position: 'top-right'
     })
   };
+    showNotificationSentSuccess = function () {
+        'use strict';
+        resetToastPosition();
+        $.toast({
+            heading: 'Success',
+            text: 'Notification is successfully sent to the users.',
+            showHideTransition: 'slide',
+            icon: 'success',
+            loaderBg: '#f96868',
+            position: 'top-right'
+        })
+    };
     showSuccessToast = function () {
     'use strict';
     resetToastPosition();
