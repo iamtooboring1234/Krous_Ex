@@ -34,7 +34,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="form-group pdForm">
+                            <%--    <div class="form-group pdForm">
                                     <div class="row">
                                         <div class="col-md-2 col-form-label">
                                             <asp:Label ID="lblStaffPass" runat="server">Staff Password</asp:Label><span style="color: red;">*</span>
@@ -43,7 +43,7 @@
                                             <asp:TextBox ID="txtPassword" type="password" runat="server" CssClass="form-control" onkeydown="return (event.keyCode!=13);"></asp:TextBox>
                                         </div>
                                     </div>
-                                </div>
+                                </div>--%>
 
                                 <hr style="height: 2px; border-width: 0; color: #f4d47c; background-color: #f4d47c; margin-top: 23px;">
 

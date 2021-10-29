@@ -45,13 +45,14 @@ namespace Krous_Ex
                 String StudentGUID = Request.QueryString["UserGUID"];
                 SqlConnection con = new SqlConnection();
                 SqlCommand cmd = new SqlCommand();
+                string month;
 
                 string strCon = ConfigurationManager.ConnectionStrings["Krous_Ex"].ConnectionString;
                 con = new SqlConnection(strCon);
                 con.Open();
 
                 string loadQuery;
-                loadQuery = "SELECT s.StudentGUID, s.StudentFullName, s.Gender, CONVERT(varchar, s.DOB,1) as DOB, s.PhoneNumber, s.Email, s.NRIC, s.Address, s.ProfileImage, CONVERT(varchar, s.AccountRegisterDate, 1) as DateJoined, s.LastUpdateInfo, CONCAT(f.facultyname, ' ', (f.facultyAbbrv)) AS FacultyName, b.BranchesName, p.ProgrammeName, CONCAT(ss.SessionYear, ss.SessionMonth) AS Session, spr.Status ";
+                loadQuery = "SELECT s.StudentGUID, s.StudentFullName, s.Gender, CONVERT(varchar, s.DOB,1) as DOB, s.PhoneNumber, s.Email, s.NRIC, s.Address, s.ProfileImage, CONVERT(varchar, s.AccountRegisterDate, 1) as DateJoined, s.LastUpdateInfo, CONCAT(f.facultyname, ' ','(', (f.facultyAbbrv),')') AS FacultyName, b.BranchesName, p.ProgrammeName, s.SessionGUID, spr.Status ";
                 loadQuery += "FROM Student s ";
                 loadQuery += "LEFT JOIN Branches b ON s.BranchesGUID = b.BranchesGUID ";
                 loadQuery += "LEFT JOIN Faculty f ON s.FacultyGUID = f.FacultyGUID ";
@@ -79,29 +80,45 @@ namespace Krous_Ex
                     txtAddress.Text = dtStud.Rows[0][7].ToString();
                     txtDateJoined.Text = dtStud.Rows[0][9].ToString();
                     lblUpdateTime.Text = dtStud.Rows[0][10].ToString();
-                    txtFaculty.Text = dtStud.Rows[0][11].ToString();
-                    txtBranch.Text = dtStud.Rows[0][12].ToString();
+                    
+                    //if the staff has approved the student programme registration, then it will only display on the student profile.
+                    if (dtStud.Rows[0][15].ToString() == "Approved")
+                    {
+                        txtFaculty.Text = dtStud.Rows[0][11].ToString();
+                        txtBranch.Text = dtStud.Rows[0][12].ToString();
+                        txtProgramme.Text = dtStud.Rows[0][13].ToString();
 
-                    string test = dtStud.Rows[0][13].ToString();
+                        if (dtStud.Rows[0][14].ToString() != "")
+                        {
+                            con = new SqlConnection(ConfigurationManager.ConnectionStrings["Krous_Ex"].ConnectionString);
+                            con.Open();
+                            SqlCommand GetCommand = new SqlCommand("SELECT * FROM Session WHERE SessionGUID = @SessionGUID ", con);
 
-                    if (dtStud.Rows[0][13].ToString() == "")
+                            GetCommand.Parameters.AddWithValue("@SessionGUID", Guid.Parse(dtStud.Rows[0][14].ToString())); 
+
+                            SqlDataReader reader = GetCommand.ExecuteReader();
+
+                            DataTable dtSession = new DataTable();
+                            dtSession.Load(reader);
+                            con.Close();
+
+                            if (dtSession.Rows.Count != 0)
+                            {
+                                txtProgSession.Text = dtSession.Rows[0]["SessionYear"] + dtSession.Rows[0]["SessionMonth"].ToString().PadLeft(2, '0');
+                            }
+                            else
+                            {
+                                txtProgSession.Text = "N/A";
+                            }
+                        }
+                    } 
+                    else
                     {
                         txtProgramme.Text = "N/A";
-                    } else
-                    {
-                        if (dtStud.Rows[0][15].ToString() == "Approved")
-                        {
-                            txtProgramme.Text = dtStud.Rows[0][13].ToString();
-                        } else
-                        {
-                            txtProgramme.Text = "N/A";
-                        }
-                    }
-  
-
-                    if(dtStud.Rows[0][14].ToString() == "")
-                    {
+                        txtFaculty.Text = "N/A";
+                        txtBranch.Text = "N/A";
                         txtProgSession.Text = "N/A";
+
                     }
 
                     string profileImg = "";

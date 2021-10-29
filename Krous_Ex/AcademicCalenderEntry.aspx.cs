@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
+using System.Globalization;
 using System.Linq;
 using System.Web;
 using System.Web.UI;
@@ -76,7 +77,7 @@ namespace Krous_Ex
             {
                 clsFunction.DisplayAJAXMessage(this, "Unable to insert. Failed to create.");
             }
-           
+
         }
 
         protected void btnBack_Click(object sender, EventArgs e)
@@ -133,7 +134,8 @@ namespace Krous_Ex
 
                 txtSemesterStartDate.Text = DateTime.Today.ToString("dd/MM/yyyy");
                 txtSemesterEndDate.Text = DateTime.Today.AddDays(intDays).ToString("dd/MM/yyyy");
-            } else
+            }
+            else
             {
                 txtSemesterDay.Text = "83";
                 int intDays = int.Parse(txtSemesterDay.Text);
@@ -192,20 +194,22 @@ namespace Krous_Ex
         {
             try
             {
-                DateTime startDate = DateTime.Parse(txtSemesterStartDate.Text);
-                DateTime endDate = DateTime.Parse(txtSemesterEndDate.Text);
+                DateTime startDate = DateTime.ParseExact(txtSemesterStartDate.Text, "dd/MM/yyyy", CultureInfo.InvariantCulture);
+                DateTime endDate = DateTime.ParseExact(txtSemesterEndDate.Text, "dd/MM/yyyy", CultureInfo.InvariantCulture);
                 if (endDate.Subtract(startDate).Days < 0)
                 {
                     clsFunction.DisplayAJAXMessage(this, "Error! End date must be higher than start date.");
                     int Days = int.Parse(txtSemesterDay.Text);
                     CalendarExtender2.SelectedDate = startDate.AddDays(Days);
-                } else
+                }
+                else
                 {
                     txtSemesterDay.Text = endDate.Subtract(startDate).Days.ToString();
                 }
-            } catch (Exception)
+            }
+            catch (Exception ex)
             {
-                clsFunction.DisplayAJAXMessage(this, "Error! Entered is not in date format.");
+                clsFunction.DisplayAJAXMessage(this, ex.Message);
             }
         }
 
@@ -214,11 +218,12 @@ namespace Krous_Ex
             try
             {
                 int Days = int.Parse(txtSemesterDay.Text);
-                DateTime startDate = DateTime.Parse(txtSemesterStartDate.Text);
+                DateTime startDate = DateTime.ParseExact(txtSemesterStartDate.Text, "dd/MM/yyyy", CultureInfo.InvariantCulture);
                 CalendarExtender2.SelectedDate = startDate.AddDays(Days);
-            } catch (Exception)
+            }
+            catch (Exception ex)
             {
-                clsFunction.DisplayAJAXMessage(this, "Error! Entered is not in date format.");
+                clsFunction.DisplayAJAXMessage(this, ex.Message);
             }
         }
     }

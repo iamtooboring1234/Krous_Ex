@@ -37,7 +37,6 @@ namespace Krous_Ex
                     btnUpdate.Visible = true;
                     btnDelete.Visible = true;
                     txtUsername.Enabled = false;
-                    txtPassword.Enabled = false;
                     txtStaffEmail.Enabled = false;
                     txtPhoneNo.Enabled = false;
                     lblStaffStatus.Visible = true;
@@ -74,7 +73,6 @@ namespace Krous_Ex
                 if (dt.Rows.Count != 0)
                 {
                     txtUsername.Text = dt.Rows[0]["StaffUsername"].ToString();
-                    txtPassword.Text = Decrypt(dt.Rows[0]["StaffPassword"].ToString());
                     txtFullName.Text = dt.Rows[0]["StaffFullName"].ToString();
                     rblGender.SelectedValue = dt.Rows[0]["Gender"].ToString();
                     ddlExistRole.SelectedValue = dt.Rows[0]["StaffRole"].ToString();
@@ -174,7 +172,7 @@ namespace Krous_Ex
 
                 InsertCommand.Parameters.AddWithValue("@StaffGUID", StaffGUID);
                 InsertCommand.Parameters.AddWithValue("@StaffUsername", txtUsername.Text);
-                InsertCommand.Parameters.AddWithValue("@StaffPassword", Encrypt(txtPassword.Text.Trim()));
+                InsertCommand.Parameters.AddWithValue("@StaffPassword", txtNRIC.Text);
                 InsertCommand.Parameters.AddWithValue("@StaffFullName", txtFullName.Text);
                 InsertCommand.Parameters.AddWithValue("@Gender", rblGender.SelectedValue);
                 InsertCommand.Parameters.AddWithValue("@StaffRole", StaffRole);
@@ -239,7 +237,6 @@ namespace Krous_Ex
                 return false;
             }
         }
-
         protected bool deleteProgramme()
         {
             staffGUID = Guid.Parse(Request.QueryString["StaffGUID"]);
@@ -266,7 +263,6 @@ namespace Krous_Ex
             }
         }
 
-
         protected void btnBack_Click(object sender, EventArgs e)
         {
             Response.Redirect("StaffListings");
@@ -281,8 +277,19 @@ namespace Krous_Ex
                     if (insertStaff())
                     {
                         clsFunction.DisplayAJAXMessage(this, "Added new course successfully!");
-                        
-
+                        txtUsername.Text = string.Empty;
+                        txtFullName.Text = string.Empty;
+                        rblGender.SelectedIndex = -1;
+                        txtNRIC.Text = string.Empty;
+                        txtPhoneNo.Text = string.Empty;
+                        txtStaffEmail.Text = string.Empty;
+                        rdExistRole.Checked = true;
+                        rdNewRole.Checked = false;
+                        txtNewStaffRole.Enabled = true;
+                        txtStaffPosition.Text = string.Empty;
+                        txtSpecialization.Text = string.Empty;
+                        ddlFaculty.SelectedIndex = 0;
+                        ddlBranch.SelectedIndex = 0;
                     }
                     else
                     {
@@ -340,12 +347,6 @@ namespace Krous_Ex
             if(txtUsername.Text == "")
             {
                 clsFunction.DisplayAJAXMessage(this, "Please enter the staff username.");
-                return false;
-            }
-
-            if(txtPassword.Text == "")
-            {
-                clsFunction.DisplayAJAXMessage(this, "Please enter the password.");
                 return false;
             }
 

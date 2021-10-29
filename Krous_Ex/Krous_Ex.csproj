@@ -1139,6 +1139,7 @@
     <Content Include="RegisterAcc.aspx" />
     <Content Include="ResetPassword.aspx" />
     <Content Include="Scripts\fullpage.js" />
+    <Content Include="ClassDiagram1.cd" />
     <None Include="Scripts\jquery-3.6.0.intellisense.js" />
     <Content Include="Scripts\jquery-3.6.0.js" />
     <Content Include="Scripts\jquery-3.6.0.min.js" />
