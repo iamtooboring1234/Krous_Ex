@@ -15,6 +15,10 @@
             padding-left: 50px;
         }
 
+        .form-check table.form-check-input {
+            margin-left: 0 !important;
+        }
+
         .form-check table.form-check-input tbody tr td input {
             width: 1em;
             height: 1em;
@@ -55,12 +59,16 @@
                                         <div class="col-md-2 col-form-label">
                                             <asp:Label ID="Label3" runat="server">Who to notify?</asp:Label>
                                         </div>
-                                        <div class="col-md-8 justify-content-center d-flex form-check p-0 m-0">
+                                        <div class="col-md-8 form-check p-0 m-0">
+                                            <div class="row justify-content-center">
+                                                <div class="col-md-8">
                                             <asp:RadioButtonList ID="radNotificationType" runat="server" CssClass="form-check-input mt-0" RepeatDirection="Horizontal" AutoPostBack="True" OnSelectedIndexChanged="radNotificationType_SelectedIndexChanged">
                                                 <asp:ListItem Selected="True" Value="1">All</asp:ListItem>
                                                 <asp:ListItem Value="2">Staff</asp:ListItem>
                                                 <asp:ListItem Value="3">Student</asp:ListItem>
                                             </asp:RadioButtonList>
+                                                </div>
+                                                </div>
                                         </div>
                                     </div>
                                 </div>
@@ -151,17 +159,17 @@
                                         </div>
                                     </div>
 
-                                    <%--<div class="form-group pdForm">
+                                    <div class="form-group pdForm">
                                         <div class="row justify-content-center">
                                             <div class="col-md-2 col-form-label">
-                                                <asp:Label ID="Label6" runat="server">Staff Role </asp:Label><span style="color: red;">*</span>
+                                                <asp:Label ID="Label6" runat="server">Session </asp:Label><span style="color: red;">*</span>
                                             </div>
                                             <div class="col-md-8 form-check-checkbox">
                                                 <asp:CheckBox ID="cbStudentSessionAll" runat="server" OnCheckedChanged="cbStudentSessionAll_CheckedChanged" AutoPostBack="true" Text="All" CssClass="form-check-all"/> 
                                                 <asp:CheckBoxList ID="cbStudentSession" runat="server" OnSelectedIndexChanged="cbStudentSession_SelectedIndexChanged" AutoPostBack="true"></asp:CheckBoxList>
                                             </div>
                                         </div>
-                                    </div>--%>
+                                    </div>
                                 </div>
                             </div>
                         </asp:Panel>
@@ -209,5 +217,7 @@
             </div>
         </div>
     </div>
+
+    <script src="Assests/main/js/toastDemo.js"></script>
 
 </asp:Content>
