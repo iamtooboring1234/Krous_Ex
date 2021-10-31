@@ -36,9 +36,9 @@
                 <div class="panel-body">
                     <div class="form-horizontal">
                         <div class="form-group pdForm">
-                            <div class="row">
+                            <div class="row justify-content-center">
                                 <div class="col-md-2 col-form-label">
-                                    <asp:Label ID="Label3" runat="server">Programme Category</asp:Label><span style="color: red;">*</span>
+                                    <asp:Label ID="Label3" runat="server">Programme Category </asp:Label><span style="color: red;">*</span>
                                 </div>
                                 <div class="col-md-8">
                                     <asp:DropDownList ID="ddlProgrammCategory" runat="server" CssClass="form-control" OnSelectedIndexChanged="ddlProgrammCategory_SelectedIndexChanged" AutoPostBack="true"></asp:DropDownList>
@@ -46,9 +46,9 @@
                             </div>
                         </div>
                         <div class="form-group pdForm">
-                            <div class="row">
+                            <div class="row justify-content-center">
                                 <div class="col-md-2 col-form-label">
-                                    <asp:Label ID="Label1" runat="server">Programme Name</asp:Label><span style="color: red;">*</span>
+                                    <asp:Label ID="Label1" runat="server">Programme Name </asp:Label><span style="color: red;">*</span>
                                 </div>
                                 <div class="col-md-8">
                                     <asp:DropDownList ID="ddlProgramme" runat="server" CssClass="form-control" Enabled="false" OnSelectedIndexChanged="ddlProgramme_SelectedIndexChanged" AutoPostBack="true"></asp:DropDownList>
@@ -56,13 +56,27 @@
                             </div>
                         </div>
                         <div class="form-group pdForm">
-                            <div class="row">
+                            <div class="row justify-content-center">
                                 <div class="col-md-2 col-form-label">
-                                    <asp:Label ID="Label2" runat="server">Semester</asp:Label><span style="color: red;">*</span>
-
+                                    <asp:Label ID="Label2" runat="server">Semester </asp:Label><span style="color: red;">*</span>
                                 </div>
                                 <div class="col-md-8">
                                     <asp:DropDownList ID="ddlSemester" runat="server" CssClass="form-control" Enabled="false" OnSelectedIndexChanged="ddlSemester_SelectedIndexChanged" AutoPostBack="true"></asp:DropDownList>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group pdForm">
+                            <div class="row justify-content-center">
+                                <div class="col-md-2 col-form-label">
+                                    <asp:Label ID="Label4" runat="server">Session </asp:Label><span style="color: red;">*</span>
+                                </div>
+                                <div class="col-md-8">
+                                    <asp:DropDownList ID="ddlSessionMonth" runat="server" CssClass="form-control" Enabled="false" OnSelectedIndexChanged="ddlSessionMonth_SelectedIndexChanged" AutoPostBack="true">
+                                        <asp:ListItem Text="" Value=""></asp:ListItem>
+                                        <asp:ListItem Text="01" Value="1"></asp:ListItem>
+                                        <asp:ListItem Text="05" Value="5"></asp:ListItem>
+                                        <asp:ListItem Text="09" Value="9"></asp:ListItem>
+                                    </asp:DropDownList>
                                 </div>
                             </div>
                         </div>

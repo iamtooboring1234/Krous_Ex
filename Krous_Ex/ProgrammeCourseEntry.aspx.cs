@@ -355,6 +355,7 @@ namespace Krous_Ex
                 ddlSemester.SelectedIndex = 0;
                 ddlProgramme.Enabled = true;
                 ddlSemester.Enabled = true;
+                ddlSessionMonth.Enabled = true;
                 gvCourse.DataSource = null;
                 gvCourse.DataBind();
                 litStep2.Text = "<p class=\"card-description\"><strong>Please select all dropdown list from step 1.</strong></p>";
@@ -365,13 +366,14 @@ namespace Krous_Ex
                 gvCourse.DataBind();
                 ddlProgramme.Enabled = false;
                 ddlSemester.Enabled = false;
+                ddlSessionMonth.Enabled = false;
                 litStep2.Text = "<p class=\"card-description\"><strong>Please select all dropdown list from step 1.</strong></p>";
             }
         }
 
         protected void ddlSemester_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (ddlSemester.SelectedValue != "" && ddlProgramme.SelectedValue != "" && ddlProgrammCategory.SelectedValue != "")
+            if (ddlSemester.SelectedValue != "" && ddlProgramme.SelectedValue != "" && ddlProgrammCategory.SelectedValue != "" && ddlSessionMonth.SelectedValue != "")
             {
                 litStep2.Text = "<p class=\"card-description\"><strong>Step 2:</strong> Select course</p>";
                 if (!checkDuplicateSemsCourse())
@@ -395,7 +397,7 @@ namespace Krous_Ex
 
         protected void ddlProgramme_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (ddlProgramme.SelectedValue != "" && ddlSemester.SelectedValue != "" && ddlProgrammCategory.SelectedValue != "")
+            if (ddlProgramme.SelectedValue != "" && ddlSemester.SelectedValue != "" && ddlProgrammCategory.SelectedValue != "" && ddlSessionMonth.SelectedValue != "")
             {
                 litStep2.Text = "<p class=\"card-description\"><strong>Step 2:</strong> Select course</p>";
                 if (!checkDuplicateSemsCourse())
@@ -422,7 +424,8 @@ namespace Krous_Ex
         {
             string sqlQuery = "SELECT * FROM ProgrammeCourse ";
             sqlQuery += "WHERE CASE WHEN @ProgrammeGUID = '' THEN @ProgrammeGUID ELSE ProgrammeGUID END = @ProgrammeGUID AND ";
-            sqlQuery += "CASE WHEN @SemesterGUID = '' then @SemesterGUID ELSE SemesterGUID END = @SemesterGUID ";
+            sqlQuery += "CASE WHEN @SemesterGUID = '' then @SemesterGUID ELSE SemesterGUID END = @SemesterGUID AND ";
+            sqlQuery += "CASE WHEN @SessionMonth = '' then @SessionMonth ELSE SessionMonth END = @SessionMonth ";
 
             try
             {
@@ -433,6 +436,7 @@ namespace Krous_Ex
 
                 GetCommand.Parameters.AddWithValue("@ProgrammeGUID", ddlProgramme.SelectedValue);
                 GetCommand.Parameters.AddWithValue("@SemesterGUID", ddlSemester.SelectedValue);
+                GetCommand.Parameters.AddWithValue("@SessionMonth", ddlSessionMonth.SelectedValue);
 
                 SqlDataReader reader = GetCommand.ExecuteReader();
                 DataTable dtCourse = new DataTable();
@@ -465,13 +469,13 @@ namespace Krous_Ex
                 SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["Krous_Ex"].ConnectionString);
                 con.Open();
 
-                sqlQuery = "INSERT INTO ProgrammeCourse (ProgrammeCourseGUID, CourseGUID, SemesterGUID, ProgrammeGUID) VALUES ";
+                sqlQuery = "INSERT INTO ProgrammeCourse (ProgrammeCourseGUID, CourseGUID, SemesterGUID, ProgrammeGUID, SessionMonth) VALUES ";
 
                 int countRow = 1;
 
                 foreach (GridViewRow row in gvSelectedCourse.Rows)
                 {
-                    sqlQuery += "(NEWID(), '" + row.Cells[1].Text + "', @SemesterGUID, @ProgrammeGUID)";
+                    sqlQuery += "(NEWID(), '" + row.Cells[1].Text + "', @SemesterGUID, @ProgrammeGUID, @SessionMonth) ";
                     if (countRow != gvSelectedCourse.Rows.Count)
                     {
                         sqlQuery += ",";
@@ -490,6 +494,7 @@ namespace Krous_Ex
 
                 InsertCommand.Parameters.AddWithValue("@SemesterGUID", ddlSemester.SelectedValue);
                 InsertCommand.Parameters.AddWithValue("@ProgrammeGUID", ddlProgramme.SelectedValue);
+                InsertCommand.Parameters.AddWithValue("@SessionMonth", ddlSessionMonth.SelectedValue);
 
                 InsertCommand.ExecuteNonQuery();
 
@@ -519,7 +524,8 @@ namespace Krous_Ex
         private bool IsExistInProgCourse()
         {
             string sqlQuery = "SELECT C.CourseName, CourseAbbrv FROM ProgrammeCourse P, Course C ";
-            sqlQuery += "WHERE P.CourseGUID = C.CourseGUID AND P.CourseGUID = @CourseGUID ";
+            sqlQuery += "WHERE P.CourseGUID = C.CourseGUID AND P.CourseGUID = @CourseGUID AND ";
+            sqlQuery += "P.SessionMonth = @SessionMonth ";
             DataTable dtCourse = new DataTable();
             string message = "";
 
@@ -531,6 +537,7 @@ namespace Krous_Ex
                 SqlCommand GetCommand = new SqlCommand(sqlQuery, con);
 
                 GetCommand.Parameters.Add("@CourseGUID", SqlDbType.NVarChar);
+                GetCommand.Parameters.AddWithValue("@SessionMonth", ddlSessionMonth.SelectedValue);
 
                 foreach (GridViewRow row in gvSelectedCourse.Rows)
                 {
@@ -564,6 +571,31 @@ namespace Krous_Ex
             {
                 clsFunction.DisplayAJAXMessage(this, ex.Message);
                 return false;
+            }
+        }
+
+        protected void ddlSessionMonth_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (ddlProgramme.SelectedValue != "" && ddlSemester.SelectedValue != "" && ddlProgrammCategory.SelectedValue != "" && ddlSessionMonth.SelectedValue != "")
+            {
+                litStep2.Text = "<p class=\"card-description\"><strong>Step 2:</strong> Select course</p>";
+                if (!checkDuplicateSemsCourse())
+                {
+                    loadGV();
+                }
+                else
+                {
+                    litStep2.Text = "<p class=\"card-description\"><strong>Please change session.</strong></p>";
+                    clsFunction.DisplayAJAXMessage(this, "Have existing record. Please go listings to manage it.");
+                    gvCourse.DataSource = null;
+                    gvCourse.DataBind();
+                }
+            }
+            else
+            {
+                litStep2.Text = "<p class=\"card-description\"><strong>Please select all dropdown list from step 1.</strong></p>";
+                gvCourse.DataSource = null;
+                gvCourse.DataBind();
             }
         }
     }

@@ -87,7 +87,7 @@ namespace Krous_Ex
                         strTable += "<td class=\"text-center\" align=\"center\" style=\"width:120px;\">";
                         strTable += "<a href=\"KrousExViewDiscussion.aspx?DiscGUID=" + dtDisc.Rows[i]["DiscGUID"] + "\">View</a>";
                         strTable += "</td>";
-                        if (dtDisc.Rows[i]["DiscIsPinned"].ToString() == "Yes") { strTable += "<td><a href=\"KrousExViewDiscussion.aspx?DiscGUID=" + dtDisc.Rows[i]["DiscGUID"] + "\">" + dtDisc.Rows[i]["DiscTopic"] + "<i class=\"fas fa-thumbtack pl-2\" style=\"color:yellow\"></i></a></td>"; } else { strTable += "<td><a href=\"DiscussionEntry.aspx?ForumGUID=" + dtDisc.Rows[i]["DiscGUID"] + "\">" + dtDisc.Rows[i]["DiscTopic"] + "</a></td>"; }
+                        if (dtDisc.Rows[i]["DiscIsPinned"].ToString() == "Yes") { strTable += "<td><a href=\"KrousExViewDiscussion.aspx?DiscGUID=" + dtDisc.Rows[i]["DiscGUID"] + "\">" + dtDisc.Rows[i]["DiscTopic"] + "<i class=\"fas fa-thumbtack pl-2\" style=\"color:yellow\"></i></a></td>"; } else { strTable += "<td><a href=\"KrousExViewDiscussion.aspx?DiscGUID=" + dtDisc.Rows[i]["DiscGUID"] + "\">" + dtDisc.Rows[i]["DiscTopic"] + "</a></td>"; }
                         strTable += "<td style=\"width:20px;text-align:center\">" + dtDisc.Rows[i]["TotalReply"] + "</td>";
                         strTable += "<td style=\"width:20px\">by " + dtDisc.Rows[i]["DiscCreatedBy"] + "<br/>" + dtDisc.Rows[i]["CreatedDate"] + "</td>";
                         if (String.IsNullOrEmpty(dtDisc.Rows[i]["LastReplyDate"].ToString()))

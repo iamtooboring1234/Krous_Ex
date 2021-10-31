@@ -7,7 +7,7 @@ using System.Web.UI.WebControls;
 
 namespace Krous_Ex
 {
-    public partial class ChatView : System.Web.UI.Page
+    public partial class FAQChatView : System.Web.UI.Page
     {
         protected void Page_Load(object sender, EventArgs e)
         {

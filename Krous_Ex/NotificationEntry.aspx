@@ -68,7 +68,7 @@
                                                 <asp:ListItem Value="3">Student</asp:ListItem>
                                             </asp:RadioButtonList>
                                                 </div>
-                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>

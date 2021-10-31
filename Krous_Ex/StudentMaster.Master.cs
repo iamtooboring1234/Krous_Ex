@@ -17,6 +17,7 @@ namespace Krous_Ex
             if (myCookie != null)
             {
                 litLogonName.Text = clsLogin.GetLoginUserName();
+                imgProfile.ImageUrl = clsLogin.GetUserImage();
             }
             else
             {

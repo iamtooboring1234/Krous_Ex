@@ -27,6 +27,9 @@
     <!-- End layout styles -->
 
     <script src="Scripts/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-toast-plugin/1.3.2/jquery.toast.min.js" integrity="sha512-zlWWyZq71UMApAjih4WkaRpikgY9Bz1oXIW5G0fED4vk14JjGlQ1UmkGM392jEULP8jbNMiwLWdM8Z87Hu88Fw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-toast-plugin/1.3.2/jquery.toast.min.css" integrity="sha512-wJgJNTBBkLit7ymC6vvzM1EcSWeM9mmOu+1USHaRBbHkm6W9EgM0HY27+UtUaprntaYQJF75rc8gjxllKs5OIQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
     <asp:ContentPlaceHolder ID="head" runat="server">
     </asp:ContentPlaceHolder>
 
@@ -55,9 +58,9 @@
             <nav class="sidebar sidebar-offcanvas" id="sidebar">
                 <div class="sidebar-brand-wrapper d-none d-lg-flex align-items-center justify-content-center fixed-top">
                     <a class="sidebar-brand brand-logo" href="Homepage">
-                        <img src="Assests/main/images/logo.svg" alt="logo" /></a>
+                        <img src="Assests/main/img/logo.jpg" /></a>
                     <a class="sidebar-brand brand-logo-mini" href="Homepage">
-                        <img src="Assests/main/images/logo-mini.svg" alt="logo" /></a>
+                        <img src="Assests/main/img/mini_logo.jpg" /></a>
                 </div>
                 <ul class="nav">
                     <li class="nav-item profile">
@@ -375,7 +378,7 @@
                             <li class="nav-item dropdown">
                                 <a class="nav-link" id="profileDropdown" href="#" data-toggle="dropdown">
                                     <div class="navbar-profile">
-                                        <img class="img-xs rounded-circle" src="Assests/main/images/faces/face15.jpg" alt="">
+                                        <asp:Image ID="imgProfile" runat="server" CssClass="img-xs rounded-circle" />
                                         <p class="mb-0 d-none d-sm-block navbar-profile-name">
                                             <asp:Literal ID="litLogonName" runat="server"></asp:Literal></p>
                                         <i class="mdi mdi-menu-down d-none d-sm-block"></i>
@@ -428,7 +431,7 @@
     </form>
     <!-- plugins:js -->
     <%--<script src="Assests/main/vendors/js/vendor.bundle.base.js"></script>--%>
-    <script src="Assests/main/js/bootstrap.min.js"></script>
+    <script src="Scripts/bootstrap.bundle.js"></script>
     <!-- endinject -->
     <!-- Plugin js for this page -->
     <script src="Assests/main/vendors/chart.js/Chart.min.js"></script>

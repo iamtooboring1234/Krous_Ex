@@ -11,8 +11,17 @@ namespace Krous_Ex
 {
 
 
-    public partial class KrousExViewAcademicCalendar
+    public partial class StudentProgrammeStructure
     {
+
+        /// <summary>
+        /// lblFAQEntry control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblFAQEntry;
 
         /// <summary>
         /// Panel1 control.
@@ -24,21 +33,12 @@ namespace Krous_Ex
         protected global::System.Web.UI.WebControls.Panel Panel1;
 
         /// <summary>
-        /// litTable control.
+        /// litTest control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Literal litTable;
-
-        /// <summary>
-        /// btnExport control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnExport;
+        protected global::System.Web.UI.WebControls.Literal litTest;
     }
 }

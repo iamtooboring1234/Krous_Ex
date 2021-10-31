@@ -19,7 +19,7 @@
                                         <h4 class="card-title">Academic Calendar</h4>
                                         <asp:Panel ID="Panel1" runat="server">
                                         <div class="table-responsive">
-                                            <asp:Literal ID="litTest" runat="server"></asp:Literal><asp:Table ID="Table1" runat="server"></asp:Table>
+                                            <asp:Literal ID="litTable" runat="server"></asp:Literal>
                                         </div>
                                         </asp:Panel>
                                     </div>

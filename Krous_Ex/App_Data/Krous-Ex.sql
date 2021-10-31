@@ -297,17 +297,22 @@ CREATE TABLE [Timetable_Course] (
 	CONSTRAINT fk_course_timetable_course FOREIGN KEY (CourseGUID) REFERENCES Course(CourseGUID),
 );
 
-CREATE TABLE [GroupList] (
-	[GroupListGUID] UNIQUEIDENTIFIER NOT NULL,
-	[CourseID] char(10) NOT NULL,
-	[StaffGUID] UNIQUEIDENTIFIER NOT NULL,
-	[Timetable_CourseGUID] UNIQUEIDENTIFIER NOT NULL,
-	[GroupNo] int NOT NULL,
-    CONSTRAINT pk_group_list PRIMARY KEY (GroupListGUID),
-	CONSTRAINT fk_course_group_list FOREIGN KEY (CourseGUID) REFERENCES Course(CourseGUID),
-	CONSTRAINT fk_staff_group_list FOREIGN KEY (StaffGUID) REFERENCES Staff(StaffGUID),
-	CONSTRAINT fk_timetable_course_group_list FOREIGN KEY (Timetable_CourseGUID) REFERENCES Timetable_Course(Timetable_CourseGUID),
+CREATE TABLE [GroupStudentList] (
+	[GroupStudentListGUID] UNIQUEIDENTIFIER NOT NULL,
+    [GroupGUID] UNIQUEIDENTIFIER NOT NULL,
+    [StudentGUID] UNIQUEIDENTIFIER NOT NULL,
+    CONSTRAINT [pk_groupStudentList] PRIMARY KEY CLUSTERED ([GroupStudentListGUID] ASC),
+    CONSTRAINT [fk_group_groupStudentList] FOREIGN KEY ([GroupGUID]) REFERENCES [dbo].[Group] ([GroupGUID]),
+    CONSTRAINT [fk_student_groupStudentList] FOREIGN KEY ([StudentGUID]) REFERENCES [dbo].[Student] ([StudentGUID])
 );
+
+CREATE TABLE [GROUP] (
+    [GroupGUID] UNIQUEIDENTIFIER NOT NULL,
+    [GroupNo] INT NOT NULL,
+    [GroupCapacity] INT NOT NULL,
+    CONSTRAINT [pk_group] PRIMARY KEY CLUSTERED ([GroupGUID] ASC),
+);
+
 
 CREATE TABLE [Attendance] (
 	[AttendanceGUID] UNIQUEIDENTIFIER NOT NULL,
@@ -355,10 +360,11 @@ CREATE TABLE [dbo].[Notification] (
 );
 
 CREATE TABLE [dbo].[ProgrammeCourse] (
-    [ProgrammeCourseGUID]         UNIQUEIDENTIFIER    NOT NULL,
-    [CourseGUID]               UNIQUEIDENTIFIER     NOT NULL,
-    [SemesterGUID]   UNIQUEIDENTIFIER        NOT NULL,
-    [ProgrammeGUID]     UNIQUEIDENTIFIER         NOT NULL,
+    [ProgrammeCourseGUID]   UNIQUEIDENTIFIER    NOT NULL,
+    [CourseGUID]            UNIQUEIDENTIFIER    NOT NULL,
+    [SemesterGUID]          UNIQUEIDENTIFIER    NOT NULL,
+    [ProgrammeGUID]         UNIQUEIDENTIFIER    NOT NULL,
+    [SessionMonth]          INT                 NOT NULL,
     PRIMARY KEY CLUSTERED ([ProgrammeCourseGUID] ASC),
     CONSTRAINT [fk_course_progCourse] FOREIGN KEY ([CourseGUID]) REFERENCES [dbo].[Course] ([CourseGUID]),
     CONSTRAINT [fk_semester_progCourse] FOREIGN KEY ([SemesterGUID]) REFERENCES [dbo].[Semester] ([SemesterGUID]),
@@ -386,3 +392,10 @@ CREATE TABLE [dbo].[AcademicCalender] (
     CONSTRAINT [fk_session_academicCalender] FOREIGN KEY ([SessionGUID]) REFERENCES [dbo].[Session] ([SessionGUID]),
 );
 
+CREATE TABLE [SemesterSessionStudent] (
+    [SemesterSessionStudentGUID] UNIQUEIDENTIFIER NOT NULL,
+    [SemesterGUID] UNIQUEIDENTIFIER NOT NULL,
+    [SessionGUID] UNIQUEIDENTIFIER NOT NULL,
+    [StudentGUID] UNIQUEIDENTIFIER NOT NULL,
+    CONSTRAINT [pk_group] PRIMARY KEY CLUSTERED ([GroupGUID] ASC),
+);

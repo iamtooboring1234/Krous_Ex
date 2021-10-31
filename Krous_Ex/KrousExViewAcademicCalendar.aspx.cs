@@ -17,10 +17,13 @@ namespace Krous_Ex
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-            loadIntake();
+            if (IsPostBack != true)
+            {
+                loadCalendar();
+            }
         }
 
-        private void loadIntake()
+        private void loadCalendar()
         {
             try
             {
@@ -138,7 +141,7 @@ namespace Krous_Ex
                         strTable += "</table>";
                     }
 
-                    litTest.Text = strTable;
+                    litTable.Text = strTable;
 
                 }
                 else
