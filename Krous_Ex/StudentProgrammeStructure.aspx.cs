@@ -27,9 +27,9 @@ namespace Krous_Ex
                 string sqlQuery;
                 string strTable = "";
 
-                sqlQuery = "SELECT ss.SessionMonth FROM Student S, Session SS WHERE SS.SessionGUID = S.SessionGUID AND S.SessionGUID = '5da74545-0324-4006-9198-f1a23c26cdd2' ";
+                sqlQuery = "SELECT ss.SessionMonth FROM Student S, Session SS WHERE SS.SessionGUID = S.SessionGUID AND S.SessionGUID = '4b45bed0-7615-4190-a71c-55347cbfa0ea' ";
 
-                //4b45bed0-7615-4190-a71c-55347cbfa0ea 202009
+                // 202009
                 //5da74545-0324-4006-9198-f1a23c26cdd2 202005
 
                 SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["Krous_Ex"].ConnectionString);
@@ -44,7 +44,7 @@ namespace Krous_Ex
 
                 if(dtFirst.Rows.Count != 0 )
                 {
-                    if (dtFirst.Rows[0]["SessionMonth"].ToString() == "5")
+                    if (dtFirst.Rows[0]["SessionMonth"].ToString() == "1" || dtFirst.Rows[0]["SessionMonth"].ToString() == "5" || dtFirst.Rows[0]["SessionMonth"].ToString() == "9")
                     {
                         sqlQuery = "SELECT * FROM Semester ORDER BY SemesterYear, SemesterSem ";
 
@@ -59,7 +59,7 @@ namespace Krous_Ex
                         con.Close();
 
                         int lastYear = 1;
-                        int sameSemester = 1;
+                        int lastSemester = 1;
                         int ttlCredit = 0;
                         bool isNewYear = true;
                         bool isNewSemester = true;
@@ -83,8 +83,16 @@ namespace Krous_Ex
                             dtThird.Load(reader);
                             con.Close();
 
+                            if (lastYear != int.Parse(dtSecond.Rows[i]["SemesterYear"].ToString()))
+                            {
+                                isNewYear = true;
+                                lastYear = int.Parse(dtSecond.Rows[i]["SemesterYear"].ToString());
+                            }
+
                             for (int j = 0; j < dtThird.Rows.Count; j++)
                             {
+                                lastSemester = int.Parse(dtSecond.Rows[i]["SemesterSem"].ToString());
+
                                 if (dtThird.Rows[j]["CourseGUID"].ToString() != null && isNewYear) {
                                     strTable += "<tr>";
                                     strTable += "<td colspan=\"3\"><strong>Year " + dtSecond.Rows[i]["SemesterYear"] + "</strong></td>";
@@ -124,40 +132,23 @@ namespace Krous_Ex
                                     ttlCredit = 0;
                                 }
 
-                                if (i + 1 < dtSecond.Rows.Count)
+                                if (dtThird.Rows.Count > 1 && lastYear == int.Parse(dtThird.Rows[j]["SemesterYear"].ToString()))
                                 {
-                                    lastYear = int.Parse(dtSecond.Rows[i + 1]["SemesterYear"].ToString());
-                                }
-
-                                
-                                if (lastYear != int.Parse(dtThird.Rows[j]["SemesterYear"].ToString()))
-                                {
-                                    isNewYear = true;
-                                }
-                                else
+                                    isNewYear = false;
+                                } else if (lastYear == int.Parse(dtThird.Rows[j]["SemesterYear"].ToString()))
                                 {
                                     isNewYear = false;
                                 }
-                                
 
-                                if (j + 1 < dtThird.Rows.Count)
+                                if (dtThird.Rows.Count > 1 && lastSemester == int.Parse(dtThird.Rows[j]["SemesterSem"].ToString()))
                                 {
-                                    if (sameSemester != int.Parse(dtThird.Rows[j + 1]["SemesterSem"].ToString()))
-                                    {
-                                        isNewSemester = true;
-                                    }
-                                    else
-                                    {
-                                        isNewSemester = false;
-                                    }
-                                } else
-                                {
-                                    isNewSemester = true;
+                                    isNewSemester = false;
                                 }
 
                             }
 
-                            
+                            isNewSemester = true;
+                            lastYear = int.Parse(dtSecond.Rows[i]["SemesterYear"].ToString());
                         }
                         strTable += "</tr>";
                     }
