@@ -20,7 +20,6 @@
 
                         <hr />
                         <ul>
-                            <li>Students are only allowed to choose one programme available to register.</li>
                             <li>Students are required to upload and submit the relevent documents</li>
                             <ul>
                                 <li>Copy of MyKad (Front & Back)</li>
@@ -36,50 +35,33 @@
         </div>
     </div>
 
-    <div class="col-lg-12 mt-3">
+  <div class="col-lg-12 mt-3">
         <div class="card">
             <div class="card-body">
                 <div class="row">
                     <div class="col-md-12">
-                        <p class="card-description"><strong>Step 1:</strong> Select the programme available</p>
+                        <p class="card-description"><strong>Step 1:</strong> Select Programme</p>
                     </div>
                 </div>
                 <div class="panel-body">
                     <div class="form-horizontal">
-                        <div class="row">
-                            <div class="col-12 col-sm-3">
-                                <ul class="nav nav-tabs nav-tabs-vertical" role="tablist">
-                                    <li class="nav-item">
-                                        <a class="nav-link active" id="foundation-tab" data-toggle="tab" href="#foundation" role="tab" aria-controls="home" aria-selected="true">Foundation</a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a class="nav-link" id="diploma-tab" data-toggle="tab" href="#diploma" role="tab" aria-controls="profile" aria-selected="false">Diploma</a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a class="nav-link" id="degree-tab" data-toggle="tab" href="#degree" role="tab" aria-controls="profile" aria-selected="false">Bachelor Degree</a>
-                                    </li>
-                                </ul>
+                        <div class="form-group pdForm">
+                            <div class="row">
+                                <div class="col-md-2 col-form-label">
+                                    <asp:Label ID="Label6" runat="server">Programme Category</asp:Label><span style="color: red;">*</span>
+                                </div>
+                                <div class="col-md-8">
+                                    <asp:DropDownList ID="ddlProgrammCategory" runat="server" CssClass="form-control" AutoPostBack="true" OnSelectedIndexChanged="ddlProgrammCategory_SelectedIndexChanged"></asp:DropDownList>
+                                </div>
                             </div>
-                            <div class="col-12 col-sm-8">
-                                <div class="tab-content tab-content-vertical">
-
-                                    <div class="tab-pane fade show active" id="foundation" role="tabpanel" aria-labelledby="foundation-tab">
-                                        <p class="card-description">The following list the available for <strong>Foundation Programme </strong>(Choose one only)</p>
-                                        <asp:RadioButtonList ID="rblFoundation" runat="server" CssClass="rdBtn" OnSelectedIndexChanged="rblFoundation_SelectedIndexChanged1">
-                                        </asp:RadioButtonList>
-
-                                    </div>
-                                    <div class="tab-pane fade" id="diploma" role="tabpanel" aria-labelledby="diploma-tab">
-                                        <p class="card-description">The following list the available for <strong>Diploma Programme </strong>(Choose one only)</p>
-                                        <asp:RadioButtonList ID="rblDiploma" runat="server" CssClass="rdBtn" OnSelectedIndexChanged="rblDiploma_SelectedIndexChanged1">
-                                        </asp:RadioButtonList>
-                                    </div>
-
-                                    <div class="tab-pane fade" id="degree" role="tabpanel" aria-labelledby="degree-tab">
-                                        <p class="card-description">The following list the available for <strong>Bachelor Programme </strong>(Choose one only)</p>
-                                        <asp:RadioButtonList ID="rblDegree" runat="server" CssClass="rdBtn" OnSelectedIndexChanged="rblDegree_SelectedIndexChanged1">
-                                        </asp:RadioButtonList>
-                                    </div>
+                        </div>
+                        <div class="form-group pdForm">
+                            <div class="row">
+                                <div class="col-md-2 col-form-label">
+                                    <asp:Label ID="Label7" runat="server">Programme Name</asp:Label><span style="color: red;">*</span>
+                                </div>
+                                <div class="col-md-8">
+                                    <asp:DropDownList ID="ddlProgramme" runat="server" CssClass="form-control" Enabled="false" AutoPostBack="true" OnSelectedIndexChanged="ddlProgramme_SelectedIndexChanged"></asp:DropDownList>
                                 </div>
                             </div>
                         </div>
@@ -94,17 +76,17 @@
             <div class="card-body">
                 <div class="row">
                     <div class="col-md-12">
-                        <p class="card-description"><strong>Step 1:</strong> Select the session joined available</p>
+                        <p class="card-description"><strong>Step 2:</strong> Select the session joined available</p>
                     </div>
                 </div>
                 <div class="panel-body">
                     <div class="form-horizontal">
                         <div class="row">
-                            <div class="col-md-3 col-form-label">
-                                    <asp:Label ID="lblSession" runat="server">Select programme session</asp:Label><span style="color: red;">*</span>
-                                </div>
-                            <div class="col-md-9">
-                                <asp:DropDownList ID="ddlSession" runat="server" CssClass="form-control"></asp:DropDownList>
+                            <div class="col-md-2 col-form-label">
+                                <asp:Label ID="lblSession" runat="server">Programme Session</asp:Label><span style="color: red;">*</span>
+                            </div>
+                            <div class="col-md-8">
+                                <asp:DropDownList ID="ddlSession" runat="server" CssClass="form-control" Enabled="false"></asp:DropDownList>
                             </div>
                         </div>
                     </div>
@@ -161,7 +143,7 @@
                                     <%--<asp:Button Text="Back" ID="btnBack" runat="server" Width="18%" CssClass="btn mr20 pdForm" />--%>
                                     <asp:Button Text="Save" ID="btnSave" runat="server" Width="18%" CssClass="btn btn-primary mr20 pdForm" OnClick="btnSave_Click" />
                                     <ajaxToolkit:ConfirmButtonExtender ID="ConfirmButtonExtender1" runat="server" ConfirmText="Are you sure to add these details ?" TargetControlID="btnSave" />
-                                    <asp:Button Text="Cancel" ID="btnCancel" runat="server" Width="18%" CssClass="btn btn-dark mr20 pdForm" Style="margin-left: 10px; height: 38px;" />
+                                    <asp:Button Text="Cancel" ID="btnCancel" runat="server" Width="18%" CssClass="btn btn-dark mr20 pdForm" Style="margin-left: 10px; height: 38px;" OnClick="btnCancel_Click" />
                                     <%-- <asp:Button Text="Update" ID="btnUpdate" runat="server" Width="18%" CssClass="btn mr20 pdForm" />
                                     <ajaxToolkit:ConfirmButtonExtender ID="ConfirmButtonExtender2" runat="server" ConfirmText="Are you sure to update this Course ?" TargetControlID="btnUpdate" />
                                     <asp:Button Text="Delete" ID="btnDelete" runat="server" Width="18%" CssClass="btn mr20 pdForm" />
@@ -174,9 +156,6 @@
             </div>
         </div>
     </div>
-
-
-
 
     <script src="Assests/main/js/tabs.js"></script>
     <%--    <script src="Assests/main/js/dropify.js"></script>

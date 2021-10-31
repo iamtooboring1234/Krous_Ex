@@ -9,7 +9,7 @@ Drop table Exam_Timetable
 Drop table Exam_Result_Per_Course
 Drop table Exam_Result
 Drop table Student_Programme_Register
-Drop table Programme_In_Charge
+Drop table Course_In_Charge
 Drop table Programme
 Drop table Receipt
 Drop table Payment
@@ -140,17 +140,17 @@ CREATE TABLE [Course_In_Charge] (
 )
 
 CREATE TABLE [dbo].[Student_Programme_Register] (
-    [RegisterGUID]       UNIQUEIDENTIFIER NOT NULL,
-    [StudentGUID]        UNIQUEIDENTIFIER NOT NULL,
-    [ProgrammeGUID]      UNIQUEIDENTIFIER NOT NULL,
-    [SessionGUID]        UNIQUEIDENTIFIER NOT NULL,
-    [CourseRegisterDate] DATETIME         NOT NULL,
-    [Status]             VARCHAR (10)     NOT NULL,
-	[UploadIcImage]		 VARCHAR (500)	  NOT NULL,
-	[UploadResult]		 VARCHAR (500)    NOT NULL,
-    [UploadMedical]      VARCHAR (500)    NULL,
+    [RegisterGUID]          UNIQUEIDENTIFIER NOT NULL,
+    [StudentGUID]           UNIQUEIDENTIFIER NOT NULL,
+    [ProgrammeGUID]         UNIQUEIDENTIFIER NOT NULL,
+    [SessionGUID]           UNIQUEIDENTIFIER NOT NULL,
+    [ProgrammeRegisterDate] DATETIME         NOT NULL,
+    [Status]                VARCHAR (10)     NOT NULL,
+    [UploadIcImage]         VARCHAR (500)    NOT NULL,
+    [UploadResult]          VARCHAR (500)    NOT NULL,
+    [UploadMedical]         VARCHAR (500)    NULL,
     CONSTRAINT [pk_register] PRIMARY KEY CLUSTERED ([RegisterGUID] ASC),
-    CONSTRAINT [fk_student_scr] FOREIGN KEY ([StudentGUID]) REFERENCES [dbo].[Student] ([StudentGUID]),
+	CONSTRAINT [fk_student_scr] FOREIGN KEY ([StudentGUID]) REFERENCES [dbo].[Student] ([StudentGUID]),
     CONSTRAINT [fk_programme_scr] FOREIGN KEY ([ProgrammeGUID]) REFERENCES [dbo].[Programme] ([ProgrammeGUID]),
     CONSTRAINT [fk_session_scr] FOREIGN KEY ([SessionGUID]) REFERENCES [dbo].[Session] ([SessionGUID])
 );

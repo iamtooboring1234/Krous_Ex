@@ -118,3 +118,4 @@ INSERT INTO [dbo].[Semester] ([SemesterGUID], [SemesterYear], [SemesterSem], [Se
 INSERT INTO [dbo].[Semester] ([SemesterGUID], [SemesterYear], [SemesterSem], [SemesterType]) VALUES (N'3bb21f12-a382-4acc-9aa5-9072d48ecbac', N'5', N'5', N'Long')
 INSERT INTO [dbo].[Semester] ([SemesterGUID], [SemesterYear], [SemesterSem], [SemesterType]) VALUES (N'c470dae0-d0ef-49fc-af69-b2988e66a2a2', N'3', N'3', N'Long')
 INSERT INTO [dbo].[Semester] ([SemesterGUID], [SemesterYear], [SemesterSem], [SemesterType]) VALUES (N'8b87225a-966c-4a52-8c0c-e776f598424c', N'2', N'1', N'Long')
+

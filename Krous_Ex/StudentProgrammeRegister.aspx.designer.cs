@@ -24,31 +24,40 @@ namespace Krous_Ex
         protected global::System.Web.UI.WebControls.Label lblCourseEntry;
 
         /// <summary>
-        /// rblFoundation control.
+        /// Label6 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.RadioButtonList rblFoundation;
+        protected global::System.Web.UI.WebControls.Label Label6;
 
         /// <summary>
-        /// rblDiploma control.
+        /// ddlProgrammCategory control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.RadioButtonList rblDiploma;
+        protected global::System.Web.UI.WebControls.DropDownList ddlProgrammCategory;
 
         /// <summary>
-        /// rblDegree control.
+        /// Label7 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.RadioButtonList rblDegree;
+        protected global::System.Web.UI.WebControls.Label Label7;
+
+        /// <summary>
+        /// ddlProgramme control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList ddlProgramme;
 
         /// <summary>
         /// lblSession control.
