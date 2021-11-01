@@ -6,6 +6,7 @@ using System.Data.SqlClient;
 using System.IO;
 using System.Linq;
 using System.Web;
+using System.Web.Security;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 
@@ -18,17 +19,53 @@ namespace Krous_Ex
         private string SaveFolderPath = ConfigurationManager.AppSettings.Get("FAQChatSavePath");
         private string UploadChatFolderPath = ConfigurationManager.AppSettings.Get("FAQChatUploadPath");
 
+        protected void Page_PreInit(object sender, EventArgs e)
+        {
+            var myCookie = Request.Cookies[FormsAuthentication.FormsCookieName];
+
+            if (myCookie != null)
+            {
+                if (clsLogin.GetLoginUserType() == "Staff")
+                {
+                    MasterPageFile = "~/StaffMaster.Master";
+                }
+            } else
+            {
+                Response.Redirect("Homepage");
+            }
+        }
+
         protected void Page_Load(object sender, EventArgs e)
         {
             if (IsPostBack != true)
             {
+                if (String.IsNullOrEmpty(Request.QueryString["ChatGUID"]))
+                {
+                    clsFunction.DisplayAJAXMessage(this, "Page Not Available");
+                    Response.Redirect("Homepage");
+                }
+
                 ChatGUID = Request.QueryString["ChatGUID"].ToString();
 
                 hdCurrentUserGUID.Value = clsLogin.GetLoginUserGUID();
                 hdUserType.Value = clsLogin.GetLoginUserType();
                 hdChatGUID.Value = ChatGUID;
 
-                LoadMessage();
+                if (clsLogin.GetLoginUserType() == "Staff")
+                {
+                    hdUserType.Value = "Staff";
+                    StaffGUID = clsLogin.GetLoginUserGUID();
+                }
+
+                if (Session["NewChat"] == null)
+                {
+                    LoadMessage();
+                } else
+                {
+                    hdNewChat.Value = Session["NewChat"].ToString();
+                    hdCheckDate.Value = "";
+                    Session["NewChat"] = "";
+                }
             }
         }
 
@@ -146,7 +183,7 @@ namespace Krous_Ex
                     else
                     {
                         clsFunction.DisplayAJAXMessage(this, "Chat already ended");
-                        Response.Redirect("ChatView.aspx?ChatGUID=" + ChatGUID);
+                        Response.Redirect("FAQChatView.aspx?ChatGUID=" + ChatGUID);
                     }
                 }
                 else

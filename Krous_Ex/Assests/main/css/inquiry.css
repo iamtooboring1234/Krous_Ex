@@ -391,3 +391,41 @@ textarea {
     cursor: pointer;
 }
 
+.form-check table.form-check-input tbody tr td label {
+    padding: 0 0.625rem;
+    font-size: 0.875rem;
+    line-height: 1.75;
+    color: #6c7293;
+    font-weight: bold;
+}
+
+.form-check table.form-check-input tbody tr td {
+    padding-left: 50px;
+}
+
+.form-check table.form-check-input {
+    margin-left: 0 !important;
+}
+
+    .form-check table.form-check-input tbody tr td input {
+        width: 1em;
+        height: 1em;
+        margin-top: 0.25em;
+        vertical-align: top;
+        background-color: #fff;
+        background-repeat: no-repeat;
+        background-position: center;
+        background-size: contain;
+        border: 1px solid rgba(0, 0, 0, 0.25);
+    }
+
+.form-check-checkbox table tbody tr td label, .form-check-all label {
+    padding-left: 0.625rem;
+    font-size: 0.875rem;
+    line-height: 1.5;
+    color: #6c7293;
+}
+
+.form-check-input td {
+    border: 0;
+}

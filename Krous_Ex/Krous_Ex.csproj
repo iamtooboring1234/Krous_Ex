@@ -464,12 +464,14 @@
     <Content Include="CourseListings.aspx" />
     <Content Include="DiscussionEntry.aspx" />
     <Content Include="FAQChat.aspx" />
+    <Content Include="FAQChatView.aspx" />
     <Content Include="ForumReportListings.aspx" />
     <Content Include="KrousExAcademicCalendarListings.aspx" />
     <Content Include="KrousExContactUs.aspx" />
     <Content Include="KrousExDeleteComment.aspx" />
     <Content Include="KrousExReportForum.aspx" />
     <Content Include="KrousExViewAcademicCalendar.aspx" />
+    <Content Include="KrousExWebService.asmx" />
     <Content Include="NotificationEntry.aspx" />
     <Content Include="ProgrammeCourseEntry.aspx" />
     <Content Include="ProgrammeEntry.aspx" />
@@ -1046,7 +1048,6 @@
     <Content Include="BranchesEntry.aspx" />
     <Content Include="BranchesListings.aspx" />
     <Content Include="Chat.aspx" />
-    <Content Include="FAQChatView.aspx" />
     <Content Include="Content\bootstrap-grid.css" />
     <Content Include="Content\bootstrap-grid.min.css" />
     <Content Include="Content\bootstrap-reboot.css" />
@@ -1373,13 +1374,6 @@
     <Compile Include="Chat.aspx.designer.cs">
       <DependentUpon>Chat.aspx</DependentUpon>
     </Compile>
-    <Compile Include="FAQChatView.aspx.cs">
-      <DependentUpon>FAQChatView.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="FAQChatView.aspx.designer.cs">
-      <DependentUpon>FAQChatView.aspx</DependentUpon>
-    </Compile>
     <Compile Include="clsFunction.cs" />
     <Compile Include="clsLogin.cs" />
     <Compile Include="clsValidation.cs" />
@@ -1417,6 +1411,13 @@
     </Compile>
     <Compile Include="FAQChat.aspx.designer.cs">
       <DependentUpon>FAQChat.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="FAQChatView.aspx.cs">
+      <DependentUpon>FAQChatView.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="FAQChatView.aspx.designer.cs">
+      <DependentUpon>FAQChatView.aspx</DependentUpon>
     </Compile>
     <Compile Include="ForumReportListings.aspx.cs">
       <DependentUpon>ForumReportListings.aspx</DependentUpon>
@@ -1582,6 +1583,10 @@
     </Compile>
     <Compile Include="KrousExViewDiscussion.aspx.designer.cs">
       <DependentUpon>KrousExViewDiscussion.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="KrousExWebService.asmx.cs">
+      <DependentUpon>KrousExWebService.asmx</DependentUpon>
+      <SubType>Component</SubType>
     </Compile>
     <Compile Include="Login.aspx.cs">
       <DependentUpon>Login.aspx</DependentUpon>

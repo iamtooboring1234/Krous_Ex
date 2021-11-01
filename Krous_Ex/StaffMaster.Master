@@ -67,17 +67,16 @@
                         <div class="profile-desc">
                             <div class="profile-pic">
                                 <div class="count-indicator">
-                                    <img class="img-xs rounded-circle " src="Assests/main/img/user.jpg" alt="">
+                                    <asp:Image ID="imgProfileSidebar" runat="server" CssClass="img-xs rounded-circle" />
                                     <span class="count bg-success"></span>
                                 </div>
                                 <div class="profile-name">
-                                    <h5 class="mb-0 font-weight-normal">Henry Klein</h5>
-                                    <span>Gold Member</span>
+                                    <h5 class="mb-0 font-weight-normal"><asp:Literal ID="litLogonNameSidebar" runat="server"></asp:Literal></h5>
                                 </div>
                             </div>
                             <a href="#" id="profile-dropdown" data-toggle="dropdown"><i class="mdi mdi-dots-vertical"></i></a>
                             <div class="dropdown-menu dropdown-menu-right sidebar-dropdown preview-list" aria-labelledby="profile-dropdown">
-                                <a href="#" class="dropdown-item preview-item">
+                                <a href="StaffProfile" class="dropdown-item preview-item">
                                     <div class="preview-thumbnail">
                                         <div class="preview-icon bg-dark rounded-circle">
                                             <i class="mdi mdi-settings text-primary"></i>
@@ -124,12 +123,33 @@
                         </a>
                     </li>
                     <li class="nav-item menu-items">
-                        <a class="nav-link" href="StaffProfile">
+                        <a class="nav-link" data-toggle="collapse" href="#Annoucements" aria-expanded="false" aria-controls="Programme">
                             <span class="menu-icon">
-                                <i class="mdi mdi-speedometer"></i>
+                                <i class="mdi mdi-laptop"></i>
                             </span>
-                            <span class="menu-title">Profile</span>
+                            <span class="menu-title">Annoucement</span>
+                            <i class="menu-arrow"></i>
                         </a>
+                        <div class="collapse" id="Annoucements">
+                            <ul class="nav flex-column sub-menu">
+                                <li class="nav-item"><a class="nav-link" href="NotificationEntry">Notification Entry</a></li>
+                            </ul>
+                        </div>
+                    </li>
+                    <li class="nav-item menu-items">
+                        <a class="nav-link" data-toggle="collapse" href="#Semester" aria-expanded="false" aria-controls="Course">
+                            <span class="menu-icon">
+                                <i class="mdi mdi-laptop"></i>
+                            </span>
+                            <span class="menu-title">Semester</span>
+                            <i class="menu-arrow"></i>
+                        </a>
+                        <div class="collapse" id="Semester">
+                            <ul class="nav flex-column sub-menu">
+                                <li class="nav-item"><a class="nav-link" href="SemesterEntry">Semester Entry</a></li>
+                                <li class="nav-item"><a class="nav-link" href="AcademicCalenderEntry">Academic Calendar Entry</a></li>
+                            </ul>
+                        </div>
                     </li>
                     <li class="nav-item menu-items">
                         <a class="nav-link" data-toggle="collapse" href="#Programme" aria-expanded="false" aria-controls="Programme">
@@ -143,21 +163,22 @@
                             <ul class="nav flex-column sub-menu">
                                 <li class="nav-item"><a class="nav-link" href="ProgrammeEntry">Programme Entry</a></li>
                                 <li class="nav-item"><a class="nav-link" href="ProgrammeListings">Programme Listings</a></li>
+                                <li class="nav-item"><a class="nav-link" href="ProgrammeCourseEntry">Programme Course Entry</a></li>
                             </ul>
                         </div>
                     </li>
                     <li class="nav-item menu-items">
-                        <a class="nav-link" data-toggle="collapse" href="#FAQ" aria-expanded="false" aria-controls="FAQ">
+                        <a class="nav-link" data-toggle="collapse" href="#Course" aria-expanded="false" aria-controls="Course">
                             <span class="menu-icon">
                                 <i class="mdi mdi-laptop"></i>
                             </span>
-                            <span class="menu-title">FAQ</span>
+                            <span class="menu-title">Course</span>
                             <i class="menu-arrow"></i>
                         </a>
-                        <div class="collapse" id="FAQ">
+                        <div class="collapse" id="Course">
                             <ul class="nav flex-column sub-menu">
-                                <li class="nav-item"><a class="nav-link" href="FAQEntry">FAQ Entry</a></li>
-                                <li class="nav-item"><a class="nav-link" href="FAQListings">FAQ Listings</a></li>
+                                <li class="nav-item"><a class="nav-link" href="CourseEntry">Course Entry</a></li>
+                                <li class="nav-item"><a class="nav-link" href="CourseListings">Course Listings</a></li>
                             </ul>
                         </div>
                     </li>
@@ -177,21 +198,7 @@
                                     <asp:HyperLink ID="HyperLink2" CssClass="nav-link nav-forum-link" runat="server" href="ForumEntry.aspx?ForumType=Private">Private Forum Entry</asp:HyperLink></li>
                                 <li class="nav-item">
                                     <asp:HyperLink ID="HyperLink3" CssClass="nav-link nav-forum-link" runat="server" href="ForumListings">Forum Listings</asp:HyperLink></li>
-                            </ul>
-                        </div>
-                    </li>
-                    <li class="nav-item menu-items">
-                        <a class="nav-link" data-toggle="collapse" href="#Course" aria-expanded="false" aria-controls="Course">
-                            <span class="menu-icon">
-                                <i class="mdi mdi-laptop"></i>
-                            </span>
-                            <span class="menu-title">Course</span>
-                            <i class="menu-arrow"></i>
-                        </a>
-                        <div class="collapse" id="Course">
-                            <ul class="nav flex-column sub-menu">
-                                <li class="nav-item"><a class="nav-link" href="CourseEntry">Course Entry</a></li>
-                                <li class="nav-item"><a class="nav-link" href="CourseListings">Course Listings</a></li>
+                                <li class="nav-item"><a class="nav-link" href="ForumReportListings">Forum Report Listings</a></li>
                             </ul>
                         </div>
                     </li>
@@ -211,62 +218,35 @@
                         </div>
                     </li>
                     <li class="nav-item menu-items">
-                        <a class="nav-link" href="pages/forms/basic_elements.html">
+                        <a class="nav-link" data-toggle="collapse" href="#Faculty" aria-expanded="false" aria-controls="Branch">
                             <span class="menu-icon">
-                                <i class="mdi mdi-playlist-play"></i>
+                                <i class="mdi mdi-laptop"></i>
                             </span>
-                            <span class="menu-title">Form Elements</span>
-                        </a>
-                    </li>
-                    <li class="nav-item menu-items">
-                        <a class="nav-link" href="pages/tables/basic-table.html">
-                            <span class="menu-icon">
-                                <i class="mdi mdi-table-large"></i>
-                            </span>
-                            <span class="menu-title">Tables</span>
-                        </a>
-                    </li>
-                    <li class="nav-item menu-items">
-                        <a class="nav-link" href="pages/charts/chartjs.html">
-                            <span class="menu-icon">
-                                <i class="mdi mdi-chart-bar"></i>
-                            </span>
-                            <span class="menu-title">Charts</span>
-                        </a>
-                    </li>
-                    <li class="nav-item menu-items">
-                        <a class="nav-link" href="pages/icons/mdi.html">
-                            <span class="menu-icon">
-                                <i class="mdi mdi-contacts"></i>
-                            </span>
-                            <span class="menu-title">Icons</span>
-                        </a>
-                    </li>
-                    <li class="nav-item menu-items">
-                        <a class="nav-link" data-toggle="collapse" href="#auth" aria-expanded="false" aria-controls="auth">
-                            <span class="menu-icon">
-                                <i class="mdi mdi-security"></i>
-                            </span>
-                            <span class="menu-title">User Pages</span>
+                            <span class="menu-title">Faculty</span>
                             <i class="menu-arrow"></i>
                         </a>
-                        <div class="collapse" id="auth">
+                        <div class="collapse" id="Faculty">
                             <ul class="nav flex-column sub-menu">
-                                <li class="nav-item"><a class="nav-link" href="pages/samples/blank-page.html">Blank Page </a></li>
-                                <li class="nav-item"><a class="nav-link" href="pages/samples/error-404.html">404 </a></li>
-                                <li class="nav-item"><a class="nav-link" href="pages/samples/error-500.html">500 </a></li>
-                                <li class="nav-item"><a class="nav-link" href="pages/samples/login.html">Login </a></li>
-                                <li class="nav-item"><a class="nav-link" href="pages/samples/register.html">Register </a></li>
+                                <li class="nav-item"><a class="nav-link" href="FacultyEntry">Faculty Entry</a></li>
+                                <li class="nav-item"><a class="nav-link" href="FacultyListings">Faculty Listings</a></li>
                             </ul>
                         </div>
                     </li>
                     <li class="nav-item menu-items">
-                        <a class="nav-link" href="http://www.bootstrapdash.com/demo/corona-free/jquery/documentation/documentation.html">
+                        <a class="nav-link" data-toggle="collapse" href="#FAQ" aria-expanded="false" aria-controls="FAQ">
                             <span class="menu-icon">
-                                <i class="mdi mdi-file-document-box"></i>
+                                <i class="mdi mdi-laptop"></i>
                             </span>
-                            <span class="menu-title">Documentation</span>
+                            <span class="menu-title">FAQ</span>
+                            <i class="menu-arrow"></i>
                         </a>
+                        <div class="collapse" id="FAQ">
+                            <ul class="nav flex-column sub-menu">
+                                <li class="nav-item"><a class="nav-link" href="FAQEntry">FAQ Entry</a></li>
+                                <li class="nav-item"><a class="nav-link" href="FAQListings">FAQ Listings</a></li>
+                                <li class="nav-item"><a class="nav-link" href="StaffFAQChatList">FAQ Chat</a></li>
+                            </ul>
+                        </div>
                     </li>
                 </ul>
             </nav>
@@ -366,7 +346,7 @@
                                     <div class="dropdown-divider"></div>
                                     <a class="dropdown-item preview-item">
                                         <div class="preview-thumbnail">
-                                            <img src="Assests/main/images/faces/face3.jpg" alt="image" class="rounded-circle profile-pic">
+                                            <img src="Assests/main/images/faces/face2.jpg" alt="image" class="rounded-circle profile-pic">
                                         </div>
                                         <div class="preview-item-content">
                                             <p class="preview-subject ellipsis mb-1">Profile picture updated</p>
@@ -429,7 +409,7 @@
                             <li class="nav-item dropdown">
                                 <a class="nav-link" id="profileDropdown" href="#" data-toggle="dropdown">
                                     <div class="navbar-profile">
-                                        <img class="img-xs rounded-circle" src="Assests/main/images/faces/face15.jpg" alt="">
+                                        <asp:Image ID="imgProfile" runat="server" CssClass="img-xs rounded-circle" />
                                         <p class="mb-0 d-none d-sm-block navbar-profile-name">
                                             <asp:Literal ID="litLogonName" runat="server"></asp:Literal>
                                         </p>

@@ -24,6 +24,9 @@ namespace Krous_Ex
                     if (clsLogin.GetLoginUserType() == "Staff")
                     {
                         litLogonName.Text = clsLogin.GetLoginUserName();
+                        litLogonNameSidebar.Text = clsLogin.GetLoginUserName();
+                        imgProfile.ImageUrl = clsLogin.GetUserImage();
+                        imgProfileSidebar.ImageUrl = clsLogin.GetUserImage();
                         loadNotification();
                     } else
                     {

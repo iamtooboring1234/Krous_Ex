@@ -2,47 +2,10 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
 
     <link href="Assests/main/css/table.css" rel="stylesheet" />
+    <link href="Assests/main/css/inquiry.css" rel="stylesheet" />
 
-    <style>
-        .form-check table.form-check-input tbody tr td label  {
-            padding: 0 0.625rem;
-            font-size: 0.875rem;
-            line-height: 1.75;
-            color: #6c7293;
-            font-weight: bold;
-        }
-
-        .form-check table.form-check-input tbody tr td {
-            padding-left: 50px;
-        }
-
-        .form-check table.form-check-input {
-            margin-left: 0 !important;
-        }
-
-        .form-check table.form-check-input tbody tr td input {
-            width: 1em;
-            height: 1em;
-            margin-top: 0.25em;
-            vertical-align: top;
-            background-color: #fff;
-            background-repeat: no-repeat;
-            background-position: center;
-            background-size: contain;
-            border: 1px solid rgba(0, 0, 0, 0.25);
-        }
-
-        .form-check-checkbox table tbody tr td label, .form-check-all label {
-            padding-left: 0.625rem;
-            font-size: 0.875rem;
-            line-height: 1.5;
-            color: #6c7293;
-        }
-
-        .form-check-input td {
-            border: 0;
-        }
-    </style>
+    <link href="https://cdn.datatables.net/1.11.3/css/jquery.dataTables.min.css" rel="stylesheet" type="text/css" />
+    <script src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js"></script>
 
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="body" runat="server">
@@ -70,25 +33,25 @@
                                         </div>
                                         <div class="col-md-8 form-check p-0 m-0">
                                             <div class="row justify-content-center">
-                                                    <div class="col-md-8">
-                                                        <asp:RadioButtonList ID="rblChatStatus" runat="server" CssClass="form-check-input mt-0" RepeatDirection="Horizontal" AutoPostBack="True" OnSelectedIndexChanged="rblChatStatus_SelectedIndexChanged">
-                                                            <asp:ListItem Value="1" Selected="true">Current Chat</asp:ListItem>
-                                                            <asp:ListItem Value="2">Chat History</asp:ListItem>
-                                                        </asp:RadioButtonList>
-                                                    </div>
+                                                <div class="col-md-8">
+                                                    <asp:RadioButtonList ID="rblChatStatus" runat="server" CssClass="form-check-input mt-0" RepeatDirection="Horizontal" AutoPostBack="True" OnSelectedIndexChanged="rblChatStatus_SelectedIndexChanged">
+                                                        <asp:ListItem Value="1" Selected="true">Current Chat</asp:ListItem>
+                                                        <asp:ListItem Value="2">Chat History</asp:ListItem>
+                                                    </asp:RadioButtonList>
                                                 </div>
                                             </div>
                                         </div>
-
                                     </div>
                                 </div>
-                            
+                            </div>
+
+                            <hr />
 
                             <div class="col-lg-12 stretch-card">
                                 <div class="card">
                                     <div class="table-responsive">
                                         <div class="gv-section gv-citizen text-center">
-                                            <asp:GridView ID="gvChat" runat="server" CssClass="table table-bordered" Width="100%" AutoGenerateColumns="False" DataKeyNames="ChatGUID" BorderStyle="none" CellPadding="10" CellSpacing="2">
+                                            <asp:GridView ID="gvChat" runat="server" CssClass="table table-bordered tableChat" Width="100%" AutoGenerateColumns="False" DataKeyNames="ChatGUID" BorderStyle="none" CellPadding="10" CellSpacing="2">
                                                 <Columns>
                                                     <asp:TemplateField ItemStyle-CssClass="text-center">
                                                         <ItemTemplate>
@@ -125,5 +88,28 @@
         </div>
     </div>
 
+    <asp:HiddenField ID="hdCheckChatStatus" runat="server" />
+
+    <script>
+        function pageLoad() {
+            bindGrid();
+        };
+
+        var $ = jQuery.noConflict();
+
+        function bindGrid() {
+            $(".tableChat").prepend($("<thead></thead>").html($(".tableChat").find("tr:first"))).DataTable({
+                "searching": false,
+                "pageLength": 10,
+                "order": [[4, 'asc']],
+                "lengthMenu": [[1, 5, 10, 25, 50, -1], [1, 5, 10, 25, 50, "All"]],
+                columnDefs: [{
+                    'targets': [0, 1], /* column index [0,1,2,3]*/
+                    'orderable': false, /* true or false */
+                }]
+            });
+        };
+
+    </script>
 
 </asp:Content>

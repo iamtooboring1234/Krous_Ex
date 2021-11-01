@@ -28,7 +28,7 @@
 
                 }
 
-                window.location.href = "ChatView.aspx?ChatGUID=" + $('#<%=hdChatGUID.ClientID%>').val();
+                window.location.href = "FAQChatView.aspx?ChatGUID=" + $('#<%=hdChatGUID.ClientID%>').val();
 
             };
 
@@ -254,7 +254,7 @@
                 if (confirm("Are sure want to end this chat ? \n You no longer can send and receive message from this chat.")) {
                     $.ajax({
                         type: "POST",
-                        url: "TracoWS.asmx/endChat",
+                        url: "KrousExWebService.asmx/endChat",
                         data: { ChatGUID: $('#<%=hdChatGUID.ClientID%>').val() },
                         dataType: "xml",
                     }).done(function (chartData2) {
