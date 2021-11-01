@@ -20,13 +20,16 @@ namespace Krous_Ex
 
         protected void Page_Load(object sender, EventArgs e)
         {
-            ChatGUID = Request.QueryString["ChatGUID"].ToString();
+            if (IsPostBack != true)
+            {
+                ChatGUID = Request.QueryString["ChatGUID"].ToString();
 
-            hdCurrentUserGUID.Value = clsLogin.GetLoginUserGUID();
-            hdUserType.Value = clsLogin.GetLoginUserType();
-            hdChatGUID.Value = ChatGUID;
+                hdCurrentUserGUID.Value = clsLogin.GetLoginUserGUID();
+                hdUserType.Value = clsLogin.GetLoginUserType();
+                hdChatGUID.Value = ChatGUID;
 
-            LoadMessage();
+                LoadMessage();
+            }
         }
 
         protected void LoadMessage()
@@ -77,24 +80,24 @@ namespace Krous_Ex
                             convertDate = DateTime.Parse(dtMessage.Rows[i]["SendDate"].ToString());
                             if (convertDate.Date == DateTime.Now.Date & checkToday == true)
                             {
-                                strOldMessage += "<div class=\"row col-lg-12 p0\">";
-                                strOldMessage += "<div class=\"media media-meta-day\">Today</div>";
+                                strOldMessage += "<div class=\"row col-lg-12 justify-content-center m-0\"><hr class=\"col-md-4\" style=\"border: 1px solid white;margin:auto;\">";
+                                strOldMessage += "<div class=\"media media-meta-day\">Today</div><hr class=\"col-md-4\" style=\"border: 1px solid white;margin:auto;\">";
                                 strOldMessage += "</div>";
                                 checkToday = false;
                                 checkDate = convertDate;
                             }
                             else if (convertDate.Date == DateTime.Now.AddDays(-1).Date & checkYesterday == true)
                             {
-                                strOldMessage += "<div class=\"row col-lg-12 p0\">";
-                                strOldMessage += "<div class=\"media media-meta-day\">Yesterday</div>";
+                                strOldMessage += "<div class=\"row col-lg-12 justify-content-center m-0\"><hr class=\"col-md-4\" style=\"border: 1px solid white;margin:auto;\">";
+                                strOldMessage += "<div class=\"media media-meta-day\">Yesterday</div><hr class=\"col-md-4\" style=\"border: 1px solid white;margin:auto;\">";
                                 strOldMessage += "</div>";
                                 checkYesterday = false;
                                 checkDate = convertDate;
                             }
                             else if (convertDate.Date != checkDate.Date)
                             {
-                                strOldMessage += "<div class=\"row col-lg-12 p0\">";
-                                strOldMessage += "<div class=\"media media-meta-day\">" + convertDate.ToString("MMMM d, yyyy") + "</div>";
+                                strOldMessage += "<div class=\"row col-lg-12 justify-content-center m-0\"><hr class=\"col-md-4\" style=\"border: 1px solid white;margin:auto;\">";
+                                strOldMessage += "<div class=\"media media-meta-day\">" + convertDate.ToString("MMMM d, yyyy") + "</div><hr class=\"col-md-4\" style=\"border: 1px solid white;margin:auto;\">";
                                 strOldMessage += "</div>";
                                 checkDate = convertDate;
                             }
@@ -102,13 +105,13 @@ namespace Krous_Ex
                             hdCheckDate.Value = convertDate.ToString("MM-dd-yyyy");
                             if (dtMessage.Rows[i]["UserType"].ToString() == hdUserType.Value)
                             {
-                                strOldMessage += "<div class=\"row col-lg-12 justify-content-end p0\">";
+                                strOldMessage += "<div class=\"row col-lg-12 justify-content-end m-0\">";
                                 strOldMessage += "<div class=\"media media-chat media-chat-reverse mediaPadding\">";
                                 pdfLinkColor = "pdfLinkWhite";
                             }
                             else
                             {
-                                strOldMessage += "<div class=\"row col-lg-12 p0\">";
+                                strOldMessage += "<div class=\"row col-lg-12 m-0\">";
                                 strOldMessage += "<div class=\"media media-chat mediaPadding\">";
                                 pdfLinkColor = "pdfLinkBlack";
                             }
@@ -177,9 +180,6 @@ namespace Krous_Ex
 
         protected void FileUploadComplete(object sender, EventArgs e)
         {
-
-
-
             string ChatImageName = Path.GetFileNameWithoutExtension(AsyncFileUploadChat.FileName) + "_" + Guid.NewGuid().ToString() + Path.GetExtension(AsyncFileUploadChat.FileName);
 
             AsyncFileUploadChat.SaveAs(Server.MapPath(SaveFolderPath) + ChatImageName);
@@ -188,8 +188,6 @@ namespace Krous_Ex
             Response.Cookies["ImagePath"].Expires = DateTime.Now.AddMinutes(10d);
             Response.Cookies["ChatImageName"].Value = ChatImageName;
             Response.Cookies["ChatImageName"].Expires = DateTime.Now.AddMinutes(10d);
-
-            
         }
     }
 }

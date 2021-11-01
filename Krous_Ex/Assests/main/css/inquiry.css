@@ -196,7 +196,7 @@
 .media-meta-day::after {
     content: "";
     flex: 1 1;
-    border-bottom: 1px solid #ebebeb;
+    border-bottom: 1px solid white;
     margin-bottom: 10px;
 }
 
