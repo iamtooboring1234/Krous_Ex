@@ -20,96 +20,88 @@ namespace Krous_Ex
             {
                 if(userGUID != null)
                 {
-                    loadDiploma();
-                    loadFoundation();
-                    loadDegree();
+                    loadProgrammeCategory();
+                    loadProgramme("");
                     loadSession();
+                }    
+            }
+        }
+
+        private void loadProgrammeCategory()
+        {
+            try
+            {
+                ddlProgrammCategory.Items.Clear();
+
+                ListItem oList = new ListItem();
+
+                oList = new ListItem();
+                oList.Text = "";
+                oList.Value = "";
+                ddlProgrammCategory.Items.Add(oList);
+
+                SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["Krous_Ex"].ConnectionString);
+                con.Open();
+                SqlCommand GetCommand = new SqlCommand("SELECT ProgrammeCategory FROM Programme GROUP BY ProgrammeCategory ORDER BY ProgrammeCategory", con);
+                SqlDataReader reader = GetCommand.ExecuteReader();
+
+                DataTable dtProgCat = new DataTable();
+                dtProgCat.Load(reader);
+                con.Close();
+
+                for (int i = 0; i <= dtProgCat.Rows.Count - 1; i++)
+                {
+                    oList = new ListItem();
+                    oList.Text = dtProgCat.Rows[i]["ProgrammeCategory"].ToString();
+                    oList.Value = dtProgCat.Rows[i]["ProgrammeCategory"].ToString();
+                    ddlProgrammCategory.Items.Add(oList);
                 }
-              
+            }
+
+            catch (Exception)
+            {
+                clsFunction.DisplayAJAXMessage(this, "Error loading programme category.");
             }
         }
 
-        protected void loadFoundation()
+        private void loadProgramme(string programmeCategory)
         {
             try
             {
-                SqlConnection con = new SqlConnection();
-                SqlCommand loadCmd = new SqlCommand();
+                ddlProgramme.Items.Clear();
 
-                string strCon = ConfigurationManager.ConnectionStrings["Krous_Ex"].ConnectionString;
-                con = new SqlConnection(strCon);
+                ListItem oList = new ListItem();
+
+                oList = new ListItem();
+                oList.Text = "";
+                oList.Value = "";
+                ddlProgramme.Items.Add(oList);
+
+                SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["Krous_Ex"].ConnectionString);
                 con.Open();
+                SqlCommand GetCommand = new SqlCommand("SELECT ProgrammeGUID, ProgrammeAbbrv, ProgrammeName FROM Programme WHERE ProgrammeCategory = @ProgrammeCategory ORDER BY ProgrammeAbbrv", con);
 
-                loadCmd = new SqlCommand("SELECT p.ProgrammeGUID, p.ProgrammeName FROM Programme p, ProgrammeCourse pc WHERE pc.ProgrammeGUID = p.ProgrammeGUID AND p.ProgrammeCategory = 'Foundation' GROUP BY p.ProgrammeGUID, p.ProgrammeName ORDER BY p.ProgrammeName", con);
-                SqlDataAdapter da = new SqlDataAdapter(loadCmd);
-                DataSet ds = new DataSet();
-                da.Fill(ds);
-                rblFoundation.DataSource = ds;
-                rblFoundation.DataTextField = "ProgrammeName";
-                rblFoundation.DataValueField = "ProgrammeGUID";
-                rblFoundation.DataBind();
+                GetCommand.Parameters.AddWithValue("@ProgrammeCategory", programmeCategory);
+
+                SqlDataReader reader = GetCommand.ExecuteReader();
+
+                DataTable dtProg = new DataTable();
+                dtProg.Load(reader);
                 con.Close();
+
+                for (int i = 0; i <= dtProg.Rows.Count - 1; i++)
+                {
+                    oList = new ListItem();
+                    oList.Text = dtProg.Rows[i]["ProgrammeName"].ToString() + " (" + dtProg.Rows[i]["ProgrammeAbbrv"].ToString() + ")";
+                    oList.Value = dtProg.Rows[i]["ProgrammeGUID"].ToString();
+                    ddlProgramme.Items.Add(oList);
+                }
             }
             catch (Exception ex)
             {
-                System.Diagnostics.Trace.WriteLine(ex.Message);
+                clsFunction.DisplayAJAXMessage(this, ex.Message);
             }
         }
-
-        protected void loadDiploma()
-        {
-            try
-            {
-                SqlConnection con = new SqlConnection();
-                SqlCommand loadCmd = new SqlCommand();
-
-                string strCon = ConfigurationManager.ConnectionStrings["Krous_Ex"].ConnectionString;
-                con = new SqlConnection(strCon);
-                con.Open();
-
-                loadCmd = new SqlCommand("SELECT p.ProgrammeGUID, p.ProgrammeName FROM Programme p, ProgrammeCourse pc WHERE pc.ProgrammeGUID = p.ProgrammeGUID AND p.ProgrammeCategory = 'Diploma' GROUP BY p.ProgrammeGUID, p.ProgrammeName ORDER BY p.ProgrammeName", con);
-                SqlDataAdapter da = new SqlDataAdapter(loadCmd);
-                DataSet ds = new DataSet();
-                da.Fill(ds);
-                rblDiploma.DataSource = ds;
-                rblDiploma.DataTextField = "ProgrammeName";
-                rblDiploma.DataValueField = "ProgrammeGUID";
-                rblDiploma.DataBind();
-                con.Close();
-            }
-            catch (Exception ex)
-            {
-                System.Diagnostics.Trace.WriteLine(ex.Message);
-            }
-        }
-
-        protected void loadDegree()
-        {
-            try
-            {
-                SqlConnection con = new SqlConnection();
-                SqlCommand loadCmd = new SqlCommand();
-
-                string strCon = ConfigurationManager.ConnectionStrings["Krous_Ex"].ConnectionString;
-                con = new SqlConnection(strCon);
-                con.Open();
-
-                loadCmd = new SqlCommand("SELECT p.ProgrammeGUID, p.ProgrammeName FROM Programme p, ProgrammeCourse pc WHERE pc.ProgrammeGUID = p.ProgrammeGUID AND p.ProgrammeCategory = 'Bachelor Degree' GROUP BY p.ProgrammeGUID, p.ProgrammeName ORDER BY p.ProgrammeName", con);
-                SqlDataAdapter da = new SqlDataAdapter(loadCmd);
-                DataSet ds = new DataSet();
-                da.Fill(ds);
-                rblDegree.DataSource = ds;
-                rblDegree.DataTextField = "ProgrammeName";
-                rblDegree.DataValueField = "ProgrammeGUID";
-                rblDegree.DataBind();
-                con.Close();
-            }
-            catch (Exception ex)
-            {
-                System.Diagnostics.Trace.WriteLine(ex.Message);
-            }
-        }
-
 
         private void loadSession()
         {
@@ -126,7 +118,7 @@ namespace Krous_Ex
 
                 SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["Krous_Ex"].ConnectionString);
                 con.Open();
-                SqlCommand GetCommand = new SqlCommand("SELECT * FROM session WHERE DATEADD(Day, 14, GETDATE()) < convert(varchar, concat(sessionYear, '-', SessionMonth, '-', DAY(getdate())), 22) ORDER BY SessionYear, SessionMonth ", con);
+                SqlCommand GetCommand = new SqlCommand("select * from session S, AcademicCalender a WHERE S.SessionGUID = a.SessionGUID AND DateAdd(Day, 14, GETDATE()) < a.SemesterStartDate order by SessionYear, SessionMonth; ", con);
                 SqlDataReader reader = GetCommand.ExecuteReader();
 
                 DataTable dtSession = new DataTable();
@@ -166,13 +158,13 @@ namespace Krous_Ex
                 SqlCommand insertCmd = new SqlCommand();
 
                 //upload here
-                string IcNumberImage= Path.GetFileNameWithoutExtension(UploadNRIC.FileName) + "_" + Guid.NewGuid().ToString() + Path.GetExtension(UploadNRIC.FileName);
+                string IcNumberImage = Path.GetFileNameWithoutExtension(UploadNRIC.FileName) + "_" + Guid.NewGuid().ToString() + Path.GetExtension(UploadNRIC.FileName);
                 string ResultSlipImage = Path.GetFileNameWithoutExtension(UploadResultSlip.FileName) + "_" + Guid.NewGuid().ToString() + Path.GetExtension(UploadResultSlip.FileName);
                 string MedicalImage = Path.GetFileNameWithoutExtension(UploadMedical.FileName) + "_" + Guid.NewGuid().ToString() + Path.GetExtension(UploadMedical.FileName);
-                
+
                 String savePath = ConfigurationManager.AppSettings.Get("RegisterUploadPath");
                 string uploadSavePath = Server.MapPath(savePath);
-                
+
                 String IcFullSavePath = uploadSavePath + IcNumberImage;
                 String ResultFullSavePath = uploadSavePath + ResultSlipImage;
                 String MedicalFullSavePath = uploadSavePath + MedicalImage;
@@ -189,44 +181,17 @@ namespace Krous_Ex
                         con = new SqlConnection(strCon);
                         con.Open();
 
-                        if(rblFoundation.SelectedValue != null)
-                        {
-                            insertCmd = new SqlCommand("INSERT INTO Student_Programme_Register VALUES (@RegisterGUID, @StudentGUID, @ProgrammeGUID, @SessionGUID, @CourseRegisterDate, @Status, @UploadIcImage, @UploadResult, @UploadMedical)", con);
-                            insertCmd.Parameters.AddWithValue("@RegisterGUID", registerGUID);
-                            insertCmd.Parameters.AddWithValue("@StudentGUID", userGUID);
-                            insertCmd.Parameters.AddWithValue("@ProgrammeGUID", rblFoundation.SelectedValue);
-                            insertCmd.Parameters.AddWithValue("@SessionGUID", ddlSession.SelectedValue);
-                            insertCmd.Parameters.AddWithValue("@CourseRegisterDate", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
-                            insertCmd.Parameters.AddWithValue("@Status", "Pending");
-                            insertCmd.Parameters.AddWithValue("@UploadIcImage", IcNumberImage);
-                            insertCmd.Parameters.AddWithValue("@UploadResult", ResultSlipImage);
-                        }
-                        else if(rblDiploma.SelectedValue != null)
-                        {
-                            insertCmd = new SqlCommand("INSERT INTO Student_Programme_Register VALUES (@RegisterGUID, @StudentGUID, @ProgrammeGUID, @SessionGUID, @CourseRegisterDate, @Status, @UploadIcImage, @UploadResult, @UploadMedical)", con);
-                            insertCmd.Parameters.AddWithValue("@RegisterGUID", registerGUID);
-                            insertCmd.Parameters.AddWithValue("@StudentGUID", userGUID);
-                            insertCmd.Parameters.AddWithValue("@ProgrammeGUID", rblDiploma.SelectedValue);
-                            insertCmd.Parameters.AddWithValue("@SessionGUID", ddlSession.SelectedValue);
-                            insertCmd.Parameters.AddWithValue("@CourseRegisterDate", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
-                            insertCmd.Parameters.AddWithValue("@Status", "Pending");
-                            insertCmd.Parameters.AddWithValue("@UploadIcImage", IcNumberImage);
-                            insertCmd.Parameters.AddWithValue("@UploadResult", ResultSlipImage);
-                        }
-                        else if(rblDegree.SelectedValue != null)
-                        {
-                            insertCmd = new SqlCommand("INSERT INTO Student_Programme_Register VALUES (@RegisterGUID, @StudentGUID, @ProgrammeGUID, @SessionGUID, @CourseRegisterDate, @Status, @UploadIcImage, @UploadResult, @UploadMedical)", con);
-                            insertCmd.Parameters.AddWithValue("@RegisterGUID", registerGUID);
-                            insertCmd.Parameters.AddWithValue("@StudentGUID", userGUID);
-                            insertCmd.Parameters.AddWithValue("@ProgrammeGUID", rblDegree.SelectedValue);
-                            insertCmd.Parameters.AddWithValue("@SessionGUID", ddlSession.SelectedValue);
-                            insertCmd.Parameters.AddWithValue("@CourseRegisterDate", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
-                            insertCmd.Parameters.AddWithValue("@Status", "Pending");
-                            insertCmd.Parameters.AddWithValue("@UploadIcImage", IcNumberImage);
-                            insertCmd.Parameters.AddWithValue("@UploadResult", ResultSlipImage);
-                        }
-                  
-                        if(UploadMedical.HasFile)
+                        insertCmd = new SqlCommand("INSERT INTO Student_Programme_Register VALUES (@RegisterGUID, @StudentGUID, @ProgrammeGUID, @SessionGUID, @ProgrammeRegisterDate, @Status, @UploadIcImage, @UploadResult, @UploadMedical)", con);
+                        insertCmd.Parameters.AddWithValue("@RegisterGUID", registerGUID);
+                        insertCmd.Parameters.AddWithValue("@StudentGUID", userGUID);
+                        insertCmd.Parameters.AddWithValue("@ProgrammeGUID", ddlProgramme.SelectedValue);
+                        insertCmd.Parameters.AddWithValue("@SessionGUID", ddlSession.SelectedValue);
+                        insertCmd.Parameters.AddWithValue("@ProgrammeRegisterDate", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
+                        insertCmd.Parameters.AddWithValue("@Status", "Pending");
+                        insertCmd.Parameters.AddWithValue("@UploadIcImage", IcNumberImage);
+                        insertCmd.Parameters.AddWithValue("@UploadResult", ResultSlipImage);
+
+                        if (UploadMedical.HasFile)
                         {
                             insertCmd.Parameters.AddWithValue("@UploadMedical", MedicalImage);
                         }
@@ -259,44 +224,95 @@ namespace Krous_Ex
 
         protected void btnSave_Click(object sender, EventArgs e)
         {
-            if (insertRegister())
+            if (registerValidation())
             {
-                clsFunction.DisplayAJAXMessage(this, "insert successfully.");
+                if (insertRegister())
+                {
+                    clsFunction.DisplayAJAXMessage(this, "Your programme has been registered successfully! Please wait for the staff to approve it.");
+                }
+                else
+                {
+                    clsFunction.DisplayAJAXMessage(this, "Unable to register.");
+                    ddlProgrammCategory.SelectedIndex = -1;
+                    ddlProgramme.SelectedIndex = -1;
+                    ddlSession.SelectedIndex = -1; 
+                    UploadNRIC.Dispose();
+                    UploadResultSlip.Dispose();
+                    UploadMedical.Dispose();
+
+                }
             }
+
         }
 
-
-
-        protected void rblFoundation_SelectedIndexChanged1(object sender, EventArgs e)
+        protected void ddlProgrammCategory_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (rblFoundation.SelectedValue != "")
+            if (ddlProgrammCategory.SelectedValue != "")
             {
-                rblDegree.Enabled = false;
-                rblDiploma.Enabled = false;
+                loadProgramme(ddlProgrammCategory.SelectedValue);
+                ddlProgramme.Enabled = true;
+
             }
         }
 
-        protected void rblDiploma_SelectedIndexChanged1(object sender, EventArgs e)
+        protected void ddlProgramme_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (rblDiploma.SelectedValue != "")
+            if (ddlProgramme.SelectedValue != "")
             {
-                rblDegree.Enabled = false;
-                rblFoundation.Enabled = false;
-            }
+                loadSession();
+                ddlSession.Enabled = true;
 
+            }
         }
 
-        protected void rblDegree_SelectedIndexChanged1(object sender, EventArgs e)
+        protected void btnCancel_Click(object sender, EventArgs e)
         {
-            if (rblDegree.SelectedValue != "")
-            {
-                rblFoundation.Enabled = false;
-                rblDiploma.Enabled = false;
-            }
+            ddlProgrammCategory.SelectedIndex = -1;
+            ddlProgramme.SelectedIndex = -1;
+            ddlSession.SelectedIndex = -1;
+            UploadNRIC.Dispose();
+            UploadResultSlip.Dispose();
+            UploadMedical.Dispose();
+            //Response.Redirect("StudentDashboard");
 
         }
 
-      
+        protected bool registerValidation()
+        {
+            if (ddlProgrammCategory.SelectedValue == "")
+            {
+                clsFunction.DisplayAJAXMessage(this, "Plese select the programme category (level of study) before viewing the programmes available");
+                return false;
+            }
+
+            if (ddlProgramme.SelectedValue == "")
+            {
+                clsFunction.DisplayAJAXMessage(this, "Plese select the programme to proceed to next selection.");
+                return false;
+            }
+
+            if (ddlSession.SelectedValue == "")
+            {
+                clsFunction.DisplayAJAXMessage(this, "Plese select the current available session.");
+                return false;
+            }
+
+            if (!(UploadNRIC.HasFile))
+            {
+                clsFunction.DisplayAJAXMessage(this, "Please upload the copy of your MyKad image.");
+                return false;
+            }
+
+            if (!(UploadResultSlip.HasFile))
+            {
+                clsFunction.DisplayAJAXMessage(this, "Please upload your result slip. (exp: SPM, STPM, O-Level and etc.)");
+                return false;
+            }
+
+            return true;
+        }
+
+
 
 
         //can save into database, need to do validation

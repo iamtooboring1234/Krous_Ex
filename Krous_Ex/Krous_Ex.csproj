@@ -482,6 +482,7 @@
     <Content Include="StudentFAQChatList.aspx" />
     <Content Include="StudentFAQ.aspx" />
     <Content Include="StudentProgrammeStructure.aspx" />
+    <Content Include="StudentRegisterListings.aspx" />
     <Content Include="Uploads\ProfileImage\defaultUserProfile.png" />
     <Content Include="Assests\main\img\exit.png" />
     <Content Include="Assests\main\img\graduated.png" />
@@ -1780,6 +1781,13 @@
     </Compile>
     <Compile Include="StudentProgrammeStructure.aspx.designer.cs">
       <DependentUpon>StudentProgrammeStructure.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="StudentRegisterListings.aspx.cs">
+      <DependentUpon>StudentRegisterListings.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="StudentRegisterListings.aspx.designer.cs">
+      <DependentUpon>StudentRegisterListings.aspx</DependentUpon>
     </Compile>
     <Compile Include="Testing2.aspx.cs">
       <DependentUpon>Testing2.aspx</DependentUpon>
