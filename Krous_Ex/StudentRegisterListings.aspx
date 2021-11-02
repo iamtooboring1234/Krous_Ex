@@ -15,9 +15,9 @@
                 <div class="row">
                     <div class="col-md-12">
                         <h3>
-                            <asp:Label ID="lblCourseList" runat="server" Font-Size="large">Course Listing</asp:Label>
+                            <asp:Label ID="lblCourseList" runat="server" Font-Size="large">Student Registration Listings</asp:Label>
                         </h3> 
-                        <p class="card-description">List of Course Available</p>
+                        <p class="card-description">List of the student that have register a programme. </p>
                     </div>
                 </div>
                 <hr />
@@ -75,8 +75,8 @@
                                         <asp:Label ID="lblRegisterGUID" runat="server" Text='<%# Eval("RegisterGUID") %>'></asp:Label>
                                     </ItemTemplate>
                                 </asp:TemplateField>
-                                <asp:BoundField DataField="StudentGUID" HeaderText="Name" ReadOnly="true" SortExpression="RegisterGUID" Visible="false" />
-                                <asp:BoundField DataField="ProgrammeGUID" HeaderText="ProgrammeGUID" ReadOnly="true" SortExpression="RegisterGUID" Visible="false" />
+                                <asp:BoundField DataField="StudentGUID" HeaderText="Name" ReadOnly="true" SortExpression="StudentGUID" Visible="false" />
+                                <asp:BoundField DataField="ProgrammeGUID" HeaderText="ProgrammeGUID" ReadOnly="true" SortExpression="ProgrammeGUID" Visible="false" />
                                 <asp:BoundField DataField="StudentFullName" HeaderText="Student Name" SortExpression="StudentFullName" ReadOnly="True" />
                                 <asp:BoundField DataField="NRIC" HeaderText="Student NRIC" SortExpression="NRIC" ReadOnly="True" />
                                 <asp:BoundField DataField="ProgrammeName" HeaderText="Programme Name" SortExpression="ProgrammeName" ReadOnly="True" />
@@ -96,7 +96,7 @@
                             <PagerStyle BackColor="#CCCCCC" ForeColor="Black" HorizontalAlign="Center" />
                             <RowStyle BackColor="" HorizontalAlign="Center" />
                         </asp:GridView>
-                        <asp:Label ID="lblNoData" runat="server" Visible="false" Font-Size="Large" Font-Bold="true" Text="No Course Record Found !"></asp:Label>
+                        <asp:Label ID="lblNoData" runat="server" Visible="false" Font-Size="Large" Font-Bold="true" Text="StudentRecord Not Found !"></asp:Label>
                     </div>
                 </div>
                 <div class="form-group pdForm">

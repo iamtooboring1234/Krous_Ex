@@ -306,11 +306,11 @@ CREATE TABLE [GroupStudentList] (
     CONSTRAINT [fk_student_groupStudentList] FOREIGN KEY ([StudentGUID]) REFERENCES [dbo].[Student] ([StudentGUID])
 );
 
-CREATE TABLE [GROUP] (
-    [GroupGUID] UNIQUEIDENTIFIER NOT NULL,
-    [GroupNo] INT NOT NULL,
-    [GroupCapacity] INT NOT NULL,
-    CONSTRAINT [pk_group] PRIMARY KEY CLUSTERED ([GroupGUID] ASC),
+CREATE TABLE [dbo].[Group] (
+    [GroupGUID]     UNIQUEIDENTIFIER NOT NULL,
+    [GroupNo]       INT              NOT NULL,
+    [GroupCapacity] INT              NOT NULL,
+    CONSTRAINT [pk_group] PRIMARY KEY CLUSTERED ([GroupGUID] ASC)
 );
 
 
@@ -398,4 +398,22 @@ CREATE TABLE [SemesterSessionStudent] (
     [SessionGUID] UNIQUEIDENTIFIER NOT NULL,
     [StudentGUID] UNIQUEIDENTIFIER NOT NULL,
     CONSTRAINT [pk_group] PRIMARY KEY CLUSTERED ([GroupGUID] ASC),
+);
+
+CREATE TABLE [Assessment] (
+	[AssessmentGUID] UNIQUEIDENTIFIER NOT NULL,
+	[StudentGUID]    UNIQUEIDENTIFIER NOT NULL,
+	[StaffGUID]	     UNIQUEIDENTIFIER NOT NULL,
+	[GroupGUID] UNIQUEIDENTIFIER NOT NULL,
+	[SessionGUID]	UNIQUEIDENTIFIER NOT NULL,
+	[AssessmentTitle] VARCHAR (50) NOT NULL,
+	[AssessmentDesc]  VARCHAR (150) NOT NULL,
+	[DueDate]        DATETIME NOT NULL,
+	[CreatedDate]    DATETIME NOT NULL,
+	[LastUpdateDate] DATETIME NOT NULL,
+	[AssessmentFiles] VARCHAR (500) NULL,
+    CONSTRAINT pk_assessment PRIMARY KEY (AssessmentGUID),
+	CONSTRAINT fk_student_assessment FOREIGN KEY (StudentGUID) REFERENCES Student(StudentGUID),
+	CONSTRAINT fk_staff_assessment FOREIGN KEY (StaffGUID) REFERENCES Staff(StaffGUID),
+	CONSTRAINT fk_groups_assessment FOREIGN KEY (GroupGUID) REFERENCES GROUPS(GroupGUID)
 );

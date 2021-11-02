@@ -475,7 +475,9 @@
     <Content Include="ProgrammeEntry.aspx" />
     <Content Include="Scripts\date.format.js" />
     <Content Include="ProgrammeListings.aspx" />
+    <Content Include="StaffAssessmentListings.aspx" />
     <Content Include="StaffCourseIncEntry.aspx" />
+    <Content Include="StaffCreateAssessment.aspx" />
     <Content Include="StaffFAQChatList.aspx" />
     <Content Include="StaffProfile.aspx" />
     <Content Include="StudentProgrammeRegister.aspx" />
@@ -1662,12 +1664,26 @@
     <Compile Include="Site.Mobile.Master.designer.cs">
       <DependentUpon>Site.Mobile.Master</DependentUpon>
     </Compile>
+    <Compile Include="StaffAssessmentListings.aspx.cs">
+      <DependentUpon>StaffAssessmentListings.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="StaffAssessmentListings.aspx.designer.cs">
+      <DependentUpon>StaffAssessmentListings.aspx</DependentUpon>
+    </Compile>
     <Compile Include="StaffCourseIncEntry.aspx.cs">
       <DependentUpon>StaffCourseIncEntry.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="StaffCourseIncEntry.aspx.designer.cs">
       <DependentUpon>StaffCourseIncEntry.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="StaffCreateAssessment.aspx.cs">
+      <DependentUpon>StaffCreateAssessment.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="StaffCreateAssessment.aspx.designer.cs">
+      <DependentUpon>StaffCreateAssessment.aspx</DependentUpon>
     </Compile>
     <Compile Include="StaffDashboard.aspx.cs">
       <DependentUpon>StaffDashboard.aspx</DependentUpon>
@@ -1815,6 +1831,7 @@
   <ItemGroup>
     <Folder Include="Controllers\" />
     <Folder Include="Models\" />
+    <Folder Include="Uploads\AssessmentFolder\" />
     <Folder Include="Uploads\FAQChatFile\" />
     <Folder Include="Uploads\StudentRegisterFile\" />
   </ItemGroup>
