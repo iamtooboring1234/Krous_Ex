@@ -96,7 +96,7 @@ namespace Krous_Ex
                 SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["Krous_Ex"].ConnectionString);
                 con.Open();
 
-                string sqlQuery = "SELECT p.ProgrammeCategory, p.ProgrammeGUID, c.CourseGUID, c.CourseAbbrv, c.CourseName, c.CreditHour FROM Course c, ProgrammeCourse pc, Programme p WHERE pc.CourseGUID = c.CourseGUID AND pc.ProgrammeGUID = p.ProgrammeGUID AND p.ProgrammeCategory = @ProgrammeCategory"; //WHERE ddlProgCategory
+                string sqlQuery = "SELECT p.ProgrammeCategory, p.ProgrammeGUID, c.CourseGUID, c.CourseAbbrv, c.CourseName, c.CreditHour FROM Course c, ProgrammeCourse pc, Programme p WHERE pc.CourseGUID = c.CourseGUID AND pc.ProgrammeGUID = p.ProgrammeGUID AND p.ProgrammeCategory = @ProgrammeCategory GROUP BY p.ProgrammeCategory, p.ProgrammeGUID, c.CourseGUID, c.CourseAbbrv, c.CourseName, c.CreditHour ORDER BY c.CourseName"; //WHERE ddlProgCategory
                 SqlCommand GetCommand = new SqlCommand(sqlQuery, con);
                 GetCommand.Parameters.AddWithValue("@ProgrammeCategory", ddlProgCategory.SelectedValue);
 

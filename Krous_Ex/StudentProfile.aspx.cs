@@ -93,6 +93,7 @@ namespace Krous_Ex
                             con = new SqlConnection(ConfigurationManager.ConnectionStrings["Krous_Ex"].ConnectionString);
                             con.Open();
                             SqlCommand GetCommand = new SqlCommand("SELECT * FROM Session WHERE SessionGUID = @SessionGUID ", con);
+                            //SqlCommand GetCommand = new SqlCommand("SELECT s.SessionYear, s.SessionMonth FROM Session s LEFT JOIN Student_Programme_Register spr on spr.SessionGUID = s.SessionGUID WHERE spr.StudentGUID = @StudentGUID", con);
 
                             GetCommand.Parameters.AddWithValue("@SessionGUID", Guid.Parse(dtStud.Rows[0][14].ToString())); 
 
