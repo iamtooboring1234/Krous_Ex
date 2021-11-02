@@ -417,3 +417,14 @@ CREATE TABLE [Assessment] (
 	CONSTRAINT fk_staff_assessment FOREIGN KEY (StaffGUID) REFERENCES Staff(StaffGUID),
 	CONSTRAINT fk_groups_assessment FOREIGN KEY (GroupGUID) REFERENCES GROUPS(GroupGUID)
 );
+
+CREATE TABLE [dbo].[CurrentSession] (
+    [CurrentSessionGUID] UNIQUEIDENTIFIER NOT NULL,
+    [SessionGUID] UNIQUEIDENTIFIER NOT NULL,
+    [StudentGUID] UNIQUEIDENTIFIER NOT NULL,
+    [Status] VARCHAR(20) NULL,
+    [Reason] VARCHAR(100) NULL,
+    PRIMARY KEY CLUSTERED ([CurrentSessionGUID] ASC),
+    CONSTRAINT [fk_currentSession_session] FOREIGN KEY ([SessionGUID]) REFERENCES [dbo].[Session] ([SessionGUID]),    
+    CONSTRAINT [fk_currentSession_student] FOREIGN KEY ([StudentGUID]) REFERENCES [dbo].[Student] ([StudentGUID]),
+);

@@ -80,11 +80,11 @@ namespace Krous_Ex
                                 DataTable dt = new DataTable();
                                 dt.Load(dtrSelect);
 
-                                string Session = dt.Rows[0]["SessionGUID"].ToString();
+                                string SessionGUID = dt.Rows[0]["SessionGUID"].ToString();
 
                                 SqlCommand updateSession = new SqlCommand("UPDATE Student SET SessionGUID = @SessionGUID, StudyStatus = @StudyStatus FROM Student s LEFT JOIN Student_Programme_Register spr ON spr.StudentGUID = s.StudentGUID WHERE spr.RegisterGUID = @RegisterGUID", con);
                                 updateSession.Parameters.AddWithValue("@StudyStatus", "Studying");
-                                updateSession.Parameters.AddWithValue("@SessionGUID", Session);
+                                updateSession.Parameters.AddWithValue("@SessionGUID", SessionGUID);
                                 updateSession.Parameters.AddWithValue("@RegisterGUID", Guid.Parse(lblRegisterGUID.Text));
                                 updateSession.ExecuteNonQuery();
 
@@ -111,6 +111,10 @@ namespace Krous_Ex
                                 assignGroup.Parameters.AddWithValue("@StudentGUID", StudentGUID);
                                 assignGroup.ExecuteNonQuery();
 
+                                SqlCommand currentSemester = new SqlCommand("INSERT INTO CurrentSession VALUES (NEWID(), @SessionGUID, @StudentGUID, NULL, NULL)", con);
+                                currentSemester.Parameters.AddWithValue("@SessionGUID", SessionGUID);
+                                currentSemester.Parameters.AddWithValue("@StudentGUID", StudentGUID);
+                                currentSemester.ExecuteNonQuery();
                             }
                            
                             sendEmail(Guid.Parse(lblRegisterGUID.Text));
@@ -348,6 +352,9 @@ namespace Krous_Ex
             }
         }
 
-
+        protected void btnReset_Click(object sender, EventArgs e)
+        {
+            Response.Redirect("StudentRegisterListings");
+        }
     }
 }

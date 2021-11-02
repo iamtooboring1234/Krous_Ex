@@ -102,13 +102,14 @@
                     </div>
                 </div>
                 <div class="form-group pdForm">
-                    <div class="row">
-                        <div class="col-md-1">
-                            <asp:Label ID="lblUpdate" runat="server" Visible="false" Text="0"></asp:Label>
-                        </div>
-                        <div class="col-md-8">
-                            <asp:Button Text="Update" ID="btnUpdate" runat="server" Width="18%" CssClass="btn btn-success mr20" OnClick="btnUpdate_Click" />
-                        </div>
+                    <div class="row justify-content-end">
+                    <div class="col-md-2">
+                        <asp:Label ID="lblUpdate" runat="server" Visible="false" Text="0"></asp:Label>
+                    </div>
+                    <div class="col-md-10  d-flex justify-content-end pt-3">
+                        <asp:Button Text="Update" ID="btnUpdate" runat="server" Width="18%" CssClass="btn btn-success mr20" OnClick="btnUpdate_Click" />
+                        <asp:Button Text="Reset" ID="btnReset" runat="server" Width="18%" CssClass="btn btn-dark mr20" OnClick="btnReset_Click"/>
+                    </div>
                     </div>
                 </div>
             </div>
