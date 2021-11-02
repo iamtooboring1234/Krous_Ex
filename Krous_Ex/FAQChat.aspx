@@ -28,7 +28,7 @@
 
                 }
 
-                window.location.href = "ChatView.aspx?ChatGUID=" + $('#<%=hdChatGUID.ClientID%>').val();
+                window.location.href = "FAQChatView.aspx?ChatGUID=" + $('#<%=hdChatGUID.ClientID%>').val();
 
             };
 
@@ -68,7 +68,7 @@
             var todaysDate = new Date();
 
             if (checkDate.setHours(0, 0, 0, 0) != todaysDate.setHours(0, 0, 0, 0)) {
-                divChat += '<div class="row col-lg-12 p0">';
+                divChat += '<div class="row col-lg-12 justifiy-content-center p0">';
                 divChat += '<div class="media media-meta-day">Today</div>';
                 divChat += '</div>';
                 $('#<%=hdCheckDate.ClientID%>').val(todaysDate.toDateString())
@@ -254,7 +254,7 @@
                 if (confirm("Are sure want to end this chat ? \n You no longer can send and receive message from this chat.")) {
                     $.ajax({
                         type: "POST",
-                        url: "TracoWS.asmx/endChat",
+                        url: "KrousExWebService.asmx/endChat",
                         data: { ChatGUID: $('#<%=hdChatGUID.ClientID%>').val() },
                         dataType: "xml",
                     }).done(function (chartData2) {
@@ -273,7 +273,6 @@
                 alert("You cannot end a empty chat !");
             }
         }
-
 
     </script>
 
@@ -309,7 +308,7 @@
 
                 <div class="box-footer mt-2">
                     <div class="input-group justify-content-end" style="float: right;">
-                        <textarea id="txtMessage" class="form-control"></textarea>
+                        <textarea id="txtMessage" class="form-control" onkeydown=""></textarea>
                         <button type="button" id="btn-sendmsg" class="btn btn-primary rounded-circle ml-1 mr-1"><i class="fa fa-paper-plane fa-lg" style="width:40px"></i></button>
                         <button type="button" id="btn-sendImg" class="btn btn-primary rounded-circle" onclick="ClickFileUpload();"><i class="fa fa-paperclip fa-lg" style="width:40px"></i></button>
                         <ajaxToolkit:AsyncFileUpload OnClientUploadComplete="uploadComplete" runat="server" ID="AsyncFileUploadChat" OnUploadedComplete="FileUploadComplete"  Style="display: none"/>
@@ -331,5 +330,18 @@
     <asp:HiddenField ID="hdChatGUID" runat="server" />
     <asp:HiddenField ID="hdNewChat" runat="server" />
     <asp:HiddenField ID="hdCheckDate" runat="server" />
+
+    <script>
+        const textbox = document.getElementById("txtMessage");
+        textbox.addEventListener("keypress", function onEvent(event) {
+            if (event.key === "Enter") {
+                document.getElementById("btn-sendmsg").click();
+            }
+        });
+
+        var myDiv = document.getElementById("chat-content");
+        myDiv.scrollTop = myDiv.scrollHeight;
+
+    </script>
 
 </asp:Content>
