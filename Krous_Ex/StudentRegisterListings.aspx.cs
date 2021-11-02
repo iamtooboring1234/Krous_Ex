@@ -87,6 +87,30 @@ namespace Krous_Ex
                                 updateSession.Parameters.AddWithValue("@SessionGUID", Session);
                                 updateSession.Parameters.AddWithValue("@RegisterGUID", Guid.Parse(lblRegisterGUID.Text));
                                 updateSession.ExecuteNonQuery();
+
+                                //assign student into groupstudentlist
+                                SqlCommand selectCmd = new SqlCommand("SELECT s.StudentGUID FROM Student s LEFT JOIN Student_Programme_Register spr on spr.StudentGUID = s.StudentGUID WHERE spr.RegisterGUID = @RegisterGUID", con);
+                                selectCmd.Parameters.AddWithValue("@RegisterGUID", Guid.Parse(lblRegisterGUID.Text));
+                                SqlDataReader dtr = selectCmd.ExecuteReader();
+                                DataTable dtS = new DataTable();
+                                dtS.Load(dtr);
+
+                                string StudentGUID = dtS.Rows[0]["StudentGUID"].ToString();
+                                Guid groupStudentListGUID = Guid.NewGuid();
+
+                                SqlCommand assignCmd = new SqlCommand("SELECT G.GroupGUID, G.GroupCapacity, Count(Gs.StudentGUID) FROM[Group] G LEFT JOIN GroupStudentList Gs ON G.GroupGUID = Gs.GroupGUID GROUP BY G.GroupGUID, G.GroupCapacity HAVING G.GroupCapacity > Count(Gs.StudentGUID)",con);
+                                SqlDataReader dtrAssign = assignCmd.ExecuteReader();
+                                DataTable dtAssign = new DataTable();
+                                dtAssign.Load(dtrAssign);
+
+                                string GroupGUID = dtAssign.Rows[0]["GroupGUID"].ToString();
+
+                                SqlCommand assignGroup = new SqlCommand("INSERT INTO GroupStudentList VALUES (@GroupStudentListGUID, @GroupGUID, @StudentGUID)", con);
+                                assignGroup.Parameters.AddWithValue("@GroupStudentListGUID", groupStudentListGUID);
+                                assignGroup.Parameters.AddWithValue("@GroupGUID", GroupGUID); 
+                                assignGroup.Parameters.AddWithValue("@StudentGUID", StudentGUID);
+                                assignGroup.ExecuteNonQuery();
+
                             }
                            
                             sendEmail(Guid.Parse(lblRegisterGUID.Text));
