@@ -6,7 +6,9 @@
 
     <link href="https://cdn.datatables.net/1.11.3/css/jquery.dataTables.min.css" rel="stylesheet" type="text/css" />
     <script src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js"></script>
+
 </asp:Content>
+
 <asp:Content ID="Content2" ContentPlaceHolderID="body" runat="server">
 
     <div class="col-lg-12">

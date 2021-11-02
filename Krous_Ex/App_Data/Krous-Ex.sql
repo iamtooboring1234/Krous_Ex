@@ -306,11 +306,11 @@ CREATE TABLE [GroupStudentList] (
     CONSTRAINT [fk_student_groupStudentList] FOREIGN KEY ([StudentGUID]) REFERENCES [dbo].[Student] ([StudentGUID])
 );
 
-CREATE TABLE [GROUP] (
-    [GroupGUID] UNIQUEIDENTIFIER NOT NULL,
-    [GroupNo] INT NOT NULL,
-    [GroupCapacity] INT NOT NULL,
-    CONSTRAINT [pk_group] PRIMARY KEY CLUSTERED ([GroupGUID] ASC),
+CREATE TABLE [dbo].[Group] (
+    [GroupGUID]     UNIQUEIDENTIFIER NOT NULL,
+    [GroupNo]       INT              NOT NULL,
+    [GroupCapacity] INT              NOT NULL,
+    CONSTRAINT [pk_group] PRIMARY KEY CLUSTERED ([GroupGUID] ASC)
 );
 
 

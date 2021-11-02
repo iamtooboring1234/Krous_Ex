@@ -119,3 +119,7 @@ INSERT INTO [dbo].[Semester] ([SemesterGUID], [SemesterYear], [SemesterSem], [Se
 INSERT INTO [dbo].[Semester] ([SemesterGUID], [SemesterYear], [SemesterSem], [SemesterType]) VALUES (N'c470dae0-d0ef-49fc-af69-b2988e66a2a2', N'3', N'3', N'Long')
 INSERT INTO [dbo].[Semester] ([SemesterGUID], [SemesterYear], [SemesterSem], [SemesterType]) VALUES (N'8b87225a-966c-4a52-8c0c-e776f598424c', N'2', N'1', N'Long')
 
+INSERT INTO GroupStudentList VALUES (NEWID(), 'e1709d30-269e-46f6-aeec-0e94c88a546b', '3525f39d-0dc7-4130-b3c2-0386abcddd00')
+INSERT INTO GroupStudentList VALUES (NEWID(), 'e1709d30-269e-46f6-aeec-0e94c88a546b', 'b750662c-1bd0-4cca-b5c1-96f60a791f5d')
+INSERT INTO GroupStudentList VALUES (NEWID(), 'e1709d30-269e-46f6-aeec-0e94c88a546b', '8a44dd59-ec36-4d7c-9c5b-4fd064977d3f')
+INSERT INTO GroupStudentList VALUES (NEWID(), 'e1709d30-269e-46f6-aeec-0e94c88a546b', '954d43cb-aee7-48d4-b4a3-c692a7e53ed8')
