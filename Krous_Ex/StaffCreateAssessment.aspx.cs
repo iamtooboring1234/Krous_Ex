@@ -2,6 +2,7 @@
 using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
+using System.Globalization;
 using System.IO;
 using System.Web.UI.WebControls;
 
@@ -13,13 +14,28 @@ namespace Krous_Ex
         protected void Page_Load(object sender, EventArgs e)
         {
             userGuid = Guid.Parse(clsLogin.GetLoginUserGUID());
-            if (IsPostBack != true)
+
+            if (Session["CreateAssessment"] != null)
             {
-                loadGroup();
-                loadSession();
-                txtDueDate.Text = DateTime.Today.ToString("dd/MM/yyyy");
+                if (Session["CreateAssessment"].ToString() == "Yes")
+                {
+                    ClientScript.RegisterStartupScript(GetType(), "Javascript", "javascript:showAddSuccessToast(); ", true);
+                    Session["CreateAssessment"] = null;
+                }
+                else
+                {
+                    clsFunction.DisplayAJAXMessage(this, "Unable to create new assessment!");
+                    Session["CreateAssessment"] = null;
+                }
             }
 
+            if (IsPostBack != true)
+            {
+                txtDueDate.Text = DateTime.Today.ToString("dd/MM/yyyy");
+                loadGroup();
+                loadSession();
+
+            }
         }
 
         private void loadSession()
@@ -67,7 +83,6 @@ namespace Krous_Ex
             }
         }
 
-
         private void loadGroup()
         {
             try
@@ -83,7 +98,7 @@ namespace Krous_Ex
 
                 SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["Krous_Ex"].ConnectionString);
                 con.Open();
-                SqlCommand GetCommand = new SqlCommand("SELECT GroupGUID, GroupNo FROM GROUPS GROUP BY GroupGUID, GroupNo ORDER BY GroupNo", con);
+                SqlCommand GetCommand = new SqlCommand("SELECT GroupGUID, GroupNo FROM [Group] GROUP BY GroupGUID, GroupNo ORDER BY GroupNo", con);
                 SqlDataReader reader = GetCommand.ExecuteReader();
 
                 DataTable dtProgCat = new DataTable();
@@ -101,7 +116,7 @@ namespace Krous_Ex
 
             catch (Exception)
             {
-                clsFunction.DisplayAJAXMessage(this, "Error loading programme category.");
+                clsFunction.DisplayAJAXMessage(this, "Error loading group list.");
             }
         }
 
@@ -109,7 +124,8 @@ namespace Krous_Ex
         {
             try
             {
-                Guid imgGuid = Guid.NewGuid();
+                Guid AssessmentGUID = Guid.NewGuid();
+                Guid AssessmentFileListGUID = Guid.NewGuid();
                 SqlConnection con = new SqlConnection();
                 SqlCommand createCmd = new SqlCommand();
 
@@ -128,19 +144,26 @@ namespace Krous_Ex
                         con = new SqlConnection(strCon);
                         con.Open();
 
-                        //createCmd = new SqlCommand("INSERT INTO Assessment (AssessmentGUID, StaffGUID, )", con);
-                        //createCmd.Parameters.AddWithValue("@email", txtEmail.Text);
-                        //createCmd.Parameters.AddWithValue("@StudentGUID", userGUID);
-                        //createCmd.Parameters.AddWithValue("@phoneNo", txtContact.Text);
-                        //createCmd.Parameters.AddWithValue("@address", txtAddress.Text);
-                        //createCmd.Parameters.AddWithValue("@profileImage", imgName);
-                        //createCmd.Parameters.AddWithValue("@LastUpdateInfo", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
-                        //createCmd.ExecuteNonQuery();
+                        createCmd = new SqlCommand("INSERT INTO Assessment (AssessmentGUID, StaffGUID, GroupGUID, SessionGUID, AssessmentTitle, AssessmentDesc, DueDate, CreatedDate, AssessmentFiles) VALUES (@AssessmentGUID, @StaffGUID, @GroupGUID, @SessionGUID, @AssessmentTitle, @AssessmentDesc, @DueDate, @CreatedDate, @AssessmentFiles)", con);
+                        createCmd.Parameters.AddWithValue("@AssessmentGUID", AssessmentGUID);
+                        createCmd.Parameters.AddWithValue("@StaffGUID", userGuid);
+                        createCmd.Parameters.AddWithValue("@GroupGUID", ddlGroups.SelectedValue);
+                        createCmd.Parameters.AddWithValue("@SessionGUID", ddlSession.SelectedValue);
+                        createCmd.Parameters.AddWithValue("@AssessmentTitle", txtAssTitle.Text);
+                        createCmd.Parameters.AddWithValue("@AssessmentDesc", txtDesc.Text);
+                        //createCmd.Parameters.AddWithValue("@DueDate", Convert.ToDateTime(txtDueDate.Text));
+                        createCmd.Parameters.AddWithValue("@DueDate", DateTime.ParseExact(txtDueDate.Text, "dd/MM/yyyy HH:mm:ss", CultureInfo.InvariantCulture));
+                        createCmd.Parameters.AddWithValue("@CreatedDate", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
+                        createCmd.ExecuteNonQuery();
+
+                        SqlCommand insertFileList = new SqlCommand("INSERT INTO AssessmentFileList (AssessmentFileListGUID, AssessmentGUID, FileName) VALUES (@AssessmentFileListGUID, @AssessmentGUID, @FileName)", con);
+                        insertFileList.Parameters.AddWithValue("@AssessmentFileListGUID", AssessmentFileListGUID);
+                        insertFileList.Parameters.AddWithValue("@AssessmentGUID", AssessmentGUID);
+                        insertFileList.Parameters.AddWithValue("@FileName", filename);
+                        insertFileList.ExecuteNonQuery();
 
                         con.Dispose();
                         con.Close();
-
-
                     }
                 }
                 else
@@ -156,6 +179,73 @@ namespace Krous_Ex
                 return false;
             }
         }
+
+        protected void txtDueDate_TextChanged(object sender, EventArgs e)
+        {
+            try
+            {
+                int Days = int.Parse(txtDueDate.Text);            
+                
+                DateTime startDate = DateTime.ParseExact(txtDueDate.Text, "dd/MM/yyyy HH:mm:ss", CultureInfo.InvariantCulture);
+                CalendarExtender1.SelectedDate = startDate.AddDays(Days);
+            }
+            catch (Exception ex)
+            {
+                clsFunction.DisplayAJAXMessage(this, ex.Message);
+            }
+        }
+
+        protected void btnCreate_Click(object sender, EventArgs e)
+        {
+            if (assessmentValidation())
+            {
+                if (createAssessment())
+                {
+                    Session["CreateAssessment"] = "Yes";
+                    Response.Redirect("StaffCreateAssessment");
+                }
+                else
+                {
+                    clsFunction.DisplayAJAXMessage(this, "Unable to create assessment.");
+                }
+            }
+            else
+            {
+                clsFunction.DisplayAJAXMessage(this, "Please enter all the required information.");
+            }
+            
+        }
+
+        private bool assessmentValidation()
+        {
+
+            if(txtAssTitle.Text == "")
+            {
+                clsFunction.DisplayAJAXMessage(this, "Please enter the assessment title.");
+                return false;
+            }
+
+            if(txtDesc.Text == "")
+            {
+                clsFunction.DisplayAJAXMessage(this, "Please enter the assessment description.");
+                return false;
+            }
+
+            if(ddlSession.SelectedValue == "")
+            {
+                clsFunction.DisplayAJAXMessage(this, "Please select the session.");
+                return false;
+            }
+
+            if (ddlGroups.SelectedValue == "")
+            {
+                clsFunction.DisplayAJAXMessage(this, "Please select the session.");
+                return false;
+            }
+
+            return true;
+        }
+
 
         //protected void AjaxFileUpload2_UploadComplete(object sender, AjaxControlToolkit.AjaxFileUploadEventArgs e)
         //{

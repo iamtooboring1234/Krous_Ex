@@ -268,8 +268,6 @@ namespace Krous_Ex
                 Session["UpdateStatus"] = "Yes";
                 Response.Redirect("StudentRegisterListings", true);
             }
-           
-
         }
 
         protected void gvCourse_RowDataBound(object sender, GridViewRowEventArgs e)
@@ -284,7 +282,7 @@ namespace Krous_Ex
                     DropDownList ddlStatus = e.Row.Cells[6].FindControl("ddlStatus") as DropDownList;
                     Label lblStatus = e.Row.Cells[6].FindControl("lblStatus") as Label;
 
-                    if (lblStatus.Text == "Rejected")
+                    if (lblStatus.Text == "Rejected" || lblStatus.Text == "Approved")
                     {
                         lblStatus.Visible = true;
                         ddlStatus.Visible = false;

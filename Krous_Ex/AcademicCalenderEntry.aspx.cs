@@ -47,8 +47,8 @@ namespace Krous_Ex
                 InsertCommand.Parameters.AddWithValue("@SessionGUID", ddlSession.SelectedValue);
                 InsertCommand.Parameters.AddWithValue("@CalenderName", txtSemesterName.Text);
                 InsertCommand.Parameters.AddWithValue("@CalenderType", ddlCalenderType.SelectedValue);
-                InsertCommand.Parameters.AddWithValue("@SemesterStartDate", DateTime.Parse(txtSemesterStartDate.Text));
-                InsertCommand.Parameters.AddWithValue("@SemesterEndDate", DateTime.Parse(txtSemesterEndDate.Text));
+                InsertCommand.Parameters.AddWithValue("@SemesterStartDate", DateTime.ParseExact(txtSemesterStartDate.Text, "dd/MM/yyyy", CultureInfo.InvariantCulture));
+                InsertCommand.Parameters.AddWithValue("@SemesterEndDate", DateTime.ParseExact(txtSemesterEndDate.Text, "dd/MM/yyyy", CultureInfo.InvariantCulture));
                 InsertCommand.Parameters.AddWithValue("@SemesterStudyDuration", txtSemesterStudyDuration.Text);
                 InsertCommand.Parameters.AddWithValue("@SemesterExaminationDuration", txtSemesterExamDuration.Text);
                 InsertCommand.Parameters.AddWithValue("@SemesterBreakDuration", txtSemesterBreakDuration.Text);
@@ -68,16 +68,22 @@ namespace Krous_Ex
 
         protected void btnSave_Click(object sender, EventArgs e)
         {
-            if (insertCalendar())
+            if (entryValidation())
             {
-                Session["InsertCalendar"] = "Yes";
-                Response.Redirect("AcademicCalenderEntry");
+                if (insertCalendar())
+                {
+                    Session["InsertCalendar"] = "Yes";
+                    Response.Redirect("AcademicCalenderEntry");
+                }
+                else
+                {
+                    clsFunction.DisplayAJAXMessage(this, "Unable to insert. Failed to create.");
+                }
             }
             else
             {
-                clsFunction.DisplayAJAXMessage(this, "Unable to insert. Failed to create.");
+                clsFunction.DisplayAJAXMessage(this, "Please enter all the required information.");
             }
-
         }
 
         protected void btnBack_Click(object sender, EventArgs e)
@@ -226,5 +232,34 @@ namespace Krous_Ex
                 clsFunction.DisplayAJAXMessage(this, ex.Message);
             }
         }
+
+        protected bool entryValidation()
+        {
+            if (txtSemesterName.Text == "")
+            {
+                clsFunction.DisplayAJAXMessage(this, "Please enter the semester name.");
+                return false;
+            }
+
+            if (txtSemesterStudyDuration.Text == "")
+            {
+                clsFunction.DisplayAJAXMessage(this, "Please enter the semester study duration.");
+                return false;
+            }
+
+            if (txtSemesterExamDuration.Text == "")
+            {
+                clsFunction.DisplayAJAXMessage(this, "Please enter the semester examination duration.");
+                return false;
+            }
+
+            if (txtSemesterBreakDuration.Text == "")
+            {
+                clsFunction.DisplayAJAXMessage(this, "Please enter the semester break duration.");
+                return false;
+            }
+            return true;
+        }   
+
     }
 }

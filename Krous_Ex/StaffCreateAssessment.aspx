@@ -77,7 +77,7 @@
                                     <div class="row">
                                         <div class="col-md-4">
                                             <span class="input-group-addon input-group-append border-left">
-                                                <asp:TextBox ID="txtDueDate" runat="server" CssClass="form-control" AutoPostBack="true"></asp:TextBox>
+                                                <asp:TextBox ID="txtDueDate" runat="server" CssClass="form-control" AutoPostBack="true" OnTextChanged="txtDueDate_TextChanged"></asp:TextBox>
                                                 <span class="mdi mdi-calendar input-group-text"></span>
                                             </span>
                                             <ajaxToolkit:CalendarExtender ID="CalendarExtender1" CssClass="black" PopupButtonID="imgPopup" runat="server" TargetControlID="txtDueDate" EnableViewState="false" Format="dd/MM/yyyy"></ajaxToolkit:CalendarExtender>
@@ -90,7 +90,7 @@
                         <div class="form-group pdForm">
                             <div class="row">
                                 <div class="col-md-2 col-form-label">
-                                    <asp:Label ID="lblFileUpload" runat="server">File Upload</asp:Label><span style="color: red;">*</span>
+                                    <asp:Label ID="lblFileUpload" runat="server">File(s) Upload</asp:Label>
                                 </div>
                                 <div class="col-md-9">
                                     <asp:FileUpload ID="UploadMaterials" AllowMultiple="true" runat="server" />
@@ -145,7 +145,7 @@
                         <div class="form-group pdForm">
                             <div class="row">
                                 <div class="col-md-12 float-right text-right">
-                                    <asp:Button Text="Create" ID="btnCreate" runat="server" Width="18%" CssClass="btn btn-primary mr20 pdForm" />
+                                    <asp:Button Text="Create" ID="btnCreate" runat="server" Width="18%" CssClass="btn btn-primary mr20 pdForm" OnClick="btnCreate_Click" />
                                     <ajaxToolkit:ConfirmButtonExtender ID="ConfirmButtonExtender1" runat="server" ConfirmText="Are you sure to create this assessment?" TargetControlID="btnCreate" />
                                     <%--<asp:Button Text="Back" ID="btnBack" runat="server" Width="18%" CssClass="btn mr20 pdForm"/>--%>
                                     <asp:Button Text="Cancel" ID="btnCancel" runat="server" Width="18%" CssClass="btn btn-dark mr20 pdForm" Style="height: 37px;" />
@@ -165,5 +165,6 @@
 
 
     <script src="Assests/main/js/formpickers.js"></script>
+    <script src="Assests/main/js/toastDemo.js"></script>
 
 </asp:Content>

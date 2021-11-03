@@ -400,22 +400,28 @@ CREATE TABLE [SemesterSessionStudent] (
     CONSTRAINT [pk_group] PRIMARY KEY CLUSTERED ([GroupGUID] ASC),
 );
 
-CREATE TABLE [Assessment] (
-	[AssessmentGUID] UNIQUEIDENTIFIER NOT NULL,
-	[StudentGUID]    UNIQUEIDENTIFIER NOT NULL,
-	[StaffGUID]	     UNIQUEIDENTIFIER NOT NULL,
-	[GroupGUID] UNIQUEIDENTIFIER NOT NULL,
-	[SessionGUID]	UNIQUEIDENTIFIER NOT NULL,
-	[AssessmentTitle] VARCHAR (50) NOT NULL,
-	[AssessmentDesc]  VARCHAR (150) NOT NULL,
-	[DueDate]        DATETIME NOT NULL,
-	[CreatedDate]    DATETIME NOT NULL,
-	[LastUpdateDate] DATETIME NOT NULL,
-	[AssessmentFiles] VARCHAR (500) NULL,
-    CONSTRAINT pk_assessment PRIMARY KEY (AssessmentGUID),
-	CONSTRAINT fk_student_assessment FOREIGN KEY (StudentGUID) REFERENCES Student(StudentGUID),
-	CONSTRAINT fk_staff_assessment FOREIGN KEY (StaffGUID) REFERENCES Staff(StaffGUID),
-	CONSTRAINT fk_groups_assessment FOREIGN KEY (GroupGUID) REFERENCES GROUPS(GroupGUID)
+CREATE TABLE [dbo].[Assessment] (
+    [AssessmentGUID]  UNIQUEIDENTIFIER NOT NULL,
+    [StaffGUID]       UNIQUEIDENTIFIER NOT NULL,
+    [GroupGUID]       UNIQUEIDENTIFIER NOT NULL,
+    [SessionGUID]     UNIQUEIDENTIFIER NOT NULL,
+    [AssessmentTitle] VARCHAR (50)     NOT NULL,
+    [AssessmentDesc]  VARCHAR (150)    NOT NULL,
+    [DueDate]         DATETIME         NOT NULL,
+    [CreatedDate]     DATETIME         NOT NULL,
+    [LastUpdateDate]  DATETIME         NULL,
+    CONSTRAINT [pk_assessment] PRIMARY KEY CLUSTERED ([AssessmentGUID] ASC),
+    CONSTRAINT [fk_staff_assessment] FOREIGN KEY ([StaffGUID]) REFERENCES [dbo].[Staff] ([StaffGUID]),
+    CONSTRAINT [fk_group_assessment] FOREIGN KEY ([GroupGUID]) REFERENCES [dbo].[Group] ([GroupGUID]),
+    CONSTRAINT [fk_session_assessment] FOREIGN KEY ([SessionGUID]) REFERENCES [dbo].[Session] ([SessionGUID])
+);
+
+CREATE TABLE [dbo].[AssessmentFileList] (
+    [AssessmentFileListGUID] UNIQUEIDENTIFIER NOT NULL,
+    [AssessmentGUID]         UNIQUEIDENTIFIER NOT NULL,
+    [FileName]               VARCHAR (500)    NULL,
+    CONSTRAINT [pk_fileList] PRIMARY KEY CLUSTERED ([AssessmentFileListGUID] ASC),
+    CONSTRAINT [fk_assessment_fileList] FOREIGN KEY ([AssessmentGUID]) REFERENCES [dbo].[Assessment] ([AssessmentGUID])
 );
 
 CREATE TABLE [dbo].[CurrentSession] (
