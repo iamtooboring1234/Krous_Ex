@@ -177,15 +177,15 @@ namespace Krous_Ex
                 SqlCommand GetCommand = new SqlCommand("SELECT ForumCategory FROM FORUM GROUP BY ForumCategory ORDER BY ForumCategory", con);
                 SqlDataReader reader = GetCommand.ExecuteReader();
 
-                DataTable dtFAQ = new DataTable();
-                dtFAQ.Load(reader);
+                DataTable dtForumCat = new DataTable();
+                dtForumCat.Load(reader);
                 con.Close();
 
-                for (int i = 0; i <= dtFAQ.Rows.Count - 1; i++)
+                for (int i = 0; i <= dtForumCat.Rows.Count - 1; i++)
                 {
                     oList = new ListItem();
-                    oList.Text = dtFAQ.Rows[i]["ForumCategory"].ToString();
-                    oList.Value = dtFAQ.Rows[i]["ForumCategory"].ToString();
+                    oList.Text = dtForumCat.Rows[i]["ForumCategory"].ToString();
+                    oList.Value = dtForumCat.Rows[i]["ForumCategory"].ToString();
                     ddlCategory.Items.Add(oList);
                 }
             }

@@ -1,4 +1,7 @@
 ﻿<%@ Page Title="" Language="C#" MaintainScrollPositionOnPostback="true"  MasterPageFile="~/StaffMaster.Master" AutoEventWireup="true" CodeBehind="AcademicCalenderEntry.aspx.cs" Inherits="Krous_Ex.AcademicCalenderEntry" %>
+
+<%@ Register Assembly="AjaxControlToolkit" Namespace="AjaxControlToolkit" TagPrefix="ajaxToolkit" %>
+
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
 
     <link href="Assests/main/css/inquiry.css" rel="stylesheet" />

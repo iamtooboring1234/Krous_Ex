@@ -181,27 +181,77 @@ namespace Krous_Ex
                         }
                     }
 
-                    strTableHead += "<tr class=\"disc-body-content\">";
-                    strTableHead += "<td style=\"text-align:center\">";
-                    strTableHead += "<img src=\"Assests/main/images/faces/face1.jpg\"/>";
-                    strTableHead += "<p class=\"pt-3\">" + dtReply.Rows[0]["CreatedBy"] + " </p> ";
-                    strTableHead += "</td>";
-                    strTableHead += "<td style=\"padding: 10px 0.25rem 0.25rem 20px !important; vertical-align:top\">" + dtReply.Rows[0]["DiscContent"];
-                    strTableHead += "</td>";
-                    strTableHead += "</tr>";
+
+                    con.Open();
+                    GetCommand = new SqlCommand("SELECT * FROM STUDENT WHERE StudentUsername = @StudentUserName ", con);
+                    GetCommand.Parameters.AddWithValue("@StudentUserName", dtReply.Rows[0]["CreatedBy"].ToString());
+                    reader = GetCommand.ExecuteReader();
+                    DataTable dtStudentCreator = new DataTable();
+                    dtStudentCreator.Load(reader);
+
+                    GetCommand = new SqlCommand("SELECT * FROM Staff WHERE StaffUsername = @StaffUsername ", con);
+                    GetCommand.Parameters.AddWithValue("@StaffUsername", dtReply.Rows[0]["CreatedBy"].ToString());
+                    reader = GetCommand.ExecuteReader();
+                    DataTable dtStaffCreator = new DataTable();
+                    dtStaffCreator.Load(reader);
+                    con.Close();
+
+                    if (dtStudentCreator.Rows.Count != 0)
+                    {
+                        strTableHead += "<tr class=\"disc-body-content\">";
+                        strTableHead += "<td style=\"text-align:center\">";
+                        strTableHead += "<img src=\"" + ConfigurationManager.AppSettings["ProfileUploadPath"].ToString() + dtStudentCreator.Rows[0]["ProfileImage"].ToString() + "\"/>";
+                        strTableHead += "<p class=\"pt-3\">" + dtReply.Rows[0]["CreatedBy"] + " </p> ";
+                        strTableHead += "</td>";
+                        strTableHead += "<td style=\"padding: 10px 0.25rem 0.25rem 20px !important; vertical-align:top\">" + dtReply.Rows[0]["DiscContent"];
+                        strTableHead += "</td>";
+                        strTableHead += "</tr>";
+                    } else
+                    {
+                        strTableHead += "<tr class=\"disc-body-content\">";
+                        strTableHead += "<td style=\"text-align:center\">";
+                        strTableHead += "<img src=\"" + ConfigurationManager.AppSettings["ProfileUploadPath"].ToString() + dtStaffCreator.Rows[0]["ProfileImage"].ToString() + "\"/>";
+                        strTableHead += "<p class=\"pt-3\">" + dtReply.Rows[0]["CreatedBy"] + " </p> ";
+                        strTableHead += "</td>";
+                        strTableHead += "<td style=\"padding: 10px 0.25rem 0.25rem 20px !important; vertical-align:top\">" + dtReply.Rows[0]["DiscContent"];
+                        strTableHead += "</td>";
+                        strTableHead += "</tr>";
+                    }
 
                     
                     for (int i = 0; i < dtReply.Rows.Count; i++)
                     {
                         if (!String.IsNullOrEmpty(dtReply.Rows[i]["RepliedContent"].ToString()))
                         {
+                            con.Open();
+                            GetCommand = new SqlCommand("SELECT * FROM STUDENT WHERE StudentUsername = @StudentUserName ", con);
+                            GetCommand.Parameters.AddWithValue("@StudentUserName", dtReply.Rows[i]["RepliedBy"].ToString());
+                            reader = GetCommand.ExecuteReader();
+                            DataTable dtStudent = new DataTable();
+                            dtStudent.Load(reader);
+
+                            GetCommand = new SqlCommand("SELECT * FROM Staff WHERE StaffUsername = @StaffUsername ", con);
+                            GetCommand.Parameters.AddWithValue("@StaffUsername", dtReply.Rows[i]["RepliedBy"].ToString());
+                            reader = GetCommand.ExecuteReader();
+                            DataTable dtStaff = new DataTable();
+                            dtStaff.Load(reader);
+                            con.Close();
+
                             strTableBody += "<tr>";
                             strTableBody += "<td hidden></td>";
                             strTableBody += "<td style = \"padding: 0.5rem 0.25rem 0.5rem 20px!important; background:#2f3545;\" colspan = \"2\">" + dtReply.Rows[i]["RepliedDate"] + "<span class=\"float-right\" style=\"padding-right:10px\">#" + y + "</span></td>";
                             strTableBody += "</tr>";
                             strTableBody += "<tr>";
                             strTableBody += "<td style=\"text-align:center\">";
-                            strTableBody += "<img src=\"Assests/main/images/faces/face1.jpg\"/>";
+
+                            if (dtStudent.Rows.Count != 0)
+                            {
+                                strTableBody += "<img src=\"" + ConfigurationManager.AppSettings["ProfileUploadPath"].ToString() + dtStudent.Rows[0]["ProfileImage"].ToString() + "\"/>";
+                            } else
+                            {
+                                strTableBody += "<img src=\"" + ConfigurationManager.AppSettings["ProfileUploadPath"].ToString() + dtStaff.Rows[0]["ProfileImage"].ToString() + "\"/>";
+                            }
+
                             if (myCookie != null)
                             {
                                 if (clsLogin.GetLoginUserType() == "Staff")

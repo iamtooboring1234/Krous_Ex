@@ -7,7 +7,7 @@ using System.Web.UI.WebControls;
 
 namespace Krous_Ex
 {
-    public partial class ExamEntry : System.Web.UI.Page
+    public partial class ExaminationListings : System.Web.UI.Page
     {
         protected void Page_Load(object sender, EventArgs e)
         {
