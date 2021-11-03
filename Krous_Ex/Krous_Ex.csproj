@@ -253,7 +253,7 @@
     </Content>
     <Content Include="Assests\main\css\AccRegistration.css" />
     <Content Include="Assests\main\css\bootstrap-datepicker\bootstrap-datepicker.css" />
-    <Content Include="Assests\main\css\bootstrap-datepicker\bootstrap-datepicker.min.css" />
+    <Content Include="Assests\main\css\bootstrap-datepicker\bootstrap-datepicker.min.4.17.css" />
     <Content Include="Assests\main\css\bootstrap-datepicker\bootstrap-datepicker.standalone.css" />
     <Content Include="Assests\main\css\bootstrap-datepicker\bootstrap-datepicker.standalone.min.css" />
     <Content Include="Assests\main\css\bootstrap-datepicker\bootstrap-datepicker3.css" />
@@ -477,6 +477,7 @@
     <Content Include="ProgrammeEntry.aspx" />
     <Content Include="Scripts\date.format.js" />
     <Content Include="ProgrammeListings.aspx" />
+    <Content Include="Scripts\moment.js" />
     <Content Include="StaffAssessmentListings.aspx" />
     <Content Include="StaffCourseIncEntry.aspx" />
     <Content Include="StaffCreateAssessment.aspx" />
@@ -1060,9 +1061,9 @@
     <Content Include="Default.aspx" />
     <Content Include="KrousExDiscussionEntry.aspx" />
     <Content Include="Error_Page\Error_404.aspx" />
-    <Content Include="ExamEntry.aspx" />
+    <Content Include="ExaminationEntry.aspx" />
     <Content Include="ExaminationDashboard.aspx" />
-    <Content Include="ExamListings.aspx" />
+    <Content Include="ExaminationListings.aspx" />
     <Content Include="FacultyEntry.aspx" />
     <Content Include="FacultyListings.aspx" />
     <Content Include="KrousExFAQ.aspx" />
@@ -1463,12 +1464,12 @@
     <Compile Include="Error_Page\Error_404.aspx.designer.cs">
       <DependentUpon>Error_404.aspx</DependentUpon>
     </Compile>
-    <Compile Include="ExamEntry.aspx.cs">
-      <DependentUpon>ExamEntry.aspx</DependentUpon>
+    <Compile Include="ExaminationEntry.aspx.cs">
+      <DependentUpon>ExaminationEntry.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="ExamEntry.aspx.designer.cs">
-      <DependentUpon>ExamEntry.aspx</DependentUpon>
+    <Compile Include="ExaminationEntry.aspx.designer.cs">
+      <DependentUpon>ExaminationEntry.aspx</DependentUpon>
     </Compile>
     <Compile Include="ExaminationDashboard.aspx.cs">
       <DependentUpon>ExaminationDashboard.aspx</DependentUpon>
@@ -1477,12 +1478,12 @@
     <Compile Include="ExaminationDashboard.aspx.designer.cs">
       <DependentUpon>ExaminationDashboard.aspx</DependentUpon>
     </Compile>
-    <Compile Include="ExamListings.aspx.cs">
-      <DependentUpon>ExamListings.aspx</DependentUpon>
+    <Compile Include="ExaminationListings.aspx.cs">
+      <DependentUpon>ExaminationListings.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="ExamListings.aspx.designer.cs">
-      <DependentUpon>ExamListings.aspx</DependentUpon>
+    <Compile Include="ExaminationListings.aspx.designer.cs">
+      <DependentUpon>ExaminationListings.aspx</DependentUpon>
     </Compile>
     <Compile Include="FacultyEntry.aspx.cs">
       <DependentUpon>FacultyEntry.aspx</DependentUpon>

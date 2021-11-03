@@ -175,15 +175,17 @@ CREATE TABLE [Exam_Result_Per_Course] (
     CONSTRAINT pk_exam_result_per_course PRIMARY KEY (Exam_Result_Per_CourseGUID),
 	CONSTRAINT fk_student_exam_result_per_course FOREIGN KEY (StudentGUID) REFERENCES Student(StudentGUID),
 	CONSTRAINT fk_course_exam_result_per_course FOREIGN KEY (CourseGUID) REFERENCES Course(CourseGUID)
-)
+);
 
-CREATE TABLE [Exam_Timetable] (
-	[Exam_TimetableGUID] UNIQUEIDENTIFIER NOT NULL,
-	[ExamDate] datetime NOT NULL,
-	[CourseID] char(10) NOT NULL,
-    CONSTRAINT pk_exam_timetable PRIMARY KEY (Exam_TimetableGUID),
-	CONSTRAINT fk_course_exam_timetable FOREIGN KEY (CourseGUID) REFERENCES Course(CourseGUID)
-)
+CREATE TABLE [ExamTimetable] (
+	[ExamTimetableGUID] UNIQUEIDENTIFIER NOT NULL,
+    [SessionGUID] UNIQUEIDENTIFIER NOT NULL,
+    [CourseGUID] UNIQUEIDENTIFIER NOT NULL,
+	[ExamStartDateTime] datetime NOT NULL,
+    [ExamEndDateTime] datetime NOT NULL,
+    CONSTRAINT pk_exam_timetable PRIMARY KEY ([ExamTimetableGUID] ASC),
+	CONSTRAINT fk_course_examtimetable FOREIGN KEY (CourseGUID) REFERENCES Course(CourseGUID)
+);
 
 CREATE TABLE [dbo].[Forum] (
     [ForumGUID]            UNIQUEIDENTIFIER NOT NULL,
@@ -427,10 +429,12 @@ CREATE TABLE [dbo].[AssessmentFileList] (
 CREATE TABLE [dbo].[CurrentSession] (
     [CurrentSessionGUID] UNIQUEIDENTIFIER NOT NULL,
     [SessionGUID] UNIQUEIDENTIFIER NOT NULL,
+    [SemesterGUID] UNIQUEIDENTIFIER NOT NULL,
     [StudentGUID] UNIQUEIDENTIFIER NOT NULL,
     [Status] VARCHAR(20) NULL,
     [Reason] VARCHAR(100) NULL,
     PRIMARY KEY CLUSTERED ([CurrentSessionGUID] ASC),
-    CONSTRAINT [fk_currentSession_session] FOREIGN KEY ([SessionGUID]) REFERENCES [dbo].[Session] ([SessionGUID]),    
+    CONSTRAINT [fk_currentSession_session] FOREIGN KEY ([SessionGUID]) REFERENCES [dbo].[Session] ([SessionGUID]),   
+    CONSTRAINT [fk_currentSession_semester] FOREIGN KEY ([SemesterGUID]) REFERENCES [dbo].[Semester] ([SemesterGUID]),
     CONSTRAINT [fk_currentSession_student] FOREIGN KEY ([StudentGUID]) REFERENCES [dbo].[Student] ([StudentGUID]),
 );
