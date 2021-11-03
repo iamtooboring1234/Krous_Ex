@@ -31,7 +31,7 @@ namespace Krous_Ex
 
             if (IsPostBack != true)
             {
-                txtDueDate.Text = DateTime.Today.ToString("dd/MM/yyyy");
+                //txtDueDate.Text = DateTime.Today.ToString("dd/MM/yyyy");
                 loadGroup();
                 loadSession();
 
@@ -152,7 +152,7 @@ namespace Krous_Ex
                         createCmd.Parameters.AddWithValue("@AssessmentTitle", txtAssTitle.Text);
                         createCmd.Parameters.AddWithValue("@AssessmentDesc", txtDesc.Text);
                         //createCmd.Parameters.AddWithValue("@DueDate", Convert.ToDateTime(txtDueDate.Text));
-                        createCmd.Parameters.AddWithValue("@DueDate", DateTime.ParseExact(txtDueDate.Text, "dd/MM/yyyy HH:mm:ss", CultureInfo.InvariantCulture));
+                        //createCmd.Parameters.AddWithValue("@DueDate", DateTime.ParseExact(txtDueDate.Text, "dd/MM/yyyy HH:mm:ss", CultureInfo.InvariantCulture));
                         createCmd.Parameters.AddWithValue("@CreatedDate", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
                         createCmd.ExecuteNonQuery();
 
@@ -180,20 +180,20 @@ namespace Krous_Ex
             }
         }
 
-        protected void txtDueDate_TextChanged(object sender, EventArgs e)
-        {
-            try
-            {
-                int Days = int.Parse(txtDueDate.Text);            
+        //protected void txtDueDate_TextChanged(object sender, EventArgs e)
+        //{
+        //    try
+        //    {
+        //        int Days = int.Parse(txtDueDate.Text);            
                 
-                DateTime startDate = DateTime.ParseExact(txtDueDate.Text, "dd/MM/yyyy HH:mm:ss", CultureInfo.InvariantCulture);
-                CalendarExtender1.SelectedDate = startDate.AddDays(Days);
-            }
-            catch (Exception ex)
-            {
-                clsFunction.DisplayAJAXMessage(this, ex.Message);
-            }
-        }
+        //        DateTime startDate = DateTime.ParseExact(txtDueDate.Text, "dd/MM/yyyy HH:mm:ss", CultureInfo.InvariantCulture);
+        //        CalendarExtender1.SelectedDate = startDate.AddDays(Days);
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        clsFunction.DisplayAJAXMessage(this, ex.Message);
+        //    }
+        //}
 
         protected void btnCreate_Click(object sender, EventArgs e)
         {
