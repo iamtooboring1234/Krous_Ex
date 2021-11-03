@@ -19,23 +19,20 @@ namespace Krous_Ex
         Guid userGUID;
         protected void Page_Load(object sender, EventArgs e)
         {
-            var myCookie = Request.Cookies[FormsAuthentication.FormsCookieName];
 
-            if (myCookie != null)
+            userGUID = Guid.Parse(clsLogin.GetLoginUserGUID());
+            if (IsPostBack != true)
             {
-                userGUID = Guid.Parse(clsLogin.GetLoginUserGUID());
-                if (!(IsPostBack))
+                if (userGUID != null)
                 {
-                    if (userGUID != null)
-                    {
-                        loadData();
-                    }
+                    loadData();
                 }
-                else
-                {
-                    Response.Redirect("StudentLogin.aspx");
-                }
-            }  
+            }
+            else
+            {
+                Response.Redirect("StudentLogin.aspx");
+            }
+         
         }
 
         protected void loadData()

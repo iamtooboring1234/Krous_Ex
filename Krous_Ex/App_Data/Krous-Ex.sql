@@ -412,6 +412,7 @@ CREATE TABLE [dbo].[Assessment] (
     [DueDate]         DATETIME         NOT NULL,
     [CreatedDate]     DATETIME         NOT NULL,
     [LastUpdateDate]  DATETIME         NULL,
+	[UploadMaterials] VARCHAR (500) NULL,
     CONSTRAINT [pk_assessment] PRIMARY KEY CLUSTERED ([AssessmentGUID] ASC),
     CONSTRAINT [fk_staff_assessment] FOREIGN KEY ([StaffGUID]) REFERENCES [dbo].[Staff] ([StaffGUID]),
     CONSTRAINT [fk_group_assessment] FOREIGN KEY ([GroupGUID]) REFERENCES [dbo].[Group] ([GroupGUID]),
