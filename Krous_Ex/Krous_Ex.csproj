@@ -284,7 +284,6 @@
     <Content Include="Assests\main\css\fullpage.css" />
     <Content Include="Assests\main\css\general.css" />
     <Content Include="Assests\main\css\inquiry.css" />
-    <Content Include="Assests\main\css\jquery.dataTables.min.css" />
     <Content Include="Assests\main\css\layouts.css" />
     <Content Include="Assests\main\css\LiveChat.css" />
     <Content Include="Assests\main\css\LoginPage.css" />
@@ -461,6 +460,12 @@
     <Content Include="Assests\main\img\mini_logo.png" />
     <Content Include="Assests\main\js\dropify.js" />
     <Content Include="Assests\main\js\tabs.js" />
+    <Content Include="Assests\main\vendors\JQuery.datatable\jquery.dataTables.min.css" />
+    <Content Include="Assests\main\vendors\JQuery.datatable\jquery.dataTables.min.js" />
+    <Content Include="Assests\main\vendors\JQuery.datetimepicker\jquery.datetimepicker.full.min.js" />
+    <Content Include="Assests\main\vendors\JQuery.datetimepicker\jquery.datetimepicker.min.css" />
+    <Content Include="Assests\main\vendors\JQuery.timepicker\jquery.timepicker.min.css" />
+    <Content Include="Assests\main\vendors\JQuery.timepicker\jquery.timepicker.min.js" />
     <Content Include="CourseListings.aspx" />
     <Content Include="DiscussionEntry.aspx" />
     <Content Include="FAQChat.aspx" />
@@ -514,9 +519,6 @@
     <Content Include="Assests\main\vendors\codemirror\javascript.js" />
     <Content Include="Assests\main\vendors\codemirror\shell.js" />
     <Content Include="Assests\main\vendors\css\vendor.bundle.base.css" />
-    <Content Include="Assests\main\vendors\datatables.net-bs4\dataTables.bootstrap4.css" />
-    <Content Include="Assests\main\vendors\datatables.net-bs4\dataTables.bootstrap4.js" />
-    <Content Include="Assests\main\vendors\datatables.net\jquery.dataTables.js" />
     <Content Include="Assests\main\vendors\flag-icon-css\css\flag-icon.min.css" />
     <Content Include="Assests\main\vendors\flag-icon-css\flags\1x1\ad.svg" />
     <Content Include="Assests\main\vendors\flag-icon-css\flags\1x1\ae.svg" />
