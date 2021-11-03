@@ -1,4 +1,4 @@
-﻿<%@ Page Title="" Language="C#" MaintainScrollPositionOnPostback="true"  MasterPageFile="~/StaffMaster.Master" AutoEventWireup="true" CodeBehind="AcademicCalenderEntry.aspx.cs" Inherits="Krous_Ex.AcademicCalenderEntry" %>
+﻿<%@ Page Title="" Language="C#" MaintainScrollPositionOnPostback="true" MasterPageFile="~/StaffMaster.Master" AutoEventWireup="true" CodeBehind="AcademicCalenderEntry.aspx.cs" Inherits="Krous_Ex.AcademicCalenderEntry" %>
 
 <%@ Register Assembly="AjaxControlToolkit" Namespace="AjaxControlToolkit" TagPrefix="ajaxToolkit" %>
 
@@ -6,11 +6,12 @@
 
     <link href="Assests/main/css/inquiry.css" rel="stylesheet" />
     <link href="Assests/main/css/general.css" rel="stylesheet" />
-    <link href="Assests/main/css/bootstrap-datepicker/bootstrap-datepicker.min.css" rel="stylesheet" />
-    <script src="Assests/main/js/bootstrap-datepicker.min.js"></script>
 
-        <style>
-        .form-check table.form-check-input tbody tr td label  {
+    <script src="Assests/main/vendors/JQuery.datetimepicker/jquery.datetimepicker.full.min.js"></script>
+    <link href="Assests/main/vendors/JQuery.datetimepicker/jquery.datetimepicker.min.css" rel="stylesheet" />
+
+    <style>
+        .form-check table.form-check-input tbody tr td label {
             padding: 0 0.625rem;
             font-size: 0.875rem;
             line-height: 1.75;
@@ -22,17 +23,17 @@
             padding-left: 50px;
         }
 
-        .form-check table.form-check-input tbody tr td input {
-            width: 1em;
-            height: 1em;
-            margin-top: 0.25em;
-            vertical-align: top;
-            background-color: #fff;
-            background-repeat: no-repeat;
-            background-position: center;
-            background-size: contain;
-            border: 1px solid rgba(0, 0, 0, 0.25);
-        }
+            .form-check table.form-check-input tbody tr td input {
+                width: 1em;
+                height: 1em;
+                margin-top: 0.25em;
+                vertical-align: top;
+                background-color: #fff;
+                background-repeat: no-repeat;
+                background-position: center;
+                background-size: contain;
+                border: 1px solid rgba(0, 0, 0, 0.25);
+            }
 
         .form-check-checkbox table tbody tr td label, .form-check-all label {
             padding-left: 0.625rem;
@@ -41,6 +42,37 @@
             color: #6c7293;
         }
     </style>
+
+    <script>
+        function pageLoad() {
+            bind();
+        };
+
+        function bind() {
+            $('.startDate').datetimepicker({
+                defaultTime: '09:00',
+                closeOnDateSelect: true,
+                timepicker: false,
+                theme: 'dark',
+                format: 'd/m/Y',
+                defaultDate: new Date(),
+            });
+            $('.endDate').datetimepicker({
+                defaultTime: '09:00',
+                closeOnDateSelect: true,
+                timepicker: false,
+                theme: 'dark',
+                format: 'd/m/Y',
+                defaultDate: new Date(),
+                onShow: function (ct) {
+                    this.setOptions({
+                        minDate: jQuery('.startDate').val() ? jQuery('.startDate').val() : false
+                    })
+                },
+            });
+        };
+
+    </script>
 
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="body" runat="server">
@@ -111,31 +143,31 @@
                                     </div>
                                 </div>
 
-                               <div class="form-group pdForm">
+                                <div class="form-group pdForm">
                                     <div class="row justify-content-center">
                                         <div class="col-md-2 col-form-label">
                                             <asp:Label ID="lblSemesterDate" runat="server">Semester Date</asp:Label><span style="color: red;">*</span>
                                         </div>
                                         <div class="col-md-8">
                                             <div class="row">
-                                            <div class="col-md-4">
-                                                <span class="input-group-addon input-group-append border-left" >
-                                                    <asp:TextBox ID="txtSemesterStartDate" runat="server" CssClass="form-control" AutoPostBack="true" OnTextChanged="txtSemesterStartDate_TextChanged"></asp:TextBox>  
-                                                    <span class="mdi mdi-calendar input-group-text"></span>
-                                                </span>
-                                                <ajaxToolkit:CalendarExtender ID="CalendarExtender1" CssClass="black" PopupButtonID="imgPopup" runat="server" TargetControlID="txtSemesterStartDate" EnableViewState="false" Format="dd/MM/yyyy" > </ajaxToolkit:CalendarExtender>  
-                                            </div>
-                                            <div class="input-group-addon col-form-label mx-4">to</div>
-                                            <div class="col-md-4">
-                                                <span class="input-group-addon input-group-append border-left">
-                                                    <asp:TextBox ID="txtSemesterEndDate" runat="server" CssClass="form-control" OnTextChanged="txtSemesterEndDate_TextChanged" AutoPostBack="true"></asp:TextBox>
-                                                    <span class="mdi mdi-calendar input-group-text"></span>
-                                                </span>
-                                                <ajaxToolkit:CalendarExtender ID="CalendarExtender2" CssClass="black" PopupButtonID="imgPopup" runat="server" TargetControlID="txtSemesterEndDate" EnableViewState="false" Format="dd/MM/yyyy"> </ajaxToolkit:CalendarExtender>  
-                                            </div>
+                                                <div class="col-md-4">
+                                                    <span class="input-group-addon input-group-append border-left">
+                                                        <asp:TextBox ID="txtSemesterStartDate" runat="server" CssClass="form-control startDate" AutoPostBack="true" OnTextChanged="txtSemesterStartDate_TextChanged"></asp:TextBox>
+                                                        <span class="mdi mdi-calendar input-group-text"></span>
+                                                    </span>
+                                                    <ajaxToolkit:CalendarExtender ID="CalendarExtender1" CssClass="black" PopupButtonID="imgPopup" runat="server" TargetControlID="txtSemesterStartDate" EnableViewState="false" Format="dd/MM/yyyy" Enabled="false"></ajaxToolkit:CalendarExtender>
                                                 </div>
+                                                <div class="input-group-addon col-form-label mx-4">to</div>
+                                                <div class="col-md-4">
+                                                    <span class="input-group-addon input-group-append border-left">
+                                                        <asp:TextBox ID="txtSemesterEndDate" runat="server" CssClass="form-control endDate" OnTextChanged="txtSemesterEndDate_TextChanged" AutoPostBack="true"></asp:TextBox>
+                                                        <span class="mdi mdi-calendar input-group-text"></span>
+                                                    </span>
+                                                    <ajaxToolkit:CalendarExtender ID="CalendarExtender2" CssClass="black" PopupButtonID="imgPopup" runat="server" TargetControlID="txtSemesterEndDate" EnableViewState="false" Format="dd/MM/yyyy" Enabled="false"></ajaxToolkit:CalendarExtender>
+                                                </div>
+                                            </div>
                                         </div>
-                                   </div>
+                                    </div>
                                 </div>
 
                                 <div class="form-group pdForm">
@@ -179,7 +211,7 @@
                                         <div class="col-md-2 col-form-label">
                                             <asp:Label ID="Label6" runat="server">Semester Examination Duration</asp:Label><span style="color: red;">*</span>
                                         </div>
-                                          <div class="col-md-8">
+                                        <div class="col-md-8">
                                             <div class="row">
                                                 <div class="col-md-4">
                                                     <asp:TextBox ID="txtSemesterExamDuration" runat="server" CssClass="form-control"></asp:TextBox>
@@ -210,14 +242,14 @@
                                     </div>
                                 </div>
 
-                                <hr /> 
+                                <hr />
                                 <div class="form-group pdForm">
                                     <div class="row">
                                         <div class="col-md-12 float-right text-right">
                                             <asp:Button Text="Save" ID="btnSave" runat="server" Width="18%" CssClass="btn btn-primary mr20 pdForm" OnClick="btnSave_Click" />
                                             <ajaxToolkit:ConfirmButtonExtender ID="ConfirmButtonExtender1" runat="server" ConfirmText="Are you sure to add these details ?" TargetControlID="btnSave" />
                                             <asp:Button Text="Back" ID="btnBack" runat="server" Width="18%" CssClass="btn mr20 pdForm" OnClick="btnBack_Click" />
-<%--                                        <asp:Button Text="Cancel" ID="btnCancel" runat="server" Width="18%" CssClass="btn btn-dark mr20 pdForm" OnClick="btnCancel_Click" />
+                                            <%--                                        <asp:Button Text="Cancel" ID="btnCancel" runat="server" Width="18%" CssClass="btn btn-dark mr20 pdForm" OnClick="btnCancel_Click" />
                                             <asp:Button Text="Update" ID="btnUpdate" runat="server" Width="18%" CssClass="btn mr20 pdForm" OnClick="btnUpdate_Click" />
                                             <ajaxToolkit:ConfirmButtonExtender ID="ConfirmButtonExtender2" runat="server" ConfirmText="Are you sure to update this FAQ ?" TargetControlID="btnUpdate" />
                                             <asp:Button Text="Delete" ID="btnDelete" runat="server" Width="18%" CssClass="btn mr20 pdForm" OnClick="btnDelete_Click" />
@@ -231,7 +263,7 @@
                 </asp:UpdatePanel>
             </div>
         </div>
-    </div>    
+    </div>
 
     <script src="Assests/main/js/formpickers.js"></script>
     <script src="Assests/main/js/toastDemo.js"></script>

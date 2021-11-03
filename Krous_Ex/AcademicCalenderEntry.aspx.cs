@@ -225,7 +225,7 @@ namespace Krous_Ex
             {
                 int Days = int.Parse(txtSemesterDay.Text);
                 DateTime startDate = DateTime.ParseExact(txtSemesterStartDate.Text, "dd/MM/yyyy", CultureInfo.InvariantCulture);
-                CalendarExtender2.SelectedDate = startDate.AddDays(Days);
+                txtSemesterEndDate.Text = startDate.AddDays(Days).ToString("dd/MM/yyyy");
             }
             catch (Exception ex)
             {

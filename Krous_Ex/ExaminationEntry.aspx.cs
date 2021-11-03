@@ -246,5 +246,20 @@ namespace Krous_Ex
             }
 
         }
+
+        protected void btnCancel_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        protected void btnUpdate_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        protected void btnDelete_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }

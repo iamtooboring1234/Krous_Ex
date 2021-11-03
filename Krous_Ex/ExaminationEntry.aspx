@@ -7,11 +7,12 @@
     <link href="Assests/main/css/inquiry.css" rel="stylesheet" />
     <link href="Assests/main/css/general.css" rel="stylesheet" />
 
-    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/timepicker/1.3.5/jquery.timepicker.min.css">
-    <script src="//cdnjs.cloudflare.com/ajax/libs/timepicker/1.3.5/jquery.timepicker.min.js"></script>
+    <script src="Assests/main/vendors/JQuery.timepicker/jquery.timepicker.min.js"></script>
+    <link href="Assests/main/vendors/JQuery.timepicker/jquery.timepicker.min.css" rel="stylesheet" />
 
-    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
-    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    <link href="Assests/main/vendors/select2/select2.min.css" rel="stylesheet" />
+    <script src="Assests/main/vendors/select2/select2.min.js"></script>
+
 
     <style>
         .ui-timepicker-container .ui-timepicker-viewport {
@@ -22,9 +23,9 @@
             color: white;
         }
 
-            .ui-timepicker-viewport li.ui-menu-item a:hover, #ui-active-item {
-                color: black;
-            }
+        .ui-timepicker-viewport li.ui-menu-item a:hover, #ui-active-item {
+            color: black;
+        }
 
         .ui-timepicker-viewport::-webkit-scrollbar {
             display: none;
@@ -69,10 +70,10 @@
 
     <script>
         function pageLoad() {
-            bindTimePicker();
+            bind();
         };
 
-        function bindTimePicker() {
+        function bind() {
             $('.timepickerstart').timepicker({
                 timeFormat: 'h:mm p',
                 interval: 30,
@@ -148,7 +149,7 @@
                                 <div class="form-group pdForm">
                                     <div class="row justify-content-center">
                                         <div class="col-md-2 col-form-label">
-                                            <asp:Label ID="lblSemesterDate" runat="server">Examination Date</asp:Label><span style="color: red;"> *</span>
+                                            <asp:Label ID="lblExamDate" runat="server">Examination Date</asp:Label><span style="color: red;"> *</span>
                                         </div>
                                         <div class="col-md-8">
                                             <div class="row">
@@ -168,7 +169,7 @@
                                 <div class="form-group pdForm">
                                     <div class="row justify-content-center">
                                         <div class="col-md-2 col-form-label">
-                                            <asp:Label ID="Label1" runat="server">Examination Time </asp:Label><span style="color: red;">*</span>
+                                            <asp:Label ID="lblExamTime" runat="server">Examination Time </asp:Label><span style="color: red;">*</span>
                                         </div>
                                         <div class="col-md-8">
                                             <div class="row">
@@ -192,11 +193,11 @@
                                             <asp:Button Text="Back" ID="btnBack" runat="server" Width="18%" CssClass="btn mr20 pdForm" OnClick="btnBack_Click" />
                                             <asp:Button Text="Save" ID="btnSave" runat="server" Width="18%" CssClass="btn btn-primary mr20 pdForm" OnClick="btnSave_Click" />
                                             <ajaxToolkit:ConfirmButtonExtender ID="ConfirmButtonExtender1" runat="server" ConfirmText="Are you sure to add these details ?" TargetControlID="btnSave" />
-                                            <%--                                        <asp:Button Text="Cancel" ID="btnCancel" runat="server" Width="18%" CssClass="btn btn-dark mr20 pdForm" OnClick="btnCancel_Click" Style="margin-left: 10px; height: 38px;" />
-                                        <asp:Button Text="Update" ID="btnUpdate" runat="server" Width="18%" CssClass="btn mr20 pdForm" OnClick="btnUpdate_Click" />
-                                        <ajaxToolkit:ConfirmButtonExtender ID="ConfirmButtonExtender2" runat="server" ConfirmText="Are you sure to update this FAQ ?" TargetControlID="btnUpdate" />
-                                        <asp:Button Text="Delete" ID="btnDelete" runat="server" Width="18%" CssClass="btn mr20 pdForm" OnClick="btnDelete_Click"/>
-                                        <ajaxToolkit:ConfirmButtonExtender ID="ConfirmButtonExtender3" runat="server" ConfirmText="Are you sure to delete this FAQ ?" TargetControlID="btnDelete" />--%>
+                                            <asp:Button Text="Cancel" ID="btnCancel" runat="server" Width="18%" CssClass="btn btn-dark mr20 pdForm" OnClick="btnCancel_Click" Style="margin-left: 10px; height: 38px;" />
+                                            <asp:Button Text="Update" ID="btnUpdate" runat="server" Width="18%" CssClass="btn mr20 pdForm" OnClick="btnUpdate_Click" />
+                                            <ajaxToolkit:ConfirmButtonExtender ID="ConfirmButtonExtender2" runat="server" ConfirmText="Are you sure to update this FAQ ?" TargetControlID="btnUpdate" />
+                                            <asp:Button Text="Delete" ID="btnDelete" runat="server" Width="18%" CssClass="btn mr20 pdForm" OnClick="btnDelete_Click" />
+                                            <ajaxToolkit:ConfirmButtonExtender ID="ConfirmButtonExtender3" runat="server" ConfirmText="Are you sure to delete this FAQ ?" TargetControlID="btnDelete" />
                                         </div>
                                     </div>
                                 </div>
