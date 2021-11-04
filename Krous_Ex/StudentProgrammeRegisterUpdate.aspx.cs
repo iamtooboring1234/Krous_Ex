@@ -189,27 +189,112 @@ namespace Krous_Ex
                 string StudentGUID = dtS.Rows[0]["StudentGUID"].ToString();
                 Guid groupStudentListGUID = Guid.NewGuid();
 
-                SqlCommand assignCmd = new SqlCommand("SELECT G.GroupGUID, G.GroupNo, G.GroupCapacity, Count(Gs.StudentGUID), S.SessionGUID FROM [Group] G LEFT JOIN GroupStudentList Gs ON G.GroupGUID = Gs.GroupGUID LEFT JOIN Student S ON Gs.StudentGUID = S.StudentGUID WHERE S.SessionGUID = @SessionGUID OR S.SessionGUID IS NULL GROUP BY G.GroupGUID, G.GroupNo, G.GroupCapacity, S.SessionGUID HAVING G.GroupCapacity > Count(Gs.StudentGUID) ORDER BY G.GroupNo ", con);
-                assignCmd.Parameters.AddWithValue("@SessionGUID", SessionGUID);
+                            string hasGroupQuery = " SELECT G.GroupGUID, G.GroupCapacity, G.GroupNo, S.SessionGUID, spr.ProgrammeGUID, Count(Gs.studentGUID) as 'TotalNumberStudent' ";
+                            hasGroupQuery += "FROM [Group] G LEFT JOIN GroupStudentList Gs ON G.GroupGUID = Gs.GroupGUID ";
+                            hasGroupQuery += "LEFT JOIN Student S ON Gs.StudentGUID = S.StudentGUID ";
+                            hasGroupQuery += "LEFT JOIN Student_Programme_Register spr ON S.StudentGUID = spr.StudentGUID ";
+                            hasGroupQuery += "WHERE S.SessionGUID = @SessionGUID ";
+                            hasGroupQuery += "AND spr.ProgrammeGUID = @ProgrammeGUID ";
+                            hasGroupQuery += "GROUP BY G.GroupGUID, G.GroupNo, G.GroupCapacity, S.SessionGUID, spr.ProgrammeGUID ORDER BY G.GroupNo ";
 
-                SqlDataReader dtrAssign = assignCmd.ExecuteReader();
-                DataTable dtAssign = new DataTable();
-                dtAssign.Load(dtrAssign);
+                            SqlCommand hasGroupCmd = new SqlCommand(hasGroupQuery, con);
 
-                string GroupGUID = dtAssign.Rows[0]["GroupGUID"].ToString();
+                            hasGroupCmd.Parameters.AddWithValue("@SessionGUID", SessionGUID);
+                            hasGroupCmd.Parameters.AddWithValue("@ProgrammeGUID", ProgrammeGUID);
 
-                SqlCommand assignGroup = new SqlCommand("INSERT INTO GroupStudentList VALUES (@GroupStudentListGUID, @GroupGUID, @StudentGUID)", con);
-                assignGroup.Parameters.AddWithValue("@GroupStudentListGUID", groupStudentListGUID);
-                assignGroup.Parameters.AddWithValue("@GroupGUID", GroupGUID);
-                assignGroup.Parameters.AddWithValue("@StudentGUID", StudentGUID);
-                assignGroup.ExecuteNonQuery();
+                            SqlDataReader dtrHasGroup = hasGroupCmd.ExecuteReader();
+                            DataTable dtHasGroup = new DataTable();
+                            dtHasGroup.Load(dtrHasGroup);
+                            
+                            if (dtHasGroup.Rows.Count != 0)
+                            {
+                                bool newGroup = false;
+                                int count = 1;
 
-                SqlCommand currentSemester = new SqlCommand("INSERT INTO CurrentSessionSemester VALUES (NEWID(), @SessionGUID, @SemesterGUID, @StudentGUID, NULL, NULL)", con);
-                currentSemester.Parameters.AddWithValue("@SessionGUID", SessionGUID);
-                currentSemester.Parameters.AddWithValue("@SemesterGUID", ddlSemester.SelectedValue);
-                currentSemester.Parameters.AddWithValue("@StudentGUID", StudentGUID);
-                currentSemester.ExecuteNonQuery();
+                                for (int i = 0;  i< dtHasGroup.Rows.Count; i++)
+                                {
+                                    int test1 = int.Parse(dtHasGroup.Rows[i]["GroupCapacity"].ToString());
+                                    int test2 = int.Parse(dtHasGroup.Rows[i]["TotalNumberStudent"].ToString());
+                                    if (int.Parse(dtHasGroup.Rows[i]["GroupCapacity"].ToString()) == int.Parse(dtHasGroup.Rows[i]["TotalNumberStudent"].ToString()))
+                                    {
+                                        newGroup = true;
+                                        count++;
+                                    } else
+                                    {
+                                        newGroup = false;
+                                    }
+                                }
 
+                                if (newGroup == false)
+                                {
+                                    string assignQuery = "SELECT G.GroupGUID, G.GroupNo, G.GroupCapacity, Count(Gs.StudentGUID), S.SessionGUID, spr.ProgrammeGUID ";
+                                    assignQuery += "FROM[Group] G LEFT JOIN GroupStudentList Gs ON G.GroupGUID = Gs.GroupGUID ";
+                                    assignQuery += "LEFT JOIN Student S ON Gs.StudentGUID = S.StudentGUID ";
+                                    assignQuery += "LEFT JOIN Student_Programme_Register spr ON S.StudentGUID = spr.StudentGUID ";
+                                    assignQuery += "WHERE S.SessionGUID = @SessionGUID OR S.SessionGUID IS NULL ";
+                                    assignQuery += "AND spr.ProgrammeGUID = @ProgrammeGUID OR spr.ProgrammeGUID IS NULL ";
+                                    assignQuery += "GROUP BY G.GroupGUID, G.GroupNo, G.GroupCapacity, S.SessionGUID, spr.ProgrammeGUID HAVING G.GroupCapacity > Count(Gs.StudentGUID) ORDER BY G.GroupNo ";
+
+                                    SqlCommand assignCmd = new SqlCommand(assignQuery, con);
+
+                                    assignCmd.Parameters.AddWithValue("@SessionGUID", SessionGUID);
+                                    assignCmd.Parameters.AddWithValue("@ProgrammeGUID", ProgrammeGUID);
+
+                                    SqlDataReader dtrAssign = assignCmd.ExecuteReader();
+                                    DataTable dtAssign = new DataTable();
+                                    dtAssign.Load(dtrAssign);
+
+                                    string GroupGUID = dtAssign.Rows[0]["GroupGUID"].ToString();
+
+                                    SqlCommand assignGroup = new SqlCommand("INSERT INTO GroupStudentList VALUES (@GroupStudentListGUID, @GroupGUID, @StudentGUID)", con);
+                                    assignGroup.Parameters.AddWithValue("@GroupStudentListGUID", groupStudentListGUID);
+                                    assignGroup.Parameters.AddWithValue("@GroupGUID", GroupGUID);
+                                    assignGroup.Parameters.AddWithValue("@StudentGUID", StudentGUID);
+                                    assignGroup.ExecuteNonQuery();
+                                } else 
+                                {
+                                    SqlCommand assignCmd = new SqlCommand("SELECT TOP 1 * FROM [GROUP] WHERE GroupNo=" + count + " ", con);
+
+                                    SqlDataReader dtrAssign = assignCmd.ExecuteReader();
+                                    DataTable dtAssign = new DataTable();
+                                    dtAssign.Load(dtrAssign);
+
+                                    string GroupGUID = dtAssign.Rows[0]["GroupGUID"].ToString();
+
+                                    SqlCommand assignGroup = new SqlCommand("INSERT INTO GroupStudentList VALUES (@GroupStudentListGUID, @GroupGUID, @StudentGUID)", con);
+                                    assignGroup.Parameters.AddWithValue("@GroupStudentListGUID", groupStudentListGUID);
+                                    assignGroup.Parameters.AddWithValue("@GroupGUID", GroupGUID);
+                                    assignGroup.Parameters.AddWithValue("@StudentGUID", StudentGUID);
+                                    assignGroup.ExecuteNonQuery();
+                                }
+                            } else
+                            {
+                                SqlCommand assignCmd = new SqlCommand("SELECT TOP 1 * FROM [GROUP] ORDER BY GroupNo", con);
+
+                                SqlDataReader dtrAssign = assignCmd.ExecuteReader();
+                                DataTable dtAssign = new DataTable();
+                                dtAssign.Load(dtrAssign);
+
+                                string GroupGUID = dtAssign.Rows[0]["GroupGUID"].ToString();
+
+                                SqlCommand assignGroup = new SqlCommand("INSERT INTO GroupStudentList VALUES (@GroupStudentListGUID, @GroupGUID, @StudentGUID)", con);
+                                assignGroup.Parameters.AddWithValue("@GroupStudentListGUID", groupStudentListGUID);
+                                assignGroup.Parameters.AddWithValue("@GroupGUID", GroupGUID);
+                                assignGroup.Parameters.AddWithValue("@StudentGUID", StudentGUID);
+                                assignGroup.ExecuteNonQuery();
+                            }
+
+                            SqlCommand currentSemester = new SqlCommand("INSERT INTO CurrentSessionSemester VALUES (NEWID(), @SessionGUID, @SemesterGUID, @StudentGUID, NULL, NULL)", con);
+                            currentSemester.Parameters.AddWithValue("@SessionGUID", SessionGUID);
+                            currentSemester.Parameters.AddWithValue("@SemesterGUID", ddlSemester.SelectedValue);
+                            currentSemester.Parameters.AddWithValue("@StudentGUID", StudentGUID);
+
+                            currentSemester.ExecuteNonQuery();
+                        }
+
+                        return true;
+                    }
+                }
                 sendEmail(RegisterGUID);
 
             }   
