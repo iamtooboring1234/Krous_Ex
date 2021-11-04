@@ -141,6 +141,7 @@ namespace Krous_Ex
                         lbMedical.Attributes["href"] = ResolveUrl(medicalFilePath);
                         lbMedical.Attributes["download"] = dt.Rows[0]["UploadMedical"].ToString();
                     }
+
                 }
                 con.Close();
             }
@@ -151,6 +152,19 @@ namespace Krous_Ex
         }
        
         protected void btnApprove_Click(object sender, EventArgs e)
+        {
+            if (approveStudent())
+            {
+                Session["UpdateStatus"] = "Yes";
+                Response.Redirect("StudentProgrammeRegisterListings");
+            }
+            else
+            {
+                clsFunction.DisplayAJAXMessage(this, "Error");
+            }
+        }
+
+        private bool approveStudent()
         {
             try
             {
@@ -294,17 +308,27 @@ namespace Krous_Ex
                 currentSemester.Parameters.AddWithValue("@StudentGUID", StudentGUID);
 
                 currentSemester.ExecuteNonQuery();
-
                 sendEmail(RegisterGUID);
+                return true;
 
-            }   
+            }
             catch (Exception ex)
             {
-                System.Diagnostics.Trace.WriteLine(ex.Message);         
+                System.Diagnostics.Trace.WriteLine(ex.Message);
+                return false;
             }
         }
 
         protected void btnReject_Click(object sender, EventArgs e)
+        {
+            if (rejectStudent())
+            {
+                clsFunction.DisplayAJAXMessage(this, "The application of this student has been rejected.");
+                Response.Redirect("StudentProgrammeRegisterUpdate");
+            }
+        }
+
+        private bool rejectStudent()
         {
             try
             {
@@ -316,10 +340,12 @@ namespace Krous_Ex
                 updateCmd.Parameters.AddWithValue("@Status", "Rejected");
                 updateCmd.Parameters.AddWithValue("@RegisterGUID", RegisterGUID);
                 updateCmd.ExecuteNonQuery();
+                return true;
             }
             catch (Exception ex)
             {
                 System.Diagnostics.Trace.WriteLine(ex.Message);
+                return false;
             }
         }
 
