@@ -168,8 +168,9 @@
                 </div>
             </div>
         </div>
+    </div>
 
-        <script src="Assests/main/js/tabs.js"></script>
-        <%--    <script src="Assests/main/js/dropify.js"></script>
+    <script src="Assests/main/js/tabs.js"></script>
+    <%--    <script src="Assests/main/js/dropify.js"></script>
     <script src="Assests/vendors/dropify/dropify.min.js"></script>--%>
 </asp:Content>

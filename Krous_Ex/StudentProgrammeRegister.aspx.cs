@@ -329,14 +329,14 @@ namespace Krous_Ex
                 con.Open();
                 var SelectCommand = new SqlCommand();
 
-                SelectCommand = new SqlCommand("SELECT spr.StudentGUID, spr.ProgrammeGUID, p.ProgrammeCategory FROM Student_Programme_Register WHERE StudentGUID = @StudentGUD GROUP BY StudentGUID, ProgrammeGUID", con);
+                SelectCommand = new SqlCommand("SELECT StudentGUID, ProgrammeGUID FROM Student_Programme_Register WHERE StudentGUID = @StudentGUD GROUP BY StudentGUID, ProgrammeGUID ", con);
                 SelectCommand.Parameters.AddWithValue("@StudentGUID", userGUID);
                 SqlDataReader reader = SelectCommand.ExecuteReader();
                 DataTable dtFound = new DataTable();
                 dtFound.Load(reader);
                 con.Close();
-                if (dtFound.Rows.Count != 0)
-                {
+                if (dtFound.Rows.Count != 5)
+                {  
                     return true;
                 }
 
