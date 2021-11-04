@@ -1,4 +1,4 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/AllUserSite.Master" AutoEventWireup="true" CodeBehind="KrousExDiscussionEntry.aspx.cs" Inherits="Krous_Ex.DiscussionEntry" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/AllUserSite.Master" AutoEventWireup="true" CodeBehind="KrousExDiscussionEntry.aspx.cs" Inherits="Krous_Ex.KrousExDiscussionEntry" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
 

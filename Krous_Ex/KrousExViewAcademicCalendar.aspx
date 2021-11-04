@@ -25,8 +25,8 @@
                                     </div>
                                 </div>
                                 <div class="row align-items-center">
-                                    <div class="col-md-12">
-                                        <asp:Button ID="btnExport" runat="server" Text="Button" OnClick="btnExport_Click" />
+                                    <div class="col-md-12 text-right mt-3">
+                                        <asp:Button ID="btnExport" runat="server" Text="Export" OnClick="btnExport_Click" CssClass="btn btn-primary"/>
                                     </div>
                                 </div>
                             </div>

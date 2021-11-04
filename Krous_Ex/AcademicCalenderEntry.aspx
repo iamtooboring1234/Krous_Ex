@@ -49,7 +49,10 @@
         };
 
         function bind() {
-            $('.startDate').datetimepicker({
+            $('.startDate').bind('keydown', function (e) {
+                if (e.which == 13)
+                    e.stopImmediatePropagation();
+            }).datetimepicker({
                 defaultTime: '09:00',
                 closeOnDateSelect: true,
                 timepicker: false,
@@ -57,7 +60,10 @@
                 format: 'd/m/Y',
                 defaultDate: new Date(),
             });
-            $('.endDate').datetimepicker({
+            $('.endDate').bind('keydown', function (e) {
+                if (e.which == 13)
+                    e.stopImmediatePropagation();
+            }).datetimepicker({
                 defaultTime: '09:00',
                 closeOnDateSelect: true,
                 timepicker: false,
@@ -71,7 +77,6 @@
                 },
             });
         };
-
     </script>
 
 </asp:Content>
@@ -155,7 +160,6 @@
                                                         <asp:TextBox ID="txtSemesterStartDate" runat="server" CssClass="form-control startDate" AutoPostBack="true" OnTextChanged="txtSemesterStartDate_TextChanged"></asp:TextBox>
                                                         <span class="mdi mdi-calendar input-group-text"></span>
                                                     </span>
-                                                    <ajaxToolkit:CalendarExtender ID="CalendarExtender1" CssClass="black" PopupButtonID="imgPopup" runat="server" TargetControlID="txtSemesterStartDate" EnableViewState="false" Format="dd/MM/yyyy" Enabled="false"></ajaxToolkit:CalendarExtender>
                                                 </div>
                                                 <div class="input-group-addon col-form-label mx-4">to</div>
                                                 <div class="col-md-4">
@@ -163,7 +167,6 @@
                                                         <asp:TextBox ID="txtSemesterEndDate" runat="server" CssClass="form-control endDate" OnTextChanged="txtSemesterEndDate_TextChanged" AutoPostBack="true"></asp:TextBox>
                                                         <span class="mdi mdi-calendar input-group-text"></span>
                                                     </span>
-                                                    <ajaxToolkit:CalendarExtender ID="CalendarExtender2" CssClass="black" PopupButtonID="imgPopup" runat="server" TargetControlID="txtSemesterEndDate" EnableViewState="false" Format="dd/MM/yyyy" Enabled="false"></ajaxToolkit:CalendarExtender>
                                                 </div>
                                             </div>
                                         </div>

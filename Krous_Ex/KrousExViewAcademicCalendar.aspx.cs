@@ -146,7 +146,7 @@ namespace Krous_Ex
                 }
                 else
                 {
-
+                    clsFunction.DisplayAJAXMessage(this, "Problem loading academic calendar.");
                 }
             }
 
@@ -158,7 +158,7 @@ namespace Krous_Ex
 
         public void generatePDF()
         {
-            string fileName = "Invoice" + DateTime.Now.ToString() + ".pdf";
+            string fileName = "AcademicCalendar_" + Request.QueryString["AcademicCalenderGUID"] + ".pdf";
 
             Response.Clear();
             Response.ContentType = "Application/pdf";

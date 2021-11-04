@@ -84,6 +84,37 @@ namespace Krous_Ex
             }
         }
 
+        public static string GetLoginUserIntakeSession()
+        {
+            try
+            {
+                string UserType;
+
+                if (GetLoginUserType() != "Student")
+                    UserType = "Staff";
+                else
+                    UserType = "Student";
+
+                SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["Krous_Ex"].ConnectionString);
+                con.Open();
+                SqlCommand GetCommand = new SqlCommand("SELECT SessionGUID FROM " + UserType + " WHERE " + UserType + "GUID = '" + GetLoginUserGUID() + "'", con);
+                SqlDataReader reader = GetCommand.ExecuteReader();
+
+                DataTable dtUser = new DataTable();
+                dtUser.Load(reader);
+                con.Close();
+
+                if (dtUser.Rows.Count != 0)
+                    return dtUser.Rows[0]["SessionGUID"].ToString();
+                else
+                    return "";
+            }
+            catch (Exception)
+            {
+                return "";
+            }
+        }
+
         public static string GetUserImage()
         {
             try

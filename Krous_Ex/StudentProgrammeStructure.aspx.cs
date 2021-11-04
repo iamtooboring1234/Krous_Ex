@@ -27,16 +27,16 @@ namespace Krous_Ex
                 string sqlQuery;
                 string strTable = "";
 
-                sqlQuery = "SELECT ss.SessionMonth FROM Student S, Session SS WHERE SS.SessionGUID = S.SessionGUID AND S.SessionGUID = '4b45bed0-7615-4190-a71c-55347cbfa0ea' ";
+                sqlQuery = "SELECT ss.SessionMonth FROM Student S, Session SS WHERE SS.SessionGUID = S.SessionGUID AND S.SessionGUID = @SessionGUID ";
 
-                // 202009
+                //4b45bed0-7615-4190-a71c-55347cbfa0ea 202009
                 //5da74545-0324-4006-9198-f1a23c26cdd2 202005
 
                 SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["Krous_Ex"].ConnectionString);
                 con.Open();
 
                 SqlCommand GetCommand = new SqlCommand(sqlQuery, con);
-
+                GetCommand.Parameters.AddWithValue("@SessionGUID", clsLogin.GetLoginUserIntakeSession());
                 SqlDataReader reader = GetCommand.ExecuteReader();
                 DataTable dtFirst = new DataTable();
                 dtFirst.Load(reader);
