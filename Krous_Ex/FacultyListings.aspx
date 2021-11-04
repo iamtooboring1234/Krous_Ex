@@ -4,8 +4,8 @@
     <link href="Assests/main/css/inquiry.css" rel="stylesheet" />
     <link href="Assests/main/css/table.css" rel="stylesheet" />
 
-    <link href="https://cdn.datatables.net/1.11.3/css/jquery.dataTables.min.css" rel="stylesheet" type="text/css" />
-    <script src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js"></script>
+    <script src="Assests/main/vendors/JQuery.datatable/jquery.dataTables.min.js"></script>
+    <link href="Assests/main/vendors/JQuery.datatable/jquery.dataTables.min.css" rel="stylesheet" />
 </asp:Content>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="body" runat="server">

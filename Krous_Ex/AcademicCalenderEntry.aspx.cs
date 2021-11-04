@@ -15,6 +15,9 @@ namespace Krous_Ex
     {
         protected void Page_Load(object sender, EventArgs e)
         {
+            txtSemesterStartDate.Attributes.Add("onkeydown", "return (event.keyCode!=13);");
+            txtSemesterEndDate.Attributes.Add("onkeydown", "return (event.keyCode!=13);");
+
             if (IsPostBack != true)
             {
                 if (Session["InsertCalendar"] != null)
@@ -206,7 +209,7 @@ namespace Krous_Ex
                 {
                     clsFunction.DisplayAJAXMessage(this, "Error! End date must be higher than start date.");
                     int Days = int.Parse(txtSemesterDay.Text);
-                    CalendarExtender2.SelectedDate = startDate.AddDays(Days);
+                    txtSemesterEndDate.Text = startDate.AddDays(Days).ToString("dd/MM/yyyy");
                 }
                 else
                 {

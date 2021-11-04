@@ -16,6 +16,7 @@ namespace Krous_Ex
         {
             if (IsPostBack != true)
             {
+                txtExamDate.Text = DateTime.Now.ToString();
                 loadGV();
             }
         }
@@ -64,12 +65,15 @@ namespace Krous_Ex
 
                 searchQuery = "SELECT * FROM ExamTimetable E, Course C WHERE E.CourseGUID = C.CourseGUID AND E.SessionGUID = (SELECT S.SessionGUID FROM AcademicCalender A, Session S WHERE S.SessionGUID = A.SessionGUID AND GetDate() BETWEEN A.SemesterStartDate AND A.SemesterEndDate) ";
                 searchQuery += " AND @SelectedDate BETWEEN E.ExamStartDateTime AND ExamEndDateTime ";
+                searchQuery += " AND CASE WHEN @CourseName = '' THEN @CourseName ELSE CourseName END LIKE '%'+@CourseName+'%'";
+               
 
                 SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["Krous_Ex"].ConnectionString);
                 con.Open();
 
                 SqlCommand searchCmd = new SqlCommand(searchQuery, con);
 
+                searchCmd.Parameters.AddWithValue("@CourseName", txtCourseName.Text);
                 searchCmd.Parameters.AddWithValue("@SelectedDate", DateTime.Parse(txtExamDate.Text));
 
                 SqlDataReader reader = searchCmd.ExecuteReader();

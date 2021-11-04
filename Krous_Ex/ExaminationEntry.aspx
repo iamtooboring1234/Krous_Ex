@@ -62,8 +62,9 @@
             color: black;
         }
 
-        .ajax__calendar_dayname {
-            width: 20px;
+        .select2-container--default.select2-container--disabled .select2-selection--single {
+            background-color: black;
+            cursor: default;
         }
     </style>
 
@@ -79,8 +80,7 @@
                 interval: 30,
                 minTime: '9',
                 maxTime: '6:00pm',
-                defaultTime: '9',
-                startTime: '9',
+
                 dynamic: false,
                 dropdown: true,
                 scrollbar: true
@@ -90,8 +90,7 @@
                 interval: 30,
                 minTime: '10',
                 maxTime: '6:00pm',
-                defaultTime: '10',
-                startTime: '10',
+
                 dynamic: false,
                 dropdown: true,
                 scrollbar: true
@@ -174,7 +173,7 @@
                                         <div class="col-md-8">
                                             <div class="row">
                                                 <div class="col-md-4">
-                                                    <asp:TextBox ID="txtStartTime" CssClass="timepickerstart form-control" runat="server"></asp:TextBox>
+                                                    <asp:TextBox ID="txtStartTime" CssClass="timepickerstart form-control" runat="server" AutoCompleteType="Disabled"></asp:TextBox>
                                                 </div>
                                                 <div class="input-group-addon col-form-label mx-4">to</div>
                                                 <div class="col-md-4">
@@ -190,14 +189,13 @@
                                 <div class="form-group pdForm">
                                     <div class="row">
                                         <div class="col-md-12 float-right text-right">
-                                            <asp:Button Text="Back" ID="btnBack" runat="server" Width="18%" CssClass="btn mr20 pdForm" OnClick="btnBack_Click" />
                                             <asp:Button Text="Save" ID="btnSave" runat="server" Width="18%" CssClass="btn btn-primary mr20 pdForm" OnClick="btnSave_Click" />
                                             <ajaxToolkit:ConfirmButtonExtender ID="ConfirmButtonExtender1" runat="server" ConfirmText="Are you sure to add these details ?" TargetControlID="btnSave" />
-                                            <asp:Button Text="Cancel" ID="btnCancel" runat="server" Width="18%" CssClass="btn btn-dark mr20 pdForm" OnClick="btnCancel_Click" Style="margin-left: 10px; height: 38px;" />
-                                            <asp:Button Text="Update" ID="btnUpdate" runat="server" Width="18%" CssClass="btn mr20 pdForm" OnClick="btnUpdate_Click" />
+                                            <asp:Button Text="Update" ID="btnUpdate" runat="server" Width="18%" CssClass="btn btn-success pdForm" OnClick="btnUpdate_Click" />
                                             <ajaxToolkit:ConfirmButtonExtender ID="ConfirmButtonExtender2" runat="server" ConfirmText="Are you sure to update this FAQ ?" TargetControlID="btnUpdate" />
-                                            <asp:Button Text="Delete" ID="btnDelete" runat="server" Width="18%" CssClass="btn mr20 pdForm" OnClick="btnDelete_Click" />
+                                            <asp:Button Text="Delete" ID="btnDelete" runat="server" Width="18%" CssClass="btn btn-danger pdForm" OnClick="btnDelete_Click" />
                                             <ajaxToolkit:ConfirmButtonExtender ID="ConfirmButtonExtender3" runat="server" ConfirmText="Are you sure to delete this FAQ ?" TargetControlID="btnDelete" />
+                                            <asp:Button Text="Back" ID="btnBack" runat="server" Width="18%" CssClass="btn mr20 pdForm" OnClick="btnBack_Click" />
                                         </div>
                                     </div>
                                 </div>

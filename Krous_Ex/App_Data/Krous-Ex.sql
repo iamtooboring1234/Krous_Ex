@@ -427,15 +427,24 @@ CREATE TABLE [dbo].[AssessmentFileList] (
     CONSTRAINT [fk_assessment_fileList] FOREIGN KEY ([AssessmentGUID]) REFERENCES [dbo].[Assessment] ([AssessmentGUID])
 );
 
-CREATE TABLE [dbo].[CurrentSession] (
-    [CurrentSessionGUID] UNIQUEIDENTIFIER NOT NULL,
+CREATE TABLE [dbo].[CurrentSessionSemester] (
+    [CurrentSessionSemesterGUID] UNIQUEIDENTIFIER NOT NULL,
     [SessionGUID] UNIQUEIDENTIFIER NOT NULL,
     [SemesterGUID] UNIQUEIDENTIFIER NOT NULL,
     [StudentGUID] UNIQUEIDENTIFIER NOT NULL,
     [Status] VARCHAR(20) NULL,
     [Reason] VARCHAR(100) NULL,
-    PRIMARY KEY CLUSTERED ([CurrentSessionGUID] ASC),
-    CONSTRAINT [fk_currentSession_session] FOREIGN KEY ([SessionGUID]) REFERENCES [dbo].[Session] ([SessionGUID]),   
-    CONSTRAINT [fk_currentSession_semester] FOREIGN KEY ([SemesterGUID]) REFERENCES [dbo].[Semester] ([SemesterGUID]),
-    CONSTRAINT [fk_currentSession_student] FOREIGN KEY ([StudentGUID]) REFERENCES [dbo].[Student] ([StudentGUID]),
+    PRIMARY KEY CLUSTERED ([CurrentSessionSemesterGUID] ASC),
+    CONSTRAINT [fk_currentSessionSemester_session] FOREIGN KEY ([SessionGUID]) REFERENCES [dbo].[Session] ([SessionGUID]),   
+    CONSTRAINT [fk_currentSessionSemester_semester] FOREIGN KEY ([SemesterGUID]) REFERENCES [dbo].[Semester] ([SemesterGUID]),
+    CONSTRAINT [fk_currentSessionSemester_student] FOREIGN KEY ([StudentGUID]) REFERENCES [dbo].[Student] ([StudentGUID]),
+);
+
+CREATE TABLE [dbo].[ExamInvigilatorsList] (
+    [ExamInvigilatorsListGUID] UNIQUEIDENTIFIER NOT NULL,
+    [StaffGUID] UNIQUEIDENTIFIER NOT NULL,
+    [ExamTimeTableGUID] UNIQUEIDENTIFIER NOT NULL,
+    PRIMARY KEY CLUSTERED ([ExamInvigilatorsListGUID] ASC),
+    CONSTRAINT [fk_examInviList_staff] FOREIGN KEY ([StaffGUID]) REFERENCES [dbo].[Staff] ([StaffGUID]),   
+    CONSTRAINT [fk_examInviList_examtimetable] FOREIGN KEY ([ExamTimeTableGUID]) REFERENCES [dbo].[ExamTimeTable] ([ExamTimeTableGUID]),
 );

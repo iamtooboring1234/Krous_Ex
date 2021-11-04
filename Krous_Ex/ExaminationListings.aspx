@@ -7,11 +7,8 @@
     <script src="Assests/main/vendors/JQuery.datatable/jquery.dataTables.min.js"></script>
     <link href="Assests/main/vendors/JQuery.datatable/jquery.dataTables.min.css" rel="stylesheet" />
 
-    <style>
-        .ajax__calendar_container tr td {
-            border-top: 0;
-        }
-    </style>
+    <script src="Assests/main/vendors/JQuery.datetimepicker/jquery.datetimepicker.full.min.js"></script>
+    <link href="Assests/main/vendors/JQuery.datetimepicker/jquery.datetimepicker.min.css" rel="stylesheet" />
 
     <link href="Assests/main/css/general.css" rel="stylesheet" />
 
@@ -19,6 +16,7 @@
         $(function () {
             $('.examDate').datetimepicker({
                 defaultTime: '09:00',
+                defaultDate: new Date(),
                 closeOnDateSelect: true,
                 theme: 'dark',
                 format: 'd/m/Y H:i',

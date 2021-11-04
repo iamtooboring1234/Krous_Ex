@@ -10,11 +10,11 @@ using System.Web.UI.WebControls;
 
 namespace Krous_Ex
 {
-    public partial class DiscussionEntry : System.Web.UI.Page
+    public partial class KrousExDiscussionEntry : System.Web.UI.Page
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-            if (!IsPostBack) { 
+            if (IsPostBack != true) { 
                 loadForumCategory();
             }
 
@@ -46,9 +46,13 @@ namespace Krous_Ex
                 for (int i = 0; i <= dtFAQ.Rows.Count - 1; i++)
                 {
                     oList = new ListItem();
-                    oList.Text = dtFAQ.Rows[i]["ForumTopic"].ToString();
-                    oList.Value = dtFAQ.Rows[i]["ForumGUID"].ToString();
-                    ddlCategory.Items.Add(oList);
+                    string test = dtFAQ.Rows[i]["ForumTopic"].ToString();
+                    if (!dtFAQ.Rows[i]["ForumTopic"].ToString().Contains("Announcements"))
+                    {
+                        oList.Text = dtFAQ.Rows[i]["ForumTopic"].ToString();
+                        oList.Value = dtFAQ.Rows[i]["ForumGUID"].ToString();
+                        ddlCategory.Items.Add(oList);
+                    }
                 }
             }
 

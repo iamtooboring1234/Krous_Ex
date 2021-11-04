@@ -13,6 +13,7 @@ namespace Krous_Ex
 {
     public partial class ExaminationEntry : System.Web.UI.Page
     {
+
         protected void Page_Load(object sender, EventArgs e)
         {
 
@@ -31,12 +32,80 @@ namespace Krous_Ex
                         }
                     }
 
+                    if (Session["UpdateExam"] != null)
+                    {
+                        if (Session["UpdateExam"].ToString() == "Yes")
+                        {
+                            ClientScript.RegisterStartupScript(GetType(), "Javascript", "javascript:showUpdateSuccessToast(); ", true);
+                            Session["UpdateExam"] = null;
+                        }
+                    }
+
+                    if (Session["DeleteExam"] != null)
+                    {
+                        if (Session["DeleteExam"].ToString() == "Yes")
+                        {
+                            ClientScript.RegisterStartupScript(GetType(), "Javascript", "javascript:showDeleteSuccessToast(); ", true);
+                            Session["DeleteExam"] = null;
+                        }
+                    }
+
                     loadSession();
                     loadCourse();
+
+                    if (!String.IsNullOrEmpty(Request.QueryString["ExamTimeTableGUID"]))
+                    {
+                        loadExam();
+                        ddlCourse.Enabled = false;
+                        btnSave.Visible = false;
+                        btnBack.Visible = true;
+                        btnUpdate.Visible = true;
+                        btnDelete.Visible = true;
+                    }
+                    else
+                    {
+                        btnSave.Visible = true;
+                        btnBack.Visible = false;
+                        btnUpdate.Visible = false;
+                        btnDelete.Visible = false;
+                    }
+
                 }
             } else
             {
                 Response.Redirect("Homepage");
+            }
+        }
+
+        private void loadExam()
+        {
+            try
+            {
+                SqlConnection con = new SqlConnection();
+                SqlCommand loadCourseCmd = new SqlCommand();
+
+                string strCon = ConfigurationManager.ConnectionStrings["Krous_Ex"].ConnectionString;
+                con = new SqlConnection(strCon);
+                con.Open();
+
+                loadCourseCmd = new SqlCommand("SELECT * FROM ExamTimeTable E, Course C WHERE E.CourseGUID = E.CourseGUID AND ExamTimeTableGUID = @ExamTimeTableGUID", con);
+                loadCourseCmd.Parameters.AddWithValue("@ExamTimeTableGUID", Request.QueryString["ExamTimeTableGUID"]);
+                SqlDataReader reader = loadCourseCmd.ExecuteReader();
+                DataTable dt = new DataTable();
+                dt.Load(reader);
+
+                if (dt.Rows.Count != 0)
+                {
+                    ddlCourse.Text = dt.Rows[0]["CourseName"].ToString() + " (" + dt.Rows[0]["CourseAbbrv"].ToString() + ")";
+                    txtExamDate.Text = DateTime.Parse(dt.Rows[0]["ExamStartDateTime"].ToString()).ToString("dd-MMM-yyyy");
+                    txtStartTime.Text = DateTime.Parse(dt.Rows[0]["ExamStartDateTime"].ToString()).ToString("hh:mm tt");
+                    txtEndTime.Text = DateTime.Parse(dt.Rows[0]["ExamEndDateTime"].ToString()).ToString("hh:mm tt");
+                }
+                con.Close();
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Trace.WriteLine(ex.Message);
             }
         }
 
@@ -102,7 +171,7 @@ namespace Krous_Ex
 
         protected void btnBack_Click(object sender, EventArgs e)
         {
-
+            Response.Redirect("ExaminationListings");
         }
 
         protected void btnSave_Click(object sender, EventArgs e)
@@ -166,15 +235,8 @@ namespace Krous_Ex
                         return false;
                     }
                 }
-                else
-                {
-                    
-                }
 
-
-                con.Close();
-
-                return true;
+                return false;
             }
             catch (Exception ex)
             {
@@ -185,11 +247,11 @@ namespace Krous_Ex
 
         private bool insertExam()
         {
-            DateTime startDate = DateTime.Parse(txtExamDate.Text + " " + txtStartTime.Text);
-            DateTime endDate = DateTime.Parse(txtExamDate.Text + " " + txtEndTime.Text);
-
             try
             {
+                DateTime startDate = DateTime.Parse(txtExamDate.Text + " " + txtStartTime.Text);
+                DateTime endDate = DateTime.Parse(txtExamDate.Text + " " + txtEndTime.Text);
+
                 SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["Krous_Ex"].ConnectionString);
                 con.Open();
 
@@ -208,7 +270,7 @@ namespace Krous_Ex
             }
             catch (Exception ex)
             {
-                Response.Write(ex);
+                clsFunction.DisplayAJAXMessage(this, "Input time is not in correct format.");
                 return false;
             }
         }
@@ -247,19 +309,84 @@ namespace Krous_Ex
 
         }
 
-        protected void btnCancel_Click(object sender, EventArgs e)
-        {
-
-        }
-
         protected void btnUpdate_Click(object sender, EventArgs e)
         {
-
+            if (updateExam())
+            {
+                Session["UpdateExam"] = "Yes";
+                Response.Redirect("ExaminationEntry?ExamTimetableGUID=" + Request.QueryString["ExamTimetableGUID"]);
+            }
+            else
+            {
+                clsFunction.DisplayAJAXMessage(this, "Error! Unable to update.");
+            }
         }
 
         protected void btnDelete_Click(object sender, EventArgs e)
         {
-
+            if (DeleteExam())
+            {
+                Session["DeleteExam"] = "Yes";
+                Response.Redirect("ExaminationEntry");
+            }
+            else
+            {
+                clsFunction.DisplayAJAXMessage(this, "Error! Unable to delete.");
+            }
         }
+
+        private bool updateExam()
+        {
+            DateTime startDate = DateTime.Parse(txtExamDate.Text + " " + txtStartTime.Text);
+            DateTime endDate = DateTime.Parse(txtExamDate.Text + " " + txtEndTime.Text);
+
+            try
+            {
+                SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["Krous_Ex"].ConnectionString);
+                con.Open();
+
+                SqlCommand updateCommand = new SqlCommand("UPDATE ExamTimetable SET ExamStartDateTime = @ExamStartDateTime, ExamEndDateTime = @ExamEndDateTime WHERE ExamTimetableGUID = @ExamTimetableGUID ", con);
+
+                updateCommand.Parameters.AddWithValue("@ExamTimetableGUID", Request.QueryString["ExamTimetableGUID"]);
+                updateCommand.Parameters.AddWithValue("@ExamStartDateTime", startDate);
+                updateCommand.Parameters.AddWithValue("@ExamEndDateTime", endDate);
+
+                updateCommand.ExecuteNonQuery();
+
+                con.Close();
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                Response.Write(ex);
+                return false;
+            }
+        }
+
+        private bool DeleteExam()
+        {
+            try
+            {
+                SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["Krous_Ex"].ConnectionString);
+                con.Open();
+
+                SqlCommand deleteCommand = new SqlCommand("DELETE FROM ExamTimetable WHERE ExamTimetableGUID = @ExamTimetableGUID;", con);
+
+                deleteCommand.Parameters.AddWithValue("@ExamTimetableGUID", Request.QueryString["ExamTimetableGUID"]);
+
+                deleteCommand.ExecuteNonQuery();
+
+                con.Close();
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                Response.Write(ex);
+                return false;
+            }
+        }
+
     }
 }
