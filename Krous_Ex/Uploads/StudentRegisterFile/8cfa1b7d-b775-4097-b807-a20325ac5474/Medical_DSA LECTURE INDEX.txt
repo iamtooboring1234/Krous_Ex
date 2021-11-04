@@ -1,0 +1,71 @@
+DSA : 
+--------------------------------------------------------------------------
+CHAPTER 1 : basic definition?
+- List
+- Stack - Infix, Prefix, Postfix 
+- Queue - Round robin
+- all 3 differences 
+--------------------------------------------------------------------------
+CHAPTER 2 : 
+- 3 Algorithm 
+	- Big O notation
+--------------------------------------------------------------------------
+CHAPTER 3 : 
+- Abstration and encapsulation (benefits)
+- ADT specification 
+	- ADT title, description, precondition, postcondition, return
+--------------------------------------------------------------------------
+CHAPTER 4 : 
+- Lists 
+	- Operation (add, remove, replace, getEntry, contains)
+	- makeRoom, removeGap for add and remove)
+- Stacks - LIFO - topIndex
+	- Operation (push, pop, peek, isEmpty, clear)
+- Queue - FIFO - frontIndex, backIndex
+	- Operation (enqueue, dequeue, getFront, isEmpty, clear)
+- Linear Array with fixed front and dynamic front, Circular Array)
+- Iterator ( hasNext, next, remove)
+--------------------------------------------------------------------------
+CHAPTER 5 : 
+- Linked list (Node) 
+	- add, display, isEmpty, remove, replace, getEntry, contains, isFull
+	- addFirst, addLast, removeFirst, removeLast, getFirst, getLast
+- singly / doubly linked list 
+- linear /  circular 
+- pros and cons of ADT List 
+- Stack ADT 
+--------------------------------------------------------------------------
+CHAPTER 6 : 
+- Recursion
+- Box trace
+--------------------------------------------------------------------------
+CHAPTER 7 :
+- Sorted list 
+	- Comparable 
+	- <T extend Comparable<T>>
+- 
+--------------------------------------------------------------------------
+CHAPTER 8 :
+- Sequential search  
+	- unsorted/sorted array, unsorted/sorted linked lists 
+	- iterative of unsorted chain (Node)
+	- recursve of unsorted chain (contains method)
+- Binary search 
+	- divide the array in half (left sub srrayand right sub array)
+- Bubble sort 
+- Selection sort 
+- Insertion sort 
+- Quick sort 
+- Merge sort 	
+--------------------------------------------------------------------------
+CHAPTER 9 : 
+- Binary tree
+	- Inorder
+	- Preorder
+	- Postorder
+- how to remove a entry from the tree 
+--------------------------------------------------------------------------
+CHAPTER 10 : 
+- Hash code
+- Hash function
+ 

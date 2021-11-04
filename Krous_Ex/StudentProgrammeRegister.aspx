@@ -35,7 +35,7 @@
         </div>
     </div>
 
-  <div class="col-lg-12 mt-3">
+    <div class="col-lg-12 mt-3">
         <div class="card">
             <div class="card-body">
                 <div class="row">
@@ -112,7 +112,12 @@
                                     <asp:Label ID="lblUploadIC" runat="server">Upload your IC image</asp:Label><span style="color: red;">*</span>
                                 </div>
                                 <div class="col-md-8">
-                                    <asp:FileUpload ID="UploadNRIC" runat="server" />
+                                    <asp:UpdatePanel ID="UpdatePanel1s" runat="server">
+                                        <ContentTemplate>
+                                            <ajaxToolkit:AsyncFileUpload runat="server" ID="AsyncFileUpload1" Mode="Auto" />
+                                        </ContentTemplate>
+                                    </asp:UpdatePanel>
+                                    <%--<asp:FileUpload ID="UploadNRIC" runat="server" />--%>
                                 </div>
                             </div>
                         </div>
@@ -122,7 +127,12 @@
                                     <asp:Label ID="Label2" runat="server">Upload your result slip</asp:Label><span style="color: red;">*</span>
                                 </div>
                                 <div class="col-md-8">
-                                    <asp:FileUpload ID="UploadResultSlip" runat="server" />
+                                    <asp:UpdatePanel ID="UpdatePanel2" runat="server">
+                                        <ContentTemplate>
+                                            <ajaxToolkit:AsyncFileUpload runat="server" ID="AsyncFileUpload2" Mode="Auto" />
+                                        </ContentTemplate>
+                                    </asp:UpdatePanel>
+                                    <%--<asp:FileUpload ID="UploadResultSlip" runat="server" />--%>
                                 </div>
                             </div>
                         </div>
@@ -132,7 +142,12 @@
                                     <asp:Label ID="Label1" runat="server">Upload medical report (optional)</asp:Label>
                                 </div>
                                 <div class="col-md-8">
-                                    <asp:FileUpload ID="UploadMedical" runat="server" />
+                                    <asp:UpdatePanel ID="UpdatePanel3" runat="server">
+                                        <ContentTemplate>
+                                            <ajaxToolkit:AsyncFileUpload runat="server" ID="AsyncFileUpload3" Mode="Auto" />
+                                        </ContentTemplate>
+                                    </asp:UpdatePanel>
+                                    <%--<asp:FileUpload ID="UploadMedical" runat="server" />--%>
                                 </div>
                             </div>
                         </div>
@@ -140,14 +155,13 @@
                         <div class="form-group pdForm">
                             <div class="row">
                                 <div class="col-md-12 float-right text-right">
-                                    <%--<asp:Button Text="Back" ID="btnBack" runat="server" Width="18%" CssClass="btn mr20 pdForm" />--%>
-                                    <asp:Button Text="Save" ID="btnSave" runat="server" Width="18%" CssClass="btn btn-primary mr20 pdForm" OnClick="btnSave_Click" />
-                                    <ajaxToolkit:ConfirmButtonExtender ID="ConfirmButtonExtender1" runat="server" ConfirmText="Are you sure to add these details ?" TargetControlID="btnSave" />
-                                    <asp:Button Text="Cancel" ID="btnCancel" runat="server" Width="18%" CssClass="btn btn-dark mr20 pdForm" Style="margin-left: 10px; height: 38px;" OnClick="btnCancel_Click" />
-                                    <%-- <asp:Button Text="Update" ID="btnUpdate" runat="server" Width="18%" CssClass="btn mr20 pdForm" />
-                                    <ajaxToolkit:ConfirmButtonExtender ID="ConfirmButtonExtender2" runat="server" ConfirmText="Are you sure to update this Course ?" TargetControlID="btnUpdate" />
-                                    <asp:Button Text="Delete" ID="btnDelete" runat="server" Width="18%" CssClass="btn mr20 pdForm" />
-                                    <ajaxToolkit:ConfirmButtonExtender ID="ConfirmButtonExtender3" runat="server" ConfirmText="Are you sure to delete this Course ?" TargetControlID="btnDelete" />--%>
+                                    <asp:Button Text="Register" ID="btnSave" runat="server" Width="18%" CssClass="btn btn-primary mr20 pdForm" OnClick="btnSave_Click" />
+                                    <ajaxToolkit:ConfirmButtonExtender ID="ConfirmButtonExtender2" runat="server" ConfirmText="Are you sure to add these details ?" TargetControlID="btnSave" />
+                                    <%--<asp:Button Text="Update" ID="btnUpdate" runat="server" Width="18%" CssClass="btn btn-success pdForm" />
+                                    <ajaxToolkit:ConfirmButtonExtender ID="ConfirmButtonExtender3" runat="server" ConfirmText="Are you sure to update this FAQ ?" TargetControlID="btnUpdate" />--%>
+                                    <%--<asp:Button Text="Delete" ID="btnDelete" runat="server" Width="18%" CssClass="btn btn-danger pdForm" />
+                                    <ajaxToolkit:ConfirmButtonExtender ID="ConfirmButtonExtender4" runat="server" ConfirmText="Are you sure to delete this FAQ ?" TargetControlID="btnDelete" />--%>
+                                    <asp:Button Text="Back" ID="btnBack" runat="server" Width="18%" CssClass="btn mr20 pdForm" OnClick="btnBack_Click" />
                                 </div>
                             </div>
                         </div>
@@ -155,9 +169,8 @@
                 </div>
             </div>
         </div>
-    </div>
 
-    <script src="Assests/main/js/tabs.js"></script>
-    <%--    <script src="Assests/main/js/dropify.js"></script>
+        <script src="Assests/main/js/tabs.js"></script>
+        <%--    <script src="Assests/main/js/dropify.js"></script>
     <script src="Assests/vendors/dropify/dropify.min.js"></script>--%>
 </asp:Content>

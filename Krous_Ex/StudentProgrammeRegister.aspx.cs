@@ -148,6 +148,8 @@ namespace Krous_Ex
             }
         }
 
+
+
         protected bool insertRegister()
         {
             bool insertBool = false;
@@ -158,61 +160,68 @@ namespace Krous_Ex
                 SqlCommand insertCmd = new SqlCommand();
 
                 //upload here
-                string IcNumberImage = Path.GetFileNameWithoutExtension(UploadNRIC.FileName) + "_" + Guid.NewGuid().ToString() + Path.GetExtension(UploadNRIC.FileName);
-                string ResultSlipImage = Path.GetFileNameWithoutExtension(UploadResultSlip.FileName) + "_" + Guid.NewGuid().ToString() + Path.GetExtension(UploadResultSlip.FileName);
-                string MedicalImage = Path.GetFileNameWithoutExtension(UploadMedical.FileName) + "_" + Guid.NewGuid().ToString() + Path.GetExtension(UploadMedical.FileName);
+                //string IcNumberImage = "IC" + "_" + Path.GetFileNameWithoutExtension(UploadNRIC.FileName) + Path.GetExtension(UploadNRIC.FileName); 
+                //string ResultSlipImage = "Result" + "_" + Path.GetFileNameWithoutExtension(UploadResultSlip.FileName) + Path.GetExtension(UploadResultSlip.FileName); 
+                //string MedicalImage = "Medical" + "_" + Path.GetFileNameWithoutExtension(UploadMedical.FileName) +  Path.GetExtension(UploadMedical.FileName);
 
-                String savePath = ConfigurationManager.AppSettings.Get("RegisterUploadPath");
-                string uploadSavePath = Server.MapPath(savePath);
+                //String savePath = ConfigurationManager.AppSettings.Get("RegisterUploadPath");
+                //string uploadSavePath = Server.MapPath(savePath);
 
-                String IcFullSavePath = uploadSavePath + IcNumberImage;
-                String ResultFullSavePath = uploadSavePath + ResultSlipImage;
-                String MedicalFullSavePath = uploadSavePath + MedicalImage;
+                //String IcFullSavePath = uploadSavePath + IcNumberImage;
+                //String ResultFullSavePath = uploadSavePath + ResultSlipImage;
+                //String MedicalFullSavePath = uploadSavePath + MedicalImage;
 
-                if (Directory.Exists(uploadSavePath))
+                string strCon = ConfigurationManager.ConnectionStrings["Krous_Ex"].ConnectionString;
+                con = new SqlConnection(strCon);
+                con.Open();
+
+                string icFileName = "IC_" + Path.GetFileName(AsyncFileUpload1.FileName);
+                string resultFileName = "Result_" + Path.GetFileName(AsyncFileUpload2.FileName);
+                string medicalFileName = "Medical_" + Path.GetFileName(AsyncFileUpload3.FileName);
+
+                string folderName = "~/Uploads/StudentRegisterFile/" + registerGUID + "/";
+                
+                if (!Directory.Exists(folderName))
                 {
-                    if (!String.IsNullOrEmpty(IcFullSavePath))
+                    Directory.CreateDirectory(Server.MapPath(folderName));               
+                }
+                if (icFileName != "")
+                {
+                    if (resultFileName != "")
                     {
-                        UploadNRIC.PostedFile.SaveAs(IcFullSavePath);
-                        UploadResultSlip.PostedFile.SaveAs(ResultFullSavePath);
-                        UploadMedical.PostedFile.SaveAs(MedicalFullSavePath);
-
-                        string strCon = ConfigurationManager.ConnectionStrings["Krous_Ex"].ConnectionString;
-                        con = new SqlConnection(strCon);
-                        con.Open();
-
-                        insertCmd = new SqlCommand("INSERT INTO Student_Programme_Register VALUES (@RegisterGUID, @StudentGUID, @ProgrammeGUID, @SessionGUID, @ProgrammeRegisterDate, @Status, @UploadIcImage, @UploadResult, @UploadMedical)", con);
-                        insertCmd.Parameters.AddWithValue("@RegisterGUID", registerGUID);
-                        insertCmd.Parameters.AddWithValue("@StudentGUID", userGUID);
-                        insertCmd.Parameters.AddWithValue("@ProgrammeGUID", ddlProgramme.SelectedValue);
-                        insertCmd.Parameters.AddWithValue("@SessionGUID", ddlSession.SelectedValue);
-                        insertCmd.Parameters.AddWithValue("@ProgrammeRegisterDate", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
-                        insertCmd.Parameters.AddWithValue("@Status", "Pending");
-                        insertCmd.Parameters.AddWithValue("@UploadIcImage", IcNumberImage);
-                        insertCmd.Parameters.AddWithValue("@UploadResult", ResultSlipImage);
-
-                        if (UploadMedical.HasFile)
+                        if (medicalFileName != "")
                         {
-                            insertCmd.Parameters.AddWithValue("@UploadMedical", MedicalImage);
+                            insertCmd = new SqlCommand("INSERT INTO Student_Programme_Register VALUES (@RegisterGUID, @StudentGUID, @ProgrammeGUID, @SessionGUID, @ProgrammeRegisterDate, @Status, @UploadIcImage, @UploadResult, @UploadMedical)", con);
+                            insertCmd.Parameters.AddWithValue("@RegisterGUID", registerGUID);
+                            insertCmd.Parameters.AddWithValue("@StudentGUID", userGUID);
+                            insertCmd.Parameters.AddWithValue("@ProgrammeGUID", ddlProgramme.SelectedValue);
+                            insertCmd.Parameters.AddWithValue("@SessionGUID", ddlSession.SelectedValue);
+                            insertCmd.Parameters.AddWithValue("@ProgrammeRegisterDate", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
+                            insertCmd.Parameters.AddWithValue("@Status", "Pending");
+                            insertCmd.Parameters.AddWithValue("@UploadIcImage", icFileName);
+                            insertCmd.Parameters.AddWithValue("@UploadResult", resultFileName);
+
+                            if (AsyncFileUpload3.HasFile)
+                            {
+                                insertCmd.Parameters.AddWithValue("@UploadMedical", medicalFileName);
+                            }
+                            else
+                            {
+                                insertCmd.Parameters.AddWithValue("@UploadMedical", "none");
+                            }
+
+                            insertCmd.ExecuteNonQuery();
+
+                            AsyncFileUpload1.SaveAs(Server.MapPath(folderName) + icFileName);
+                            AsyncFileUpload2.SaveAs(Server.MapPath(folderName) + resultFileName);
+                            AsyncFileUpload3.SaveAs(Server.MapPath(folderName) + medicalFileName);
                         }
-                        else
-                        {
-                            insertCmd.Parameters.AddWithValue("@UploadMedical", "none");
-                        }
-
-                        insertCmd.ExecuteNonQuery();
-
-                        con.Dispose();
-                        con.Close();
-
-                        insertBool = true;
                     }
                 }
-                else
-                {
-                    clsFunction.DisplayAJAXMessage(this, "Not physical path.");
-                    return false;
-                }
+                con.Dispose();
+                con.Close();
+
+                insertBool = true;  
             }
             catch (Exception ex)
             {
@@ -229,6 +238,7 @@ namespace Krous_Ex
                 if (insertRegister())
                 {
                     clsFunction.DisplayAJAXMessage(this, "Your programme has been registered successfully! Please wait for the staff to approve it.");
+                    Response.Redirect("StudentProgrammeRegister");
                 }
                 else
                 {
@@ -236,9 +246,9 @@ namespace Krous_Ex
                     ddlProgrammCategory.SelectedIndex = -1;
                     ddlProgramme.SelectedIndex = -1;
                     ddlSession.SelectedIndex = -1; 
-                    UploadNRIC.Dispose();
-                    UploadResultSlip.Dispose();
-                    UploadMedical.Dispose();
+                    AsyncFileUpload1.Dispose();
+                    AsyncFileUpload2.Dispose();
+                    AsyncFileUpload3.Dispose();
 
                 }
             }
@@ -270,9 +280,9 @@ namespace Krous_Ex
             ddlProgrammCategory.SelectedIndex = -1;
             ddlProgramme.SelectedIndex = -1;
             ddlSession.SelectedIndex = -1;
-            UploadNRIC.Dispose();
-            UploadResultSlip.Dispose();
-            UploadMedical.Dispose();
+            AsyncFileUpload1.Dispose();
+            AsyncFileUpload2.Dispose();
+            AsyncFileUpload3.Dispose();
             //Response.Redirect("StudentDashboard");
 
         }
@@ -297,13 +307,13 @@ namespace Krous_Ex
                 return false;
             }
 
-            if (!(UploadNRIC.HasFile))
+            if (!(AsyncFileUpload1.HasFile))
             {
                 clsFunction.DisplayAJAXMessage(this, "Please upload the copy of your MyKad image.");
                 return false;
             }
 
-            if (!(UploadResultSlip.HasFile))
+            if (!(AsyncFileUpload2.HasFile))
             {
                 clsFunction.DisplayAJAXMessage(this, "Please upload your result slip. (exp: SPM, STPM, O-Level and etc.)");
                 return false;
@@ -312,11 +322,13 @@ namespace Krous_Ex
             return true;
         }
 
-
+        protected void btnBack_Click(object sender, EventArgs e)
+        {
+            Response.Redirect("StudentDashboard");
+        }
 
 
         //can save into database, need to do validation
-        //if i click on radiobutton list foundation, the rbl for diploma and degree will be disable (still not yet do)
         //and if i did not upload medical, it will still insert the new guid into database (need to fix) -done
         //do upload ic, and result slip like spm / o-level  - done
         //add icImage, resultSlip into Student_Programme_Register table to save the uploaded file - done

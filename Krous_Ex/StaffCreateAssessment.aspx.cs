@@ -164,6 +164,7 @@ namespace Krous_Ex
                         createCmd.Parameters.AddWithValue("@UploadMaterials", filename);
                         createCmd.ExecuteNonQuery();
 
+                        //not neccessary 
                         SqlCommand insertFileList = new SqlCommand("INSERT INTO AssessmentFileList (AssessmentFileListGUID, AssessmentGUID, FileName) VALUES (@AssessmentFileListGUID, @AssessmentGUID, @FileName)", con);
                         insertFileList.Parameters.AddWithValue("@AssessmentFileListGUID", AssessmentFileListGUID);
                         insertFileList.Parameters.AddWithValue("@AssessmentGUID", AssessmentGUID);
@@ -187,21 +188,7 @@ namespace Krous_Ex
             }
         }
 
-        //protected void txtDueDate_TextChanged(object sender, EventArgs e)
-        //{
-        //    try
-        //    {
-        //        int Days = int.Parse(txtDueDate.Text);            
-                
-        //        DateTime startDate = DateTime.ParseExact(txtDueDate.Text, "dd/MM/yyyy HH:mm:ss", CultureInfo.InvariantCulture);
-        //        CalendarExtender1.SelectedDate = startDate.AddDays(Days);
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        clsFunction.DisplayAJAXMessage(this, ex.Message);
-        //    }
-        //}
-
+     
         protected void btnCreate_Click(object sender, EventArgs e)
         {
             if (assessmentValidation())
@@ -254,6 +241,21 @@ namespace Krous_Ex
 
             return true;
         }
+
+        //protected void txtDueDate_TextChanged(object sender, EventArgs e)
+        //{
+        //    try
+        //    {
+        //        int Days = int.Parse(txtDueDate.Text);            
+
+        //        DateTime startDate = DateTime.ParseExact(txtDueDate.Text, "dd/MM/yyyy HH:mm:ss", CultureInfo.InvariantCulture);
+        //        CalendarExtender1.SelectedDate = startDate.AddDays(Days);
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        clsFunction.DisplayAJAXMessage(this, ex.Message);
+        //    }
+        //}
 
 
         //protected void AjaxFileUpload2_UploadComplete(object sender, AjaxControlToolkit.AjaxFileUploadEventArgs e)

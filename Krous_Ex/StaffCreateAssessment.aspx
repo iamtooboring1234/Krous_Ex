@@ -4,8 +4,9 @@
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.full.min.js" integrity="sha512-AIOTidJAcHBH2G/oZv9viEGXRqDNmfdPVPYOYKGy3fti0xIplnlgMHUGfuNRzC6FkzIo0iIxgFnr9RikFxK+sw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.min.css" integrity="sha512-f0tzWhCwVFS3WeYaofoLWkTP62ObhewQ1EZn65oSYDZUg1+CyywGKkWzm8BxaJj5HGKI72PnMH9jYyIFz+GH7g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <script src="Assests/main/vendors/JQuery.datetimepicker/jquery.datetimepicker.full.min.js"></script>
+    <link href="Assests/main/vendors/JQuery.datetimepicker/jquery.datetimepicker.min.css" rel="stylesheet" />
+
     <link href="Assests/main/css/general.css" rel="stylesheet" />
 
     <script type="text/javascript">
@@ -80,7 +81,7 @@
                                                 <div class='input-group date' id='datetimepicker8'>
                                                     <asp:TextBox ID="txtDueDate" runat="server" CssClass="form-control duedate" AutoPostBack="true" AutoCompleteType="Disabled"></asp:TextBox>
                                                     <span class="input-group-addon">
-                                                        <span class="fa fa-calendar" style="padding:10px; background-color:lightslategrey;"></span>
+                                                        <span class="fa fa-calendar" style="padding:10px;"></span>
                                                     </span>
                                                 </div>
                                             </div>

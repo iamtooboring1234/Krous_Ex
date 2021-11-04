@@ -1,4 +1,4 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/StaffMaster.Master" AutoEventWireup="true" CodeBehind="StudentRegisterListings.aspx.cs" Inherits="Krous_Ex.StudentRegisterListings" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/StaffMaster.Master" AutoEventWireup="true" CodeBehind="StudentProgrammeRegisterListings.aspx.cs" Inherits="Krous_Ex.StudentProgrammeRegisterListings" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
 
@@ -43,11 +43,25 @@
                                 <div class="col-md-2 col-form-label">
                                     <asp:Label ID="lblNRIC" runat="server">Student NRIC</asp:Label>
                                 </div>
-                                <div class="col-md-9">
+                                <div class="col-md-4">
                                     <asp:TextBox ID="txtNRIC" runat="server" CssClass="form-control"></asp:TextBox>
+                                </div>
+
+                                <!--register status-->
+                                <div class="col-md-2 col-form-label">
+                                    <asp:Label ID="lblRegisterStatus" runat="server">Registration Status</asp:Label>
+                                </div>
+                                <div class="col-md-3">
+                                    <asp:DropDownList runat="server" ID="ddlRegisterStatus" CssClass="form-control">
+                                        <asp:ListItem Value=""></asp:ListItem>
+                                        <asp:ListItem Value="Pending">Pending</asp:ListItem>
+                                        <asp:ListItem Value="Approved">Approved</asp:ListItem>
+                                        <asp:ListItem Value="Rejected">Rejected</asp:ListItem>
+                                    </asp:DropDownList>
                                 </div>
                             </div>
                         </div>
+
                         <div class="form-group pdForm">
                             <div class="row">
                                 <div class="col-md-2">
@@ -70,28 +84,22 @@
             <div class="card-body">
                 <div class="table-responsive">
                     <div class="gv-section text-center">
-                        <asp:GridView ID="gvCourse" runat="server" Width="100%" CssClass="table table-bordered tableCoruse" AutoGenerateColumns="False" DataKeyNames="RegisterGUID" CellPadding="10" CellSpacing="2" Border="0" OnRowDataBound="gvCourse_RowDataBound">
+                        <asp:GridView ID="gvCourse" runat="server" Width="100%" CssClass="table table-bordered tableCoruse" AutoGenerateColumns="False" DataKeyNames="RegisterGUID" CellPadding="10" CellSpacing="2" Border="0" >
                             <Columns>
-                                <asp:TemplateField Visible="false">
+                                 <asp:TemplateField>
                                     <ItemTemplate>
-                                        <asp:Label ID="lblRegisterGUID" runat="server" Text='<%# Eval("RegisterGUID") %>'></asp:Label>
+                                        <asp:HyperLink runat="server" NavigateUrl='<%# Eval("RegisterGUID", "~/StudentProgrammeRegisterUpdate.aspx?RegisterGUID={0}") %>' Text="View" />
                                     </ItemTemplate>
+                                    <ItemStyle CssClass="text-center" HorizontalAlign="Center" />
                                 </asp:TemplateField>
-                                <asp:BoundField DataField="StudentGUID" HeaderText="Name" ReadOnly="true" SortExpression="StudentGUID" Visible="false" />
+                                <asp:BoundField DataField="RegisterGUID" HeaderText="RegisterGUID" ReadOnly="true" SortExpression="RegisterGUID" Visible="false" />
+                                <asp:BoundField DataField="StudentGUID" HeaderText="StudentGUID" ReadOnly="true" SortExpression="StudentGUID" Visible="false" />
                                 <asp:BoundField DataField="ProgrammeGUID" HeaderText="ProgrammeGUID" ReadOnly="true" SortExpression="ProgrammeGUID" Visible="false" />
                                 <asp:BoundField DataField="StudentFullName" HeaderText="Student Name" SortExpression="StudentFullName" ReadOnly="True" />
                                 <asp:BoundField DataField="NRIC" HeaderText="Student NRIC" SortExpression="NRIC" ReadOnly="True" />
                                 <asp:BoundField DataField="ProgrammeName" HeaderText="Programme Name" SortExpression="ProgrammeName" ReadOnly="True" />
-                                <asp:TemplateField HeaderText="Status">
-                                    <ItemTemplate>
-                                        <asp:DropDownList ID="ddlStatus" runat="server" AutoPostBack="true" OnSelectedIndexChanged="ddlStatus_SelectedIndexChanged">
-                                            <asp:ListItem Value="Pending">Pending</asp:ListItem>
-                                            <asp:ListItem Value="Approved">Approved</asp:ListItem>
-                                            <asp:ListItem Value="Rejected">Rejected</asp:ListItem>
-                                        </asp:DropDownList>
-                                        <asp:Label ID="lblStatus" runat="server" Text='<%# Eval("Status")%>'></asp:Label>
-                                    </ItemTemplate>
-                                </asp:TemplateField>
+                                <asp:BoundField DataField="Status" HeaderText="Status" SortExpression="Status" ReadOnly="True" />
+                               
                             </Columns>
                             <FooterStyle BackColor="#CCCCCC" />
                             <HeaderStyle BackColor="#191c24" Font-Bold="True" HorizontalAlign="Left" CssClass="header-style" />
@@ -101,7 +109,7 @@
                         <asp:Label ID="lblNoData" runat="server" Visible="false" Font-Size="Large" Font-Bold="true" Text="Student Record Not Found !"></asp:Label>
                     </div>
                 </div>
-                <div class="form-group pdForm">
+                <%--<div class="form-group pdForm">
                     <div class="row justify-content-end">
                     <div class="col-md-2">
                         <asp:Label ID="lblUpdate" runat="server" Visible="false" Text="0"></asp:Label>
@@ -111,7 +119,7 @@
                         <asp:Button Text="Reset" ID="btnReset" runat="server" Width="18%" CssClass="btn btn-dark mr20" OnClick="btnReset_Click"/>
                     </div>
                     </div>
-                </div>
+                </div>--%> 
             </div>
         </div>
     </div>

@@ -87,13 +87,22 @@ namespace Krous_Ex
         protected global::System.Web.UI.WebControls.Label lblUploadIC;
 
         /// <summary>
-        /// UploadNRIC control.
+        /// UpdatePanel1s control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.FileUpload UploadNRIC;
+        protected global::System.Web.UI.UpdatePanel UpdatePanel1s;
+
+        /// <summary>
+        /// AsyncFileUpload1 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::AjaxControlToolkit.AsyncFileUpload AsyncFileUpload1;
 
         /// <summary>
         /// Label2 control.
@@ -105,13 +114,22 @@ namespace Krous_Ex
         protected global::System.Web.UI.WebControls.Label Label2;
 
         /// <summary>
-        /// UploadResultSlip control.
+        /// UpdatePanel2 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.FileUpload UploadResultSlip;
+        protected global::System.Web.UI.UpdatePanel UpdatePanel2;
+
+        /// <summary>
+        /// AsyncFileUpload2 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::AjaxControlToolkit.AsyncFileUpload AsyncFileUpload2;
 
         /// <summary>
         /// Label1 control.
@@ -123,13 +141,22 @@ namespace Krous_Ex
         protected global::System.Web.UI.WebControls.Label Label1;
 
         /// <summary>
-        /// UploadMedical control.
+        /// UpdatePanel3 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.FileUpload UploadMedical;
+        protected global::System.Web.UI.UpdatePanel UpdatePanel3;
+
+        /// <summary>
+        /// AsyncFileUpload3 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::AjaxControlToolkit.AsyncFileUpload AsyncFileUpload3;
 
         /// <summary>
         /// btnSave control.
@@ -141,21 +168,21 @@ namespace Krous_Ex
         protected global::System.Web.UI.WebControls.Button btnSave;
 
         /// <summary>
-        /// ConfirmButtonExtender1 control.
+        /// ConfirmButtonExtender2 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::AjaxControlToolkit.ConfirmButtonExtender ConfirmButtonExtender1;
+        protected global::AjaxControlToolkit.ConfirmButtonExtender ConfirmButtonExtender2;
 
         /// <summary>
-        /// btnCancel control.
+        /// btnBack control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnCancel;
+        protected global::System.Web.UI.WebControls.Button btnBack;
     }
 }

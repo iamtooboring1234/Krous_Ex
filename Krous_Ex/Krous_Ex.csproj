@@ -456,8 +456,11 @@
     <Content Include="Assests\main\img\19197906.jpg" />
     <Content Include="Assests\main\img\2021-06-29_215318.png" />
     <Content Include="Assests\main\img\contract.png" />
+    <Content Include="Assests\main\img\download.png" />
     <Content Include="Assests\main\img\logo.png" />
     <Content Include="Assests\main\img\mini_logo.png" />
+    <Content Include="Assests\main\img\view.png" />
+    <Content Include="Assests\main\js\data-table.js" />
     <Content Include="Assests\main\js\dropify.js" />
     <Content Include="Assests\main\js\tabs.js" />
     <Content Include="Assests\main\vendors\JQuery.datatable\jquery.dataTables.min.css" />
@@ -492,7 +495,8 @@
     <Content Include="StudentFAQChatList.aspx" />
     <Content Include="StudentFAQ.aspx" />
     <Content Include="StudentProgrammeStructure.aspx" />
-    <Content Include="StudentRegisterListings.aspx" />
+    <Content Include="StudentProgrammeRegisterListings.aspx" />
+    <Content Include="StudentProgrammeRegisterUpdate.aspx" />
     <Content Include="Uploads\ProfileImage\defaultUserProfile.png" />
     <Content Include="Assests\main\img\exit.png" />
     <Content Include="Assests\main\img\graduated.png" />
@@ -1806,12 +1810,19 @@
     <Compile Include="StudentProgrammeStructure.aspx.designer.cs">
       <DependentUpon>StudentProgrammeStructure.aspx</DependentUpon>
     </Compile>
-    <Compile Include="StudentRegisterListings.aspx.cs">
-      <DependentUpon>StudentRegisterListings.aspx</DependentUpon>
+    <Compile Include="StudentProgrammeRegisterListings.aspx.cs">
+      <DependentUpon>StudentProgrammeRegisterListings.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="StudentRegisterListings.aspx.designer.cs">
-      <DependentUpon>StudentRegisterListings.aspx</DependentUpon>
+    <Compile Include="StudentProgrammeRegisterListings.aspx.designer.cs">
+      <DependentUpon>StudentProgrammeRegisterListings.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="StudentProgrammeRegisterUpdate.aspx.cs">
+      <DependentUpon>StudentProgrammeRegisterUpdate.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="StudentProgrammeRegisterUpdate.aspx.designer.cs">
+      <DependentUpon>StudentProgrammeRegisterUpdate.aspx</DependentUpon>
     </Compile>
     <Compile Include="Testing2.aspx.cs">
       <DependentUpon>Testing2.aspx</DependentUpon>
