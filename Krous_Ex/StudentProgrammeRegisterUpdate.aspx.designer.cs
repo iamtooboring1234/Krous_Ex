@@ -87,33 +87,6 @@ namespace Krous_Ex
         protected global::System.Web.UI.WebControls.TextBox txtProgName;
 
         /// <summary>
-        /// lblStatus control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblStatus;
-
-        /// <summary>
-        /// ddlRegisterStatus control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList ddlRegisterStatus;
-
-        /// <summary>
-        /// lblRegisterStatus control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblRegisterStatus;
-
-        /// <summary>
         /// lblIcFile control.
         /// </summary>
         /// <remarks>
@@ -222,31 +195,13 @@ namespace Krous_Ex
         protected global::System.Web.UI.WebControls.DropDownList ddlSemester;
 
         /// <summary>
-        /// btnSave control.
+        /// btnApprove control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnSave;
-
-        /// <summary>
-        /// ConfirmButtonExtender1 control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::AjaxControlToolkit.ConfirmButtonExtender ConfirmButtonExtender1;
-
-        /// <summary>
-        /// btnUpdate control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnUpdate;
+        protected global::System.Web.UI.WebControls.Button btnApprove;
 
         /// <summary>
         /// ConfirmButtonExtender2 control.
@@ -258,13 +213,13 @@ namespace Krous_Ex
         protected global::AjaxControlToolkit.ConfirmButtonExtender ConfirmButtonExtender2;
 
         /// <summary>
-        /// btnDelete control.
+        /// btnReject control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnDelete;
+        protected global::System.Web.UI.WebControls.Button btnReject;
 
         /// <summary>
         /// ConfirmButtonExtender3 control.

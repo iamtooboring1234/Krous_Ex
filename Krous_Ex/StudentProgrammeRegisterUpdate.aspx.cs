@@ -25,19 +25,15 @@ namespace Krous_Ex
                     RegisterGUID = Guid.Parse(Request.QueryString["RegisterGUID"]);
                     loadStudentDetails();
                     loadSemester();
-                    btnSave.Visible = false;
                     btnBack.Visible = true;
-                    btnUpdate.Visible = true;
-                    btnDelete.Visible = true;
-                    lblRegisterStatus.Visible = false;
+                    btnApprove.Visible = true;
+                    btnReject.Visible = true;
                 }
                 else
                 {
-                    btnSave.Visible = true;
                     btnBack.Visible = false;
-                    btnUpdate.Visible = false;
-                    btnDelete.Visible = false;
-                    lblRegisterStatus.Visible = false;
+                    btnApprove.Visible = false;
+                    btnReject.Visible = false;
                 }
 
             }
@@ -48,7 +44,6 @@ namespace Krous_Ex
             try
             {
                 ddlSemester.Items.Clear();
-
                 ListItem oList = new ListItem();
 
                 oList = new ListItem();
@@ -79,7 +74,7 @@ namespace Krous_Ex
 
             catch (Exception ex)
             {
-                clsFunction.DisplayAJAXMessage(this, "Error");
+                System.Diagnostics.Trace.WriteLine(ex.Message);
             }
         }
 
@@ -96,7 +91,7 @@ namespace Krous_Ex
                 con = new SqlConnection(strCon);
                 con.Open();
 
-                loadInfoCmd = new SqlCommand("SELECT s.StudentFullName, s.NRIC, p.ProgrammeName, spr.[Status], spr.UploadIcImage, spr.UploadResult, spr.UploadMedical FROM Student_Programme_Register spr LEFT JOIN Student s ON spr.StudentGUID = s.StudentGUID LEFT JOIN Programme p ON spr.ProgrammeGUID = p.ProgrammeGUID WHERE spr.RegisterGUID = @RegisterGUID", con);
+                loadInfoCmd = new SqlCommand("SELECT s.StudentFullName, s.NRIC, p.ProgrammeName, spr.UploadIcImage, spr.UploadResult, spr.UploadMedical FROM Student_Programme_Register spr LEFT JOIN Student s ON spr.StudentGUID = s.StudentGUID LEFT JOIN Programme p ON spr.ProgrammeGUID = p.ProgrammeGUID WHERE spr.RegisterGUID = @RegisterGUID", con);
                 loadInfoCmd.Parameters.AddWithValue("@RegisterGUID", RegisterGUID);
                 SqlDataReader dtrLoad = loadInfoCmd.ExecuteReader();
                 DataTable dt = new DataTable();
@@ -107,14 +102,6 @@ namespace Krous_Ex
                     txtStudName.Text = dt.Rows[0]["StudentFullName"].ToString();
                     txtStudNRIC.Text = dt.Rows[0]["NRIC"].ToString();
                     txtProgName.Text = dt.Rows[0]["ProgrammeName"].ToString();
-                    ddlRegisterStatus.SelectedValue = dt.Rows[0]["Status"].ToString();
-                    lblRegisterStatus.Text = dt.Rows[0]["Status"].ToString();
-
-                    if (lblRegisterStatus.Text == "Approved" || lblRegisterStatus.Text == "Rejected")
-                    {
-                        ddlRegisterStatus.Visible = false;
-                        lblRegisterStatus.Visible = true;
-                    }
 
                     if (dt.Rows[0]["UploadMedical"].ToString() == "none")
                     {
@@ -162,99 +149,92 @@ namespace Krous_Ex
                 System.Diagnostics.Trace.WriteLine(ex.Message);
             }
         }
-
-
-        
-
-        protected bool updateStatus()
+       
+        protected void btnApprove_Click(object sender, EventArgs e)
         {
             try
             {
                 SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["Krous_Ex"].ConnectionString);
                 con.Open();
                 RegisterGUID = Guid.Parse(Request.QueryString["RegisterGUID"]);
-                //update the lblRegisterStatus also
-                if (lblRegisterStatus.Text != ddlRegisterStatus.SelectedValue)
-                {
-                    if(lblRegisterStatus.Text != "Approved" || lblRegisterStatus.Text == "Rejected")
-                    {
-                        SqlCommand updateCmd = new SqlCommand("UPDATE Student_Programme_Register SET Status = @Status WHERE RegisterGUID = @RegisterGUID", con);
-                        updateCmd.Parameters.AddWithValue("@Status", ddlRegisterStatus.SelectedValue);
-                        updateCmd.Parameters.AddWithValue("@RegisterGUID", RegisterGUID);
-                        updateCmd.ExecuteNonQuery();
 
-                        if (ddlRegisterStatus.SelectedValue == "Approved")
-                        {
-                            //select SessionGUID and update to student table
-                            SqlCommand selectSession = new SqlCommand("SELECT s.SessionGUID FROM Session s LEFT JOIN Student_Programme_Register spr on spr.SessionGUID = s.SessionGUID WHERE spr.RegisterGUID = @RegisterGUID", con);
-                            selectSession.Parameters.AddWithValue("@RegisterGUID", RegisterGUID);
-                            SqlDataReader dtrSelect = selectSession.ExecuteReader();
-                            DataTable dt = new DataTable();
-                            dt.Load(dtrSelect);
+                //set student status to approved 
+                SqlCommand updateCmd = new SqlCommand("UPDATE Student_Programme_Register SET Status = @Status WHERE RegisterGUID = @RegisterGUID", con);
+                updateCmd.Parameters.AddWithValue("@Status", "Approved");
+                updateCmd.Parameters.AddWithValue("@RegisterGUID", RegisterGUID);
+                updateCmd.ExecuteNonQuery();
 
-                            string SessionGUID = dt.Rows[0]["SessionGUID"].ToString();
+                //select SessionGUID and update session to student table
+                SqlCommand selectSession = new SqlCommand("SELECT s.SessionGUID FROM Session s LEFT JOIN Student_Programme_Register spr on spr.SessionGUID = s.SessionGUID WHERE spr.RegisterGUID = @RegisterGUID", con);
+                selectSession.Parameters.AddWithValue("@RegisterGUID", RegisterGUID);
+                SqlDataReader dtrSelect = selectSession.ExecuteReader();
+                DataTable dt = new DataTable();
+                dt.Load(dtrSelect);
 
-                            SqlCommand updateSession = new SqlCommand("UPDATE Student SET SessionGUID = @SessionGUID, StudyStatus = @StudyStatus FROM Student s LEFT JOIN Student_Programme_Register spr ON spr.StudentGUID = s.StudentGUID WHERE spr.RegisterGUID = @RegisterGUID", con);
-                            updateSession.Parameters.AddWithValue("@StudyStatus", "Studying");
-                            updateSession.Parameters.AddWithValue("@SessionGUID", SessionGUID);
-                            updateSession.Parameters.AddWithValue("@RegisterGUID", RegisterGUID);
-                            updateSession.ExecuteNonQuery();
+                string SessionGUID = dt.Rows[0]["SessionGUID"].ToString();
 
-                            //assign student into groupstudentlist
-                            SqlCommand selectCmd = new SqlCommand("SELECT s.StudentGUID FROM Student s LEFT JOIN Student_Programme_Register spr on spr.StudentGUID = s.StudentGUID WHERE spr.RegisterGUID = @RegisterGUID", con);
-                            selectCmd.Parameters.AddWithValue("@RegisterGUID", RegisterGUID);
-                            SqlDataReader dtr = selectCmd.ExecuteReader();
-                            DataTable dtS = new DataTable();
-                            dtS.Load(dtr);
+                SqlCommand updateSession = new SqlCommand("UPDATE Student SET SessionGUID = @SessionGUID, StudyStatus = @StudyStatus FROM Student s LEFT JOIN Student_Programme_Register spr ON spr.StudentGUID = s.StudentGUID WHERE spr.RegisterGUID = @RegisterGUID", con);
+                updateSession.Parameters.AddWithValue("@StudyStatus", "Studying");
+                updateSession.Parameters.AddWithValue("@SessionGUID", SessionGUID);
+                updateSession.Parameters.AddWithValue("@RegisterGUID", RegisterGUID);
+                updateSession.ExecuteNonQuery();
 
-                            string StudentGUID = dtS.Rows[0]["StudentGUID"].ToString();
-                            Guid groupStudentListGUID = Guid.NewGuid();
+                //assign student into groupstudentlist
+                SqlCommand selectCmd = new SqlCommand("SELECT s.StudentGUID FROM Student s LEFT JOIN Student_Programme_Register spr on spr.StudentGUID = s.StudentGUID WHERE spr.RegisterGUID = @RegisterGUID", con);
+                selectCmd.Parameters.AddWithValue("@RegisterGUID", RegisterGUID);
+                SqlDataReader dtr = selectCmd.ExecuteReader();
+                DataTable dtS = new DataTable();
+                dtS.Load(dtr);
 
-                            SqlCommand assignCmd = new SqlCommand("SELECT G.GroupGUID, G.GroupNo, G.GroupCapacity, Count(Gs.StudentGUID), S.SessionGUID FROM [Group] G LEFT JOIN GroupStudentList Gs ON G.GroupGUID = Gs.GroupGUID LEFT JOIN Student S ON Gs.StudentGUID = S.StudentGUID WHERE S.SessionGUID = @SessionGUID OR S.SessionGUID IS NULL GROUP BY G.GroupGUID, G.GroupNo, G.GroupCapacity, S.SessionGUID HAVING G.GroupCapacity > Count(Gs.StudentGUID) ORDER BY G.GroupNo ", con);
+                string StudentGUID = dtS.Rows[0]["StudentGUID"].ToString();
+                Guid groupStudentListGUID = Guid.NewGuid();
 
-                            assignCmd.Parameters.AddWithValue("@SessionGUID", SessionGUID);
+                SqlCommand assignCmd = new SqlCommand("SELECT G.GroupGUID, G.GroupNo, G.GroupCapacity, Count(Gs.StudentGUID), S.SessionGUID FROM [Group] G LEFT JOIN GroupStudentList Gs ON G.GroupGUID = Gs.GroupGUID LEFT JOIN Student S ON Gs.StudentGUID = S.StudentGUID WHERE S.SessionGUID = @SessionGUID OR S.SessionGUID IS NULL GROUP BY G.GroupGUID, G.GroupNo, G.GroupCapacity, S.SessionGUID HAVING G.GroupCapacity > Count(Gs.StudentGUID) ORDER BY G.GroupNo ", con);
+                assignCmd.Parameters.AddWithValue("@SessionGUID", SessionGUID);
 
-                            SqlDataReader dtrAssign = assignCmd.ExecuteReader();
-                            DataTable dtAssign = new DataTable();
-                            dtAssign.Load(dtrAssign);
-                                
-                            string GroupGUID = dtAssign.Rows[0]["GroupGUID"].ToString();
+                SqlDataReader dtrAssign = assignCmd.ExecuteReader();
+                DataTable dtAssign = new DataTable();
+                dtAssign.Load(dtrAssign);
 
-                            SqlCommand assignGroup = new SqlCommand("INSERT INTO GroupStudentList VALUES (@GroupStudentListGUID, @GroupGUID, @StudentGUID)", con);
-                            assignGroup.Parameters.AddWithValue("@GroupStudentListGUID", groupStudentListGUID);
-                            assignGroup.Parameters.AddWithValue("@GroupGUID", GroupGUID);
-                            assignGroup.Parameters.AddWithValue("@StudentGUID", StudentGUID);
-                            assignGroup.ExecuteNonQuery();
+                string GroupGUID = dtAssign.Rows[0]["GroupGUID"].ToString();
 
-                            SqlCommand currentSemester = new SqlCommand("INSERT INTO CurrentSessionSemester VALUES (NEWID(), @SessionGUID, @SemesterGUID, @StudentGUID, NULL, NULL)", con);
-                            currentSemester.Parameters.AddWithValue("@SessionGUID", SessionGUID);
-                            currentSemester.Parameters.AddWithValue("@SemesterGUID", ddlSemester.SelectedValue);
-                            currentSemester.Parameters.AddWithValue("@StudentGUID", StudentGUID);
+                SqlCommand assignGroup = new SqlCommand("INSERT INTO GroupStudentList VALUES (@GroupStudentListGUID, @GroupGUID, @StudentGUID)", con);
+                assignGroup.Parameters.AddWithValue("@GroupStudentListGUID", groupStudentListGUID);
+                assignGroup.Parameters.AddWithValue("@GroupGUID", GroupGUID);
+                assignGroup.Parameters.AddWithValue("@StudentGUID", StudentGUID);
+                assignGroup.ExecuteNonQuery();
 
-                            currentSemester.ExecuteNonQuery();
-                        }
+                SqlCommand currentSemester = new SqlCommand("INSERT INTO CurrentSessionSemester VALUES (NEWID(), @SessionGUID, @SemesterGUID, @StudentGUID, NULL, NULL)", con);
+                currentSemester.Parameters.AddWithValue("@SessionGUID", SessionGUID);
+                currentSemester.Parameters.AddWithValue("@SemesterGUID", ddlSemester.SelectedValue);
+                currentSemester.Parameters.AddWithValue("@StudentGUID", StudentGUID);
+                currentSemester.ExecuteNonQuery();
 
-                        sendEmail(RegisterGUID);
-                        return true;
-                    }
-                }
+                sendEmail(RegisterGUID);
 
-                return false;
+            }   
+            catch (Exception ex)
+            {
+                System.Diagnostics.Trace.WriteLine(ex.Message);         
+            }
+        }
+
+        protected void btnReject_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["Krous_Ex"].ConnectionString);
+                con.Open();
+                RegisterGUID = Guid.Parse(Request.QueryString["RegisterGUID"]);
+
+                SqlCommand updateCmd = new SqlCommand("UPDATE Student_Programme_Register SET Status = @Status WHERE RegisterGUID = @RegisterGUID", con);
+                updateCmd.Parameters.AddWithValue("@Status", "Rejected");
+                updateCmd.Parameters.AddWithValue("@RegisterGUID", RegisterGUID);
+                updateCmd.ExecuteNonQuery();
             }
             catch (Exception ex)
             {
                 System.Diagnostics.Trace.WriteLine(ex.Message);
-                return false;
-            }
-
-        }
-
-        protected void btnUpdate_Click(object sender, EventArgs e)
-        {
-            if (updateStatus())
-            {
-                Session["UpdateStatus"] = "Yes";
-                Response.Redirect("StudentProgrammeRegisterListings");
             }
         }
 
@@ -294,29 +274,5 @@ namespace Krous_Ex
 
             return true;
         }
-
-        //protected void lbIc_Click(object sender, EventArgs e)
-        //{
-        //    string filename = "~/Uploads/StudentRegisterFile/" + Request.QueryString["RegisterGUID"] + "/";
-        //    if (filename != "")
-        //    {
-        //        string path = Server.MapPath(filename);
-        //        System.IO.FileInfo file = new System.IO.FileInfo(path);
-        //        if (file.Exists)
-        //        {
-        //            Response.Clear();
-        //            Response.AddHeader("Content-Disposition", "attachment; filename=" + file.Name);
-        //            Response.AddHeader("Content-Length", file.Length.ToString());
-        //            Response.ContentType = "application/octet-stream";
-        //            Response.WriteFile(file.FullName);
-        //            Response.End();
-        //        }
-        //        else
-        //        {
-        //            Response.Write("This file does not exist.");
-        //        }
-        //    }
-        //}
-
     }
 }

@@ -15,7 +15,6 @@
                         <h3>
                             <asp:Label ID="lblCourseEntry" runat="server">Programme Registration</asp:Label>
                         </h3>
-                        <%--<p class="card-description">Form allow students to register programme</p>--%>
                         <p class="card-description"><strong><span style="color: red;"><strong>*Take note:</strong></span> The programme you selected and registered will be <strong style="color: red">PERMANENT </strong>once approved by the staff.</strong></p>
 
                         <hr />

@@ -70,7 +70,8 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="form-group pdForm">
+
+                               <%-- <div class="form-group pdForm">
                                     <div class="row">
                                         <div class="col-md-3 col-form-label">
                                             <asp:Label ID="lblStatus" runat="server">Registeration Status</asp:Label>
@@ -85,7 +86,7 @@
                                             <asp:Label ID="lblRegisterStatus" runat="server" Visible="false"></asp:Label>
                                         </div>
                                     </div>
-                                </div>
+                                </div>--%>
 
                                 <div class="form-group pdForm">
                                     <div class="row">
@@ -148,12 +149,10 @@
                                 <div class="form-group pdForm">
                                     <div class="row">
                                         <div class="col-md-12 float-right text-right">
-                                            <asp:Button Text="Save" ID="btnSave" runat="server" Width="18%" CssClass="btn btn-primary mr20 pdForm" />
-                                            <ajaxToolkit:ConfirmButtonExtender ID="ConfirmButtonExtender1" runat="server" ConfirmText="Are you sure to add these details ?" TargetControlID="btnSave" />
-                                            <asp:Button Text="Approve?" ID="btnUpdate" runat="server" Width="18%" CssClass="btn btn-success pdForm" OnClick="btnUpdate_Click" />
-                                            <ajaxToolkit:ConfirmButtonExtender ID="ConfirmButtonExtender2" runat="server" ConfirmText="Are you sure to update this FAQ ?" TargetControlID="btnUpdate" />
-                                            <asp:Button Text="Reject?" ID="btnDelete" runat="server" Width="18%" CssClass="btn btn-danger pdForm" /> 
-                                            <ajaxToolkit:ConfirmButtonExtender ID="ConfirmButtonExtender3" runat="server" ConfirmText="Are you sure to delete this FAQ ?" TargetControlID="btnDelete" /> 
+                                            <asp:Button Text="Approve?" ID="btnApprove" runat="server" Width="18%" CssClass="btn btn-success pdForm" OnClick="btnApprove_Click"/>
+                                            <ajaxToolkit:ConfirmButtonExtender ID="ConfirmButtonExtender2" runat="server" ConfirmText="Are you sure to approved this student's application?" TargetControlID="btnApprove" />
+                                            <asp:Button Text="Reject?" ID="btnReject" runat="server" Width="18%" CssClass="btn btn-danger pdForm" OnClick="btnReject_Click"/> 
+                                            <ajaxToolkit:ConfirmButtonExtender ID="ConfirmButtonExtender3" runat="server" ConfirmText="Are you sure to reject this student's application ?" TargetControlID="btnReject" /> 
                                             <asp:Button Text="Back" ID="btnBack" runat="server" Width="18%" CssClass="btn mr20 pdForm" />
 
                                         </div>

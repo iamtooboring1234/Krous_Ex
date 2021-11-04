@@ -14,6 +14,7 @@ namespace Krous_Ex
     public partial class StudentCourseRegister : System.Web.UI.Page
     {
         Guid userGUID = Guid.Parse(clsLogin.GetLoginUserGUID());
+        Guid registerGUID = Guid.NewGuid();
         protected void Page_Load(object sender, EventArgs e)
         {
             if (IsPostBack != true)
@@ -155,21 +156,9 @@ namespace Krous_Ex
             bool insertBool = false;
             try
             {
-                Guid registerGUID = Guid.NewGuid();
+               
                 SqlConnection con = new SqlConnection();
                 SqlCommand insertCmd = new SqlCommand();
-
-                //upload here
-                //string IcNumberImage = "IC" + "_" + Path.GetFileNameWithoutExtension(UploadNRIC.FileName) + Path.GetExtension(UploadNRIC.FileName); 
-                //string ResultSlipImage = "Result" + "_" + Path.GetFileNameWithoutExtension(UploadResultSlip.FileName) + Path.GetExtension(UploadResultSlip.FileName); 
-                //string MedicalImage = "Medical" + "_" + Path.GetFileNameWithoutExtension(UploadMedical.FileName) +  Path.GetExtension(UploadMedical.FileName);
-
-                //String savePath = ConfigurationManager.AppSettings.Get("RegisterUploadPath");
-                //string uploadSavePath = Server.MapPath(savePath);
-
-                //String IcFullSavePath = uploadSavePath + IcNumberImage;
-                //String ResultFullSavePath = uploadSavePath + ResultSlipImage;
-                //String MedicalFullSavePath = uploadSavePath + MedicalImage;
 
                 string strCon = ConfigurationManager.ConnectionStrings["Krous_Ex"].ConnectionString;
                 con = new SqlConnection(strCon);
@@ -233,26 +222,31 @@ namespace Krous_Ex
 
         protected void btnSave_Click(object sender, EventArgs e)
         {
-            if (registerValidation())
+            if (CheckDuplicateStudentRegister()) //
             {
-                if (insertRegister())
+                if (registerValidation()) 
                 {
-                    clsFunction.DisplayAJAXMessage(this, "Your programme has been registered successfully! Please wait for the staff to approve it.");
-                    Response.Redirect("StudentProgrammeRegister");
-                }
-                else
-                {
-                    clsFunction.DisplayAJAXMessage(this, "Unable to register.");
-                    ddlProgrammCategory.SelectedIndex = -1;
-                    ddlProgramme.SelectedIndex = -1;
-                    ddlSession.SelectedIndex = -1; 
-                    AsyncFileUpload1.Dispose();
-                    AsyncFileUpload2.Dispose();
-                    AsyncFileUpload3.Dispose();
-
+                    if (insertRegister())
+                    {
+                        clsFunction.DisplayAJAXMessage(this, "Your programme has been registered successfully! Please wait for the staff to approve it.");
+                        Response.Redirect("StudentProgrammeRegister");
+                    }
+                    else
+                    {
+                        clsFunction.DisplayAJAXMessage(this, "Unable to register.");
+                        ddlProgrammCategory.SelectedIndex = -1;
+                        ddlProgramme.SelectedIndex = -1;
+                        ddlSession.SelectedIndex = -1;
+                        AsyncFileUpload1.Dispose();
+                        AsyncFileUpload2.Dispose();
+                        AsyncFileUpload3.Dispose();
+                    }
                 }
             }
-
+            else
+            {
+                clsFunction.DisplayAJAXMessage(this, "Already have your record in database!");
+            }
         }
 
         protected void ddlProgrammCategory_SelectedIndexChanged(object sender, EventArgs e)
@@ -325,6 +319,33 @@ namespace Krous_Ex
         protected void btnBack_Click(object sender, EventArgs e)
         {
             Response.Redirect("StudentDashboard");
+        }
+
+        private bool CheckDuplicateStudentRegister() //after need to check if the student's programme category
+        {
+            try
+            {
+                SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["Krous_Ex"].ConnectionString);
+                con.Open();
+                var SelectCommand = new SqlCommand();
+
+                SelectCommand = new SqlCommand("SELECT spr.StudentGUID, spr.ProgrammeGUID, p.ProgrammeCategory FROM Student_Programme_Register WHERE StudentGUID = @StudentGUD GROUP BY StudentGUID, ProgrammeGUID", con);
+                SelectCommand.Parameters.AddWithValue("@StudentGUID", userGUID);
+                SqlDataReader reader = SelectCommand.ExecuteReader();
+                DataTable dtFound = new DataTable();
+                dtFound.Load(reader);
+                con.Close();
+                if (dtFound.Rows.Count != 0)
+                {
+                    return true;
+                }
+
+                return false;
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
         }
 
 
