@@ -130,7 +130,7 @@
                                         <PagerStyle BackColor="#CCCCCC" ForeColor="Black" HorizontalAlign="Center" />
                                         <RowStyle BackColor="" HorizontalAlign="Center" />
                                     </asp:GridView>
-                                    <asp:Label ID="Label1" runat="server" Visible="false" Font-Size="Large" Font-Bold="true" Text="No FAQ Record Found !"></asp:Label>
+                                    <asp:Label ID="Label1" runat="server" Visible="false" Font-Size="Large" Font-Bold="true" Text="No Staff Record Found !"></asp:Label>
                                 </div>
                             </div>
                         </div>
@@ -151,8 +151,6 @@
             </div>
         </div>
     </div>
-
-
 
     <asp:Panel ID="Panel1" runat="server">
         <asp:UpdatePanel runat="server" ID="updatepanel1" UpdateMode="Conditional">
@@ -249,7 +247,6 @@
                 </div>
             </ContentTemplate>
             <Triggers>
-                <%--<asp:AsyncPostBackTrigger ControlID="btnSearch" EventName="Click"></asp:AsyncPostBackTrigger>--%>
                 <asp:AsyncPostBackTrigger ControlID="gvCourse"></asp:AsyncPostBackTrigger>
                 <asp:AsyncPostBackTrigger ControlID="gvSelectedCourse"></asp:AsyncPostBackTrigger>
             </Triggers>

@@ -5,6 +5,8 @@ using System.Data;
 using System.Data.SqlClient;
 using System.IO;
 using System.Linq;
+using System.Net;
+using System.Net.Mail;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
@@ -17,6 +19,21 @@ namespace Krous_Ex
         Guid registerGUID = Guid.NewGuid();
         protected void Page_Load(object sender, EventArgs e)
         {
+
+            if (Session["RegisterProgramme"] != null)
+            {
+                if (Session["RegisterProgramme"].ToString() == "Yes")
+                {
+                    clsFunction.DisplayAJAXMessage(this, "Your programme has been registered successfully! Please wait for the staff to approve it.");
+                    Session["RegisterProgramme"] = null;
+                }
+                else
+                {
+                    clsFunction.DisplayAJAXMessage(this, "Unable to register!");
+                    Session["RegisterProgramme"] = null;
+                }
+            }
+
             if (IsPostBack != true)
             {
                 if(userGUID != null)
@@ -149,14 +166,11 @@ namespace Krous_Ex
             }
         }
 
-
-
         protected bool insertRegister()
         {
             bool insertBool = false;
             try
             {
-               
                 SqlConnection con = new SqlConnection();
                 SqlCommand insertCmd = new SqlCommand();
 
@@ -220,15 +234,56 @@ namespace Krous_Ex
             return insertBool;
         }
 
+        private bool checkDuplicateRegister()
+        {
+            try
+            {
+                SqlConnection con = new SqlConnection();              
+                string strCon = ConfigurationManager.ConnectionStrings["Krous_Ex"].ConnectionString;
+                con = new SqlConnection(strCon);
+                con.Open();
+
+                //check student record if they have register as foundation or others
+                SqlCommand verifyCmd = new SqlCommand("SELECT p.ProgrammeCategory FROM Student_Programme_Register spr LEFT JOIN Programme p ON spr.ProgrammeGUID = p.ProgrammeGUID WHERE StudentGUID = @StudentGUID ", con);
+                verifyCmd.Parameters.AddWithValue("@StudentGUID", userGUID);
+                SqlDataReader dtrVerify = verifyCmd.ExecuteReader();
+                DataTable dtVerify = new DataTable();
+                dtVerify.Load(dtrVerify);
+
+                string programme = dtVerify.Rows[0]["ProgrammeCategory"].ToString();
+
+                if (dtVerify.Rows.Count != 0)
+                {
+                    if(ddlProgrammCategory.SelectedValue == programme)
+                    {
+                        clsFunction.DisplayAJAXMessage(this, "You have registered " + programme + " programme previously. Please make sure you register the programme that you should be taking.");
+                        ddlProgrammCategory.SelectedIndex = -1;
+                        ddlProgramme.SelectedIndex = -1;
+                        ddlSession.SelectedIndex = -1;
+                        AsyncFileUpload1.Dispose();
+                        AsyncFileUpload2.Dispose();
+                        AsyncFileUpload3.Dispose();
+                        return false;
+                    }
+                }
+                return true;
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Trace.WriteLine(ex.Message);
+                return false;
+            }
+        }
+        
         protected void btnSave_Click(object sender, EventArgs e)
         {
-            if (CheckDuplicateStudentRegister()) //
+            if (checkDuplicateRegister())
             {
-                if (registerValidation()) 
+                if (registerValidation())
                 {
                     if (insertRegister())
                     {
-                        clsFunction.DisplayAJAXMessage(this, "Your programme has been registered successfully! Please wait for the staff to approve it.");
+                        Session["RegisterProgramme"] = "Yes";
                         Response.Redirect("StudentProgrammeRegister");
                     }
                     else
@@ -242,10 +297,6 @@ namespace Krous_Ex
                         AsyncFileUpload3.Dispose();
                     }
                 }
-            }
-            else
-            {
-                clsFunction.DisplayAJAXMessage(this, "Already have your record in database!");
             }
         }
 
@@ -269,16 +320,9 @@ namespace Krous_Ex
             }
         }
 
-        protected void btnCancel_Click(object sender, EventArgs e)
+        protected void btnBack_Click(object sender, EventArgs e)
         {
-            ddlProgrammCategory.SelectedIndex = -1;
-            ddlProgramme.SelectedIndex = -1;
-            ddlSession.SelectedIndex = -1;
-            AsyncFileUpload1.Dispose();
-            AsyncFileUpload2.Dispose();
-            AsyncFileUpload3.Dispose();
-            //Response.Redirect("StudentDashboard");
-
+            Response.Redirect("StudentDashboard");
         }
 
         protected bool registerValidation()
@@ -316,38 +360,9 @@ namespace Krous_Ex
             return true;
         }
 
-        protected void btnBack_Click(object sender, EventArgs e)
-        {
-            Response.Redirect("StudentDashboard");
-        }
-
-        private bool CheckDuplicateStudentRegister() //after need to check if the student's programme category
-        {
-            try
-            {
-                SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["Krous_Ex"].ConnectionString);
-                con.Open();
-                var SelectCommand = new SqlCommand();
-
-                SelectCommand = new SqlCommand("SELECT StudentGUID, ProgrammeGUID FROM Student_Programme_Register WHERE StudentGUID = @StudentGUD GROUP BY StudentGUID, ProgrammeGUID ", con);
-                SelectCommand.Parameters.AddWithValue("@StudentGUID", userGUID);
-                SqlDataReader reader = SelectCommand.ExecuteReader();
-                DataTable dtFound = new DataTable();
-                dtFound.Load(reader);
-                con.Close();
-                if (dtFound.Rows.Count != 5)
-                {  
-                    return true;
-                }
-
-                return false;
-            }
-            catch (Exception ex)
-            {
-                return false;
-            }
-        }
-
+        //check the student programme category when they click register
+        //if the database record have the foundation..then they want to register again...it will prompt error message and said, You have registered foundation before. 
+        //Now you should register degree programme...smtg like that 
 
         //can save into database, need to do validation
         //and if i did not upload medical, it will still insert the new guid into database (need to fix) -done

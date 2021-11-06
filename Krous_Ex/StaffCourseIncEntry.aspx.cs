@@ -403,16 +403,13 @@ namespace Krous_Ex
                             InsertCommand.Parameters.AddWithValue("@StaffGUID", StaffGUID);
                             InsertCommand.ExecuteNonQuery();
                             con.Close();
-                            return true;
-                        
+                            return true;     
                         }
                         else
                         {
                             clsFunction.DisplayAJAXMessage(this, "Please checked at least ONE checkbox.");
-                        }
-                   
-                    }
-                
+                        }                
+                    }   
                 }
                 return false;
             }
@@ -423,20 +420,87 @@ namespace Krous_Ex
             }
         }
 
-        protected void btnSubmit_Click(object sender, EventArgs e)
+        private bool IsExistInCourseInCharge() 
         {
-            if (CheckMax5Records())
+            string message = "";
+            try
             {
-                if (addCourseInc())
+                SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["Krous_Ex"].ConnectionString);
+                con.Open();
+
+                string sqlQuery = "SELECT ci.CourseGUID, ci.StaffGUID, c.CourseName, c.CourseAbbrv FROM Course c, Course_In_Charge ci WHERE ci.CourseGUID = c.CourseGUID AND ci.StaffGUID = @StaffGUID AND ci.CourseGUID = @CourseGUID";
+                DataTable dtCourse = new DataTable();
+                SqlCommand GetCommand = new SqlCommand(sqlQuery, con);
+
+                GetCommand.Parameters.Add("@CourseGUID", SqlDbType.NVarChar);
+
+                foreach (GridViewRow row in gvStaffSearch.Rows)
                 {
-                    Session["AddedCourseInc"] = "Yes";
-                    Response.Redirect("StaffCourseIncEntry.aspx");
+                    if (row.RowType == DataControlRowType.DataRow)
+                    {
+                        CheckBox chkRow = (row.Cells[0].FindControl("chkRow") as CheckBox);
+
+                        if (chkRow.Checked)
+                        {
+                            Guid StaffGUID = Guid.Parse(gvStaffSearch.DataKeys[row.RowIndex].Value.ToString());
+                            GetCommand.Parameters.AddWithValue("@StaffGUID", StaffGUID);
+
+                            foreach (GridViewRow rowSelected in gvSelectedCourse.Rows)
+                            {
+                                GetCommand.Parameters["@CourseGUID"].Value = rowSelected.Cells[1].Text;
+                                SqlDataReader reader = GetCommand.ExecuteReader();
+                                dtCourse.Load(reader);
+                            }
+                        }
+                    }
+                }
+
+                con.Close();
+
+                if (dtCourse.Rows.Count != 0)
+                {
+                    message += "<br /><div class=\"card-description\" style=\"text-align:left\"><p>The course you've selected are already exist as shown below :</p>";
+                    for (int i = 0; i <= dtCourse.Rows.Count - 1; i++)
+                    {
+                        message += "<p>- " + dtCourse.Rows[i]["CourseName"] + " (" + dtCourse.Rows[i]["CourseAbbrv"] + ") </p>";
+                    }
+                    message += "<p>Please <strong style=\"color:red\">REMOVE</strong> it to proceed.</p></div>";
+
+                    litExist.Text = message;
+                    litExist.Visible = true;
+
+                    return false;
+                }
+                else
+                {
+                    return true;
                 }
             }
-            else
+            catch (Exception ex)
             {
-                Session["AddedCourseInc"] = "No";
-                Response.Redirect("StaffCourseIncEntry.aspx");
+                clsFunction.DisplayAJAXMessage(this, ex.Message);
+                return false;
+            }
+        }
+
+
+        protected void btnSubmit_Click(object sender, EventArgs e)
+        {
+            if (IsExistInCourseInCharge())
+            {
+                if (CheckMax5Records())
+                {
+                    if (addCourseInc())
+                    {
+                        Session["AddedCourseInc"] = "Yes";
+                        Response.Redirect("StaffCourseIncEntry.aspx");
+                    }
+                }
+                else
+                {
+                    Session["AddedCourseInc"] = "No";
+                    Response.Redirect("StaffCourseIncEntry.aspx");
+                }
             }
         }
 

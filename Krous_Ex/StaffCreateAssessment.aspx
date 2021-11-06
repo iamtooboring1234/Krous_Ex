@@ -81,7 +81,7 @@
                                                 <div class='input-group date' id='datetimepicker8'>
                                                     <asp:TextBox ID="txtDueDate" runat="server" CssClass="form-control duedate" AutoPostBack="true" AutoCompleteType="Disabled"></asp:TextBox>
                                                     <span class="input-group-addon">
-                                                        <span class="fa fa-calendar" style="padding:10px;"></span>
+                                                        <span class="fa fa-calendar" style="padding: 10px;"></span>
                                                     </span>
                                                 </div>
                                             </div>
@@ -119,51 +119,46 @@
                 </div>
             </div>
         </div>
+    </div>
 
-        <!--assign to which group of student-->
-        <div class="col-lg-12 mt-3">
-            <div class="card">
-                <div class="card-body">
-                    <div class="row">
-                        <div class="col-md-12">
-                            <p class="card-description">Select the session and group to assign the assessments to</p>
-                        </div>
+    <!--assign to which group of student-->
+    <div class="col-lg-12 mt-3">
+        <div class="card">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-12">
+                        <p class="card-description">Select the session and group to assign the assessments to specific session and group of students.</p>
                     </div>
-                    <div class="panel-body">
-                        <div class="form-horizontal">
-                            <div class="form-group pdForm">
-                                <div class="row">
-                                    <div class="col-md-2 col-form-label">
-                                        <asp:Label ID="lblSession" runat="server">Session selection</asp:Label><span style="color: red;">*</span>
-                                    </div>
-                                    <div class="col-md-2">
-                                        <asp:DropDownList ID="ddlSession" runat="server" CssClass="form-control"></asp:DropDownList>
-                                    </div>
+                </div>
+                <div class="panel-body">
+                    <div class="form-horizontal">
+                        <div class="form-group pdForm">
+                            <div class="row">
+                                <div class="col-md-2 col-form-label">
+                                    <asp:Label ID="lblSession" runat="server">Session selection</asp:Label><span style="color: red;">*</span>
+                                </div>
+                                <div class="col-md-2">
+                                    <asp:DropDownList ID="ddlSession" runat="server" CssClass="form-control"></asp:DropDownList>
                                 </div>
                             </div>
-                            <div class="form-group pdForm">
-                                <div class="row">
-                                    <div class="col-md-2 col-form-label">
-                                        <asp:Label ID="lblGroupList" runat="server">Group selection</asp:Label><span style="color: red;">*</span>
-                                    </div>
-                                    <div class="col-md-2">
-                                        <asp:DropDownList ID="ddlGroups" runat="server" CssClass="form-control"></asp:DropDownList>
-                                    </div>
+                        </div>
+                        <div class="form-group pdForm">
+                            <div class="row">
+                                <div class="col-md-2 col-form-label">
+                                    <asp:Label ID="lblGroupList" runat="server">Group selection</asp:Label><span style="color: red;">*</span>
+                                </div>
+                                <div class="col-md-2">
+                                    <asp:DropDownList ID="ddlGroups" runat="server" CssClass="form-control"></asp:DropDownList>
                                 </div>
                             </div>
-                            <hr />
-                            <div class="form-group pdForm">
-                                <div class="row">
-                                    <div class="col-md-12 float-right text-right">
-                                        <asp:Button Text="Create" ID="btnCreate" runat="server" Width="18%" CssClass="btn btn-primary mr20 pdForm" OnClick="btnCreate_Click" />
-                                        <ajaxToolkit:ConfirmButtonExtender ID="ConfirmButtonExtender1" runat="server" ConfirmText="Are you sure to create this assessment?" TargetControlID="btnCreate" />
-                                        <%--<asp:Button Text="Back" ID="btnBack" runat="server" Width="18%" CssClass="btn mr20 pdForm"/>--%>
-                                        <asp:Button Text="Cancel" ID="btnCancel" runat="server" Width="18%" CssClass="btn btn-dark mr20 pdForm" Style="height: 37px;" />
-                                        <%-- <asp:Button Text="Update" ID="btnUpdate" runat="server" Width="18%" CssClass="btn mr20 pdForm" OnClick="btnUpdate_Click" />
-                                    <ajaxToolkit:ConfirmButtonExtender ID="ConfirmButtonExtender2" runat="server" ConfirmText="Are you sure to update this FAQ ?" TargetControlID="btnUpdate" />
-                                    <asp:Button Text="Delete" ID="btnDelete" runat="server" Width="18%" CssClass="btn mr20 pdForm" OnClick="btnDelete_Click" />
-                                    <ajaxToolkit:ConfirmButtonExtender ID="ConfirmButtonExtender3" runat="server" ConfirmText="Are you sure to delete this FAQ ?" TargetControlID="btnDelete" />--%>
-                                    </div>
+                        </div>
+                        <hr />
+                        <div class="form-group pdForm">
+                            <div class="row">
+                                <div class="col-md-12 float-right text-right">
+                                    <asp:Button Text="Create" ID="btnCreate" runat="server" Width="18%" CssClass="btn btn-primary mr20 pdForm" OnClick="btnCreate_Click" />
+                                    <ajaxToolkit:ConfirmButtonExtender ID="ConfirmButtonExtender1" runat="server" ConfirmText="Are you sure to create this assessment?" TargetControlID="btnCreate" />
+                                    <asp:Button Text="Back" ID="btnBack" runat="server" Width="18%" CssClass="btn mr20 pdForm" OnClick="btnBack_Click" />
                                 </div>
                             </div>
                         </div>
@@ -171,9 +166,8 @@
                 </div>
             </div>
         </div>
+    </div>
 
-
-
-        <script src="Assests/main/js/formpickers.js"></script>
-        <script src="Assests/main/js/toastDemo.js"></script>
+    <script src="Assests/main/js/formpickers.js"></script>
+    <script src="Assests/main/js/toastDemo.js"></script>
 </asp:Content>
