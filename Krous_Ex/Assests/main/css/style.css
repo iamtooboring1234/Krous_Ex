@@ -9320,7 +9320,6 @@ fieldset:disabled .wizard > .actions a,
   pointer-events: none; }
 
 .btn-primary, .wizard > .actions a {
-  padding: 10px 0;
   color: #fff;
   background-color: #0090e7;
   border-color: #0090e7; }

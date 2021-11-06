@@ -60,22 +60,31 @@ namespace Krous_Ex
         protected global::System.Web.UI.WebControls.HiddenField hdSession;
 
         /// <summary>
-        /// lblCourse control.
+        /// lblCourseExam control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblCourse;
+        protected global::System.Web.UI.WebControls.Label lblCourseExam;
 
         /// <summary>
-        /// ddlExam control.
+        /// ddlCourseExam control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList ddlExam;
+        protected global::System.Web.UI.WebControls.DropDownList ddlCourseExam;
+
+        /// <summary>
+        /// hdCourseExam control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.HiddenField hdCourseExam;
 
         /// <summary>
         /// lblSemesterDate control.
@@ -87,22 +96,49 @@ namespace Krous_Ex
         protected global::System.Web.UI.WebControls.Label lblSemesterDate;
 
         /// <summary>
-        /// txtSemesterStartDate control.
+        /// txtExamStartDateTime control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtSemesterStartDate;
+        protected global::System.Web.UI.WebControls.TextBox txtExamStartDateTime;
 
         /// <summary>
-        /// txtSemesterEndDate control.
+        /// txtExamEndDateTime control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtSemesterEndDate;
+        protected global::System.Web.UI.WebControls.TextBox txtExamEndDateTime;
+
+        /// <summary>
+        /// panelSelectedStaff control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Panel panelSelectedStaff;
+
+        /// <summary>
+        /// lblSelectedStaff control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblSelectedStaff;
+
+        /// <summary>
+        /// blSelectedStaff control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.BulletedList blSelectedStaff;
 
         /// <summary>
         /// lblInvigilators control.
@@ -121,6 +157,15 @@ namespace Krous_Ex
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.DropDownList ddlStaff;
+
+        /// <summary>
+        /// hdSelectedStaff control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.HiddenField hdSelectedStaff;
 
         /// <summary>
         /// btnSave control.

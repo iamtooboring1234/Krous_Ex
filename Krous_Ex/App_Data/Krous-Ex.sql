@@ -155,26 +155,26 @@ CREATE TABLE [dbo].[Student_Programme_Register] (
     CONSTRAINT [fk_session_scr] FOREIGN KEY ([SessionGUID]) REFERENCES [dbo].[Session] ([SessionGUID])
 );
 
-CREATE TABLE [Exam_Result] (
-	[Exam_ResultGUID] UNIQUEIDENTIFIER NOT NULL,
-	[StudentGUID] UNIQUEIDENTIFIER NOT NULL,
-	[Sessions] varchar(100) NOT NULL,
-	[TotalCourseRegistered] int NOT NULL,
-	[GPA] decimal(5,4) NOT NULL,
-	[CGPA] decimal(5,4) NOT NULL,
-    CONSTRAINT pk_exam_result PRIMARY KEY (Exam_ResultGUID),
-	CONSTRAINT fk_student_exam_result FOREIGN KEY (StudentGUID) REFERENCES Student(StudentGUID)
-)
+CREATE TABLE [dbo].[ExamResult] (
+    [ExamResultGUID] UNIQUEIDENTIFIER NOT NULL,
+    [SessionGUID]    UNIQUEIDENTIFIER NOT NULL,
+    [StudentGUID]    UNIQUEIDENTIFIER NOT NULL,
+    [GPA]            DECIMAL (5, 4)   NULL,
+    [CGPA]           DECIMAL (5, 4)   NULL,
+    [Status]         VARCHAR (50)     NOT NULL,
+    CONSTRAINT [pk_examResult] PRIMARY KEY CLUSTERED ([ExamResultGUID] ASC),
+    CONSTRAINT [fk_session_examResult] FOREIGN KEY ([SessionGUID]) REFERENCES [dbo].[Session] ([SessionGUID]),
+    CONSTRAINT [fk_student_examResult] FOREIGN KEY ([StudentGUID]) REFERENCES [dbo].[Student] ([StudentGUID])
+);
 
-CREATE TABLE [Exam_Result_Per_Course] (
-	[Exam_Result_Per_CourseGUID] UNIQUEIDENTIFIER NOT NULL,
-	[StudentGUID] UNIQUEIDENTIFIER NOT NULL,
-	[CourseID] char(10) NOT NULL,
-	[Mark] decimal(3,2) NOT NULL,
-	[Grade] varchar (3) NOT NULL,
-    CONSTRAINT pk_exam_result_per_course PRIMARY KEY (Exam_Result_Per_CourseGUID),
-	CONSTRAINT fk_student_exam_result_per_course FOREIGN KEY (StudentGUID) REFERENCES Student(StudentGUID),
-	CONSTRAINT fk_course_exam_result_per_course FOREIGN KEY (CourseGUID) REFERENCES Course(CourseGUID)
+CREATE TABLE [dbo].[ExamResultPerCourse] (
+    [ExamResultPerCourseGUID] UNIQUEIDENTIFIER NOT NULL,
+    [ExamResultGUID]          UNIQUEIDENTIFIER NOT NULL,
+    [CourseGUID]              UNIQUEIDENTIFIER NOT NULL,
+    [Mark]                    INT              NULL,
+    [Grade]                   VARCHAR (3)      NULL,
+    CONSTRAINT [pk_exam_result_per_course] PRIMARY KEY CLUSTERED ([ExamResultPerCourseGUID] ASC),
+    CONSTRAINT [fk_course_exam_result_per_course] FOREIGN KEY ([CourseGUID]) REFERENCES [dbo].[Course] ([CourseGUID])
 );
 
 CREATE TABLE [ExamTimetable] (
@@ -443,8 +443,8 @@ CREATE TABLE [dbo].[CurrentSessionSemester] (
 CREATE TABLE [dbo].[ExamInvigilatorsList] (
     [ExamInvigilatorsListGUID] UNIQUEIDENTIFIER NOT NULL,
     [StaffGUID] UNIQUEIDENTIFIER NOT NULL,
-    [ExamTimeTableGUID] UNIQUEIDENTIFIER NOT NULL,
+    [ExamTimetableGUID] UNIQUEIDENTIFIER NOT NULL,
     PRIMARY KEY CLUSTERED ([ExamInvigilatorsListGUID] ASC),
     CONSTRAINT [fk_examInviList_staff] FOREIGN KEY ([StaffGUID]) REFERENCES [dbo].[Staff] ([StaffGUID]),   
-    CONSTRAINT [fk_examInviList_examtimetable] FOREIGN KEY ([ExamTimeTableGUID]) REFERENCES [dbo].[ExamTimeTable] ([ExamTimeTableGUID]),
+    CONSTRAINT [fk_examInviList_examtimetable] FOREIGN KEY ([ExamTimetableGUID]) REFERENCES [dbo].[ExamTimetable] ([ExamTimetableGUID]),
 );
