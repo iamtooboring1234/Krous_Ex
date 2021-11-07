@@ -32,10 +32,8 @@ namespace Krous_Ex
 
             if (IsPostBack != true)
             {
-                //txtDueDate.Text = DateTime.Today.ToString("dd/MM/yyyy");
                 loadGroup();
                 loadSession();
-
             }
         }
 
@@ -130,55 +128,58 @@ namespace Krous_Ex
                 SqlConnection con = new SqlConnection();
                 SqlCommand createCmd = new SqlCommand();
 
-                String filename = Path.GetFileName(AsyncUploadMaterial.FileName); //get filename
-                String savePath = ConfigurationManager.AppSettings.Get("AssessmentUploadPath");
-                String ProfileSavePath = Server.MapPath(savePath);
-                String ProfileFullSavePath = ProfileSavePath + filename;
+                //String filename = Path.GetFileName(AsyncUploadMaterial.FileName); //get filename
+                //String savePath = ConfigurationManager.AppSettings.Get("AssessmentUploadPath");
+                //String ProfileSavePath = Server.MapPath(savePath);
+                //String ProfileFullSavePath = ProfileSavePath + filename;
+
+                string filename = "Assessment_" + Path.GetFileName(AsyncUploadMaterial.FileName);
+                string folderName = "~/Uploads/AssessmentFolder/" + AssessmentGUID + "/";
 
                 string strCon = ConfigurationManager.ConnectionStrings["Krous_Ex"].ConnectionString;
                 con = new SqlConnection(strCon);
                 con.Open();
 
-                if (Directory.Exists(ProfileSavePath))
+                if (!Directory.Exists(folderName))
                 {
-                    if (!String.IsNullOrEmpty(ProfileFullSavePath))
+                    Directory.CreateDirectory(Server.MapPath(folderName));
+                }
+
+                if (filename != "")
+                {
+                    createCmd = new SqlCommand("INSERT INTO Assessment (AssessmentGUID, StaffGUID, GroupGUID, SessionGUID, AssessmentTitle, AssessmentDesc, DueDate, CreatedDate, UploadMaterials) VALUES (@AssessmentGUID, @StaffGUID, @GroupGUID, @SessionGUID, @AssessmentTitle, @AssessmentDesc, @DueDate, @CreatedDate, @UploadMaterials)", con);
+                    createCmd.Parameters.AddWithValue("@AssessmentGUID", AssessmentGUID);
+                    createCmd.Parameters.AddWithValue("@StaffGUID", userGuid);
+                    createCmd.Parameters.AddWithValue("@GroupGUID", ddlGroups.SelectedValue);
+                    createCmd.Parameters.AddWithValue("@SessionGUID", ddlSession.SelectedValue);
+                    createCmd.Parameters.AddWithValue("@AssessmentTitle", txtAssTitle.Text);
+                    createCmd.Parameters.AddWithValue("@AssessmentDesc", txtDesc.Text);
+
+                    if(txtDueDate.Text != "")
                     {
-                        createCmd = new SqlCommand("INSERT INTO Assessment (AssessmentGUID, StaffGUID, GroupGUID, SessionGUID, AssessmentTitle, AssessmentDesc, DueDate, CreatedDate, UploadMaterials) VALUES (@AssessmentGUID, @StaffGUID, @GroupGUID, @SessionGUID, @AssessmentTitle, @AssessmentDesc, @DueDate, @CreatedDate, @UploadMaterials)", con);
-                        createCmd.Parameters.AddWithValue("@AssessmentGUID", AssessmentGUID);
-                        createCmd.Parameters.AddWithValue("@StaffGUID", userGuid);
-                        createCmd.Parameters.AddWithValue("@GroupGUID", ddlGroups.SelectedValue);
-                        createCmd.Parameters.AddWithValue("@SessionGUID", ddlSession.SelectedValue);
-                        createCmd.Parameters.AddWithValue("@AssessmentTitle", txtAssTitle.Text);
-                        createCmd.Parameters.AddWithValue("@AssessmentDesc", txtDesc.Text);
-
-                        if(txtDueDate.Text != "")
-                        {
-                            createCmd.Parameters.AddWithValue("@DueDate", DateTime.ParseExact(txtDueDate.Text, "dd/MM/yyyy HH:mm", CultureInfo.InvariantCulture));
-                        }
-                        else
-                        {
-                            createCmd.Parameters.AddWithValue("@DueDate", "");
-                        }
-
-                        createCmd.Parameters.AddWithValue("@CreatedDate", DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss"));
-                        createCmd.Parameters.AddWithValue("@UploadMaterials", filename);
-                        createCmd.ExecuteNonQuery();
-
-                        //not neccessary 
-                        SqlCommand insertFileList = new SqlCommand("INSERT INTO AssessmentFileList (AssessmentFileListGUID, AssessmentGUID, FileName) VALUES (@AssessmentFileListGUID, @AssessmentGUID, @FileName)", con);
-                        insertFileList.Parameters.AddWithValue("@AssessmentFileListGUID", AssessmentFileListGUID);
-                        insertFileList.Parameters.AddWithValue("@AssessmentGUID", AssessmentGUID);
-                        insertFileList.Parameters.AddWithValue("@FileName", filename);
-                        insertFileList.ExecuteNonQuery();
-                        con.Close();
+                        createCmd.Parameters.AddWithValue("@DueDate", DateTime.ParseExact(txtDueDate.Text, "dd/MM/yyyy HH:mm", CultureInfo.InvariantCulture));
                     }
-                }
-                else
-                {
-                    clsFunction.DisplayAJAXMessage(this, "Not physical path.");
-                    return false;
-                }
+                    else
+                    {
+                        createCmd.Parameters.AddWithValue("@DueDate", "");
+                    }
 
+                    createCmd.Parameters.AddWithValue("@CreatedDate", DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss"));
+
+                    if (AsyncUploadMaterial.HasFile)
+                    {
+                        createCmd.Parameters.AddWithValue("@UploadMaterials", filename);
+                    }
+                    else
+                    {
+                        createCmd.Parameters.AddWithValue("@UploadMaterials", "none");
+                    }
+
+                    createCmd.ExecuteNonQuery();
+
+                    AsyncUploadMaterial.SaveAs(Server.MapPath(folderName) + filename);
+                }
+               
                 return true;
             }
             catch (Exception ex)
@@ -188,7 +189,6 @@ namespace Krous_Ex
             }
         }
 
-     
         protected void btnCreate_Click(object sender, EventArgs e)
         {
             if (assessmentValidation())
@@ -206,8 +206,12 @@ namespace Krous_Ex
             else
             {
                 clsFunction.DisplayAJAXMessage(this, "Please enter all the required information.");
-            }
-            
+            }   
+        }
+
+        protected void btnBack_Click(object sender, EventArgs e)
+        {
+            Response.Redirect("StaffDashboard");
         }
 
         private bool assessmentValidation()
@@ -237,10 +241,10 @@ namespace Krous_Ex
                 return false;
             }
 
-
-
             return true;
         }
+
+
 
         //protected void txtDueDate_TextChanged(object sender, EventArgs e)
         //{

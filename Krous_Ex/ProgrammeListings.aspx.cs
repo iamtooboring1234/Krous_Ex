@@ -39,9 +39,9 @@ namespace Krous_Ex
 
                 loadCmd = new SqlCommand("SELECT FacultyGUID, FacultyName FROM Faculty GROUP BY FacultyGUID, FacultyName ORDER BY FacultyName", con);
                 SqlDataAdapter da = new SqlDataAdapter(loadCmd);
-                DataSet dsName = new DataSet();
-                da.Fill(dsName);
-                ddlFacultyInChg.DataSource = dsName;
+                DataSet dsFaculty = new DataSet();
+                da.Fill(dsFaculty);
+                ddlFacultyInChg.DataSource = dsFaculty;
                 ddlFacultyInChg.DataTextField = "FacultyName";
                 ddlFacultyInChg.DataValueField = "FacultyGUID";
                 ddlFacultyInChg.DataBind();

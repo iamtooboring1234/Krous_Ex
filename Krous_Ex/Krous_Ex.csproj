@@ -462,6 +462,7 @@
     <Content Include="Assests\main\img\view.png" />
     <Content Include="Assests\main\js\data-table.js" />
     <Content Include="Assests\main\js\dropify.js" />
+    <Content Include="Assests\main\js\hoverable-collapse.js" />
     <Content Include="Assests\main\js\tabs.js" />
     <Content Include="Assests\main\vendors\JQuery.datatable\jquery.dataTables.min.css" />
     <Content Include="Assests\main\vendors\JQuery.datatable\jquery.dataTables.min.js" />
@@ -490,6 +491,7 @@
     <Content Include="Scripts\date.format.js" />
     <Content Include="ProgrammeListings.aspx" />
     <Content Include="Scripts\moment.js" />
+    <Content Include="StaffAssessmentDetails.aspx" />
     <Content Include="StaffAssessmentListings.aspx" />
     <Content Include="StaffCourseIncEntry.aspx" />
     <Content Include="StaffCreateAssessment.aspx" />
@@ -1708,6 +1710,13 @@
     </Compile>
     <Compile Include="Site.Mobile.Master.designer.cs">
       <DependentUpon>Site.Mobile.Master</DependentUpon>
+    </Compile>
+    <Compile Include="StaffAssessmentDetails.aspx.cs">
+      <DependentUpon>StaffAssessmentDetails.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="StaffAssessmentDetails.aspx.designer.cs">
+      <DependentUpon>StaffAssessmentDetails.aspx</DependentUpon>
     </Compile>
     <Compile Include="StaffAssessmentListings.aspx.cs">
       <DependentUpon>StaffAssessmentListings.aspx</DependentUpon>

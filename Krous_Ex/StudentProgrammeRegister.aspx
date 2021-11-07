@@ -116,7 +116,6 @@
                                             <ajaxToolkit:AsyncFileUpload runat="server" ID="AsyncFileUpload1" Mode="Auto" />
                                         </ContentTemplate>
                                     </asp:UpdatePanel>
-                                    <%--<asp:FileUpload ID="UploadNRIC" runat="server" />--%>
                                 </div>
                             </div>
                         </div>
@@ -131,7 +130,6 @@
                                             <ajaxToolkit:AsyncFileUpload runat="server" ID="AsyncFileUpload2" Mode="Auto" />
                                         </ContentTemplate>
                                     </asp:UpdatePanel>
-                                    <%--<asp:FileUpload ID="UploadResultSlip" runat="server" />--%>
                                 </div>
                             </div>
                         </div>
@@ -146,7 +144,6 @@
                                             <ajaxToolkit:AsyncFileUpload runat="server" ID="AsyncFileUpload3" Mode="Auto" />
                                         </ContentTemplate>
                                     </asp:UpdatePanel>
-                                    <%--<asp:FileUpload ID="UploadMedical" runat="server" />--%>
                                 </div>
                             </div>
                         </div>
@@ -155,11 +152,7 @@
                             <div class="row">
                                 <div class="col-md-12 float-right text-right">
                                     <asp:Button Text="Register" ID="btnSave" runat="server" Width="18%" CssClass="btn btn-primary mr20 pdForm" OnClick="btnSave_Click" />
-                                    <ajaxToolkit:ConfirmButtonExtender ID="ConfirmButtonExtender2" runat="server" ConfirmText="Are you sure to add these details ?" TargetControlID="btnSave" />
-                                    <%--<asp:Button Text="Update" ID="btnUpdate" runat="server" Width="18%" CssClass="btn btn-success pdForm" />
-                                    <ajaxToolkit:ConfirmButtonExtender ID="ConfirmButtonExtender3" runat="server" ConfirmText="Are you sure to update this FAQ ?" TargetControlID="btnUpdate" />--%>
-                                    <%--<asp:Button Text="Delete" ID="btnDelete" runat="server" Width="18%" CssClass="btn btn-danger pdForm" />
-                                    <ajaxToolkit:ConfirmButtonExtender ID="ConfirmButtonExtender4" runat="server" ConfirmText="Are you sure to delete this FAQ ?" TargetControlID="btnDelete" />--%>
+                                    <ajaxToolkit:ConfirmButtonExtender ID="ConfirmButtonExtender2" runat="server" ConfirmText="Are you sure to register this programme?" TargetControlID="btnSave" />
                                     <asp:Button Text="Back" ID="btnBack" runat="server" Width="18%" CssClass="btn mr20 pdForm" OnClick="btnBack_Click" />
                                 </div>
                             </div>

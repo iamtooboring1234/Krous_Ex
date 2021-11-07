@@ -78,7 +78,6 @@ namespace Krous_Ex
             }
         }
 
-
         private void loadStudentDetails()
         {
             try
@@ -161,10 +160,11 @@ namespace Krous_Ex
             else
             {
                 clsFunction.DisplayAJAXMessage(this, "Error");
+                Response.Redirect("StudentProgrammeRegisterListings");
             }
         }
 
-        private bool approveStudent()
+        private bool approveStudent() 
         {
             try
             {
@@ -276,13 +276,31 @@ namespace Krous_Ex
                         DataTable dtAssign = new DataTable();
                         dtAssign.Load(dtrAssign);
 
+                        Guid newGroupGUID = Guid.NewGuid();
                         string GroupGUID = dtAssign.Rows[0]["GroupGUID"].ToString();
 
-                        SqlCommand assignGroup = new SqlCommand("INSERT INTO GroupStudentList VALUES (@GroupStudentListGUID, @GroupGUID, @StudentGUID)", con);
-                        assignGroup.Parameters.AddWithValue("@GroupStudentListGUID", groupStudentListGUID);
-                        assignGroup.Parameters.AddWithValue("@GroupGUID", GroupGUID);
-                        assignGroup.Parameters.AddWithValue("@StudentGUID", StudentGUID);
-                        assignGroup.ExecuteNonQuery();
+                        if (dtAssign.Rows.Count == 0)
+                        {
+                            SqlCommand newGroupNo = new SqlCommand("INSERT INTO [Group] VALUES (@GroupGUID, @GroupNo, @GroupCapacity)", con);
+                            newGroupNo.Parameters.AddWithValue("@GroupGUID", newGroupGUID);
+                            newGroupNo.Parameters.AddWithValue("@GroupNo", count);
+                            newGroupNo.Parameters.AddWithValue("@GroupCapacity", 20);
+                            newGroupNo.ExecuteNonQuery();
+
+                            SqlCommand assignGroup = new SqlCommand("INSERT INTO GroupStudentList VALUES (@GroupStudentListGUID, @GroupGUID, @StudentGUID)", con);
+                            assignGroup.Parameters.AddWithValue("@GroupStudentListGUID", groupStudentListGUID);
+                            assignGroup.Parameters.AddWithValue("@GroupGUID", newGroupGUID);
+                            assignGroup.Parameters.AddWithValue("@StudentGUID", StudentGUID);
+                            assignGroup.ExecuteNonQuery();
+                        }
+                        else
+                        {
+                            SqlCommand assignGroup = new SqlCommand("INSERT INTO GroupStudentList VALUES (@GroupStudentListGUID, @GroupGUID, @StudentGUID)", con);
+                            assignGroup.Parameters.AddWithValue("@GroupStudentListGUID", groupStudentListGUID);
+                            assignGroup.Parameters.AddWithValue("@GroupGUID", GroupGUID);
+                            assignGroup.Parameters.AddWithValue("@StudentGUID", StudentGUID);
+                            assignGroup.ExecuteNonQuery();
+                        }
                     }
                 }
                 else
@@ -306,11 +324,11 @@ namespace Krous_Ex
                 currentSemester.Parameters.AddWithValue("@SessionGUID", SessionGUID);
                 currentSemester.Parameters.AddWithValue("@SemesterGUID", ddlSemester.SelectedValue);
                 currentSemester.Parameters.AddWithValue("@StudentGUID", StudentGUID);
-
                 currentSemester.ExecuteNonQuery();
-                sendEmail(RegisterGUID);
-                return true;
 
+                sendApprovedEmail(RegisterGUID);
+                return true;
+              
             }
             catch (Exception ex)
             {
@@ -340,6 +358,9 @@ namespace Krous_Ex
                 updateCmd.Parameters.AddWithValue("@Status", "Rejected");
                 updateCmd.Parameters.AddWithValue("@RegisterGUID", RegisterGUID);
                 updateCmd.ExecuteNonQuery();
+
+                sendRejectEmail(RegisterGUID);
+
                 return true;
             }
             catch (Exception ex)
@@ -349,9 +370,8 @@ namespace Krous_Ex
             }
         }
 
-        private bool sendEmail(Guid RegisterGUID)
+        private bool sendApprovedEmail(Guid RegisterGUID)
         {
-            //send email
             SqlCommand cmd = new SqlCommand();
             SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["Krous_Ex"].ConnectionString);
             con.Open();
@@ -378,6 +398,42 @@ namespace Krous_Ex
             String body = "Hello " + fullname + ", <br />We are here to notify you, that your programme registration has been successfully approved by the staff.<br /><br />Thank You.<br /><br />Best Regards,<br />Krous Ex";
             mail.To.Add(dt.Rows[0]["Email"].ToString());
             mail.Subject = "Programme Registration Success";
+            mail.IsBodyHtml = true;
+            mail.Body = body;
+
+            client.Send(mail);
+
+            return true;
+        }
+
+        private bool sendRejectEmail(Guid RegisterGUID)
+        {
+            SqlCommand cmd = new SqlCommand();
+            SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["Krous_Ex"].ConnectionString);
+            con.Open();
+
+            SmtpClient client = new SmtpClient();
+            client.Port = 587;
+            client.Host = "smtp.gmail.com";     
+            client.EnableSsl = true;
+            client.DeliveryMethod = SmtpDeliveryMethod.Network;
+            client.UseDefaultCredentials = false;
+            client.Credentials = new NetworkCredential("krousExnoreply@gmail.com", "krousex2021");
+
+            MailMessage mail = new MailMessage();
+            mail.From = new MailAddress("krousExnoreply@gmail.com");
+
+            cmd = new SqlCommand("SELECT s.Email, s.StudentFullName FROM Student_Programme_Register spr LEFT JOIN Student s ON spr.StudentGUID = s.StudentGUID WHERE RegisterGUID = @RegisterGUID", con);
+            cmd.Parameters.AddWithValue("@RegisterGUID", RegisterGUID);
+            SqlDataReader dtrSelect = cmd.ExecuteReader();
+            DataTable dt = new DataTable();
+            dt.Load(dtrSelect);
+            con.Close();
+            string fullname = dt.Rows[0]["StudentFullName"].ToString();
+
+            String body = "Hello " + fullname + ", <br />We are here to notify you, that your programme registration has been rejected by the staff due to some reasons. Please make a call to the office to more enquiry.<br /><br />Thank You.<br /><br />Best Regards,<br />Krous Ex";
+            mail.To.Add(dt.Rows[0]["Email"].ToString());
+            mail.Subject = "Programme Registration Rejected";
             mail.IsBodyHtml = true;
             mail.Body = body;
 
