@@ -66,6 +66,10 @@
             background-color: black;
             cursor: default;
         }
+
+        .select2-container--default .select2-results__option[aria-selected=true] {
+            background-color: darkgrey;
+        }
     </style>
 
 

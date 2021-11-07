@@ -3,11 +3,8 @@
 
     <link href="Assests/main/css/table.css" rel="stylesheet" />
 
-    <link href="https://cdn.datatables.net/1.11.3/css/jquery.dataTables.min.css" rel="stylesheet" type="text/css" />
-    <script src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js"></script>
-
-<%--    <link href="https://nightly.datatables.net/css/jquery.dataTables.css" rel="stylesheet" type="text/css" />
-    <script src="https://nightly.datatables.net/js/jquery.dataTables.js"></script>--%>
+    <link href="Assests/main/vendors/JQuery.datatable/jquery.dataTables.min.css" rel="stylesheet" />
+    <script src="Assests/main/vendors/JQuery.datatable/jquery.dataTables.min.js"></script>
 
 </asp:Content>
 
@@ -74,7 +71,7 @@
                             <div class="card">
                                 <div class="table-responsive">
                                     <div class="gv-section text-center">
-                                        <asp:GridView ID="gvForumMng" runat="server" Width="100%" CssClass="table table-bordered" AutoGenerateColumns="False" DataKeyNames="ForumGUID, ForumType"  CellPadding="10" CellSpacing="2" Border="0">
+                                        <asp:GridView ID="gvForumMng" runat="server" Width="100%" CssClass="table table-bordered tableForum" AutoGenerateColumns="False" DataKeyNames="ForumGUID, ForumType"  CellPadding="10" CellSpacing="2" Border="0">
                                             <Columns>
                                                 <asp:TemplateField>
                                                     <ItemTemplate>
@@ -105,13 +102,11 @@
         </div>
     </div>
 
-    <script src="Assests/main/js/data-table.js"></script>
-
     <script>
         var $ = jQuery.noConflict();
 
         $(document).ready(function () {
-            $("[id*=gvForumMng]").prepend($("<thead></thead>").html($("[id*=gvForumMng]").find("tr:first"))).DataTable({
+            $(".tableForum").prepend($("<thead></thead>").html($(".tableForum").find("tr:first"))).DataTable({
                 "searching": false,
                 "pageLength": 10,
                 "order": [[1, 'asc']],
