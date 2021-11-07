@@ -187,6 +187,15 @@ CREATE TABLE [ExamTimetable] (
 	CONSTRAINT fk_course_examtimetable FOREIGN KEY (CourseGUID) REFERENCES Course(CourseGUID)
 );
 
+CREATE TABLE [ExamPreparation] (
+	[ExaminationPreparationGUID] UNIQUEIDENTIFIER NOT NULL,
+    [ExamTimetableGUID] UNIQUEIDENTIFIER NOT NULL,
+    [AnswerSheet] VARCHAR(500) NOT NULL,
+    [QuestionPaper] VARCHAR(500) NOT NULL,
+    CONSTRAINT pk_examPrep PRIMARY KEY ([ExaminationPreparationGUID] ASC),
+	CONSTRAINT fk_examTimetable_examPrep FOREIGN KEY ([ExamTimetableGUID]) REFERENCES ExamTimetable([ExamTimetableGUID])
+);
+
 CREATE TABLE [dbo].[Forum] (
     [ForumGUID]            UNIQUEIDENTIFIER NOT NULL,
     [ForumTopic]           VARCHAR (100)    NOT NULL,
