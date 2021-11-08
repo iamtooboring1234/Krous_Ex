@@ -504,6 +504,8 @@
     <Content Include="StudentViewExamTimeTable.aspx" />
     <Content Include="StudentProgrammeRegisterListings.aspx" />
     <Content Include="StudentProgrammeRegisterUpdate.aspx" />
+    <Content Include="StudentViewOverallResult.aspx" />
+    <Content Include="StudentViewSemesterResult.aspx" />
     <Content Include="Uploads\ProfileImage\defaultUserProfile.png" />
     <Content Include="Assests\main\img\exit.png" />
     <Content Include="Assests\main\img\graduated.png" />
@@ -1872,6 +1874,20 @@
     </Compile>
     <Compile Include="StudentViewExamTimeTable.aspx.designer.cs">
       <DependentUpon>StudentViewExamTimeTable.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="StudentViewOverallResult.aspx.cs">
+      <DependentUpon>StudentViewOverallResult.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="StudentViewOverallResult.aspx.designer.cs">
+      <DependentUpon>StudentViewOverallResult.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="StudentViewSemesterResult.aspx.cs">
+      <DependentUpon>StudentViewSemesterResult.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="StudentViewSemesterResult.aspx.designer.cs">
+      <DependentUpon>StudentViewSemesterResult.aspx</DependentUpon>
     </Compile>
     <Compile Include="Testing2.aspx.cs">
       <DependentUpon>Testing2.aspx</DependentUpon>

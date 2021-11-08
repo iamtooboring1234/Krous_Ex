@@ -6,8 +6,8 @@ Drop table GroupList
 Drop table Timetable_Course	
 Drop table Assignment
 Drop table Exam_Timetable
-Drop table Exam_Result_Per_Course
-Drop table Exam_Result
+Drop table ExamResultPerCourse
+Drop table ExamResult
 Drop table Student_Programme_Register
 Drop table Course_In_Charge
 Drop table Programme
@@ -162,10 +162,12 @@ CREATE TABLE [dbo].[ExamResult] (
     [GPA]            DECIMAL (5, 4)   NULL,
     [CGPA]           DECIMAL (5, 4)   NULL,
     [Status]         VARCHAR (50)     NOT NULL,
+	[ReleaseDate]	 DATETIME		  NULL,
     CONSTRAINT [pk_examResult] PRIMARY KEY CLUSTERED ([ExamResultGUID] ASC),
     CONSTRAINT [fk_session_examResult] FOREIGN KEY ([SessionGUID]) REFERENCES [dbo].[Session] ([SessionGUID]),
     CONSTRAINT [fk_student_examResult] FOREIGN KEY ([StudentGUID]) REFERENCES [dbo].[Student] ([StudentGUID])
 );
+
 
 CREATE TABLE [dbo].[ExamResultPerCourse] (
     [ExamResultPerCourseGUID] UNIQUEIDENTIFIER NOT NULL,
@@ -173,7 +175,9 @@ CREATE TABLE [dbo].[ExamResultPerCourse] (
     [CourseGUID]              UNIQUEIDENTIFIER NOT NULL,
     [Mark]                    INT              NULL,
     [Grade]                   VARCHAR (3)      NULL,
+    [Remarks]                 VARCHAR (100)    NULL,
     CONSTRAINT [pk_exam_result_per_course] PRIMARY KEY CLUSTERED ([ExamResultPerCourseGUID] ASC),
+	CONSTRAINT [fk_exam_result_exam_result_per_course] FOREIGN KEY ([ExamResultGUID]) REFERENCES [dbo].[ExamResult] ([ExamResultGUID]),
     CONSTRAINT [fk_course_exam_result_per_course] FOREIGN KEY ([CourseGUID]) REFERENCES [dbo].[Course] ([CourseGUID])
 );
 
@@ -190,8 +194,8 @@ CREATE TABLE [ExamTimetable] (
 CREATE TABLE [ExamPreparation] (
 	[ExaminationPreparationGUID] UNIQUEIDENTIFIER NOT NULL,
     [ExamTimetableGUID] UNIQUEIDENTIFIER NOT NULL,
-    [AnswerSheet] VARCHAR(500) NOT NULL,
     [QuestionPaper] VARCHAR(500) NOT NULL,
+    [AnswerSheet] VARCHAR(500) NOT NULL,
     CONSTRAINT pk_examPrep PRIMARY KEY ([ExaminationPreparationGUID] ASC),
 	CONSTRAINT fk_examTimetable_examPrep FOREIGN KEY ([ExamTimetableGUID]) REFERENCES ExamTimetable([ExamTimetableGUID])
 );

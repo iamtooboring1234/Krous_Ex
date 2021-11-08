@@ -24,7 +24,7 @@
                 <div class="row">
                     <div class="col-md-12">
                         <h3>
-                            <asp:Label ID="lblFAQEntry" runat="server">My Programme Structure</asp:Label>
+                            <asp:Label ID="lblProgrammeStructure" runat="server">My Programme Structure</asp:Label>
                         </h3>
                     </div>
                 </div>

@@ -17,6 +17,15 @@ namespace Krous_Ex
         {
             if (IsPostBack != true)
             {
+                if (Session["InsertExamFile"] != null)
+                {
+                    if (Session["InsertExamFile"].ToString() == "Yes")
+                    {
+                        ClientScript.RegisterStartupScript(GetType(), "Javascript", "javascript:showAddSuccessToast(); ", true);
+                        Session["InsertExamFile"] = null;
+                    }
+                }
+
                 loadSession();
                 loadExamCourse();
             }
@@ -122,7 +131,18 @@ namespace Krous_Ex
         {
             if (InsertExamFile())
             {
-
+                Session["InsertExamFile"] = "Yes";
+                Response.Redirect("ExaminationPrePreparationEntry");
+            } else
+            {
+                if (Session["EmptyFile"] != null)
+                {
+                    if (Session["EmptyFile"].ToString() == "Yes")
+                    {
+                        clsFunction.DisplayAJAXMessage(this, "Selected exam is required both question papaer and answer sheet file.");
+                        Session["EmptyFile"] = null;
+                    }
+                }
             }
         }
 
@@ -130,50 +150,106 @@ namespace Krous_Ex
         {
             try
             {
-                String questionPaper = Path.GetFileName(FileUploadQuestion.FileName);
-                String answerSheet = Path.GetFileName(FileUploadAnswerSheet.FileName);
-                String savePath = ConfigurationManager.AppSettings.Get("ExaminationUploadPath");
-                String ExamFilePath = Server.MapPath(savePath);
-                String ExamQuestionPaperFullSavePath = ExamFilePath + questionPaper;
-                String ExamAnswerSheetFullSavePath = ExamFilePath + answerSheet;
+                string questionPaperFileName = "QuestionPaper_" + Path.GetFileName(FileUploadQuestion.FileName);
+                string answerSheetFileName = "AnswerSheet_" + Path.GetFileName(FileUploadAnswerSheet.FileName);
+                string ExistingExamFilePath = "";
 
                 using (SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["Krous_Ex"].ConnectionString))
                 {
                     con.Open();
-                    if (Directory.Exists(ExamFilePath))
+                    string sqlQuery = "SELECT * FROM ExamPreparation WHERE ExamTimetableGUID = @ExamTimetableGUID ";
+
+                    SqlCommand GetCommand = new SqlCommand(sqlQuery, con);
+                    GetCommand.Parameters.AddWithValue("@ExamTimetableGUID", ddlExamination.SelectedValue);
+                    SqlDataReader reader = GetCommand.ExecuteReader();
+
+                    DataTable dtExamPre = new DataTable();
+                    dtExamPre.Load(reader);
+                    con.Close();
+
+                    if (dtExamPre.Rows.Count != 0)
                     {
-                        if (!String.IsNullOrEmpty(ExamQuestionPaperFullSavePath) && !String.IsNullOrEmpty(ExamAnswerSheetFullSavePath))
+                        ExistingExamFilePath = "~/Uploads/ExaminationPreparationFolder/" + dtExamPre.Rows[0]["ExaminationPreparationGUID"] + "/";
+
+                        if (Directory.Exists(Server.MapPath(ExistingExamFilePath)))
                         {
-                            string sqlQuery = "INSERT INTO ExamPreparation VALUES (NEWID(), @ExamTimetableGUID, @AnswerSheet, @QuestionPaper)";
-                            insertFileList.Parameters.AddWithValue("@ExamTimetableGUID", ddlExamination.SelectedValue);
-                            insertFileList.Parameters.AddWithValue("@AnswerSheet", filename);
-                            insertFileList.Parameters.AddWithValue("@QuestionPaper", filename);
-                            SqlCommand InsertCommand = new SqlCommand(sqlQuery, con);
+                            if (!String.IsNullOrEmpty(questionPaperFileName) && !String.IsNullOrEmpty(answerSheetFileName))
+                            {
+                                con.Open();
 
+                                SqlCommand InsertCommand = new SqlCommand("UPDATE ExamPreparation SET QuestionPaper = @QuestionPaper, AnswerSheet = @AnswerSheet WHERE ExaminationPreparationGUID = @ExaminationPreparationGUID ", con);
 
+                                InsertCommand.Parameters.AddWithValue("@ExaminationPreparationGUID", dtExamPre.Rows[0]["ExaminationPreparationGUID"]);
+                                InsertCommand.Parameters.AddWithValue("@QuestionPaper", questionPaperFileName);
+                                InsertCommand.Parameters.AddWithValue("@AnswerSheet", answerSheetFileName);
 
-                            InsertCommand.ExecuteNonQuery();
-                            con.Close();
+                                InsertCommand.ExecuteNonQuery();
+                                con.Close();
+
+                                DeleteFile(Server.MapPath(ExistingExamFilePath));
+
+                                FileUploadQuestion.SaveAs(Server.MapPath(ExistingExamFilePath) + questionPaperFileName);
+                                FileUploadAnswerSheet.SaveAs(Server.MapPath(ExistingExamFilePath) + answerSheetFileName);
+
+                                return true;
+                            }
+                            else
+                            {
+                                Session["EmptyFile"] = "Yes";
+                                return false;
+                            }
                         }
                         else
                         {
-                            Session["EmptyFile"] = "Yes";
+                            clsFunction.DisplayAJAXMessage(this, "Unable to find the directory or folder. Folder may be deleted or moved. Please contact KrousEx for support.");
                             return false;
                         }
                     }
                     else
                     {
-                        clsFunction.DisplayAJAXMessage(this, "Not physical path.");
-                        return false;
+                        Guid ExamPreparationGUID = Guid.NewGuid();
+    
+                        string ExamFilePath = "~/Uploads/ExaminationPreparationFolder/" + ExamPreparationGUID + "/";
+                        
+                        if (!Directory.Exists(ExamFilePath))
+                        {
+                            Directory.CreateDirectory(Server.MapPath(ExamFilePath));
+
+                            con.Open();
+                            SqlCommand InsertCommand = new SqlCommand("INSERT INTO ExamPreparation VALUES(@ExamPreparationGUID, @ExamTimetableGUID, @QuestionPaper, @AnswerSheet) ", con);
+
+                            InsertCommand.Parameters.AddWithValue("@ExamPreparationGUID", ExamPreparationGUID);
+                            InsertCommand.Parameters.AddWithValue("@ExamTimetableGUID", ddlExamination.SelectedValue);
+                            InsertCommand.Parameters.AddWithValue("@QuestionPaper", questionPaperFileName);
+                            InsertCommand.Parameters.AddWithValue("@AnswerSheet", answerSheetFileName);
+
+                            InsertCommand.ExecuteNonQuery();
+                            con.Close();
+
+                            return true;
+                        } else
+                        {
+                            clsFunction.DisplayAJAXMessage(this, "Unable to create directory or folder. Please contact KrousEx for support.");
+                            return false;
+                        }
                     }
                 }
             }
             catch (Exception ex)
             {
-                clsFunction.DisplayAJAXMessage(this, ex.Message); 
+                clsFunction.DisplayAJAXMessage(this, ex.Message);
                 return false;
             }
 
+        }
+
+        private void DeleteFile(string path)
+        {
+            // Delete all files from the Directory  
+            foreach (string filename in Directory.GetFiles(path))
+            {
+                File.Delete(filename);
+            }
         }
     }
 }

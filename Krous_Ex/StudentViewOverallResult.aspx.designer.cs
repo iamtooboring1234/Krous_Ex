@@ -11,17 +11,17 @@ namespace Krous_Ex
 {
 
 
-    public partial class StudentProgrammeStructure
+    public partial class StudentViewOverallResult
     {
 
         /// <summary>
-        /// lblProgrammeStructure control.
+        /// lblSemesterResult control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblProgrammeStructure;
+        protected global::System.Web.UI.WebControls.Label lblSemesterResult;
 
         /// <summary>
         /// Panel1 control.
@@ -33,12 +33,21 @@ namespace Krous_Ex
         protected global::System.Web.UI.WebControls.Panel Panel1;
 
         /// <summary>
-        /// litTest control.
+        /// litSemesterResult control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Literal litTest;
+        protected global::System.Web.UI.WebControls.Literal litSemesterResult;
+
+        /// <summary>
+        /// btnExport control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button btnExport;
     }
 }
