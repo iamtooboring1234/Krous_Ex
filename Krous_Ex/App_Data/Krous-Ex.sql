@@ -275,17 +275,20 @@ CREATE TABLE [dbo].[Message] (
     CONSTRAINT [fk_chat_message] FOREIGN KEY ([ChatGUID]) REFERENCES [dbo].[Chat] ([ChatGUID])
 );
 
-CREATE TABLE [Assignment] (
-	[AssignmentGUID] UNIQUEIDENTIFIER NOT NULL,
-	[StudentGUID] UNIQUEIDENTIFIER NOT NULL,
-	[CourseID] char (10)  NOT NULL,
-	[SubmissionDate] datetime NOT NULL,
-	[SubmissionFile] varchar (300) NOT NULL,
-	[FileType] varchar (30) NOT NULL,
-    CONSTRAINT pk_assignment PRIMARY KEY (AssignmentGUID),
-	CONSTRAINT fk_student_assignment FOREIGN KEY (StudentGUID) REFERENCES Student(StudentGUID),
-	CONSTRAINT fk_course_assignment FOREIGN KEY (CourseGUID) REFERENCES Course(CourseGUID),
+CREATE TABLE [dbo].[Submission] (
+    [SubmissionGUID]   UNIQUEIDENTIFIER NOT NULL,
+    [StudentGUID]      UNIQUEIDENTIFIER NOT NULL,
+    [AssessmentGUID]   UNIQUEIDENTIFIER NOT NULL,
+    [SubmissionDate]   DATETIME         NOT NULL,
+    [SubmissionFile]   VARCHAR (300)    NULL,
+    [SubmissionStatus] VARCHAR (15)     NOT NULL,
+    [FileType]         VARCHAR (30)     NOT NULL,
+    CONSTRAINT [pk_submission] PRIMARY KEY CLUSTERED ([SubmissionGUID] ASC),
+    CONSTRAINT [fk_student_submission] FOREIGN KEY ([StudentGUID]) REFERENCES [dbo].[Student] ([StudentGUID]),
+    CONSTRAINT [fk_assessment_submission] FOREIGN KEY ([AssessmentGUID]) REFERENCES [dbo].[Assessment] ([AssessmentGUID])
 );
+
+
 
 CREATE TABLE [Timetable_Course] (
 	[Timetable_CourseGUID] UNIQUEIDENTIFIER NOT NULL,

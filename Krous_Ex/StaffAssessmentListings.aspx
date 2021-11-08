@@ -54,6 +54,7 @@
                                 </div>
                                 <div class="col-md-8">
                                     <asp:Button Text="Search" ID="btnSearch" runat="server" Width="18%" CssClass="btn btn-primary" OnClick="btnSearch_Click" />
+                                     <asp:Button Text="Create New" ID="Button1" runat="server" Width="18%" CssClass="btn btn-primary" OnClick="Button1_Click"/>
                                 </div>
                             </div>
                         </div>

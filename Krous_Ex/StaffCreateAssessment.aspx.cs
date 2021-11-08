@@ -164,7 +164,7 @@ namespace Krous_Ex
                         createCmd.Parameters.AddWithValue("@DueDate", "");
                     }
 
-                    createCmd.Parameters.AddWithValue("@CreatedDate", DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss"));
+                    createCmd.Parameters.AddWithValue("@CreatedDate", DateTime.Now.ToString());
 
                     if (AsyncUploadMaterial.HasFile)
                     {
@@ -237,7 +237,7 @@ namespace Krous_Ex
 
             if (ddlGroups.SelectedValue == "")
             {
-                clsFunction.DisplayAJAXMessage(this, "Please select the session.");
+                clsFunction.DisplayAJAXMessage(this, "Please select the group.");
                 return false;
             }
 

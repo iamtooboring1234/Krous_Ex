@@ -455,11 +455,10 @@
     <Content Include="Assests\main\images\sprites\yellow.png" />
     <Content Include="Assests\main\img\19197906.jpg" />
     <Content Include="Assests\main\img\2021-06-29_215318.png" />
+    <Content Include="Assests\main\img\assessment.png" />
     <Content Include="Assests\main\img\contract.png" />
-    <Content Include="Assests\main\img\download.png" />
     <Content Include="Assests\main\img\logo.png" />
     <Content Include="Assests\main\img\mini_logo.png" />
-    <Content Include="Assests\main\img\view.png" />
     <Content Include="Assests\main\js\data-table.js" />
     <Content Include="Assests\main\js\dropify.js" />
     <Content Include="Assests\main\js\hoverable-collapse.js" />
@@ -497,10 +496,12 @@
     <Content Include="StaffCreateAssessment.aspx" />
     <Content Include="StaffFAQChatList.aspx" />
     <Content Include="StaffProfile.aspx" />
+    <Content Include="StudentAssessmentSubmission.aspx" />
     <Content Include="StudentProgrammeRegister.aspx" />
     <Content Include="StudentFAQChatList.aspx" />
     <Content Include="StudentFAQ.aspx" />
     <Content Include="StudentProgrammeStructure.aspx" />
+    <Content Include="StudentViewAssessment.aspx" />
     <Content Include="StudentViewExamTimeTable.aspx" />
     <Content Include="StudentProgrammeRegisterListings.aspx" />
     <Content Include="StudentProgrammeRegisterUpdate.aspx" />
@@ -1789,6 +1790,13 @@
       <DependentUpon>StaffProfile.aspx</DependentUpon>
     </Compile>
     <Compile Include="Startup.cs" />
+    <Compile Include="StudentAssessmentSubmission.aspx.cs">
+      <DependentUpon>StudentAssessmentSubmission.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="StudentAssessmentSubmission.aspx.designer.cs">
+      <DependentUpon>StudentAssessmentSubmission.aspx</DependentUpon>
+    </Compile>
     <Compile Include="StudentProgrammeRegister.aspx.cs">
       <DependentUpon>StudentProgrammeRegister.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -1865,6 +1873,13 @@
     </Compile>
     <Compile Include="StudentProgrammeRegisterUpdate.aspx.designer.cs">
       <DependentUpon>StudentProgrammeRegisterUpdate.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="StudentViewAssessment.aspx.cs">
+      <DependentUpon>StudentViewAssessment.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="StudentViewAssessment.aspx.designer.cs">
+      <DependentUpon>StudentViewAssessment.aspx</DependentUpon>
     </Compile>
     <Compile Include="StudentViewExamTimeTable.aspx.cs">
       <DependentUpon>StudentViewExamTimeTable.aspx</DependentUpon>

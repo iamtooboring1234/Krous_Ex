@@ -34,15 +34,14 @@
                                             <h3>
                                                 <asp:Label ID="lblAssessmentTitle" runat="server" Text=""></asp:Label>
                                             </h3>
-                                            <asp:TextBox ID="txtAssessmentTitle" runat="server" CssClass="form-control" Visible="false" placeholder="Assessment Title"></asp:TextBox>
+                                            <asp:TextBox ID="txtAssessmentTitle" runat="server" CssClass="form-control" Visible="false" placeholder="Assessment Title" AutoCompleteType="Disabled"></asp:TextBox>
                                         </div>
                                         <div class="col-md-2">
                                             <div class="dropdown">
                                                 <asp:LinkButton ID="lbMenu" CssClass="btn btn-outline-warning dropdown-toggle" role="button" type="button" data-toggle="dropdown" runat="server" Style="width: 160px; padding: 10px; margin-top: 5px;" Visible="false">Menu</asp:LinkButton>
                                                 <div class="dropdown-menu">
                                                     <asp:LinkButton ID="lbModify" CssClass="dropdown-item" runat="server" OnClick="lbModify_Click">Update Assessment</asp:LinkButton>
-                                                    <asp:LinkButton ID="lbDelete" CssClass="dropdown-item" runat="server" >Delete Assessment</asp:LinkButton>
-                                                    <ajaxToolkit:ConfirmButtonExtender ID="ConfirmButtonExtender1" runat="server" ConfirmText="Are you sure to delete this assessment details?" TargetControlID="lbDelete" />
+                                                    <asp:LinkButton ID="lbDelete" CssClass="dropdown-item" runat="server" OnClick="lbDelete_Click">Delete Assessment</asp:LinkButton>
                                                 </div>
                                             </div>
                                         </div>
@@ -136,10 +135,10 @@
                                         <div class="col-md-8 col-form-label">
                                             <asp:HyperLink ID="hlFile" Target="_blank" runat="server"></asp:HyperLink>
                                             <asp:LinkButton ID="lbDownload" runat="server" CssClass="linkButton" Style="margin-left: 5px;"><i class="fas fa-download"></i></asp:LinkButton>
-                                            <asp:LinkButton ID="lbRemove" runat="server" CssClass="linkButton"  Style="margin-left: 5px;" OnClick="lbRemove_Click"><i class="fas fa-trash-alt"></i></asp:LinkButton>
+                                            <asp:LinkButton ID="lbRemove" runat="server" CssClass="linkButton" Style="margin-left: 5px;" OnClick="lbRemove_Click"><i class="fas fa-trash-alt"></i></asp:LinkButton>
                                             <asp:UpdatePanel ID="UpdatePanel" runat="server">
                                                 <ContentTemplate>
-                                                    <ajaxToolkit:AsyncFileUpload runat="server" ID="AsyncFileUpload1" Mode="Auto" Visible="false"/>
+                                                    <ajaxToolkit:AsyncFileUpload runat="server" ID="AsyncFileUpload1" Mode="Auto" Visible="false" />
                                                 </ContentTemplate>
                                             </asp:UpdatePanel>
                                         </div>

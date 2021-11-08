@@ -29,10 +29,10 @@ namespace Krous_Ex
                 {
                     clsFunction.DisplayAJAXMessage(this, "Unable to update assessment details!");
                     Session["UpdateAssessment"] = null;
-                    txtAssessmentTitle.Text = "";
-                    txtAssessmentDesc.Text = "";
-                    txtDueDate.Text = DateTime.Now.ToString("dd/MM/yyyy HH:mm");
-                    AsyncFileUpload1.Dispose();
+                    //txtAssessmentTitle.Text = "";
+                    //txtAssessmentDesc.Text = "";
+                    //txtDueDate.Text = DateTime.Now.ToString("dd/MM/yyyy HH:mm");
+                    //AsyncFileUpload1.Dispose();
                 }
             }
 
@@ -71,7 +71,7 @@ namespace Krous_Ex
                 con.Open();
 
                 AssessmentGUID = Guid.Parse(Request.QueryString["AssessmentGUID"]);
-                loadInfoCmd = new SqlCommand("SELECT a.AssessmentTitle, a.AssessmentDesc, a.CreatedDate, a.DueDate, a.LastUpdateDate, a.UploadMaterials, g.GroupNo, s.SessionYear, s.SessionMonth, st.StaffFullName FROM Assessment a LEFT JOIN[Group] g ON a.GroupGUID = g.GroupGUID LEFT JOIN[Session] s ON a.SessionGUID = s.SessionGUID LEFT JOIN Staff st ON a.StaffGUID = st.StaffGUID WHERE AssessmentGUID = @AssessmentGUID", con);
+                loadInfoCmd = new SqlCommand("SELECT a.AssessmentTitle, a.AssessmentDesc, CONVERT(VARCHAR, a.CreatedDate, 100) as CreatedDate, CONVERT(VARCHAR, a.DueDate, 100) as DueDate,  CONVERT(VARCHAR, a.LastUpdateDate, 100) as LastUpdateDate, a.UploadMaterials, g.GroupNo, s.SessionYear, s.SessionMonth, st.StaffFullName FROM Assessment a LEFT JOIN[Group] g ON a.GroupGUID = g.GroupGUID LEFT JOIN[Session] s ON a.SessionGUID = s.SessionGUID LEFT JOIN Staff st ON a.StaffGUID = st.StaffGUID WHERE AssessmentGUID = @AssessmentGUID", con);
                 loadInfoCmd.Parameters.AddWithValue("@AssessmentGUID", AssessmentGUID);
                 SqlDataReader dtrLoad = loadInfoCmd.ExecuteReader();
                 DataTable dt = new DataTable();
@@ -89,6 +89,10 @@ namespace Krous_Ex
                     if (dt.Rows[0]["LastUpdateDate"].ToString() == "")
                     {
                         lblLastUpdate.Text = "No Update Before";
+                    }
+                    else
+                    {
+                        lblLastUpdate.Text = dt.Rows[0]["LastUpdateDate"].ToString();
                     }
 
                     //view and download
@@ -134,38 +138,48 @@ namespace Krous_Ex
                 string filename = "Assessment_" + Path.GetFileName(AsyncFileUpload1.FileName);
                 string folderName = "~/Uploads/AssessmentFolder/" + AssessmentGUID + "/";
 
+              
+                SqlCommand updateCmd = new SqlCommand("UPDATE Assessment SET AssessmentTitle = @AssessmentTitle, AssessmentDesc = @AssessmentDesc, DueDate = @DueDate, UploadMaterials = @UploadMaterials, LastUpdateDate = @LastUpdateDate WHERE AssessmentGUID = @AssessmentGUID ", con);
+                updateCmd.Parameters.AddWithValue("@AssessmentGUID", AssessmentGUID);
+                updateCmd.Parameters.AddWithValue("@AssessmentTitle", txtAssessmentTitle.Text);
+                updateCmd.Parameters.AddWithValue("@AssessmentDesc", txtAssessmentDesc.Text);
+
+                if (txtDueDate.Text != "")
+                {
+                    updateCmd.Parameters.AddWithValue("@DueDate", DateTime.ParseExact(txtDueDate.Text, "dd/MM/yyyy HH:mm", CultureInfo.InvariantCulture));
+                }
+                else
+                {
+                    updateCmd.Parameters.AddWithValue("@DueDate", "");
+                }
+
+                updateCmd.Parameters.AddWithValue("@LastUpdateDate", DateTime.Now.ToString());
+
                 if (!Directory.Exists(folderName))
                 {
                     Directory.CreateDirectory(Server.MapPath(folderName));
                 }
+
+                if (!(AsyncFileUpload1.HasFile))
+                {
+                    updateCmd.Parameters.AddWithValue("@UploadMaterials", hlFile.Text);
+                }
+
+                //if the original fiel is remove then delete from the folder
+                if (hlFile.Text != "")
+                {
+                    System.IO.File.Delete(Server.MapPath(folderName + "/" + hlFile.Text));
+                }
+
                 if (filename != "")
                 {
-                    SqlCommand updateCmd = new SqlCommand("UPDATE Assessment SET AssessmentTitle = @AssessmentTitle, AssessmentDesc = @AssessmentDesc, DueDate = @DueDate, UploadMaterials = @UploadMaterials, LastUpdateDate = @LastUpdateDate WHERE AssessmentGUID = @AssessmentGUID ", con);
-                    updateCmd.Parameters.AddWithValue("@AssessmentGUID", AssessmentGUID);
-                    updateCmd.Parameters.AddWithValue("@AssessmentTitle", txtAssessmentTitle.Text);
-                    updateCmd.Parameters.AddWithValue("@AssessmentDesc", txtAssessmentDesc.Text);
-
-                    if (txtDueDate.Text != "")
-                    {
-                        updateCmd.Parameters.AddWithValue("@DueDate", DateTime.ParseExact(txtDueDate.Text, "dd/MM/yyyy HH:mm", CultureInfo.InvariantCulture));
-                    }
-                    else
-                    {
-                        updateCmd.Parameters.AddWithValue("@DueDate", "");
-                    }
-
-                    updateCmd.Parameters.AddWithValue("@LastUpdateDate", DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss"));
-
-                    if (!(AsyncFileUpload1.HasFile))
-                    {
-                        updateCmd.Parameters.AddWithValue("@UploadMaterials", "none");
-                    }
-                    else
-                    {
-                        updateCmd.Parameters.AddWithValue("@UploadMaterials", filename);
-                        AsyncFileUpload1.SaveAs(Server.MapPath(folderName) + filename);
-                    }
+                    updateCmd.Parameters.AddWithValue("@UploadMaterials", filename);
+                    AsyncFileUpload1.SaveAs(Server.MapPath(folderName) + filename);
                 }
+
+                updateCmd.ExecuteNonQuery();
+                con.Close();
+
                 return true;
             }
             catch (Exception ex)
@@ -177,15 +191,18 @@ namespace Krous_Ex
 
         protected void btnBack_Click(object sender, EventArgs e)
         {
-            Response.Redirect("StaffAssessmentListings");
+            Page.Response.Redirect(Page.Request.Url.ToString(), false);
+            //Response.Redirect("StaffAssessmentListings");
         }
 
         protected void lbModify_Click(object sender, EventArgs e)
         {
             lblAssessmentTitle.Visible = false;
             txtAssessmentTitle.Visible = true;
+            txtAssessmentTitle.Text = lblAssessmentTitle.Text;
             lblAssessmentDesc.Visible = false;
             txtAssessmentDesc.Visible = true;
+            txtAssessmentDesc.Text = lblAssessmentDesc.Text;
             lblAssessmentDueDate.Visible = false;
             dateTimePicker.Visible = true;
             lbDownload.Visible = false;
@@ -210,7 +227,7 @@ namespace Krous_Ex
 
                 AssessmentGUID = Guid.Parse(Request.QueryString["AssessmentGUID"]);
 
-                SqlCommand deleteCmd = new SqlCommand("DELETE FROM Assessment WHERE AsessmentGUID = @AssessmentGUID", con);
+                SqlCommand deleteCmd = new SqlCommand("DELETE FROM Assessment WHERE AssessmentGUID = @AssessmentGUID", con);
                 deleteCmd.Parameters.AddWithValue("@AssessmentGUID", AssessmentGUID);
                 deleteCmd.ExecuteNonQuery();
 

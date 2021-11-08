@@ -57,7 +57,7 @@ namespace Krous_Ex
             {
                 string loadQuery;
 
-                loadQuery = "SELECT a.AssessmentGUID, CONVERT(VARCHAR, a.CreatedDate, 103) as CreatedDate, s.StaffFullName, a.AssessmentTitle, a.DueDate, g.GroupNo ";
+                loadQuery = "SELECT a.AssessmentGUID, CONVERT(VARCHAR, a.CreatedDate, 100) as CreatedDate, s.StaffFullName, a.AssessmentTitle, CONVERT(VARCHAR, a.DueDate, 100) as DueDate, g.GroupNo ";
                 loadQuery += "FROM Assessment a, Staff s, [Group] g WHERE a.StaffGUID = s.StaffGUID AND a.GroupGUID = g.GroupGUID ";
                 loadQuery += "ORDER BY StaffFullName";
 
@@ -99,7 +99,7 @@ namespace Krous_Ex
             try
             {
                 string searchQuery;
-                searchQuery = "SELECT a.AssessmentGUID, CONVERT(VARCHAR, a.CreatedDate, 103) as CreatedDate, s.StaffFullName, a.AssessmentTitle, a.DueDate, g.GroupNo ";
+                searchQuery = "SELECT a.AssessmentGUID, CONVERT(VARCHAR, a.CreatedDate, 100) as CreatedDate, s.StaffFullName, a.AssessmentTitle, CONVERT(VARCHAR, a.DueDate, 100) as DueDate, g.GroupNo ";
                 searchQuery += "FROM Assessment a, Staff s, [Group] g WHERE a.StaffGUID = s.StaffGUID AND a.GroupGUID = g.GroupGUID AND ";
                 searchQuery += "CASE WHEN @StaffFullName = '' THEN @StaffFullName ELSE s.StaffFullName END LIKE '%'+@StaffFullName+'%' AND "; //text 
                 searchQuery += "CASE WHEN @GroupNo = '' then @GroupNo ELSE g.GroupNo END = @GroupNo "; //ddl 
@@ -130,6 +130,11 @@ namespace Krous_Ex
             {
                 System.Diagnostics.Trace.WriteLine(ex.Message);
             }
-        } 
+        }
+
+        protected void Button1_Click(object sender, EventArgs e)
+        {
+            Response.Redirect("StaffCreateAssessment");
+        }
     }
 }
