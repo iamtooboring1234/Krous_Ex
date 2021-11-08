@@ -3,7 +3,43 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
 
     <link href="Assests/main/css/table.css" rel="stylesheet" />
+    <style>
+        .form-check table.form-check-input tbody tr td label {
+            padding: 0 0.625rem;
+            font-size: 0.875rem;
+            line-height: 1.75;
+            color: #6c7293;
+            font-weight: bold;
+        }
 
+        .form-check table.form-check-input tbody tr td {
+            border: 0;
+            padding-left: 50px;
+        }
+
+        .form-check table.form-check-input {
+            margin-left: 0 !important;
+        }
+
+            .form-check table.form-check-input tbody tr td input {
+                width: 1em;
+                height: 1em;
+                margin-top: 0.25em;
+                vertical-align: top;
+                background-color: #fff;
+                background-repeat: no-repeat;
+                background-position: center;
+                background-size: contain;
+                border: 1px solid rgba(0, 0, 0, 0.25);
+            }
+
+        .form-check-checkbox table tbody tr td label, .form-check-all label {
+            padding-left: 0.625rem;
+            font-size: 0.875rem;
+            line-height: 1.5;
+            color: #6c7293;
+        }
+    </style>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="body" runat="server">
 
@@ -13,30 +49,69 @@
                 <div class="row">
                     <div class="col-md-12">
                         <h3>
-                            <asp:Label ID="lblFAQList" runat="server" Font-Size="large">FAQs Listing</asp:Label>
+                            <asp:Label ID="lblFAQList" runat="server" Font-Size="large">Examination Result Entry</asp:Label>
                         </h3>
-                        <p class="card-description">List of Frequently Asked Question (FAQ) </p>
+                        <p class="card-description"></p>
                     </div>
                 </div>
+
                 <hr />
                 <div class="panel-body">
                     <div class="form-horizontal">
                         <div class="form-group pdForm">
                             <div class="row justify-content-center">
                                 <div class="col-md-2 col-form-label">
-                                    <asp:Label ID="lblSession" runat="server">Current Session </asp:Label>
+                                    <asp:Label ID="Label3" runat="server">Who to notify?</asp:Label>
                                 </div>
-                                <div class="col-md-8">
-                                    <asp:TextBox ID="txtSession" runat="server" CssClass="form-control" Enabled="false"></asp:TextBox>
-                                    <asp:HiddenField ID="hdSession" runat="server" />
+                                <div class="col-md-8 form-check p-0 m-0">
+                                    <div class="row justify-content-center">
+                                        <div class="col-md-8">
+                                            <asp:RadioButtonList ID="radSession" runat="server" CssClass="form-check-input mt-0" RepeatDirection="Horizontal" AutoPostBack="True" OnSelectedIndexChanged="radSession_SelectedIndexChanged">
+                                                <asp:ListItem Selected="True" Value="1">Current Session</asp:ListItem>
+                                                <asp:ListItem Value="2">Existing Session</asp:ListItem>
+                                            </asp:RadioButtonList>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
+                    </div>
+                </div>
+                <hr />
+
+                <div class="panel-body">
+                    <div class="form-horizontal">
+                        <asp:Panel ID="panelCurrent" runat="server" Visible="true">
+                            <div class="form-group pdForm">
+                                <div class="row justify-content-center">
+                                    <div class="col-md-2 col-form-label">
+                                        <asp:Label ID="lblSession" runat="server">Current Session </asp:Label>
+                                    </div>
+                                    <div class="col-md-8">
+                                        <asp:TextBox ID="txtSession" runat="server" CssClass="form-control" Enabled="false"></asp:TextBox>
+                                        <asp:HiddenField ID="hdSession" runat="server" />
+                                    </div>
+                                </div>
+                            </div>
+                        </asp:Panel>
+
+                        <asp:Panel ID="panelExisting" runat="server" Visible="false">
+                            <div class="form-group pdForm">
+                                <div class="row justify-content-center">
+                                    <div class="col-md-2 col-form-label">
+                                        <asp:Label ID="lblExistingSession" runat="server">Session </asp:Label><span style="color: red">*</span>
+                                    </div>
+                                    <div class="col-md-8">
+                                        <asp:DropDownList ID="ddlExistingSession" runat="server" CssClass="form-control" AutoPostBack="true" OnSelectedIndexChanged="ddlExistingSession_SelectedIndexChanged"></asp:DropDownList>
+                                    </div>
+                                </div>
+                            </div>
+                        </asp:Panel>
 
                         <div class="form-group pdForm">
                             <div class="row justify-content-center">
                                 <div class="col-md-2 col-form-label">
-                                    <asp:Label ID="Label1" runat="server">Programme </asp:Label><span style="color: red">*</span>
+                                    <asp:Label ID="Label1" runat="server">Programme Category</asp:Label><span style="color: red">*</span>
                                 </div>
                                 <div class="col-md-8">
                                     <asp:DropDownList ID="ddlProgrammeCategory" runat="server" CssClass="form-control" AutoPostBack="true" OnSelectedIndexChanged="ddlProgrammeCategory_SelectedIndexChanged"></asp:DropDownList>
@@ -87,6 +162,7 @@
                             </div>
                         </div>
 
+
                         <hr />
 
                         <asp:Literal ID="litInfo" runat="server">Complete the above required information to search student.</asp:Literal>
@@ -112,7 +188,7 @@
                                             <div class="gv-section text-center">
                                                 <asp:GridView ID="gvMark" runat="server" Width="100%" CssClass="table table-bordered" AutoGenerateColumns="False" DataKeyNames="CourseGUID" CellPadding="10" CellSpacing="2" Border="0" OnRowDataBound="gvMark_RowDataBound">
                                                     <Columns>
-                                                        <asp:BoundField DataField="CourseGUID" HeaderText="CourseGUID" ReadOnly="true" SortExpression="CourseGUID" HeaderStyle-CssClass="d-none" ItemStyle-CssClass="d-none"/>
+                                                        <asp:BoundField DataField="CourseGUID" HeaderText="CourseGUID" ReadOnly="true" SortExpression="CourseGUID" HeaderStyle-CssClass="d-none" ItemStyle-CssClass="d-none" />
                                                         <asp:BoundField DataField="CourseAbbrv" HeaderText="Course Abbreviation" SortExpression="CourseAbbrv" />
                                                         <asp:BoundField DataField="CourseName" HeaderText="Course Name" SortExpression="CourseName" />
                                                         <asp:TemplateField HeaderText="Mark" SortExpression="Mark">
@@ -147,5 +223,5 @@
             </div>
         </div>
     </div>
-
+    <script src="Assests/main/js/toastDemo.js"></script>
 </asp:Content>
