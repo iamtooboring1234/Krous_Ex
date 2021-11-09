@@ -21,8 +21,7 @@
 
     <asp:Literal ID="litAssessment" runat="server"></asp:Literal>
 
-    <%--
-    <div class="row">
+    <%--    <div class="row">
         <div class="col-md-12">
             <div class="col-sm-4 grid-margin stretch-card float-left" style="margin-top: 30px;">
                 <div class="card">
@@ -38,7 +37,7 @@
                                 <h6 class="text-muted font-weight-normal"><p>Created : </p>Created Date</h6>
                                 <h6 class="text-muted font-weight-normal"><p>Due Date : </p>Due Date</h6>
                                 <hr />
-                                <a href="#" class="btn btn-primary float-right">View</a>
+                                <a href="#" class="btn btn-primary float-right" style="width:35%">View</a>
                             </div>
                         </div>
                     </div>
@@ -46,4 +45,5 @@
             </div>
         </div>
     </div>--%>
+
 </asp:Content>

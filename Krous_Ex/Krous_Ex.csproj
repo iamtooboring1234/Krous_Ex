@@ -463,6 +463,8 @@
     <Content Include="Assests\main\js\dropify.js" />
     <Content Include="Assests\main\js\hoverable-collapse.js" />
     <Content Include="Assests\main\js\tabs.js" />
+    <Content Include="Assests\main\vendors\dropify\dropify.min.css" />
+    <Content Include="Assests\main\vendors\dropify\dropify.min.js" />
     <Content Include="Assests\main\vendors\JQuery.datatable\jquery.dataTables.min.css" />
     <Content Include="Assests\main\vendors\JQuery.datatable\jquery.dataTables.min.js" />
     <Content Include="Assests\main\vendors\JQuery.datetimepicker\jquery.datetimepicker.full.min.js" />

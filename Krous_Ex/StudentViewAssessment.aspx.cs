@@ -16,7 +16,6 @@ namespace Krous_Ex
         {
             loadAssessment();
         }
-
         private void loadAssessment()
         {
             string strAssessment = "";
@@ -35,7 +34,6 @@ namespace Krous_Ex
             DataTable dtAssessment = new DataTable();
             dtAssessment.Load(reader);
             con.Close();
-
 
             if (dtAssessment.Rows.Count != 0)
             {
@@ -61,7 +59,7 @@ namespace Krous_Ex
                     strAssessment += "<h6 class=\"text-muted font-weight-normal\">Created  : <strong>" + dtAssessment.Rows[i]["CreatedDate"].ToString() + "</strong></h6>";
                     strAssessment += "<h6 class=\"text-muted font-weight-normal\">Due Date : <strong>" + dtAssessment.Rows[i]["DueDate"].ToString() + "</strong></h6>";
                     strAssessment += "<hr />";
-                    strAssessment += "<a href=\"StudentAssessmentSubmission.aspx?AssessmentGUID=" + dtAssessment.Rows[i]["AssessmentGUID"] + "\" class=\"btn btn-primary float-right\">View</a>";
+                    strAssessment += "<a href=\"StudentAssessmentSubmission.aspx?AssessmentGUID=" + dtAssessment.Rows[i]["AssessmentGUID"] + "\" class=\"btn btn-outline-warning btn-fw float-right\"style=\"width:30%\">View</a>";
                     strAssessment += "</div>";
                     strAssessment += "</div>";
                     strAssessment += "</div>";
@@ -75,7 +73,6 @@ namespace Krous_Ex
                         strAssessment += "</div>";
                         strAssessment += "</div>";
                     }
-
                 }
                 litAssessment.Text = strAssessment;
             }
