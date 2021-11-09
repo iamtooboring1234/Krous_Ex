@@ -1,11 +1,11 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/StaffMaster.Master" AutoEventWireup="true" CodeBehind="ExaminationDashboard.aspx.cs" Inherits="Krous_Ex.ExaminationDashboard" %>
-
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/StudentMaster.Master" AutoEventWireup="true" CodeBehind="StudentExaminationDashboard.aspx.cs" Inherits="Krous_Ex.StudentExaminationDashboard" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
-    <link href="Assests/main/css/layouts.css" rel="stylesheet" />
-</asp:Content>
+ 
 
+</asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="body" runat="server">
 
+    
     <div class="row">
         <div class="col-lg-12 grid-margin">
             <div class=" col-md-12">
@@ -17,28 +17,6 @@
                                     <i class="fas fa-tachometer-alt"></i>
                                     <asp:Label ID="lblFAQList" runat="server" Font-Size="large">Examination Dashboard</asp:Label>
                                 </h3>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="row">
-        <div class="col-lg-12 grid-margin">
-            <div class="col-md-12">
-                <div class="card">
-                    <div class="card-body" style="margin: 10px 0">
-                        <div class="row">
-                            <div class="col-md-12">
-                                <div class="col-md-8 float-left">
-                                    <i class="fas fa-book" style="margin-right: 10px"></i>
-                                    <span id="body_Label1" style="font-size: Large;">Jump Into Examination Creation</span>
-                                </div>
-                                <div class="col-md-4 text-center float-right">
-                                    <a href="ExaminationEntry" class="submit-btn">Create examination</a>
-                                </div>
                             </div>
                         </div>
                     </div>

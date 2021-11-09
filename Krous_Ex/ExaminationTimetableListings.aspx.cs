@@ -10,7 +10,7 @@ using System.Web.UI.WebControls;
 
 namespace Krous_Ex
 {
-    public partial class ExaminationListings : System.Web.UI.Page
+    public partial class ExaminationTimetableListings : System.Web.UI.Page
     {
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -40,15 +40,15 @@ namespace Krous_Ex
 
                 if (dt.Rows.Count != 0)
                 {
-                    gvExam.DataSource = dt;
-                    gvExam.DataBind();
-                    gvExam.Visible = true;
+                    gvExamTime.DataSource = dt;
+                    gvExamTime.DataBind();
+                    gvExamTime.Visible = true;
                     lblNoData.Visible = false;
                 }
                 else
                 {
                     lblNoData.Visible = true;
-                    gvExam.Visible = false;
+                    gvExamTime.Visible = false;
                 }
             }
             catch (Exception ex)
@@ -83,15 +83,15 @@ namespace Krous_Ex
 
                 if (dt.Rows.Count != 0)
                 {
-                    gvExam.DataSource = dt;
-                    gvExam.DataBind();
-                    gvExam.Visible = true;
+                    gvExamTime.DataSource = dt;
+                    gvExamTime.DataBind();
+                    gvExamTime.Visible = true;
                     lblNoData.Visible = false;
                 }
                 else
                 {
                     lblNoData.Visible = true;
-                    gvExam.Visible = false;
+                    gvExamTime.Visible = false;
                 }
             }
             catch (Exception ex)

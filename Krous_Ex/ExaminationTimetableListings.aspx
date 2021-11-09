@@ -1,4 +1,4 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/StaffMaster.Master" AutoEventWireup="true" CodeBehind="ExaminationListings.aspx.cs" Inherits="Krous_Ex.ExaminationListings" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/StaffMaster.Master" AutoEventWireup="true" CodeBehind="ExaminationTimetableListings.aspx.cs" Inherits="Krous_Ex.ExaminationTimetableListings" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
 
@@ -28,15 +28,16 @@
 </asp:Content>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="body" runat="server">
+
     <div class="col-lg-12">
         <div class="card">
             <div class="card-body">
                 <div class="row">
                     <div class="col-md-12">
                         <h3>
-                            <asp:Label ID="lblFacultyList" runat="server" Font-Size="large">Faculty Listing</asp:Label>
+                            <asp:Label ID="lblFacultyList" runat="server" Font-Size="large">Examination Timetable Listing</asp:Label>
                         </h3>
-                        <p class="card-description">List of Faculty Available</p>
+                        <p class="card-description">List of Examination Timetable</p>
                     </div>
                 </div>
                 <hr />
@@ -96,7 +97,7 @@
             <div class="card-body">
                 <div class="table-responsive">
                     <div class="gv-section text-center">
-                        <asp:GridView ID="gvExam" runat="server" Width="100%" CssClass="table table-bordered tableExam" AutoGenerateColumns="False" DataKeyNames="ExamTimeTableGUID" CellPadding="10" CellSpacing="2" Border="0">
+                        <asp:GridView ID="gvExamTime" runat="server" Width="100%" CssClass="table table-bordered tableExam" AutoGenerateColumns="False" DataKeyNames="ExamTimeTableGUID" CellPadding="10" CellSpacing="2" Border="0">
                             <Columns>
                                 <asp:TemplateField>
                                     <ItemTemplate>

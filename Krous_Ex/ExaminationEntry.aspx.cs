@@ -251,12 +251,14 @@ namespace Krous_Ex
             {
                 DateTime startDate = DateTime.Parse(txtExamDate.Text + " " + txtStartTime.Text);
                 DateTime endDate = DateTime.Parse(txtExamDate.Text + " " + txtEndTime.Text);
+                Guid ExamTimetableGUID = Guid.NewGuid();
 
                 SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["Krous_Ex"].ConnectionString);
                 con.Open();
 
-                SqlCommand InsertCommand = new SqlCommand("INSERT INTO ExamTimetable VALUES(NEWID(),@SessionGUID,@CourseGUID,@ExamStartDateTime,@ExamEndDateTime)", con);
+                SqlCommand InsertCommand = new SqlCommand("INSERT INTO ExamTimetable VALUES(@ExamTimetableGUID,@SessionGUID,@CourseGUID,@ExamStartDateTime,@ExamEndDateTime)", con);
 
+                InsertCommand.Parameters.AddWithValue("@ExamTimetableGUID", ExamTimetableGUID);
                 InsertCommand.Parameters.AddWithValue("@SessionGUID", hdSession.Value);
                 InsertCommand.Parameters.AddWithValue("@CourseGUID", ddlCourse.SelectedValue);
                 InsertCommand.Parameters.AddWithValue("@ExamStartDateTime", startDate);
@@ -264,11 +266,17 @@ namespace Krous_Ex
 
                 InsertCommand.ExecuteNonQuery();
 
+                InsertCommand = new SqlCommand("INSERT INTO ExamPreparation VALUES(NEWID(),@ExamTimetableGUID,NULL, NULL)", con);
+
+                InsertCommand.Parameters.AddWithValue("@ExamTimetableGUID", ExamTimetableGUID);
+
+                InsertCommand.ExecuteNonQuery();
+
                 con.Close();
 
                 return true;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 clsFunction.DisplayAJAXMessage(this, "Input time is not in correct format.");
                 return false;

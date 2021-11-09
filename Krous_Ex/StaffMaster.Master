@@ -192,8 +192,13 @@
                         </a>
                         <div class="collapse" id="exam">
                             <ul class="nav flex-column sub-menu">
-                                <li class="nav-item"><a class="nav-link" href="ExaminationEntry">Examination Entry</a></li>
-                                <li class="nav-item"><a class="nav-link" href="ExaminationListings">Examination Listings</a></li>
+                                <li class="nav-item"><a class="nav-link" href="ExaminationDashboard">Examination Dashboard</a></li>
+                                <li class="nav-item"><a class="nav-link" href="ExaminationEntry">Exam Timetable Entry</a></li>
+                                <li class="nav-item"><a class="nav-link" href="ExaminationTimetableListings">Exam Timetable Listings</a></li>
+                                <li class="nav-item"><a class="nav-link" href="ExaminationPrePreparationEntry">Exam File Preparation</a></li>
+                                <li class="nav-item"><a class="nav-link" href="ExaminationResultEntry">Exam Result Entry</a></li>
+                                <li class="nav-item"><a class="nav-link" href="ExaminationInvigilatorsEntry">Exam Invigilators Entry</a></li>
+                                <li class="nav-item"><a class="nav-link" href="ExaminationInvigilatorsListings">Exam Invigilators Listings</a></li>
                             </ul>
                         </div>
                     </li>
