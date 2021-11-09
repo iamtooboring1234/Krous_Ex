@@ -26,8 +26,17 @@ namespace Krous_Ex
                     }
                 }
 
-                loadSession();
-                loadExamCourse();
+                if (!string.IsNullOrEmpty(Request.QueryString["ExaminationPreparationGUID"]))
+                {
+                    ddlExamination.Enabled = false;
+                    loadSession();
+                    loadExistingExamCourse();
+                }
+                else
+                {
+                    loadSession();
+                    loadExamCourse();
+                }
             }
         }
 
@@ -48,6 +57,49 @@ namespace Krous_Ex
                 {
                     txtSession.Text = dtSession.Rows[0]["SessionYear"].ToString() + dtSession.Rows[0]["SessionMonth"].ToString().PadLeft(2, '0');
                     hdSession.Value = dtSession.Rows[0]["SessionGUID"].ToString();
+                }
+            }
+
+            catch (Exception ex)
+            {
+                clsFunction.DisplayAJAXMessage(this, ex.Message);
+            }
+        }
+
+        private void loadExistingExamCourse()
+        {
+            try
+            {
+                ddlExamination.Items.Clear();
+
+                ListItem oList = new ListItem();
+
+                string sqlQuery = "SELECT * FROM ExamTimetable et, Course C, ExamPreparation ep WHERE et.CourseGUID = C.CourseGUID AND et.ExamTimetableGUID = ep.ExamTimetableGUID AND SessionGUID = @SessionGUID AND " +
+                    " ExaminationPreparationGUID = @ExaminationPreparationGUID" +
+                    " ORDER BY C.CourseName ";
+
+                SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["Krous_Ex"].ConnectionString);
+                con.Open();
+                SqlCommand GetCommand = new SqlCommand(sqlQuery, con);
+                GetCommand.Parameters.AddWithValue("@SessionGUID", hdSession.Value);
+                GetCommand.Parameters.AddWithValue("@ExaminationPreparationGUID", Request.QueryString["ExaminationPreparationGUID"]);
+                SqlDataReader reader = GetCommand.ExecuteReader();
+
+                DataTable dtExamCourse = new DataTable();
+                dtExamCourse.Load(reader);
+                con.Close();
+
+                if (dtExamCourse.Rows.Count != 0)
+                {
+
+                    oList = new ListItem();
+                    oList.Text = dtExamCourse.Rows[0]["CourseName"].ToString() + " (" + dtExamCourse.Rows[0]["CourseAbbrv"].ToString() + ")";
+                    oList.Value = dtExamCourse.Rows[0]["ExamTimetableGUID"].ToString();
+                    ddlExamination.Items.Add(oList);
+
+                    txtExamStartTime.Text = dtExamCourse.Rows[0]["ExamStartDateTime"].ToString();
+                    txtExamEndTime.Text = dtExamCourse.Rows[0]["ExamEndDateTime"].ToString();
+
                 }
             }
 

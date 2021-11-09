@@ -301,7 +301,17 @@ CREATE TABLE [dbo].[Submission] (
     CONSTRAINT [fk_assessment_submission] FOREIGN KEY ([AssessmentGUID]) REFERENCES [dbo].[Assessment] ([AssessmentGUID])
 );
 
-
+CREATE TABLE [dbo].[ExamSubmission] (
+    [ExamSubmissionGUID]   UNIQUEIDENTIFIER NOT NULL,
+    [StudentGUID]      UNIQUEIDENTIFIER NOT NULL,
+    [ExamTimetableGUID]   UNIQUEIDENTIFIER NOT NULL,
+    [SubmissionDate]   DATETIME         NOT NULL,
+    [SubmissionFile]   VARCHAR (300)    NULL,
+    [SubmissionStatus] VARCHAR (15)     NOT NULL,
+    CONSTRAINT [pk_examsubmission] PRIMARY KEY CLUSTERED ([ExamSubmissionGUID] ASC),
+    CONSTRAINT [fk_student_examsubmission] FOREIGN KEY ([StudentGUID]) REFERENCES [dbo].[Student] ([StudentGUID]),
+    CONSTRAINT [fk_assessment_submission] FOREIGN KEY ([ExamTimetableGUID]) REFERENCES [dbo].[ExamTimetable] ([ExamTimetableGUID])
+);
 
 CREATE TABLE [Timetable_Course] (
 	[Timetable_CourseGUID] UNIQUEIDENTIFIER NOT NULL,
@@ -334,14 +344,15 @@ CREATE TABLE [dbo].[Group] (
 
 CREATE TABLE [Attendance] (
 	[AttendanceGUID] UNIQUEIDENTIFIER NOT NULL,
-	[CourseID] char(10) NOT NULL,
-	[GroupListGUID] UNIQUEIDENTIFIER NOT NULL,
-	[StudentGUID] UNIQUEIDENTIFIER NOT NULL,
-	[AttendanceStatus] varchar(10) NOT NULL,
+    [ExamTimetableGUID] UNIQUEIDENTIFIER NULL,
+    [StudentGUID] UNIQUEIDENTIFIER NOT NULL,
+	[AttendanceCategory] VARCHAR(10) NOT NULL,
+	[AttendanceStatus] VARCHAR(30) NOT NULL,
+    [AttendanceDateTime] DATETIME NOT NULL,
+    [LastUpdateDate] DATETIME NOT NULL,
     CONSTRAINT pk_attendance PRIMARY KEY (AttendanceGUID),
-	CONSTRAINT fk_course_attendance FOREIGN KEY (CourseGUID) REFERENCES Course(CourseGUID),
-	CONSTRAINT fk_grouplistcourse_attendance FOREIGN KEY (GroupListGUID) REFERENCES GroupList(GroupListGUID),
-	CONSTRAINT fk_student_attendance FOREIGN KEY (StudentGUID) REFERENCES Student(StudentGUID),
+	CONSTRAINT fk_examtimetable_attendance FOREIGN KEY ([ExamTimetableGUID]) REFERENCES ExamTimetable([ExamTimetableGUID]),
+	CONSTRAINT fk_student_attendance FOREIGN KEY ([StudentGUID]) REFERENCES Student([StudentGUID]),
 );
 
 CREATE TABLE [dbo].[Semester] (

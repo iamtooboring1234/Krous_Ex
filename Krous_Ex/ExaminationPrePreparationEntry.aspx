@@ -88,7 +88,7 @@
                         <div class="form-group pdForm">
                             <div class="row">
                                 <div class="col-md-12 float-right text-right">
-                                    <asp:Button Text="Create" ID="btnSave" runat="server" Width="18%" CssClass="btn btn-primary mr20 pdForm" OnClick="btnSave_Click" />
+                                    <asp:Button Text="Save" ID="btnSave" runat="server" Width="18%" CssClass="btn btn-primary mr20 pdForm" OnClick="btnSave_Click" />
                                     <ajaxToolkit:ConfirmButtonExtender ID="ConfirmButtonExtender1" runat="server" ConfirmText="Are you sure to upload this question paper and answer sheet?" TargetControlID="btnSave" />
                                 </div>
                             </div>

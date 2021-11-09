@@ -497,6 +497,8 @@
     <Content Include="StaffFAQChatList.aspx" />
     <Content Include="StaffProfile.aspx" />
     <Content Include="StudentAssessmentSubmission.aspx" />
+    <Content Include="StudentExaminationDashboard.aspx" />
+    <Content Include="StudentExaminationSubmission.aspx" />
     <Content Include="StudentProgrammeRegister.aspx" />
     <Content Include="StudentFAQChatList.aspx" />
     <Content Include="StudentFAQ.aspx" />
@@ -1079,7 +1081,7 @@
     <Content Include="Error_Page\Error_404.aspx" />
     <Content Include="ExaminationEntry.aspx" />
     <Content Include="ExaminationDashboard.aspx" />
-    <Content Include="ExaminationListings.aspx" />
+    <Content Include="ExaminationTimetableListings.aspx" />
     <Content Include="FacultyEntry.aspx" />
     <Content Include="FacultyListings.aspx" />
     <Content Include="KrousExFAQ.aspx" />
@@ -1522,12 +1524,12 @@
     <Compile Include="ExaminationDashboard.aspx.designer.cs">
       <DependentUpon>ExaminationDashboard.aspx</DependentUpon>
     </Compile>
-    <Compile Include="ExaminationListings.aspx.cs">
-      <DependentUpon>ExaminationListings.aspx</DependentUpon>
+    <Compile Include="ExaminationTimetableListings.aspx.cs">
+      <DependentUpon>ExaminationTimetableListings.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="ExaminationListings.aspx.designer.cs">
-      <DependentUpon>ExaminationListings.aspx</DependentUpon>
+    <Compile Include="ExaminationTimetableListings.aspx.designer.cs">
+      <DependentUpon>ExaminationTimetableListings.aspx</DependentUpon>
     </Compile>
     <Compile Include="FacultyEntry.aspx.cs">
       <DependentUpon>FacultyEntry.aspx</DependentUpon>
@@ -1798,6 +1800,20 @@
     </Compile>
     <Compile Include="StudentAssessmentSubmission.aspx.designer.cs">
       <DependentUpon>StudentAssessmentSubmission.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="StudentExaminationDashboard.aspx.cs">
+      <DependentUpon>StudentExaminationDashboard.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="StudentExaminationDashboard.aspx.designer.cs">
+      <DependentUpon>StudentExaminationDashboard.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="StudentExaminationSubmission.aspx.cs">
+      <DependentUpon>StudentExaminationSubmission.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="StudentExaminationSubmission.aspx.designer.cs">
+      <DependentUpon>StudentExaminationSubmission.aspx</DependentUpon>
     </Compile>
     <Compile Include="StudentProgrammeRegister.aspx.cs">
       <DependentUpon>StudentProgrammeRegister.aspx</DependentUpon>

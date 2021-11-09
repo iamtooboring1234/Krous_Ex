@@ -11,7 +11,7 @@ namespace Krous_Ex
 {
 
 
-    public partial class ExaminationDashboard
+    public partial class StudentExaminationDashboard
     {
 
         /// <summary>
