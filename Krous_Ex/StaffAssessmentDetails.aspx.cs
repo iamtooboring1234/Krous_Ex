@@ -46,7 +46,7 @@ namespace Krous_Ex
                 {
                     AssessmentGUID = Guid.Parse(Request.QueryString["AssessmentGUID"]);
                     loadAssessmentDetails();
-                    btnBack.Visible = true;
+                    btnBack.Visible = false;
                     btnUpdate.Visible = false;
                     lbMenu.Visible = true;
                 }
@@ -209,6 +209,7 @@ namespace Krous_Ex
             lbRemove.Visible = true;
             btnUpdate.Visible = true;
             lbMenu.Visible = false;
+            btnBack.Visible = true;
         }
 
         protected void lbDelete_Click(object sender, EventArgs e)
@@ -287,6 +288,9 @@ namespace Krous_Ex
             return true;
         }
 
-
+        protected void btnBackListing_Click(object sender, EventArgs e)
+        {
+            Response.Redirect("StaffAssessmentListings");
+        }
     }   
 }

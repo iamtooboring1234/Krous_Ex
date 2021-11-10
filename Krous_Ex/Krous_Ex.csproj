@@ -459,6 +459,7 @@
     <Content Include="Assests\main\img\contract.png" />
     <Content Include="Assests\main\img\logo.png" />
     <Content Include="Assests\main\img\mini_logo.png" />
+    <Content Include="Assests\main\img\submitIcon.png" />
     <Content Include="Assests\main\js\data-table.js" />
     <Content Include="Assests\main\js\dropify.js" />
     <Content Include="Assests\main\js\hoverable-collapse.js" />
@@ -1952,6 +1953,7 @@
     <Folder Include="Uploads\ExaminationPreparationFolder\" />
     <Folder Include="Uploads\FAQChatFile\" />
     <Folder Include="Uploads\StudentRegisterFile\" />
+    <Folder Include="Uploads\StudentSubmission\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

@@ -21,6 +21,18 @@
 
     <asp:Literal ID="litAssessment" runat="server"></asp:Literal>
 
+     <div class="col-lg-12 stretch-card">
+        <div class="card">
+            <div class="card-body">
+                <div class="table-responsive">
+                    <div class="gv-section text-center">                 
+                        <asp:Label ID="lblNoData" runat="server" Visible="false" Font-Size="Large" Font-Bold="true" Text="You have no assessment yet!"></asp:Label>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <%--    <div class="row">
         <div class="col-md-12">
             <div class="col-sm-4 grid-margin stretch-card float-left" style="margin-top: 30px;">
