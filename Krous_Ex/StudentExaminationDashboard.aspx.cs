@@ -125,12 +125,12 @@ namespace Krous_Ex
                             {
                                 if (test2 >= DateTime.Parse(dt.Rows[i]["ExamStartDateTime"].ToString()).AddMinutes(-10))
                                 {
-                                    strExam += "<a href=\"StudentExaminationSubmission?ExamTimetableGUID?=" + dt.Rows[i]["ExamTimetableGUID"] + "\" class=\"btn btn-primary\">Join</a>";
+                                    strExam += "<a href=\"StudentExaminationSubmission?ExamTimetableGUID=" + dt.Rows[i]["ExamTimetableGUID"] + "\" class=\"btn btn-primary\">Join</a>";
                                 }
                             }
                             else
                             {
-                                strExam += "<a href=\"StudentExaminationSubmission?ExamTimetableGUID?=" + dt.Rows[i]["ExamTimetableGUID"] + "\" class=\"btn btn-primary\">View Submission</a>";
+                                strExam += "<a href=\"StudentExaminationSubmission?ExamTimetableGUID=" + dt.Rows[i]["ExamTimetableGUID"] + "\" class=\"btn btn-primary\">View Submission</a>";
                             }
 
                             strExam += "</div>";
