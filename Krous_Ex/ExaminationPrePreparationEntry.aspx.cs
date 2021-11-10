@@ -302,6 +302,8 @@ namespace Krous_Ex
             {
                 File.Delete(filename);
             }
+
+            Directory.Delete(path);
         }
     }
 }
