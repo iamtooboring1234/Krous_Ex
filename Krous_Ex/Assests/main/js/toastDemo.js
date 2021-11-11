@@ -118,7 +118,7 @@
             stack: false,
             loaderBg: '#f96868'
         })
-    }
+    };
     showToastInCustomPosition = function () {
         'use strict';
         resetToastPosition();
@@ -133,7 +133,7 @@
             stack: false,
             loaderBg: '#f96868'
         })
-    }
+    };
     resetToastPosition = function () {
         $('.jq-toast-wrap').removeClass('bottom-left bottom-right top-left top-right mid-center'); // to remove previous position class
         $(".jq-toast-wrap").css({
@@ -142,5 +142,41 @@
             "bottom": "",
             "right": ""
         }); //to remove previous position style
-    }
+    };
+    showReportCommentsSuccesfully = function () {
+        'use strict';
+        resetToastPosition();
+        $.toast({
+            heading: 'Success',
+            text: 'Selected comment is reported successfully.',
+            showHideTransition: 'slide',
+            icon: 'success',
+            loaderBg: '#f96868',
+            position: 'top-right'
+        })
+    };
+    showDeleteCommentsSuccesfully = function () {
+        'use strict';
+        resetToastPosition();
+        $.toast({
+            heading: 'Success',
+            text: 'Comment is deleted successfully.',
+            showHideTransition: 'slide',
+            icon: 'success',
+            loaderBg: '#f96868',
+            position: 'top-right'
+        })
+    };
+    showUpdateCommentsSuccesfully = function () {
+        'use strict';
+        resetToastPosition();
+        $.toast({
+            heading: 'Success',
+            text: 'Comment is updated successfully.',
+            showHideTransition: 'slide',
+            icon: 'success',
+            loaderBg: '#f96868',
+            position: 'top-right'
+        })
+    };
 })(jQuery);

@@ -3,6 +3,10 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
 
     <link href="Assests/main/css/table.css" rel="stylesheet" />
+
+    <link href="Assests/main/vendors/select2/select2.min.css" rel="stylesheet" />
+    <script src="Assests/main/vendors/select2/select2.min.js"></script>
+
     <style>
         .form-check table.form-check-input tbody tr td label {
             padding: 0 0.625rem;
@@ -39,7 +43,61 @@
             line-height: 1.5;
             color: #6c7293;
         }
+
+                .select2-container .select2-selection--single {
+            height: calc(2.25rem + 2px);
+        }
+
+        .select2-container--default .select2-selection--single .select2-selection__rendered,
+        .select2-container--default .select2-selection--single .select2-selection__rendered {
+            color: white;
+            padding-left: 0;
+            line-height: 1;
+        }
+
+        .select2-container {
+            flex: 0 0 100%;
+            max-width: 100%;
+            margin: 0;
+        }
+
+        .select2-container--default .select2-selection--single .select2-selection__arrow {
+            top: 5px;
+        }
+
+        .select2-container--default .select2-selection--single {
+            background-color: #2A3038;
+            border: 1px solid #2c2e33;
+        }
+
+        .select2-container--default .select2-results__option--selected {
+            background-color: #ddd;
+            color: black;
+        }
+
+        .select2-container--default.select2-container--disabled .select2-selection--single {
+            background-color: black;
+            cursor: default;
+        }
+
+        .select2-container--default .select2-results__option[aria-selected=true] {
+            background-color: darkgrey;
+        }
     </style>
+
+        <script>
+        function pageLoad() {
+            bind();
+        };
+
+        function bind() {
+            $('.ddl-student').select2({
+                placeholder: "Select an option"
+            });
+        };
+
+        </script>
+
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="body" runat="server">
 
@@ -130,16 +188,18 @@
                             </div>
                         </div>
 
-                        <div class="form-group pdForm">
-                            <div class="row justify-content-center">
-                                <div class="col-md-2 col-form-label">
-                                    <asp:Label ID="lblSemester" runat="server">Semester </asp:Label><span style="color: red">*</span>
-                                </div>
-                                <div class="col-md-8">
-                                    <asp:DropDownList ID="ddlSemester" runat="server" CssClass="form-control" AutoPostBack="true" OnSelectedIndexChanged="ddlSemester_SelectedIndexChanged"></asp:DropDownList>
+                        <asp:Panel ID="panelSemester" runat="server" Visible="true">
+                            <div class="form-group pdForm">
+                                <div class="row justify-content-center">
+                                    <div class="col-md-2 col-form-label">
+                                        <asp:Label ID="lblSemester" runat="server">Semester </asp:Label><span style="color: red">*</span>
+                                    </div>
+                                    <div class="col-md-8">
+                                        <asp:DropDownList ID="ddlSemester" runat="server" CssClass="form-control" AutoPostBack="true" OnSelectedIndexChanged="ddlSemester_SelectedIndexChanged"></asp:DropDownList>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
+                        </asp:Panel>
 
                         <div class="form-group pdForm">
                             <div class="row justify-content-center">
@@ -174,7 +234,7 @@
                                         <asp:Label ID="lblStudent" runat="server">Student Name </asp:Label>
                                     </div>
                                     <div class="col-md-8">
-                                        <asp:DropDownList ID="ddlStudent" runat="server" CssClass="form-control" OnSelectedIndexChanged="ddlStudent_SelectedIndexChanged" AutoPostBack="true"></asp:DropDownList>
+                                        <asp:DropDownList ID="ddlStudent" runat="server" CssClass="form-control ddl-student" OnSelectedIndexChanged="ddlStudent_SelectedIndexChanged" AutoPostBack="true"></asp:DropDownList>
                                     </div>
                                 </div>
                             </div>

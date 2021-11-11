@@ -21,7 +21,7 @@ namespace Krous_Ex
                 {
                     if(Session["ReportForum"].ToString() == "Yes")
                     {
-                        clsFunction.DisplayAJAXMessage(this, "Report successfully !");
+                        ClientScript.RegisterStartupScript(GetType(), "Javascript", "javascript:showReportCommentsSuccesfully(); ", true);
                         Session["ReportForum"] = null;
                     }
                 }
@@ -30,8 +30,17 @@ namespace Krous_Ex
                 {
                     if (Session["DeleteReply"].ToString() == "Yes")
                     {
-                        clsFunction.DisplayAJAXMessage(this, "Delete successfully !");
+                        ClientScript.RegisterStartupScript(GetType(), "Javascript", "javascript:showDeleteCommentsSuccesfully(); ", true);
                         Session["DeleteReply"] = null;
+                    }
+                }
+
+                if (Session["EditReply"] != null)
+                {
+                    if (Session["EditReply"].ToString() == "Yes")
+                    {
+                        ClientScript.RegisterStartupScript(GetType(), "Javascript", "javascript:showUpdateCommentsSuccesfully(); ", true);
+                        Session["EditReply"] = null;
                     }
                 }
 
@@ -262,7 +271,7 @@ namespace Krous_Ex
                                 {
                                     if (dtReply.Rows[i]["RepliedBy"].ToString() == clsLogin.GetLoginUserName())
                                     {
-                                        strTableBody += "<p class=\"pt-3\">" + dtReply.Rows[i]["RepliedBy"] + "</p><p><a href=\"KrousExDeleteComment?ReplyGUID=" + dtReply.Rows[i]["ReplyGUID"] + "&DiscGUID=" + dtReply.Rows[i]["DiscGUID"] + "\"><i style=\"color: red;\" class=\"fas fa-trash-alt\"></i></a></p>";
+                                        strTableBody += "<p class=\"pt-3\">" + dtReply.Rows[i]["RepliedBy"] + "</p><p><a Class=\"mr-3\" href=\"KrousExEditComments?ReplyGUID=" + dtReply.Rows[i]["ReplyGUID"] + "&DiscGUID=" + dtReply.Rows[i]["DiscGUID"] + "\"><i style=\"color: #00d25b;\" class=\"fas fa-edit\"></i></a><a href=\"KrousExDeleteComment?ReplyGUID=" + dtReply.Rows[i]["ReplyGUID"] + "&DiscGUID=" + dtReply.Rows[i]["DiscGUID"] + "\"><i style=\"color: red;\" class=\"fas fa-trash-alt\"></i></a></p>";
                                     }
                                     else
                                     {

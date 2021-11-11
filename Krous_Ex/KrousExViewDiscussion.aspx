@@ -106,5 +106,6 @@
     </div>
 
     <script src="Assests/main/js/data-table.js"></script>
+    <script src="Assests/main/js/toastDemo.js"></script>
 
 </asp:Content>

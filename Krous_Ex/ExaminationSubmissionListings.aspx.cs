@@ -56,13 +56,6 @@ namespace Krous_Ex
 
         protected void gvSubmission_RowDataBound(object sender, GridViewRowEventArgs e)
         {
-            //string icFilePath = "~/Uploads/ExaminationPreparationFolder/" + dt.Rows[0]["ExaminationPreparationGUID"].ToString() + "/" + dt.Rows[0]["QuestionPaper"].ToString();
-            //hlQuestionPaper.Text = dt.Rows[0]["QuestionPaper"].ToString();
-            //hlQuestionPaper.Attributes["href"] = ResolveUrl(icFilePath);
-            //lbQuestionPaper.Attributes["href"] = ResolveUrl(icFilePath);
-            //lbQuestionPaper.Attributes["download"] = dt.Rows[0]["QuestionPaper"].ToString();
-            //ExistingSubmissionFilePath = "~/Uploads/ExaminationSubmissionFolder/" + dtSubmission.Rows[0]["ExamTimetableGUID"] + "/" + dtSubmission.Rows[0]["ExamSubmissionGUID"] + "/";
-
             if (e.Row.RowType == DataControlRowType.DataRow)
             {
                 HyperLink hyperLink = e.Row.FindControl("hlView") as HyperLink;
