@@ -491,6 +491,7 @@
     <Content Include="KrousExWebService.asmx" />
     <Content Include="NotificationEntry.aspx" />
     <Content Include="ProgrammeCourseEntry.aspx" />
+    <Content Include="ProgrammeCourseListings.aspx" />
     <Content Include="ProgrammeEntry.aspx" />
     <Content Include="Scripts\date.format.js" />
     <Content Include="ProgrammeListings.aspx" />
@@ -1686,6 +1687,13 @@
     </Compile>
     <Compile Include="ProgrammeCourseEntry.aspx.designer.cs">
       <DependentUpon>ProgrammeCourseEntry.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="ProgrammeCourseListings.aspx.cs">
+      <DependentUpon>ProgrammeCourseListings.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="ProgrammeCourseListings.aspx.designer.cs">
+      <DependentUpon>ProgrammeCourseListings.aspx</DependentUpon>
     </Compile>
     <Compile Include="ProgrammeEntry.aspx.cs">
       <DependentUpon>ProgrammeEntry.aspx</DependentUpon>
