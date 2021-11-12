@@ -31,12 +31,31 @@ namespace Krous_Ex
 
             if (IsPostBack != true)
             {
-                gvSelectedCourse.DataSource = null;
-                gvSelectedCourse.DataBind();
-                loadProgrammeCategory();
-                loadProgramme("");
-                loadSemester();
-                litStep2.Text = "<p class=\"card-description\"><strong>Please select all dropdown list from step 1.</strong></p>";
+                if (!string.IsNullOrEmpty(Request.QueryString["ProgrammeGUID"]) && !string.IsNullOrEmpty(Request.QueryString["SemesterGUID"]) && !string.IsNullOrEmpty(Request.QueryString["ProgrammeCategory"]))
+                {
+                    ListItem oList = new ListItem();
+
+                    oList = new ListItem();
+                    oList.Text = Request.QueryString["ProgrammeCategory"];
+                    oList.Value = Request.QueryString["ProgrammeCategory"];
+                    ddlProgrammCategory.Items.Add(oList);
+
+                    ddlProgrammCategory.SelectedIndex = 0;
+
+                    ddlProgrammCategory.Enabled = false;
+                    loadProgramme(Request.QueryString["ProgrammeCategory"]);
+                    loadSemester();
+                    ddlSessionMonth.Enabled = true;
+                }
+                else
+                {
+                    gvSelectedCourse.DataSource = null;
+                    gvSelectedCourse.DataBind();
+                    loadProgrammeCategory();
+                    loadProgramme("");
+                    loadSemester();
+                    litStep2.Text = "<p class=\"card-description\"><strong>Please select all dropdown list from step 1.</strong></p>";
+                }
             }
             else
             {
@@ -45,6 +64,9 @@ namespace Krous_Ex
                     if (Request.Cookies["GridViewRefresh"].Value == "Yes")
                     {
                         Session["dtProgCourse"] = null;
+                        Session["CourseTable"] = null;
+                        ViewState["dtProgCourse"] = null;
+                        ViewState["CourseTable"] = null;
                         Response.Cookies["GridViewRefresh"].Value = null;
                     }
                 }
@@ -103,23 +125,36 @@ namespace Krous_Ex
         {
             try
             {
+                string sqlQuery = "";
+
                 ddlProgramme.Items.Clear();
 
                 ListItem oList = new ListItem();
-
-                oList = new ListItem();
-                oList.Text = "";
-                oList.Value = "";
-                ddlProgramme.Items.Add(oList);
+                if (string.IsNullOrEmpty(Request.QueryString["ProgrammeGUID"]))
+                {
+                    oList = new ListItem();
+                    oList.Text = "";
+                    oList.Value = "";
+                    ddlProgramme.Items.Add(oList);
+                }
 
                 SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["Krous_Ex"].ConnectionString);
                 con.Open();
-                SqlCommand GetCommand = new SqlCommand("SELECT ProgrammeGUID, ProgrammeAbbrv, ProgrammeName FROM Programme WHERE ProgrammeCategory = @ProgrammeCategory ORDER BY ProgrammeAbbrv", con);
-                
-                GetCommand.Parameters.AddWithValue("@ProgrammeCategory", programmeCategory);
+                SqlCommand GetCommand;
+                SqlDataReader reader;
 
-                SqlDataReader reader = GetCommand.ExecuteReader();
+                if (!string.IsNullOrEmpty(Request.QueryString["ProgrammeGUID"])) {
+                    sqlQuery = "SELECT * FROM Programme WHERE ProgrammeGUID = @ProgrammeGUID ";
+                    GetCommand = new SqlCommand(sqlQuery, con);
+                    GetCommand.Parameters.AddWithValue("@ProgrammeGUID", Request.QueryString["ProgrammeGUID"]);
+                } else
+                {
+                    sqlQuery = "SELECT ProgrammeGUID, ProgrammeAbbrv, ProgrammeName FROM Programme WHERE ProgrammeCategory = @ProgrammeCategory ORDER BY ProgrammeAbbrv";
+                    GetCommand = new SqlCommand(sqlQuery, con);
+                    GetCommand.Parameters.AddWithValue("@ProgrammeCategory", programmeCategory);
+                }
 
+                reader = GetCommand.ExecuteReader();
                 DataTable dtProg = new DataTable();
                 dtProg.Load(reader);
                 con.Close();
@@ -144,18 +179,36 @@ namespace Krous_Ex
         {
             try
             {
+                string sqlQuery = "";
+
                 ddlSemester.Items.Clear();
 
                 ListItem oList = new ListItem();
 
-                oList = new ListItem();
-                oList.Text = "";
-                oList.Value = "";
-                ddlSemester.Items.Add(oList);
-
                 SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["Krous_Ex"].ConnectionString);
                 con.Open();
-                SqlCommand GetCommand = new SqlCommand("SELECT * FROM Semester ORDER BY SemesterYear, SemesterSem ", con);
+                SqlCommand GetCommand;
+
+                if (string.IsNullOrEmpty(Request.QueryString["SemesterGUID"]))
+                {
+                    oList = new ListItem();
+                    oList.Text = "";
+                    oList.Value = "";
+                    ddlSemester.Items.Add(oList);
+                }
+
+                if (!string.IsNullOrEmpty(Request.QueryString["SemesterGUID"]))
+                {
+                    sqlQuery = "SELECT * FROM Semester WHERE SemesterGUID = @SemesterGUID ";
+                    GetCommand = new SqlCommand(sqlQuery, con);
+                    GetCommand.Parameters.AddWithValue("@SemesterGUID", Request.QueryString["SemesterGUID"]);
+                }
+                else
+                {
+                    sqlQuery = "SELECT * FROM Semester ORDER BY SemesterYear, SemesterSem ";
+                    GetCommand = new SqlCommand(sqlQuery, con);
+                }
+
                 SqlDataReader reader = GetCommand.ExecuteReader();
 
                 DataTable dtSems = new DataTable();
@@ -181,12 +234,25 @@ namespace Krous_Ex
         {
             try
             {
-                string sqlQuery = "SELECT CourseGUID, CourseAbbrv, CourseName, CreditHour FROM COURSE ";
+                string sqlQuery = "";
 
                 SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["Krous_Ex"].ConnectionString);
                 con.Open();
+                SqlCommand GetCommand;
 
-                SqlCommand GetCommand = new SqlCommand(sqlQuery, con);
+                if (!string.IsNullOrEmpty(Request.QueryString["ProgrammeGUID"]) && !string.IsNullOrEmpty(Request.QueryString["SemesterGUID"]) && !string.IsNullOrEmpty(Request.QueryString["ProgrammeCategory"]))
+                {
+                    sqlQuery = "SELECT C.CourseGUID, C.CourseAbbrv, C.CourseName, C.CreditHour FROM Course C WHERE C.CourseGUID NOT IN (SELECT CourseGUID FROM ProgrammeCourse WHERE SessionMonth = @SessionMonth" +
+                        " AND ProgrammeGUID = @ProgrammeGUID) ";
+                    GetCommand = new SqlCommand(sqlQuery, con);
+                    GetCommand.Parameters.AddWithValue("@SessionMonth", ddlSessionMonth.SelectedValue);
+                    GetCommand.Parameters.AddWithValue("@ProgrammeGUID", ddlProgramme.SelectedValue);
+                }
+                else
+                {
+                    sqlQuery = "SELECT CourseGUID, CourseAbbrv, CourseName, CreditHour FROM COURSE ";
+                    GetCommand = new SqlCommand(sqlQuery, con);
+                }
 
                 SqlDataReader reader = GetCommand.ExecuteReader();
                 DataTable dtCourse = new DataTable();
@@ -280,7 +346,7 @@ namespace Krous_Ex
                 }
                 else
                 {
-                    clsFunction.DisplayAJAXMessage(this, "This citizen has be selected !");
+                    clsFunction.DisplayAJAXMessage(this, "This course has be selected !");
                 }
             }
             catch (Exception ex)
@@ -295,7 +361,14 @@ namespace Krous_Ex
             try
             {
                 var DT = new DataTable();
-                DT = Session["dtProgCourse"] as DataTable;
+
+                if (Session["dtProgCourse"] != null)
+                {
+                    DT = Session["dtProgCourse"] as DataTable;
+                } else if (ViewState["dtProgCourse"] != null)
+                {
+                    DT = ViewState["dtProgCourse"] as DataTable;
+                }
 
                 Guid CourseGUID = Guid.Parse(gvSelectedCourse.SelectedRow.Cells[1].Text);
                 string CourseAbbrv = gvSelectedCourse.SelectedRow.Cells[2].Text;
@@ -449,6 +522,7 @@ namespace Krous_Ex
                 }
                 else
                 {
+                    Session["NoData"] = "Yes";
                     return false;
                 }
             }
@@ -462,15 +536,26 @@ namespace Krous_Ex
 
         private bool AddProgrammeCourse()
         {
-            string sqlQuery;
+            string sqlQuery = "";
 
             try
             {
                 SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["Krous_Ex"].ConnectionString);
                 con.Open();
 
-                sqlQuery = "INSERT INTO ProgrammeCourse (ProgrammeCourseGUID, CourseGUID, SemesterGUID, ProgrammeGUID, SessionMonth) VALUES ";
+                if (!string.IsNullOrEmpty(Request.QueryString["ProgrammeGUID"]) && !string.IsNullOrEmpty(Request.QueryString["SemesterGUID"]) && !string.IsNullOrEmpty(Request.QueryString["ProgrammeCategory"]))
+                {
+                    SqlCommand deleteCmd = new SqlCommand();
 
+                    deleteCmd = new SqlCommand("DELETE FROM ProgrammeCourse WHERE SemesterGUID = @SemesterGUID AND ProgrammeGUID = @ProgrammeGUID AND SessionMonth = @SessionMonth", con);
+                    deleteCmd.Parameters.AddWithValue("@SemesterGUID", ddlSemester.SelectedValue);
+                    deleteCmd.Parameters.AddWithValue("@ProgrammeGUID", ddlProgramme.SelectedValue);
+                    deleteCmd.Parameters.AddWithValue("@SessionMonth", ddlSessionMonth.SelectedValue);
+                    deleteCmd.ExecuteNonQuery();
+                } 
+                    
+                sqlQuery = "INSERT INTO ProgrammeCourse (ProgrammeCourseGUID, CourseGUID, SemesterGUID, ProgrammeGUID, SessionMonth) VALUES ";
+                
                 int countRow = 1;
 
                 foreach (GridViewRow row in gvSelectedCourse.Rows)
@@ -489,6 +574,7 @@ namespace Krous_Ex
                 }
 
                 Session["dtProgCourse"] = null;
+                ViewState["dtProgCourse"] = null;
 
                 SqlCommand InsertCommand = new SqlCommand(sqlQuery, con);
 
@@ -511,21 +597,33 @@ namespace Krous_Ex
 
         protected void btnSubmit_Click(object sender, EventArgs e)
         {
-            if (IsExistInProgCourse())
+            if (!string.IsNullOrEmpty(Request.QueryString["ProgrammeGUID"]) && !string.IsNullOrEmpty(Request.QueryString["SemesterGUID"]) && !string.IsNullOrEmpty(Request.QueryString["ProgrammeCategory"]))
             {
                 if (AddProgrammeCourse())
                 {
                     Session["AddedProgrammeCourse"] = "Yes";
                     Response.Redirect("ProgrammeCourseEntry.aspx");
                 }
-            } 
+            }
+            else
+            {
+                if (IsExistInProgCourse())
+                {
+                    if (AddProgrammeCourse())
+                    {
+                        Session["AddedProgrammeCourse"] = "Yes";
+                        Response.Redirect("ProgrammeCourseEntry.aspx");
+                    }
+                }
+            }
         }
 
         private bool IsExistInProgCourse()
         {
             string sqlQuery = "SELECT C.CourseName, CourseAbbrv FROM ProgrammeCourse P, Course C ";
             sqlQuery += "WHERE P.CourseGUID = C.CourseGUID AND P.CourseGUID = @CourseGUID AND ";
-            sqlQuery += "P.SessionMonth = @SessionMonth ";
+            sqlQuery += "P.SessionMonth = @SessionMonth AND ";
+            sqlQuery += "P.ProgrammeGUID = @ProgrammeGUID ";
             DataTable dtCourse = new DataTable();
             string message = "";
 
@@ -538,6 +636,7 @@ namespace Krous_Ex
 
                 GetCommand.Parameters.Add("@CourseGUID", SqlDbType.NVarChar);
                 GetCommand.Parameters.AddWithValue("@SessionMonth", ddlSessionMonth.SelectedValue);
+                GetCommand.Parameters.AddWithValue("@ProgrammeGUID", ddlProgramme.SelectedValue);
 
                 foreach (GridViewRow row in gvSelectedCourse.Rows)
                 {
@@ -581,14 +680,37 @@ namespace Krous_Ex
                 litStep2.Text = "<p class=\"card-description\"><strong>Step 2:</strong> Select course</p>";
                 if (!checkDuplicateSemsCourse())
                 {
-                    loadGV();
+                    if (Session["NoData"] != null)
+                    {
+                        if (Session["NoData"].ToString() == "Yes")
+                        {
+                            clsFunction.DisplayAJAXMessage(this, "No data for this session, programme or semester. Please head to programme course entry to insert data.");
+                            Session["NoData"] = null;
+                            gvCourse.DataSource = null;
+                            gvCourse.DataBind();
+                            gvSelectedCourse.DataSource = null;
+                            gvSelectedCourse.DataBind();
+                            litStep2.Text = "<p class=\"card-description\"><strong>Please change session.</strong></p>";
+                        }
+                    } else
+                    {
+                        loadGV();
+                    }
                 }
                 else
                 {
-                    litStep2.Text = "<p class=\"card-description\"><strong>Please change session.</strong></p>";
-                    clsFunction.DisplayAJAXMessage(this, "Have existing record. Please go listings to manage it.");
-                    gvCourse.DataSource = null;
-                    gvCourse.DataBind();
+                    if (!string.IsNullOrEmpty(Request.QueryString["ProgrammeGUID"]) && !string.IsNullOrEmpty(Request.QueryString["SemesterGUID"]) && !string.IsNullOrEmpty(Request.QueryString["ProgrammeCategory"]))
+                    {
+                        loadGV();
+                        loadExistingGV();
+                    }
+                    else
+                    {
+                        litStep2.Text = "<p class=\"card-description\"><strong>Please change session.</strong></p>";
+                        clsFunction.DisplayAJAXMessage(this, "Have existing record. Please go listings to manage it.");
+                        gvCourse.DataSource = null;
+                        gvCourse.DataBind();
+                    }
                 }
             }
             else
@@ -596,6 +718,57 @@ namespace Krous_Ex
                 litStep2.Text = "<p class=\"card-description\"><strong>Please select all dropdown list from step 1.</strong></p>";
                 gvCourse.DataSource = null;
                 gvCourse.DataBind();
+            }
+        }
+
+        private void loadExistingGV()
+        {
+            try
+            {
+                gvSelectedCourse.DataSource = null;
+                gvSelectedCourse.DataBind();
+
+                string sqlQuery = "";
+
+                if (!string.IsNullOrEmpty(Request.QueryString["ProgrammeGUID"]) && !string.IsNullOrEmpty(Request.QueryString["SemesterGUID"]) && !string.IsNullOrEmpty(Request.QueryString["ProgrammeCategory"]))
+                {
+                    sqlQuery = "SELECT C.CourseGUID, C.CourseAbbrv, C.CourseName, C.CreditHour FROM Course C LEFT JOIN ProgrammeCourse Pc ON Pc.CourseGUID = C.CourseGUID WHERE pc.CourseGUID IS NOT NULL " +
+                        "AND SessionMonth = @SessionMonth " +
+                        "AND SemesterGUID = @SemesterGUID " +
+                        "AND ProgrammeGUID = @ProgrammeGUID ";
+                }
+
+                SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["Krous_Ex"].ConnectionString);
+                con.Open();
+
+                SqlCommand GetCommand = new SqlCommand(sqlQuery, con);
+                GetCommand.Parameters.AddWithValue("@SessionMonth", ddlSessionMonth.SelectedValue);
+                GetCommand.Parameters.AddWithValue("@SemesterGUID", ddlSemester.SelectedValue);
+                GetCommand.Parameters.AddWithValue("@ProgrammeGUID", ddlProgramme.SelectedValue);
+                SqlDataReader reader = GetCommand.ExecuteReader();
+                DataTable dtCourse = new DataTable();
+                dtCourse.Load(reader);
+                con.Close();
+
+                if (dtCourse.Rows.Count != 0)
+                {
+                    ViewState["dtProgCourse"] = dtCourse;
+                    Session["dtProgCourse"] = dtCourse;
+                    gvSelectedCourse.DataSource = dtCourse;
+                    gvSelectedCourse.DataBind();
+                    gvSelectedCourse.Visible = true;
+                    lblNoData.Visible = false;
+                }
+                else
+                {
+                    lblNoData.Visible = true;
+                    gvSelectedCourse.Visible = false;
+                }
+            }
+
+            catch (Exception ex)
+            {
+                clsFunction.DisplayAJAXMessage(this, ex.Message);
             }
         }
     }
