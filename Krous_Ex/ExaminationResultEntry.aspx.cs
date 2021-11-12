@@ -45,6 +45,7 @@ namespace Krous_Ex
                 } else
                 {
                     sqlQuery = "SELECT S.SessionGUID, S.SessionMonth, S.SessionYear FROM Session S INNER JOIN ExamResult er ON er.SessionGUID = S.SessionGUID GROUP BY S.SessionGUID, S.SessionMonth, S.SessionYear ORDER BY SessionYear, SessionMonth ";
+                    sqlQuery = "SELECT * FROM Session ORDER BY SessionYear, SessionMonth ";
                 }
 
                 SqlCommand GetCommand = new SqlCommand(sqlQuery, con);
@@ -58,6 +59,8 @@ namespace Krous_Ex
                 {
                     if (radSession.SelectedValue == "1")
                     {
+                        //txtSession.Text = "202105";
+                        //hdSession.Value = "b74961ab-5fcd-4dba-a069-eab969745f18";
                         txtSession.Text = dtSession.Rows[0]["SessionYear"].ToString() + dtSession.Rows[0]["SessionMonth"].ToString().PadLeft(2, '0');
                         hdSession.Value = dtSession.Rows[0]["SessionGUID"].ToString();
                     } else 
@@ -170,7 +173,7 @@ namespace Krous_Ex
 
         protected void ddlProgrammeCategory_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (!String.IsNullOrEmpty(ddlProgrammeCategory.SelectedValue)) {
+            if (!string.IsNullOrEmpty(ddlProgrammeCategory.SelectedValue)) {
                 ddlProgramme.Enabled = true;
                 loadProgramme(ddlProgrammeCategory.SelectedValue);
             } else {
@@ -307,21 +310,21 @@ namespace Krous_Ex
                         GetCommand.Parameters.AddWithValue("@GroupGUID", ddlGroup.SelectedValue);
                     } else
                     {
-                        string sqlQuery = "SELECT * FROM ";
-                        sqlQuery += "CurrentSessionSemester css, Student S, GroupStudentList Gs, Student_Programme_Register spr ";
-                        sqlQuery += "WHERE css.StudentGUID = S.StudentGUID AND S.StudentGUID = Gs.StudentGUID AND S.StudentGUID = spr.StudentGUID ";
-                        sqlQuery += "AND css.SessionGUID = @SessionGUID ";
+                        string sqlQuery = "SELECT * FROM ExamResult ex LEFT JOIN Session S ON ex.SessionGUID = S.SessionGUID ";
+                        sqlQuery += "LEFT JOIN Student St ON ex.StudentGUID = St.StudentGUID ";
+                        sqlQuery += "LEFT JOIN GroupStudentList Gs ON St.StudentGUID = Gs.StudentGUID ";
+                        sqlQuery += "LEFT JOIN Student_Programme_Register spr ON St.StudentGUID = spr.StudentGUID ";
+                        sqlQuery += "LEFT JOIN CurrentSessionSemester css ON ex.StudentGUID = css.StudentGUID ";
+                        sqlQuery += "WHERE ex.SessionGUID = @SessionGUID ";
                         sqlQuery += "AND ProgrammeGUID = @ProgrammeGUID ";
-                        sqlQuery += "AND SemesterGUID = @SemesterGUID ";
                         sqlQuery += "AND GroupGUID = @GroupGUID ";
-                        sqlQuery += "ORDER BY S.StudentFullName";
+                        sqlQuery += "ORDER BY St.StudentFullName ";
 
                         con.Open();
                         GetCommand = new SqlCommand(sqlQuery, con);
 
                         GetCommand.Parameters.AddWithValue("@SessionGUID", ddlExistingSession.SelectedValue);
                         GetCommand.Parameters.AddWithValue("@ProgrammeGUID", ddlProgramme.SelectedValue);
-                        GetCommand.Parameters.AddWithValue("@SemesterGUID", ddlSemester.SelectedValue);
                         GetCommand.Parameters.AddWithValue("@GroupGUID", ddlGroup.SelectedValue);
                     }
 
@@ -361,27 +364,49 @@ namespace Krous_Ex
         {
             try
             {
-                string sqlQuery;
-
-                sqlQuery = "SELECT* FROM CurrentSessionSemester css ";
-                sqlQuery += "LEFT JOIN ProgrammeCourse pc ON css.SemesterGUID = pc.SemesterGUID ";
-                sqlQuery += "LEFT JOIN Course C ON pc.CourseGUID = C.CourseGUID ";
-                sqlQuery += "LEFT JOIN ExamResult er ON er.StudentGUID = css.StudentGUID ";
-                sqlQuery += "LEFT JOIN ExamResultPerCourse ec ON C.CourseGUID = ec.CourseGUID AND er.ExamResultGUID = ec.ExamResultGUID ";
-                sqlQuery += "WHERE css.StudentGUID = @StudentGUID AND ";
-                sqlQuery += "pc.SessionMonth = (SELECT SessionMonth FROM Student st, Session S WHERE st.SessionGUID = s.SessionGUID AND st.StudentGUID = @StudentGUID) ";
-
-                SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["Krous_Ex"].ConnectionString);
-                con.Open();
-
-                SqlCommand GetCommand = new SqlCommand(sqlQuery, con);
-                GetCommand.Parameters.AddWithValue("@StudentGUID", ddlStudent.SelectedValue);
-                SqlDataReader reader = GetCommand.ExecuteReader();
-                DataTable dtCourseMark = new DataTable();
-                dtCourseMark.Load(reader);
-                con.Close();
-                if (!String.IsNullOrEmpty(ddlStudent.SelectedValue))
+                if (!string.IsNullOrEmpty(ddlStudent.SelectedValue))
                 {
+                    string sqlQuery;
+
+                    SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["Krous_Ex"].ConnectionString);
+                    SqlDataReader reader;
+                    con.Open();
+
+                    if (radSession.SelectedValue == "1")
+                    {
+
+                        sqlQuery = "SELECT* FROM CurrentSessionSemester css ";
+                        sqlQuery += "LEFT JOIN ProgrammeCourse pc ON css.SemesterGUID = pc.SemesterGUID ";
+                        sqlQuery += "LEFT JOIN Course C ON pc.CourseGUID = C.CourseGUID ";
+                        sqlQuery += "LEFT JOIN ExamResult er ON er.StudentGUID = css.StudentGUID ";
+                        sqlQuery += "INNER JOIN ExamResultPerCourse ec ON C.CourseGUID = ec.CourseGUID AND er.ExamResultGUID = ec.ExamResultGUID ";
+                        sqlQuery += "WHERE css.StudentGUID = @StudentGUID AND ";
+                        sqlQuery += "pc.SessionMonth = (SELECT SessionMonth FROM Student st, Session S WHERE st.SessionGUID = s.SessionGUID AND st.StudentGUID = @StudentGUID) ";
+
+                        SqlCommand GetCommand = new SqlCommand(sqlQuery, con);
+                        GetCommand.Parameters.AddWithValue("@StudentGUID", ddlStudent.SelectedValue);
+                        reader = GetCommand.ExecuteReader();
+
+                    } else
+                    {
+                        sqlQuery = "SELECT* FROM ProgrammeCourse pc ";
+                        sqlQuery += "LEFT JOIN Course C ON pc.CourseGUID = C.CourseGUID ";
+                        sqlQuery += "LEFT JOIN ExamResultPerCourse ec ON C.CourseGUID = ec.CourseGUID ";
+                        sqlQuery += "LEFT JOIN ExamResult er ON ec.ExamResultGUID = er.ExamResultGUID ";
+                        sqlQuery += "WHERE er.StudentGUID = @StudentGUID AND er.SessionGUID = @SessionGUID AND ";
+                        sqlQuery += "pc.SessionMonth = (SELECT SessionMonth FROM Student st, Session S WHERE st.SessionGUID = s.SessionGUID AND st.StudentGUID = @StudentGUID ) ";
+
+                        SqlCommand GetCommand = new SqlCommand(sqlQuery, con);
+                        GetCommand.Parameters.AddWithValue("@StudentGUID", ddlStudent.SelectedValue);
+                        GetCommand.Parameters.AddWithValue("@SessionGUID", ddlExistingSession.SelectedValue);
+                        reader = GetCommand.ExecuteReader();
+                    }
+
+                    DataTable dtCourseMark = new DataTable();
+                    dtCourseMark.Load(reader);
+
+                    con.Close();
+
                     if (dtCourseMark.Rows.Count != 0)
                     {
                         gvMark.DataSource = dtCourseMark;
@@ -539,9 +564,11 @@ namespace Krous_Ex
                                 if (intMark <= 49)
                                 {
                                     remarks = "You have failed this exam. You're required to retake this examination.";
+                                    insertCommand.Parameters.AddWithValue("@Remarks", remarks);
+                                } else 
+                                {
+                                    insertCommand.Parameters.AddWithValue("@Remarks", DBNull.Value);
                                 }
-
-                                insertCommand.Parameters.AddWithValue("@Remarks", remarks);
 
                                 insertCommand.ExecuteNonQuery();
                                 con.Close();
@@ -580,22 +607,24 @@ namespace Krous_Ex
 
         private bool isAllSelected()
         {
-            if(String.IsNullOrEmpty(ddlProgramme.SelectedValue))
+            if(string.IsNullOrEmpty(ddlProgramme.SelectedValue))
             {
                 return false;
             }
 
-            if (String.IsNullOrEmpty(ddlProgrammeCategory.SelectedValue))
+            if (string.IsNullOrEmpty(ddlProgrammeCategory.SelectedValue))
             {
                 return false;
             }
-
-            if (String.IsNullOrEmpty(ddlSemester.SelectedValue))
+            if (radSession.SelectedValue == "1")
             {
-                return false;
+                if (string.IsNullOrEmpty(ddlSemester.SelectedValue))
+                {
+                    return false;
+                }
             }
 
-            if (String.IsNullOrEmpty(ddlGroup.SelectedValue))
+            if (string.IsNullOrEmpty(ddlGroup.SelectedValue))
             {
                 return false;
             }
@@ -626,7 +655,9 @@ namespace Krous_Ex
 
         protected void ddlExistingSession_SelectedIndexChanged(object sender, EventArgs e)
         {
-
+            ddlStudent.Items.Clear();
+            gvMark.DataSource = "";
+            gvMark.DataBind();
         }
 
         protected void radSession_SelectedIndexChanged(object sender, EventArgs e)
@@ -650,6 +681,7 @@ namespace Krous_Ex
                 loadGroup();
                 panelCurrent.Visible = true;
                 panelExisting.Visible = false;
+                panelSemester.Visible = true;
             }
             else if (radSession.SelectedValue == "2")
             {
@@ -659,6 +691,7 @@ namespace Krous_Ex
                 loadGroup();
                 panelCurrent.Visible = false;
                 panelExisting.Visible = true;
+                panelSemester.Visible = false;
             }
         }
     }

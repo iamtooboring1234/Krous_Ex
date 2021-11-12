@@ -27,6 +27,59 @@ namespace Krous_Ex
                 }
 
                 loadExaminationDetails();
+                loadSubmittedFile();
+            }
+        }
+
+        private void loadSubmittedFile()
+        {
+            try
+            {
+
+                SqlCommand loadInfoCmd = new SqlCommand();
+                SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["Krous_Ex"].ConnectionString);
+
+                using (con = new SqlConnection(ConfigurationManager.ConnectionStrings["Krous_Ex"].ConnectionString))
+                {
+                    con.Open();
+
+                    loadInfoCmd = new SqlCommand("SELECT * FROM ExamSubmission es RIGHT JOIN ExamTimetable et ON es.ExamTimetableGUID = et.ExamTimetableGUID WHERE StudentGUID = @StudentGUID AND es.ExamTimetableGUID = @ExamTimetableGUID ", con);
+
+                    loadInfoCmd.Parameters.AddWithValue("@StudentGUID", clsLogin.GetLoginUserGUID());
+                    loadInfoCmd.Parameters.AddWithValue("@ExamTimetableGUID", Request.QueryString["ExamTimetableGUID"]);
+
+                    SqlDataReader dtrLoad = loadInfoCmd.ExecuteReader();
+                    DataTable dt = new DataTable();
+                    dt.Load(dtrLoad);
+
+                    con.Close();
+
+                    if (dt.Rows.Count != 0)
+                    {
+                        btnUnSubmit.Visible = true;
+                        btnSubmit.Visible = false;
+                        Panel1.Visible = false;
+                        Panel2.Visible = true;
+                        Panel3.Visible = false;
+                        hlPreviousFile.Text = dt.Rows[0]["SubmissionFile"].ToString();
+                        hlPreviousFile.Attributes["href"] = ResolveUrl("~/Uploads/ExaminationSubmissionFolder/" + dt.Rows[0]["ExamTimetableGUID"] + "/" + dt.Rows[0]["ExamSubmissionGUID"] + "/" + dt.Rows[0]["SubmissionFile"]);
+                        lbPreviousFile.Attributes["href"] = ResolveUrl("~/Uploads/ExaminationSubmissionFolder/" + dt.Rows[0]["ExamTimetableGUID"] + "/" + dt.Rows[0]["ExamSubmissionGUID"] + "/" + dt.Rows[0]["SubmissionFile"]);
+                    }
+                    else
+                    {
+                        btnSubmit.Visible = true;
+                        btnUnSubmit.Visible = false;
+                        Panel1.Visible = true;
+                        Panel2.Visible = false;
+                    }
+
+                }
+
+
+
+            } catch (Exception ex)
+            {
+                clsFunction.DisplayAJAXMessage(this, ex.Message);
             }
         }
 
@@ -285,6 +338,14 @@ namespace Krous_Ex
             {
                 File.Delete(filename);
             }
+        }
+
+        protected void btnUnSubmit_Click(object sender, EventArgs e)
+        {
+            Panel3.Visible = true;
+            Panel2.Visible = true;
+            btnSubmit.Visible = true;
+            btnUnSubmit.Visible = false;
         }
     }
 }

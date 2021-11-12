@@ -485,6 +485,7 @@
     <Content Include="KrousExAcademicCalendarListings.aspx" />
     <Content Include="KrousExContactUs.aspx" />
     <Content Include="KrousExDeleteComment.aspx" />
+    <Content Include="KrousExEditComments.aspx" />
     <Content Include="KrousExReportForum.aspx" />
     <Content Include="KrousExViewAcademicCalendar.aspx" />
     <Content Include="KrousExWebService.asmx" />
@@ -1555,6 +1556,13 @@
     </Compile>
     <Compile Include="FacultyListings.aspx.designer.cs">
       <DependentUpon>FacultyListings.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="KrousExEditComments.aspx.cs">
+      <DependentUpon>KrousExEditComments.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="KrousExEditComments.aspx.designer.cs">
+      <DependentUpon>KrousExEditComments.aspx</DependentUpon>
     </Compile>
     <Compile Include="KrousExFAQ.aspx.cs">
       <DependentUpon>KrousExFAQ.aspx</DependentUpon>
