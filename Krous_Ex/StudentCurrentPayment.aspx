@@ -27,7 +27,7 @@
             <div class="card-body">
                 <div class="table-responsive">
                     <div class="gv-section text-center">
-                        <asp:GridView ID="gvPaymentHistory" runat="server" Width="100%" CssClass="table table-bordered" AutoGenerateColumns="False" DataKeyNames="RegisterGUID" CellPadding="10" CellSpacing="2" Border="0">
+                        <asp:GridView ID="gvCurrentPayment" runat="server" Width="100%" CssClass="table table-bordered" AutoGenerateColumns="False" DataKeyNames="RegisterGUID" CellPadding="10" CellSpacing="2" Border="0">
                             <Columns>
                                  <asp:TemplateField>
                                         <ItemTemplate>
@@ -60,7 +60,7 @@
         var $ = jQuery.noConflict();
 
         $(document).ready(function () {
-            $("[id*=gvPaymentHistory]").prepend($("<thead></thead>").html($("[id*=gvPaymentHistory]").find("tr:first"))).DataTable({
+            $("[id*=gvCurrentPayment]").prepend($("<thead></thead>").html($("[id*=gvCurrentPayment]").find("tr:first"))).DataTable({
                 "searching": false,
                 "pageLength": 10,
                 "order": [[1, 'asc']],

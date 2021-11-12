@@ -19,7 +19,6 @@ namespace Krous_Ex
         Guid registerGUID = Guid.NewGuid();
         protected void Page_Load(object sender, EventArgs e)
         {
-
             if (Session["RegisterProgramme"] != null)
             {
                 if (Session["RegisterProgramme"].ToString() == "Yes")
@@ -194,7 +193,7 @@ namespace Krous_Ex
                     {
                         if (medicalFileName != "")
                         {
-                            insertCmd = new SqlCommand("INSERT INTO Student_Programme_Register VALUES (@RegisterGUID, @StudentGUID, @ProgrammeGUID, @SessionGUID, @ProgrammeRegisterDate, @Status, @UploadIcImage, @UploadResult, @UploadMedical)", con);
+                            insertCmd = new SqlCommand("INSERT INTO Student_Programme_Register (RegisterGUID, StudentGUID, ProgrammeGUID, SessionGUID, ProgrammeRegisterDate, Status, UploadIcImage, UploadResult, UploadMedical) VALUES (@RegisterGUID, @StudentGUID, @ProgrammeGUID, @SessionGUID, @ProgrammeRegisterDate, @Status, @UploadIcImage, @UploadResult, @UploadMedical)", con);
                             insertCmd.Parameters.AddWithValue("@RegisterGUID", registerGUID);
                             insertCmd.Parameters.AddWithValue("@StudentGUID", userGUID);
                             insertCmd.Parameters.AddWithValue("@ProgrammeGUID", ddlProgramme.SelectedValue);
@@ -360,14 +359,7 @@ namespace Krous_Ex
             return true;
         }
 
-        //check the student programme category when they click register
-        //if the database record have the foundation..then they want to register again...it will prompt error message and said, You have registered foundation before. 
-        //Now you should register degree programme...smtg like that 
 
-        //can save into database, need to do validation
-        //and if i did not upload medical, it will still insert the new guid into database (need to fix) -done
-        //do upload ic, and result slip like spm / o-level  - done
-        //add icImage, resultSlip into Student_Programme_Register table to save the uploaded file - done
 
     }
 }

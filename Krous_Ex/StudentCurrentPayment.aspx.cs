@@ -13,5 +13,10 @@ namespace Krous_Ex
         {
 
         }
+
+        private void loadCurrentPayment()
+        {
+
+        }
     }
 }
