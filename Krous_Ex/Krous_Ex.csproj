@@ -502,8 +502,10 @@
     <Content Include="StaffFAQChatList.aspx" />
     <Content Include="StaffProfile.aspx" />
     <Content Include="StudentAssessmentSubmission.aspx" />
+    <Content Include="StudentCurrentPayment.aspx" />
     <Content Include="StudentExaminationDashboard.aspx" />
     <Content Include="StudentExaminationSubmission.aspx" />
+    <Content Include="StudentPaymentHistory.aspx" />
     <Content Include="StudentProgrammeRegister.aspx" />
     <Content Include="StudentFAQChatList.aspx" />
     <Content Include="StudentFAQ.aspx" />
@@ -1820,6 +1822,13 @@
     <Compile Include="StudentAssessmentSubmission.aspx.designer.cs">
       <DependentUpon>StudentAssessmentSubmission.aspx</DependentUpon>
     </Compile>
+    <Compile Include="StudentCurrentPayment.aspx.cs">
+      <DependentUpon>StudentCurrentPayment.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="StudentCurrentPayment.aspx.designer.cs">
+      <DependentUpon>StudentCurrentPayment.aspx</DependentUpon>
+    </Compile>
     <Compile Include="StudentExaminationDashboard.aspx.cs">
       <DependentUpon>StudentExaminationDashboard.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -1833,6 +1842,13 @@
     </Compile>
     <Compile Include="StudentExaminationSubmission.aspx.designer.cs">
       <DependentUpon>StudentExaminationSubmission.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="StudentPaymentHistory.aspx.cs">
+      <DependentUpon>StudentPaymentHistory.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="StudentPaymentHistory.aspx.designer.cs">
+      <DependentUpon>StudentPaymentHistory.aspx</DependentUpon>
     </Compile>
     <Compile Include="StudentProgrammeRegister.aspx.cs">
       <DependentUpon>StudentProgrammeRegister.aspx</DependentUpon>

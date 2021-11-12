@@ -107,24 +107,25 @@ CREATE TABLE [dbo].[Programme] (
     CONSTRAINT fk_faulty_prog FOREIGN KEY (FacultyGUID) REFERENCES Faculty(FacultyGUID)
 );
 
-CREATE TABLE [Payment] (
-	[PaymentGUID] UNIQUEIDENTIFIER NOT NULL,
-	[PaymentNo] char(15) NOT NULL,	
-	[StudentGUID] UNIQUEIDENTIFIER NOT NULL,
-	[PaymentMethod] varchar(30) NOT NULL,
-	[PaymentStatus] varchar(10) NOT NULL,
-	[TotalAmount] decimal(10,2) NOT NULL,
-	[DateIssued] datetime NOT NULL,
-	[DateOverdue] datetime NOT NULL,
-	CONSTRAINT pk_payment PRIMARY KEY (PaymentGUID),
-	CONSTRAINT fk_student_payment FOREIGN KEY (StudentGUID) REFERENCES Student(StudentGUID)
-)
+CREATE TABLE [dbo].[Payment] (
+    [PaymentGUID]   UNIQUEIDENTIFIER NOT NULL,
+    [PaymentNo]     CHAR (15)        NOT NULL,
+    [StudentGUID]   UNIQUEIDENTIFIER NOT NULL,
+    [PaymentMethod] VARCHAR (30)     NULL,
+    [PaymentStatus] VARCHAR (10)     NOT NULL,
+    [PaymentDate]   DATETIME         NULL,
+    [TotalAmount]   DECIMAL (10, 2)  NOT NULL,
+	[TotalPaid]		DECIMAL (10, 2)  NULL,
+    [DateIssued]    DATETIME         NOT NULL,
+    [DateOverdue]   DATETIME         NOT NULL,
+    CONSTRAINT [pk_payment] PRIMARY KEY CLUSTERED ([PaymentGUID] ASC),
+    CONSTRAINT [fk_student_payment] FOREIGN KEY ([StudentGUID]) REFERENCES [dbo].[Student] ([StudentGUID])
+);
 
 CREATE TABLE [Receipt] (
 	[ReceiptGUID] UNIQUEIDENTIFIER NOT NULL,
 	[ReceiptNo] char(15) NOT NULL,
 	[PaymentGUID] UNIQUEIDENTIFIER NOT NULL,
-	[TotalAmount] decimal (10,2) NOT NULL,
 	[DateIssued] datetime NOT NULL,
 	CONSTRAINT pk_receipt PRIMARY KEY (ReceiptGUID),
 	CONSTRAINT fk_payment_receipt FOREIGN KEY (PaymentGUID) REFERENCES Payment(PaymentGUID)

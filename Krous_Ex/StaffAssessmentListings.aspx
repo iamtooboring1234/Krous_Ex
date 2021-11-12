@@ -7,7 +7,7 @@
     <script src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js"></script>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="body" runat="server">
-    d
+    
     <div class="col-lg-12">
         <div class="card">
             <div class="card-body">
