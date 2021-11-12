@@ -29,10 +29,6 @@ namespace Krous_Ex
                 {
                     clsFunction.DisplayAJAXMessage(this, "Unable to update assessment details!");
                     Session["UpdateAssessment"] = null;
-                    //txtAssessmentTitle.Text = "";
-                    //txtAssessmentDesc.Text = "";
-                    //txtDueDate.Text = DateTime.Now.ToString("dd/MM/yyyy HH:mm");
-                    //AsyncFileUpload1.Dispose();
                 }
             }
 
@@ -46,6 +42,7 @@ namespace Krous_Ex
                 {
                     AssessmentGUID = Guid.Parse(Request.QueryString["AssessmentGUID"]);
                     loadAssessmentDetails();
+                    loadSubmissionList();
                     btnBack.Visible = false;
                     btnUpdate.Visible = false;
                     lbMenu.Visible = true;
@@ -56,8 +53,73 @@ namespace Krous_Ex
                     btnUpdate.Visible = false;
                 }
             }
+        }
+
+        private void loadSubmissionList()
+        {
+            try
+            {
+                SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["Krous_Ex"].ConnectionString);
+                con.Open();
+                AssessmentGUID = Guid.Parse(Request.QueryString["AssessmentGUID"]);
+
+                SqlCommand submissionCmd = new SqlCommand("SELECT s.SubmissionGUID, s.SubmissionFile, st.StudentFullName, s.SubmissionDate, s.SubmissionStatus FROM Submission s LEFT JOIN Student st ON s.StudentGUID = st.StudentGUID WHERE AssessmentGUID = @AssessmentGUID ORDER BY st.StudentFullName", con);
+                submissionCmd.Parameters.AddWithValue("@AssessmentGUID", AssessmentGUID);
+                SqlDataReader dtrSubmission = submissionCmd.ExecuteReader();
+                DataTable dtSub = new DataTable();
+                dtSub.Load(dtrSubmission);
+
+                if (dtSub.Rows.Count != 0)
+                {
+                    gvSubmissionList.DataSource = dtSub;
+                    gvSubmissionList.DataBind();
+                    gvSubmissionList.Visible = true;
+                    lblNoData.Visible = false;
+                }
+                else
+                {
+                    lblNoData.Visible = true;
+                    gvSubmissionList.Visible = false;
+                }
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Trace.WriteLine(ex.Message);
+            }
 
         }
+
+        protected void gvSubmissionList_RowDataBound(object sender, GridViewRowEventArgs e)
+        {
+            if (e.Row.RowType == DataControlRowType.DataRow)
+            {
+                HyperLink hyperLink = e.Row.FindControl("hlView") as HyperLink;
+                LinkButton lbDownload = e.Row.FindControl("lbDownload") as LinkButton;
+
+                string file = DataBinder.Eval(e.Row.DataItem, "SubmissionFile").ToString();
+
+                string getExtension = Path.GetExtension(file);
+                if(getExtension == ".docx")
+                {
+                    hyperLink.Visible = false;
+                }
+
+                if (hyperLink != null)
+                {
+                    string submitFilePath = "~/Uploads/StudentSubmission/" + DataBinder.Eval(e.Row.DataItem, "SubmissionGUID") + "/" + DataBinder.Eval(e.Row.DataItem, "SubmissionFile");
+                    hyperLink.Attributes["href"] = ResolveUrl(submitFilePath);
+                    lbDownload.Attributes["href"] = ResolveUrl(submitFilePath);
+                    lbDownload.Attributes["download"] = DataBinder.Eval(e.Row.DataItem, "SubmissionFile").ToString();
+
+                    if (DataBinder.Eval(e.Row.DataItem, "SubmissionFile").ToString() == "")
+                    {
+                        hyperLink.Visible = false;
+                        lbDownload.Visible = false;
+                    }
+                }
+            }
+        }
+
 
         protected void loadAssessmentDetails()
         {
@@ -191,6 +253,7 @@ namespace Krous_Ex
 
         protected void btnBack_Click(object sender, EventArgs e)
         {
+           
             Page.Response.Redirect(Page.Request.Url.ToString(), false);
             //Response.Redirect("StaffAssessmentListings");
         }
@@ -210,6 +273,7 @@ namespace Krous_Ex
             btnUpdate.Visible = true;
             lbMenu.Visible = false;
             btnBack.Visible = true;
+            btnBackListing.Visible = false;
         }
 
         protected void lbDelete_Click(object sender, EventArgs e)
@@ -292,5 +356,7 @@ namespace Krous_Ex
         {
             Response.Redirect("StaffAssessmentListings");
         }
+
+
     }   
 }

@@ -216,7 +216,6 @@ namespace Krous_Ex
                 loadAssessmentDetails();
                 btnSubmit.Visible = false;
                 btnUnSubmit.Visible = true;
-                //Response.Redirect("StudentAssessmentSubmission");
             }
             else
             {
