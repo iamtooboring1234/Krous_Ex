@@ -3,12 +3,11 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
 
     <link href="Assests/main/css/table.css" rel="stylesheet" />
-
     <link href="https://cdn.datatables.net/1.11.3/css/jquery.dataTables.min.css" rel="stylesheet" type="text/css" />
     <script src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js"></script>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="body" runat="server">
-
+    d
     <div class="col-lg-12">
         <div class="card">
             <div class="card-body">
@@ -54,7 +53,7 @@
                                 </div>
                                 <div class="col-md-8">
                                     <asp:Button Text="Search" ID="btnSearch" runat="server" Width="18%" CssClass="btn btn-primary" OnClick="btnSearch_Click" />
-                                     <asp:Button Text="Create New" ID="Button1" runat="server" Width="18%" CssClass="btn btn-primary" OnClick="Button1_Click"/>
+                                    <asp:Button Text="Create New" ID="Button1" runat="server" Width="18%" CssClass="btn btn-primary" OnClick="Button1_Click" />
                                 </div>
                             </div>
                         </div>
@@ -79,7 +78,7 @@
                                     <ItemStyle CssClass="text-center" HorizontalAlign="Center" />
                                 </asp:TemplateField>
                                 <asp:BoundField DataField="AssessmentGUID" HeaderText="AssessmentGUID" ReadOnly="true" SortExpression="AssessmentGUID" Visible="false" />
-                                <asp:BoundField DataField="CreatedDate" HeaderText="Created Date" SortExpression="CreatedDate"/>
+                                <asp:BoundField DataField="CreatedDate" HeaderText="Created Date" SortExpression="CreatedDate" />
                                 <asp:BoundField DataField="StaffFullName" HeaderText="Created By" SortExpression="StaffFullName" />
                                 <asp:BoundField DataField="AssessmentTitle" HeaderText="Assessment Title" SortExpression="AssessmentTitle" />
                                 <asp:BoundField DataField="DueDate" HeaderText="Assessment Due Date" SortExpression="DueDate" />

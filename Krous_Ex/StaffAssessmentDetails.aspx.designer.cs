@@ -258,13 +258,13 @@ namespace Krous_Ex
         protected global::System.Web.UI.WebControls.Button btnBackListing;
 
         /// <summary>
-        /// gvCourse control.
+        /// gvSubmissionList control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.GridView gvCourse;
+        protected global::System.Web.UI.WebControls.GridView gvSubmissionList;
 
         /// <summary>
         /// lblNoData control.
