@@ -28,14 +28,6 @@
     <div class="col-lg-12">
         <div class="card">
             <div class="card-body">
-                <%-- <div class="row">
-                    <div class="col-md-12">
-                        <h3>
-                            <asp:Label ID="lblCourseIncEntry" runat="server">Assessment Submission</asp:Label>
-                        </h3>
-                    </div>
-                </div>
-                <hr />--%>
                 <div class="panel-body">
                     <div class="form-horizontal">
                         <div class=" pdForm">
