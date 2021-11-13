@@ -177,13 +177,13 @@ namespace Krous_Ex
         protected global::System.Web.UI.WebControls.Label lblNoMedicalFile;
 
         /// <summary>
-        /// Label1 control.
+        /// lblSelectSemester control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label Label1;
+        protected global::System.Web.UI.WebControls.Label lblSelectSemester;
 
         /// <summary>
         /// ddlSemester control.
@@ -193,6 +193,15 @@ namespace Krous_Ex
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.DropDownList ddlSemester;
+
+        /// <summary>
+        /// lblSemester control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblSemester;
 
         /// <summary>
         /// btnApprove control.

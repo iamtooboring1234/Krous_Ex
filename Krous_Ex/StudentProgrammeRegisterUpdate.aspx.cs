@@ -16,7 +16,20 @@ namespace Krous_Ex
     {
         Guid RegisterGUID;
         protected void Page_Load(object sender, EventArgs e)
-        { 
+        {
+            //if (Session["UpdateStatus"] != null)
+            //{
+            //    if (Session["UpdateStatus"].ToString() == "Yes")
+            //    {
+            //        clsFunction.DisplayAJAXMessage(this, "The student registration status has been updated successfully!");
+            //        Session["UpdateStatus"] = null;
+            //    }
+            //    else
+            //    {
+            //        clsFunction.DisplayAJAXMessage(this, "The student registration status unable to update!");
+            //        Session["UpdateStatus"] = null;
+            //    }
+            //}
 
             if (IsPostBack != true)
             {
@@ -25,9 +38,6 @@ namespace Krous_Ex
                     RegisterGUID = Guid.Parse(Request.QueryString["RegisterGUID"]);
                     loadStudentDetails();
                     loadSemester();
-                    btnBack.Visible = true;
-                    btnApprove.Visible = true;
-                    btnReject.Visible = true;
                 }
                 else
                 {
@@ -90,17 +100,38 @@ namespace Krous_Ex
                 con = new SqlConnection(strCon);
                 con.Open();
 
-                loadInfoCmd = new SqlCommand("SELECT s.StudentFullName, s.NRIC, p.ProgrammeName, spr.UploadIcImage, spr.UploadResult, spr.UploadMedical FROM Student_Programme_Register spr LEFT JOIN Student s ON spr.StudentGUID = s.StudentGUID LEFT JOIN Programme p ON spr.ProgrammeGUID = p.ProgrammeGUID WHERE spr.RegisterGUID = @RegisterGUID", con);
+                loadInfoCmd = new SqlCommand("SELECT s.StudentFullName, s.NRIC, p.ProgrammeName, spr.UploadIcImage, spr.UploadResult, spr.UploadMedical, spr.Status FROM Student_Programme_Register spr LEFT JOIN Student s ON spr.StudentGUID = s.StudentGUID LEFT JOIN Programme p ON spr.ProgrammeGUID = p.ProgrammeGUID WHERE spr.RegisterGUID = @RegisterGUID", con);
                 loadInfoCmd.Parameters.AddWithValue("@RegisterGUID", RegisterGUID);
                 SqlDataReader dtrLoad = loadInfoCmd.ExecuteReader();
                 DataTable dt = new DataTable();
                 dt.Load(dtrLoad);
+
+                SqlCommand selectSemester = new SqlCommand("SELECT * FROM SEMESTER ORDER BY SemesterYear, SemesterSem ", con);
+                SqlDataReader readerSem = selectSemester.ExecuteReader();
+                DataTable dtSem = new DataTable();
+                dtSem.Load(readerSem);
 
                 if (dt.Rows.Count != 0)
                 { 
                     txtStudName.Text = dt.Rows[0]["StudentFullName"].ToString();
                     txtStudNRIC.Text = dt.Rows[0]["NRIC"].ToString();
                     txtProgName.Text = dt.Rows[0]["ProgrammeName"].ToString();
+
+                    string status = dt.Rows[0]["Status"].ToString();
+                    if (status == "Approved")
+                    {
+                        ddlSemester.Visible = false;
+                        lblSemester.Visible = true;
+                        btnApprove.Visible = false;
+                        btnReject.Visible = false;
+                        lblSelectSemester.Text = "Semester";
+                        lblSemester.Text = "Year " + dtSem.Rows[0]["SemesterYear"].ToString() + " Sem " + dtSem.Rows[0]["SemesterSem"].ToString(); ;
+                    }
+                    else
+                    {
+                        ddlSemester.Visible = true;
+                        lblSemester.Visible = false;
+                    }
 
                     if (dt.Rows[0]["UploadMedical"].ToString() == "none")
                     {
@@ -154,8 +185,10 @@ namespace Krous_Ex
         {
             if (approveStudent())
             {
-                Session["UpdateStatus"] = "Yes";
+                insertRegisterPayment();
+                //Session["UpdateStatus"] = "Yes";
                 Response.Redirect("StudentProgrammeRegisterListings");
+                
             }
             else
             {
@@ -173,8 +206,9 @@ namespace Krous_Ex
                 RegisterGUID = Guid.Parse(Request.QueryString["RegisterGUID"]);
 
                 //set student status to approved 
-                SqlCommand updateCmd = new SqlCommand("UPDATE Student_Programme_Register SET Status = @Status WHERE RegisterGUID = @RegisterGUID", con);
+                SqlCommand updateCmd = new SqlCommand("UPDATE Student_Programme_Register SET Status = @Status, SemesterGUID = @SemesterGUID WHERE RegisterGUID = @RegisterGUID", con);
                 updateCmd.Parameters.AddWithValue("@Status", "Approved");
+                updateCmd.Parameters.AddWithValue("SemesterGUID", ddlSemester.SelectedValue);
                 updateCmd.Parameters.AddWithValue("@RegisterGUID", RegisterGUID);
                 updateCmd.ExecuteNonQuery();
 
@@ -370,6 +404,71 @@ namespace Krous_Ex
             }
         }
 
+
+        //insert into payment table based on the credit hour 
+        private void insertRegisterPayment()
+        {
+            try
+            {
+                int fixedAmountPerCourse = 259;
+                Guid paymentGUID = Guid.NewGuid();
+
+                SqlConnection con = new SqlConnection();
+                string strCon = ConfigurationManager.ConnectionStrings["Krous_Ex"].ConnectionString;
+                con = new SqlConnection(strCon);
+                con.Open();
+
+                SqlCommand registerStatus = new SqlCommand("SELECT StudentGUID, Status FROM Student_Programme_Register WHERE RegisterGUID = @RegisterGUID", con);
+                registerStatus.Parameters.AddWithValue("@RegisterGUID", RegisterGUID);
+                SqlDataReader dtrStatus = registerStatus.ExecuteReader();
+                DataTable dtStatus = new DataTable();
+                dtStatus.Load(dtrStatus);
+
+                string status = dtStatus.Rows[0]["Status"].ToString();
+                Guid studentGUID = Guid.Parse(dtStatus.Rows[0]["StudentGUID"].ToString());
+
+                SqlCommand creditCmd = new SqlCommand("SELECT c.CreditHour FROM ProgrammeCourse pc LEFT JOIN Course c ON pc.CourseGUID = c.CourseGUID LEFT JOIN Programme p ON pc.ProgrammeGUID = p.ProgrammeGUID LEFT JOIN Student_Programme_Register spr ON p.ProgrammeGUID = spr.ProgrammeGUID WHERE spr.RegisterGUID = @RegisterGUID ", con);
+                creditCmd.Parameters.AddWithValue("@RegisterGUID", RegisterGUID);
+                SqlDataReader dtrCredit = creditCmd.ExecuteReader();
+                DataTable dtCredit = new DataTable();
+                dtCredit.Load(dtrCredit);
+
+
+
+                //calculation
+                string paymentNo = "P" + DateTime.Now.ToString("yyyyMMddHHmmss");
+                int creditHour = int.Parse(dtCredit.Rows[0]["CreditHour"].ToString());
+                int eachCourse = 0;
+
+                if (dtCredit.Rows.Count != 0)
+                {
+                    for (int i = 0; i < dtCredit.Rows.Count; i++)
+                    {
+                        eachCourse += creditHour * fixedAmountPerCourse;
+                    }
+                }
+
+                DateTime overdue = DateTime.Now.Date.AddDays(31);
+                SqlCommand insertPayCmd = new SqlCommand("INSERT INTO Payment(PaymentGUID, PaymentNo, StudentGUID, PaymentStatus, TotalAmount, DateIssued, DateOverdue) VALUES(@PaymentGUID, @PaymentNo, @StudentGUID, @PaymentStatus, @TotalAmount, @DateIssued, @DateOverdue)", con);
+                insertPayCmd.Parameters.AddWithValue("@PaymentGUID", paymentGUID);
+                insertPayCmd.Parameters.AddWithValue("@PaymentNo", paymentNo);
+                insertPayCmd.Parameters.AddWithValue("@StudentGUID", studentGUID);
+                insertPayCmd.Parameters.AddWithValue("@PaymentStatus", "Pending");
+                insertPayCmd.Parameters.AddWithValue("@TotalAmount", eachCourse);
+                insertPayCmd.Parameters.AddWithValue("@DateIssued", DateTime.Now.ToString());
+                insertPayCmd.Parameters.AddWithValue("@DateOverdue", overdue);
+                insertPayCmd.ExecuteNonQuery();
+
+                con.Close();
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Trace.WriteLine(ex.Message);
+            }
+        }
+
+
+
         private bool sendApprovedEmail(Guid RegisterGUID)
         {
             SqlCommand cmd = new SqlCommand();
@@ -440,6 +539,11 @@ namespace Krous_Ex
             client.Send(mail);
 
             return true;
+        }
+
+        protected void btnBack_Click(object sender, EventArgs e)
+        {
+            Response.Redirect("StudentProgrammeRegisterListings");
         }
     }
 }

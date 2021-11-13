@@ -20,20 +20,6 @@ namespace Krous_Ex
         {
             if (IsPostBack != true)
             {
-                if (Session["UpdateStatus"] != null)
-                {
-                    if (Session["UpdateStatus"].ToString() == "Yes")
-                    {
-                        clsFunction.DisplayAJAXMessage(this, "The student registration status has been updated successfully!");
-                        Session["UpdateStatus"] = null;
-                    }
-                    else
-                    {
-                        clsFunction.DisplayAJAXMessage(this, "The student registration status unable to update!");
-                        Session["UpdateStatus"] = null;
-                    }
-                }
-
                 loadStudListGV();
             }
         }

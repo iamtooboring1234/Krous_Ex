@@ -1,8 +1,6 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/StaffMaster.Master" AutoEventWireup="true" CodeBehind="StaffAssessmentDetails.aspx.cs" Inherits="Krous_Ex.StaffAssessmentDetails" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
-
-
     <script src="Assests/main/vendors/JQuery.datetimepicker/jquery.datetimepicker.full.min.js"></script>
     <link href="Assests/main/vendors/JQuery.datetimepicker/jquery.datetimepicker.min.css" rel="stylesheet" />
 
@@ -215,7 +213,7 @@
     </div>
 
 
-   <%-- <script>
+    <%-- <script>
         var $ = jQuery.noConflict();
 
         $(document).ready(function () {
