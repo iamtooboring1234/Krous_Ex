@@ -473,6 +473,7 @@
     <Content Include="Assests\main\vendors\JQuery.timepicker\jquery.timepicker.min.css" />
     <Content Include="Assests\main\vendors\JQuery.timepicker\jquery.timepicker.min.js" />
     <Content Include="CourseListings.aspx" />
+    <Content Include="CourseTimetableEntry.aspx" />
     <Content Include="DiscussionEntry.aspx" />
     <Content Include="ExaminationInvigilatorsEntry.aspx" />
     <Content Include="ExaminationInvigilatorsListings.aspx" />
@@ -512,12 +513,14 @@
     <Content Include="StudentFAQChatList.aspx" />
     <Content Include="StudentFAQ.aspx" />
     <Content Include="StudentProgrammeStructure.aspx" />
+    <Content Include="StudentTimetableListings.aspx" />
     <Content Include="StudentViewAssessment.aspx" />
     <Content Include="StudentViewExamTimeTable.aspx" />
     <Content Include="StudentProgrammeRegisterListings.aspx" />
     <Content Include="StudentProgrammeRegisterUpdate.aspx" />
     <Content Include="StudentViewOverallResult.aspx" />
     <Content Include="StudentViewSemesterResult.aspx" />
+    <Content Include="StudentViewTimeTable.aspx" />
     <Content Include="Uploads\ProfileImage\defaultUserProfile.png" />
     <Content Include="Assests\main\img\exit.png" />
     <Content Include="Assests\main\img\graduated.png" />
@@ -1421,6 +1424,13 @@
     <Compile Include="CourseListings.aspx.designer.cs">
       <DependentUpon>CourseListings.aspx</DependentUpon>
     </Compile>
+    <Compile Include="CourseTimetableEntry.aspx.cs">
+      <DependentUpon>CourseTimetableEntry.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="CourseTimetableEntry.aspx.designer.cs">
+      <DependentUpon>CourseTimetableEntry.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Default.aspx.cs">
       <DependentUpon>Default.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -1943,6 +1953,13 @@
     <Compile Include="StudentProgrammeRegisterUpdate.aspx.designer.cs">
       <DependentUpon>StudentProgrammeRegisterUpdate.aspx</DependentUpon>
     </Compile>
+    <Compile Include="StudentTimetableListings.aspx.cs">
+      <DependentUpon>StudentTimetableListings.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="StudentTimetableListings.aspx.designer.cs">
+      <DependentUpon>StudentTimetableListings.aspx</DependentUpon>
+    </Compile>
     <Compile Include="StudentViewAssessment.aspx.cs">
       <DependentUpon>StudentViewAssessment.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -1970,6 +1987,13 @@
     </Compile>
     <Compile Include="StudentViewSemesterResult.aspx.designer.cs">
       <DependentUpon>StudentViewSemesterResult.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="StudentViewTimeTable.aspx.cs">
+      <DependentUpon>StudentViewTimeTable.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="StudentViewTimeTable.aspx.designer.cs">
+      <DependentUpon>StudentViewTimeTable.aspx</DependentUpon>
     </Compile>
     <Compile Include="Testing2.aspx.cs">
       <DependentUpon>Testing2.aspx</DependentUpon>

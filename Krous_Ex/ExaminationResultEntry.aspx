@@ -25,17 +25,17 @@
             margin-left: 0 !important;
         }
 
-            .form-check table.form-check-input tbody tr td input {
-                width: 1em;
-                height: 1em;
-                margin-top: 0.25em;
-                vertical-align: top;
-                background-color: #fff;
-                background-repeat: no-repeat;
-                background-position: center;
-                background-size: contain;
-                border: 1px solid rgba(0, 0, 0, 0.25);
-            }
+        .form-check table.form-check-input tbody tr td input {
+            width: 1em;
+            height: 1em;
+            margin-top: 0.25em;
+            vertical-align: top;
+            background-color: #fff;
+            background-repeat: no-repeat;
+            background-position: center;
+            background-size: contain;
+            border: 1px solid rgba(0, 0, 0, 0.25);
+        }
 
         .form-check-checkbox table tbody tr td label, .form-check-all label {
             padding-left: 0.625rem;
@@ -44,7 +44,7 @@
             color: #6c7293;
         }
 
-                .select2-container .select2-selection--single {
+        .select2-container .select2-selection--single {
             height: calc(2.25rem + 2px);
         }
 
