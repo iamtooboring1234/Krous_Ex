@@ -119,7 +119,7 @@ namespace Krous_Ex
 
         public void generatePDF()
         {
-            string fileName = "OverallResult_" + Request.QueryString["AcademicCalenderGUID"] + ".pdf";
+            string fileName = "OverallResult_" + clsLogin.GetLoginUserName() + "_" + DateTime.Now + ".pdf";
 
             Response.Clear();
             Response.ContentType = "Application/pdf";

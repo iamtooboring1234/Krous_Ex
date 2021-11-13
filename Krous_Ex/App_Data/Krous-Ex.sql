@@ -313,16 +313,20 @@ CREATE TABLE [dbo].[ExamSubmission] (
     CONSTRAINT [fk_assessment_submission] FOREIGN KEY ([ExamTimetableGUID]) REFERENCES [dbo].[ExamTimetable] ([ExamTimetableGUID])
 );
 
-CREATE TABLE [Timetable_Course] (
-	[Timetable_CourseGUID] UNIQUEIDENTIFIER NOT NULL,
-	[CourseID] char(10) NOT NULL,
-	[Start_Time] datetime NOT NULL,
-	[End_Time] datetime NOT NULL,
-	[Days_of_week] varchar(10) NOT NULL,
-	[Class_Type] varchar(20) NOT NULL,
-	[Class_Category] varchar(20) NOT NULL,
-    CONSTRAINT pk_timetable_course PRIMARY KEY (Timetable_CourseGUID),
-	CONSTRAINT fk_course_timetable_course FOREIGN KEY (CourseGUID) REFERENCES Course(CourseGUID),
+CREATE TABLE [TimetableCourse] (
+	[TimetableCourseGUID] UNIQUEIDENTIFIER NOT NULL,
+	[ProgrammeCourseGUID] UNIQUEIDENTIFIER NOT NULL,
+    [SessionGUID] UNIQUEIDENTIFIER NOT NULL,
+    [GroupGUID] UNIQUEIDENTIFIER NOT NULL,
+	[ClassStartTime] DATETIME NOT NULL,
+	[ClassEndTime] DATETIME NOT NULL,
+	[DaysOfWeek] VARCHAR(10) NOT NULL,
+	[ClassType] VARCHAR(20) NOT NULL,
+	[ClassCategory] VARCHAR(20) NOT NULL,
+    CONSTRAINT pk_timetable_course PRIMARY KEY ([TimetableCourseGUID]),
+	CONSTRAINT fk_course_timetable_course FOREIGN KEY ([ProgrammeCourseGUID]) REFERENCES ProgrammeCourse([ProgrammeCourseGUID]),
+    CONSTRAINT fk_course_timetable_course FOREIGN KEY ([SessionGUID]) REFERENCES Session([SessionGUID]),
+    CONSTRAINT fk_course_timetable_course FOREIGN KEY ([GroupGUID]) REFERENCES [Group]([GroupGUID])
 );
 
 CREATE TABLE [GroupStudentList] (

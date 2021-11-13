@@ -375,11 +375,11 @@ namespace Krous_Ex
                     if (radSession.SelectedValue == "1")
                     {
 
-                        sqlQuery = "SELECT* FROM CurrentSessionSemester css ";
+                        sqlQuery = "SELECT * FROM CurrentSessionSemester css ";
                         sqlQuery += "LEFT JOIN ProgrammeCourse pc ON css.SemesterGUID = pc.SemesterGUID ";
                         sqlQuery += "LEFT JOIN Course C ON pc.CourseGUID = C.CourseGUID ";
                         sqlQuery += "LEFT JOIN ExamResult er ON er.StudentGUID = css.StudentGUID ";
-                        sqlQuery += "INNER JOIN ExamResultPerCourse ec ON C.CourseGUID = ec.CourseGUID AND er.ExamResultGUID = ec.ExamResultGUID ";
+                        sqlQuery += "LEFT JOIN ExamResultPerCourse ec ON C.CourseGUID = ec.CourseGUID AND er.ExamResultGUID = ec.ExamResultGUID ";
                         sqlQuery += "WHERE css.StudentGUID = @StudentGUID AND ";
                         sqlQuery += "pc.SessionMonth = (SELECT SessionMonth FROM Student st, Session S WHERE st.SessionGUID = s.SessionGUID AND st.StudentGUID = @StudentGUID) ";
 
@@ -389,7 +389,7 @@ namespace Krous_Ex
 
                     } else
                     {
-                        sqlQuery = "SELECT* FROM ProgrammeCourse pc ";
+                        sqlQuery = "SELECT * FROM ProgrammeCourse pc ";
                         sqlQuery += "LEFT JOIN Course C ON pc.CourseGUID = C.CourseGUID ";
                         sqlQuery += "LEFT JOIN ExamResultPerCourse ec ON C.CourseGUID = ec.CourseGUID ";
                         sqlQuery += "LEFT JOIN ExamResult er ON ec.ExamResultGUID = er.ExamResultGUID ";
