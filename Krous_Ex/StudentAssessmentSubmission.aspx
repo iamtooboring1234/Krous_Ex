@@ -27,7 +27,7 @@
 
     <div class="col-lg-12">
         <div class="card">
-            <div class="card-body">
+            <div class="card-body"> 
                 <div class="panel-body">
                     <div class="form-horizontal">
                         <div class=" pdForm">
@@ -112,7 +112,8 @@
                 <div class="form-group pdForm" style="font-family: system-ui; font-size: 18px;">
                     <div class="row">
                         <div class="col-md-12 col-form-label">
-                            <asp:Label ID="lblUpload" runat="server">Upload your file here</asp:Label>
+                            <asp:Label ID="lblUploadHere" runat="server" Visible="false">Upload your file here</asp:Label>
+                            <asp:Label ID="lblUploaded" runat="server" Visible="false">Your submitted file</asp:Label>
                         </div>
                     </div>
                 </div>

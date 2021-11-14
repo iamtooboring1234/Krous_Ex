@@ -91,6 +91,7 @@ namespace Krous_Ex
                         AsyncFileUpload1.Visible = false;
                         hlSubmitFile.Visible = true;
                         lbDownloadFile.Visible = true;
+                        lblUploaded.Visible = true;
 
                         string submitFile = "~/Uploads/StudentSubmission/" + submissionGUID + "/" + dtStatus.Rows[0]["SubmissionFile"].ToString();
                         hlSubmitFile.Text = dtStatus.Rows[0]["SubmissionFile"].ToString();
@@ -130,6 +131,7 @@ namespace Krous_Ex
                     //}
 
                     lblStatus.Text = "Assigned";
+                    lblUploadHere.Visible = true;
                     lblStatus.ForeColor = System.Drawing.Color.LimeGreen;
                     btnSubmit.Visible = true;
                     btnBack.Visible = true;
