@@ -70,7 +70,21 @@ namespace Krous_Ex
 
         protected void btnMakePayment_Click(object sender, EventArgs e)
         {
-            Response.Redirect("StudentMakePayment");
+            SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["Krous_Ex"].ConnectionString);
+            con.Open();
+
+            string guidCmd;
+            guidCmd = "SELECT p.PaymentGUID FROM Payment p LEFT JOIN Student s ON p.StudentGUID = s.StudentGUID WHERE s.StudentGUID = @StudentGUID";
+            SqlCommand paymentCmd = new SqlCommand(guidCmd, con);
+            paymentCmd.Parameters.AddWithValue("StudentGUID", userGUID);
+            SqlDataReader dtr = paymentCmd.ExecuteReader();
+            DataTable dt = new DataTable();
+            dt.Load(dtr);
+
+            Guid guid = Guid.Parse(dt.Rows[0]["PaymentGUID"].ToString());
+
+            Response.Redirect("StudentMakePayment.aspx?PaymentGUID=" + guid);
+            //NavigateUrl = '<%# Eval("PaymentGUID", "~/StudentMakePayment.aspx?PaymentGUID={0}") %>'
 ;        }
     }
 }

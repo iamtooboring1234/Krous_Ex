@@ -414,10 +414,24 @@ namespace Krous_Ex
                 string status = dtStatus.Rows[0]["Status"].ToString();
                 Guid studentGUID = Guid.Parse(dtStatus.Rows[0]["StudentGUID"].ToString());
 
-                SqlCommand creditCmd = new SqlCommand("SELECT c.CreditHour, s.SemesterGUID, c.CourseGUID FROM ProgrammeCourse pc LEFT JOIN Course c ON pc.CourseGUID = c.CourseGUID LEFT JOIN Programme p ON pc.ProgrammeGUID = p.ProgrammeGUID LEFT JOIN Student_Programme_Register spr ON p.ProgrammeGUID = spr.ProgrammeGUID LEFT JOIN Semester s ON pc.SemesterGUID = s.SemesterGUID WHERE spr.RegisterGUID = @RegisterGUID AND s.SemesterGUID = @SemesterGUID", con);
-                creditCmd.Parameters.AddWithValue("@RegisterGUID", RegisterGUID);
-                creditCmd.Parameters.AddWithValue("@SemesterGUID", ddlSemester.SelectedValue);
-                SqlDataReader dtrCredit = creditCmd.ExecuteReader();
+                string creditCmd;
+      
+                creditCmd = "SELECT c.CreditHour, s.SemesterGUID, c.CourseGUID FROM ProgrammeCourse pc ";
+                creditCmd = "LEFT JOIN Course c ON pc.CourseGUID = c.CourseGUID ";
+                creditCmd = "LEFT JOIN Programme p ON pc.ProgrammeGUID = p.ProgrammeGUID ";
+                creditCmd = "LEFT JOIN Student_Programme_Register spr ON p.ProgrammeGUID = spr.ProgrammeGUID ";
+                creditCmd = "LEFT JOIN Student st ON spr.StudentGUID = st.StudentGUID ";
+                creditCmd = "LEFT JOIN Semester s ON pc.SemesterGUID = s.SemesterGUID ";
+                creditCmd = "WHERE spr.RegisterGUID = @RegisterGUID AND ";
+                creditCmd += "s.SemesterGUID = @SemesterGUID ";
+                creditCmd = "AND pc.SessionMonth = (SELECT s.SessionMonth FROM Session S LEFT JOIN Student st ON S.SessionGUID = st.SessionGUID ";
+                creditCmd = "WHERE StudentGUID = @StudentGUID";
+
+                SqlCommand getCreditCmd = new SqlCommand(creditCmd, con);
+                getCreditCmd.Parameters.AddWithValue("@StudentGUID", studentGUID);
+                getCreditCmd.Parameters.AddWithValue("@RegisterGUID", RegisterGUID);
+                getCreditCmd.Parameters.AddWithValue("@SemesterGUID", ddlSemester.SelectedValue);
+                SqlDataReader dtrCredit = getCreditCmd.ExecuteReader();
                 DataTable dtCredit = new DataTable();
                 dtCredit.Load(dtrCredit);
 
@@ -452,8 +466,6 @@ namespace Krous_Ex
                 System.Diagnostics.Trace.WriteLine(ex.Message);
             }
         }
-
-
 
         private bool sendApprovedEmail(Guid RegisterGUID)
         {

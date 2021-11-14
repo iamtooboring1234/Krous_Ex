@@ -1,5 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
+using System.Data;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Web;
 using System.Web.UI;
@@ -9,17 +12,149 @@ namespace Krous_Ex
 {
     public partial class StudentMakePayment : System.Web.UI.Page
     {
+        Guid userGUID;
+        Guid PaymentGUID;
         protected void Page_Load(object sender, EventArgs e)
         {
+            userGUID = Guid.Parse(clsLogin.GetLoginUserGUID());
             if (IsPostBack != true)
             {
-
+                if (!String.IsNullOrEmpty(Request.QueryString["PaymentGUID"]))
+                {
+                    PaymentGUID = Guid.Parse(Request.QueryString["PaymentGUID"]);
+                    loadPaymentDetails();
+                }
             }
         }
 
         private void loadPaymentDetails()
         {
+            try
+            {
+                SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["Krous_Ex"].ConnectionString);
+                con.Open();
 
+                string studentInfo;
+                studentInfo = "SELECT s.StudentGUID, s.StudentFullName, s.PhoneNumber, s.NRIC, ss.SessionYear, sm.SemesterYear, sm.SemesterSem, p.ProgrammeName, CONVERT(VARCHAR, pm.DateOverdue, 100) as DateOverdue ";
+                studentInfo += "FROM Student_Programme_Register spr ";
+                studentInfo += "LEFT JOIN Student s ON spr.StudentGUID = s.StudentGUID ";
+                studentInfo += "LEFT JOIN[Session] ss ON spr.SessionGUID = ss.SessionGUID ";
+                studentInfo += "LEFT JOIN Semester sm ON spr.SemesterGUID = sm.SemesterGUID ";
+                studentInfo += "LEFT JOIN Programme p ON spr.ProgrammeGUID = p.ProgrammeGUID ";
+                studentInfo += "LEFT JOIN Payment pm ON pm.StudentGUID = s.StudentGUID ";
+                studentInfo += "WHERE s.StudentGUID = @StudentGUID AND pm.PaymentGUID = @PaymentGUID";
+
+                SqlCommand getCommand = new SqlCommand(studentInfo, con);
+                getCommand.Parameters.AddWithValue("@StudentGUID", userGUID);
+                getCommand.Parameters.AddWithValue("@PaymentGUID", PaymentGUID);
+                SqlDataReader dtrStudent = getCommand.ExecuteReader();
+                DataTable dtStud = new DataTable();
+                dtStud.Load(dtrStudent);
+
+                string year = dtStud.Rows[0]["SessionYear"].ToString();
+                string substr = year.Substring(2,2);
+                int lastTwoYear = Convert.ToInt32(substr);
+                int sum = lastTwoYear +1;
+                string dateLiteral = "";
+
+                if (dtStud.Rows.Count != 0)
+                {
+                    lblStudentName.Text = dtStud.Rows[0]["StudentFullName"].ToString().ToUpper(); //all upper case
+                    lblContactNumber.Text = dtStud.Rows[0]["PhoneNumber"].ToString();
+                    lblICNumber.Text = dtStud.Rows[0]["NRIC"].ToString();
+
+                    lblAcaYear.Text = dtStud.Rows[0]["SessionYear"].ToString() + "/" + sum;
+                    lblYearSem.Text = "Year " + dtStud.Rows[0]["SemesterYear"].ToString() + " Semester " + dtStud.Rows[0]["SemesterSem"].ToString();
+                    lblProgrammeName.Text = dtStud.Rows[0]["ProgrammeName"].ToString().ToUpper();
+                    dateLiteral += "<asp:Label ID=\"lblOverdue\" runat=\"server\">PLEASE MAKE SURE YOU PAY THIS BILL BY <span style=\"color:red\">" + DateTime.Parse(dtStud.Rows[0]["DateOverdue"].ToString()).ToString("dd-MMM-yyyy") + "</span></asp:Label>";
+
+                    litDate.Text = dateLiteral;
+                    //lblOverdue.Text = "PLEASE MAKE SURE YOU PAY THIS BILL BY " + DateTime.Parse(dtStud.Rows[0]["DateOverdue"].ToString()).ToString("dd-MMM-yyyy");
+
+                }
+
+                //-------------------------------------------------------------------------------------------------------------------------------------------
+                
+                int fixedAmountPerCourse = 259;
+
+                SqlCommand semesterGuid = new SqlCommand("SELECT spr.SemesterGUID, s.StudentGUID FROM Student_Programme_Register spr LEFT JOIN Student s ON spr.StudentGUID = s.StudentGUID WHERE s.StudentGUID = @StudentGUID", con);
+                semesterGuid.Parameters.AddWithValue("@StudentGUID", userGUID);
+                SqlDataReader dtrSem = semesterGuid.ExecuteReader();
+                DataTable dtSem = new DataTable();
+                dtSem.Load(dtrSem);
+
+                Guid semesterGUID = Guid.Parse(dtSem.Rows[0]["SemesterGUID"].ToString());
+
+                string paymentInfo;
+                paymentInfo = "SELECT c.CreditHour, s.SemesterGUID, c.CourseGUID, c.CourseName FROM ProgrammeCourse pc ";
+                paymentInfo += "LEFT JOIN Course c ON pc.CourseGUID = c.CourseGUID ";
+                paymentInfo += "LEFT JOIN Programme p ON pc.ProgrammeGUID = p.ProgrammeGUID ";
+                paymentInfo += "LEFT JOIN Student_Programme_Register spr ON p.ProgrammeGUID = spr.ProgrammeGUID ";
+                paymentInfo += "LEFT JOIN Student st ON spr.StudentGUID = st.StudentGUID ";
+                paymentInfo += "LEFT JOIN Semester s ON pc.SemesterGUID = s.SemesterGUID ";
+                paymentInfo += "WHERE st.StudentGUID = @StudentGUID AND ";
+                paymentInfo += "s.SemesterGUID = @SemesterGUID AND ";
+                paymentInfo += "pc.SessionMonth = (SELECT s.SessionMonth FROM Session S LEFT JOIN Student st ON S.SessionGUID = st.SessionGUID WHERE StudentGUID = @StudentGUID )";
+
+                SqlCommand getPayment = new SqlCommand(paymentInfo, con);
+                getPayment.Parameters.AddWithValue("@StudentGUID", userGUID);
+                getPayment.Parameters.AddWithValue("@SemesterGUID", semesterGUID);
+                SqlDataReader dtrPayment = getPayment.ExecuteReader();
+                DataTable dtPayment = new DataTable();
+                dtPayment.Load(dtrPayment);
+
+                //calculation
+                int creditHour = int.Parse(dtPayment.Rows[0]["CreditHour"].ToString());
+                decimal eachCourse = 0;
+                decimal total = 0;
+
+                string paymentTable = "";
+
+                if (dtPayment.Rows.Count != 0)
+                {
+                    paymentTable += "<div style=\"margin-top: 20px;\">";
+                    paymentTable += "<div style=\"padding: 0px 50px 0px 50px\">";
+                    paymentTable += "<table class=\"table table-clear\">";
+                    paymentTable += "<tbody>";
+                    paymentTable += "<tr>";
+                    paymentTable += "<th colspan=\"2\" style=\"width: 80%; font-size: 15px; \">Tuition Fee</th>";
+                    paymentTable += "<th style=\"font-size: 15px;\" >Amount(RM)</ th >";
+                    paymentTable += "</tr>";
+
+                    int y = 1;
+
+                    for (int i = 0; i < dtPayment.Rows.Count; i++)
+                    {
+                        eachCourse = creditHour * fixedAmountPerCourse;
+                        total += eachCourse;
+                        
+                        paymentTable += "<tr>";
+                        paymentTable += "<td style=\"width: 5%\">"+ y +". </td>";
+                        paymentTable += "<td>" + dtPayment.Rows[i]["CourseName"].ToString() + "</td>";
+                        paymentTable += "<td>" + Convert.ToDecimal(eachCourse).ToString("F2") + "</td>";
+                        paymentTable += "</tr>";
+
+                        y++;
+                    }
+                    paymentTable += "<tr>";
+                    paymentTable += "<td></td>";
+                    paymentTable += "<th style=\"font-size: 17px;\">Total Amount :</th>";
+                    paymentTable += "<th style=\"font-size: 17px;\"><span style=\"color:limegreen\">" + Convert.ToDecimal(total).ToString("F2") + "</span></th>";
+                    paymentTable += "</tr>";
+                    paymentTable += "</tbody>";
+                    paymentTable += "</table>";
+                    paymentTable += "</div>";
+                    paymentTable += "</div>";
+                }
+
+                litPayment.Text = paymentTable;
+
+                con.Close();
+            }
+            catch (Exception ex)
+            {
+                clsFunction.DisplayAJAXMessage(this, ex.Message);
+            }
         }
     }
 }
