@@ -115,8 +115,6 @@ namespace Krous_Ex
                         strTable += "<tr>";
                         strTable += "<td class=\"text-center\">" + strWeekday[i].Substring(0,3) + "<br />" + selectedWeekRange.ToString("dd-MMM-yyyy") + "</td>";
 
-                        selectedWeekRange = selectedWeekRange.AddDays(1);
-
                         for (int x = 0; x < dt.Rows.Count; x++)
                         {
                             if (strWeekday[i].Equals(dt.Rows[x]["DaysOfWeek"].ToString()))
@@ -128,9 +126,9 @@ namespace Krous_Ex
                                     DateTime classStartTime = DateTime.Parse(dt.Rows[x]["ClassStartTime"].ToString());
                                     DateTime classEndTime = DateTime.Parse(dt.Rows[x]["ClassEndTime"].ToString());
 
-                                    if (dtTime >= classStartTime && dtTime <= classEndTime)
+                                    if (TimeSpan.Parse(dtTime.ToString("hh:mm")) >= TimeSpan.Parse(classStartTime.ToString("hh:mm")) && TimeSpan.Parse(dtTime.ToString("hh:mm")) <= TimeSpan.Parse(classEndTime.ToString("hh:mm")))
                                     {
-                                        if (dtTime == classEndTime)
+                                        if (TimeSpan.Parse(dtTime.ToString("hh:mm")) == TimeSpan.Parse(classEndTime.ToString("hh:mm")))
                                         {
                                             if (dt.Rows[x]["ClassType"].ToString() == "Main")
                                             {
@@ -143,19 +141,22 @@ namespace Krous_Ex
                                                 strTable += "<span style=\"font-size: 10px\">" + classStartTime.ToString("hh:mm tt") + " - " + classEndTime.ToString("hh:mm tt") + "</span>";
                                                 strTable += "</div>";
                                                 strTable += "</td>";
-                                            } else if (dt.Rows[x]["ClassType"].ToString() == "Replacement")
+                                            } 
+                                            else if (dt.Rows[x]["ClassType"].ToString() == "Replacement")
                                             {
-                                                strTable += "<td colspan=\"" + intHourColSpan + "\" style=\"background-color:#aEA434;color:#FFFFFF;text-align:center\">";
-                                                strTable += "<div data-toggle=\"tooltip\" data-placement=\"bottom\" title=\"Tooltip on bottom\">";
-                                                strTable += "<span class=\"small\">" + dt.Rows[x]["CourseAbbrv"].ToString() + " (" + dt.Rows[x]["ClassCategory"].ToString().Substring(0, 1) + ")" + "</span>";
-                                                strTable += "<br>";
-                                                strTable += "<span class=\"small\">-</span><br>";
-                                                strTable += "<span class=\"small\">" + dt.Rows[x]["StaffFullName"].ToString() + "</span><br>";
-                                                strTable += "<span style=\"font-size: 10px\">" + classStartTime.ToString("hh:mm tt") + " - " + classEndTime.ToString("hh:mm tt") + "</span>";
-                                                strTable += "</div>";
-                                                strTable += "</td>";
+                                                if (selectedWeekRange.ToString("dd-MMM-yyyy") == DateTime.Parse(dt.Rows[x]["ClassStartTime"].ToString()).ToString("dd-MMM-yyyy"))
+                                                {
+                                                    strTable += "<td colspan=\"" + intHourColSpan + "\" style=\"background-color:#aEA434;color:#FFFFFF;text-align:center\">";
+                                                    strTable += "<div data-toggle=\"tooltip\" data-placement=\"bottom\" title=\"Tooltip on bottom\">";
+                                                    strTable += "<span class=\"small\">" + dt.Rows[x]["CourseAbbrv"].ToString() + " (" + dt.Rows[x]["ClassCategory"].ToString().Substring(0, 1) + ")" + "</span>";
+                                                    strTable += "<br>";
+                                                    strTable += "<span class=\"small\">-</span><br>";
+                                                    strTable += "<span class=\"small\">" + dt.Rows[x]["StaffFullName"].ToString() + "</span><br>";
+                                                    strTable += "<span style=\"font-size: 10px\">" + classStartTime.ToString("hh:mm tt") + " - " + classEndTime.ToString("hh:mm tt") + "</span>";
+                                                    strTable += "</div>";
+                                                    strTable += "</td>";
+                                                }
                                             }
-
 
                                             intHourColSpan = 1;
                                             break;
@@ -187,6 +188,8 @@ namespace Krous_Ex
 
                         strTable += "</tr>";
                         litTest.Text = strTable;
+
+                        selectedWeekRange = selectedWeekRange.AddDays(1);
                     }
                 }
             }

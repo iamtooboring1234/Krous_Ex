@@ -350,7 +350,6 @@ CREATE TABLE [dbo].[Group] (
     CONSTRAINT [pk_group] PRIMARY KEY CLUSTERED ([GroupGUID] ASC)
 );
 
-
 CREATE TABLE [Attendance] (
 	[AttendanceGUID] UNIQUEIDENTIFIER NOT NULL,
     [ExamTimetableGUID] UNIQUEIDENTIFIER NULL,
@@ -430,14 +429,6 @@ CREATE TABLE [dbo].[AcademicCalender] (
     CONSTRAINT [fk_session_academicCalender] FOREIGN KEY ([SessionGUID]) REFERENCES [dbo].[Session] ([SessionGUID]),
 );
 
-CREATE TABLE [SemesterSessionStudent] (
-    [SemesterSessionStudentGUID] UNIQUEIDENTIFIER NOT NULL,
-    [SemesterGUID] UNIQUEIDENTIFIER NOT NULL,
-    [SessionGUID] UNIQUEIDENTIFIER NOT NULL,
-    [StudentGUID] UNIQUEIDENTIFIER NOT NULL,
-    CONSTRAINT [pk_group] PRIMARY KEY CLUSTERED ([GroupGUID] ASC),
-);
-
 CREATE TABLE [dbo].[Assessment] (
     [AssessmentGUID]  UNIQUEIDENTIFIER NOT NULL,
     [StaffGUID]       UNIQUEIDENTIFIER NOT NULL,
@@ -484,3 +475,13 @@ CREATE TABLE [dbo].[ExamInvigilatorsList] (
     CONSTRAINT [fk_examInviList_staff] FOREIGN KEY ([StaffGUID]) REFERENCES [dbo].[Staff] ([StaffGUID]),   
     CONSTRAINT [fk_examInviList_examtimetable] FOREIGN KEY ([ExamTimetableGUID]) REFERENCES [dbo].[ExamTimetable] ([ExamTimetableGUID]),
 );
+
+CREATE TABLE [dbo].[MeetingLink] (
+    [MeetingLinkGUID] UNIQUEIDENTIFIER NOT NULL,
+    [RoomTopic]       VARCHAR (100)    NOT NULL,
+    [RoomID]          VARCHAR (100)    NOT NULL,
+    [RoomPass]        VARCHAR (100)    NOT NULL,
+    [CreatedDate]     DATETIME         NOT NULL,
+    CONSTRAINT [pk_meetinglink] PRIMARY KEY CLUSTERED ([MeetingLinkGUID] ASC)
+);
+
