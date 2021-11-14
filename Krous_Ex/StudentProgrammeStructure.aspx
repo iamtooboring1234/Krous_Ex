@@ -1,4 +1,5 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/StudentMaster.Master" AutoEventWireup="true" CodeBehind="StudentProgrammeStructure.aspx.cs" Inherits="Krous_Ex.StudentProgrammeStructure" %>
+
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
 
     <link href="Assests/main/css/table.css" rel="stylesheet" />
@@ -37,15 +38,15 @@
                 </asp:Panel>
             </div>
         </div>
-<%--                                <div class="row align-items-center">
+        <%--                                <div class="row align-items-center">
                 <div class="col-md-12">
                     <asp:Button ID="btnExport" runat="server" Text="Button" OnClick="btnExport_Click" />
                 </div>
             </div>--%>
-        </div>
+    </div>
 
 
-                      
+
 
 
 </asp:Content>

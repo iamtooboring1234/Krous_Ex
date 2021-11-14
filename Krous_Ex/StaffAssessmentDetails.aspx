@@ -6,6 +6,12 @@
 
     <link href="Assests/main/css/general.css" rel="stylesheet" />
 
+    <link href="Assests/main/css/table.css" rel="stylesheet" />
+
+    <link href="https://cdn.datatables.net/1.11.3/css/jquery.dataTables.min.css" rel="stylesheet" type="text/css" />
+    <script src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js"></script>
+
+
     <script type="text/javascript">
         $(function () {
             $('.duedate').datetimepicker({
@@ -184,8 +190,8 @@
                         <h4>Submission List</h4>
                     </div>
                     <div class="table-responsive">
-                        <div class="gv-section text-center">
-                            <asp:GridView ID="gvSubmissionList" runat="server" Width="100%" CssClass="table table-bordered" AutoGenerateColumns="False" DataKeyNames="SubmissionGUID" CellPadding="10" CellSpacing="2" Border="0" OnRowDataBound="gvSubmissionList_RowDataBound">
+                        <div class="gv-section text-center"> 
+                            <asp:GridView ID="gvSubmissionList" runat="server" Width="100%" CssClass="table table-bordered tableSubmissionList" AutoGenerateColumns="False" DataKeyNames="SubmissionGUID" CellPadding="10" CellSpacing="2" Border="0" OnRowDataBound="gvSubmissionList_RowDataBound">
                                 <Columns>
                                     <asp:TemplateField>
                                         <ItemTemplate>
@@ -213,12 +219,12 @@
     </div>
 
 
-    <%-- <script>
+    <script>
         var $ = jQuery.noConflict();
 
-        $(document).ready(function () {
-            $("[id*=gvSubmissionList]").prepend($("<thead></thead>").html($("[id*=gvSubmissionList]").find("tr:first"))).DataTable({
-                "searching": true,
+        $(document).ready(function () {     
+            $(".tableSubmissionList").prepend($("<thead></thead>").html($(".tableSubmissionList").find("tr:first"))).DataTable({
+                "searching": false,
                 "pageLength": 10,
                 "order": [[1, 'asc']],
                 "lengthMenu": [[1, 5, 10, 25, 50, -1], [1, 5, 10, 25, 50, "All"]],
@@ -229,7 +235,7 @@
             });
         });
     </script>
-    <script src="Assests/main/js/data-table.js"></script>--%>
+
 
 
     <script src="Assests/main/js/hoverable-collapse.js"></script>

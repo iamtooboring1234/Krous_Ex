@@ -17,20 +17,6 @@ namespace Krous_Ex
         Guid RegisterGUID;
         protected void Page_Load(object sender, EventArgs e)
         {
-            //if (Session["UpdateStatus"] != null)
-            //{
-            //    if (Session["UpdateStatus"].ToString() == "Yes")
-            //    {
-            //        clsFunction.DisplayAJAXMessage(this, "The student registration status has been updated successfully!");
-            //        Session["UpdateStatus"] = null;
-            //    }
-            //    else
-            //    {
-            //        clsFunction.DisplayAJAXMessage(this, "The student registration status unable to update!");
-            //        Session["UpdateStatus"] = null;
-            //    }
-            //}
-
             if (IsPostBack != true)
             {
                 if (!String.IsNullOrEmpty(Request.QueryString["RegisterGUID"]))
@@ -106,7 +92,8 @@ namespace Krous_Ex
                 DataTable dt = new DataTable();
                 dt.Load(dtrLoad);
 
-                SqlCommand selectSemester = new SqlCommand("SELECT * FROM SEMESTER ORDER BY SemesterYear, SemesterSem ", con);
+                SqlCommand selectSemester = new SqlCommand("SELECT s.SemesterYear, s.SemesterSem FROM SEMESTER s LEFT JOIN Student_Programme_Register spr ON spr.SemesterGUID = s.SemesterGUID WHERE spr.RegisterGUID = @RegisterGUID ORDER BY SemesterYear, SemesterSem", con);
+                selectSemester.Parameters.AddWithValue("@RegisterGUID", RegisterGUID);
                 SqlDataReader readerSem = selectSemester.ExecuteReader();
                 DataTable dtSem = new DataTable();
                 dtSem.Load(readerSem);
@@ -427,13 +414,12 @@ namespace Krous_Ex
                 string status = dtStatus.Rows[0]["Status"].ToString();
                 Guid studentGUID = Guid.Parse(dtStatus.Rows[0]["StudentGUID"].ToString());
 
-                SqlCommand creditCmd = new SqlCommand("SELECT c.CreditHour FROM ProgrammeCourse pc LEFT JOIN Course c ON pc.CourseGUID = c.CourseGUID LEFT JOIN Programme p ON pc.ProgrammeGUID = p.ProgrammeGUID LEFT JOIN Student_Programme_Register spr ON p.ProgrammeGUID = spr.ProgrammeGUID WHERE spr.RegisterGUID = @RegisterGUID ", con);
+                SqlCommand creditCmd = new SqlCommand("SELECT c.CreditHour, s.SemesterGUID, c.CourseGUID FROM ProgrammeCourse pc LEFT JOIN Course c ON pc.CourseGUID = c.CourseGUID LEFT JOIN Programme p ON pc.ProgrammeGUID = p.ProgrammeGUID LEFT JOIN Student_Programme_Register spr ON p.ProgrammeGUID = spr.ProgrammeGUID LEFT JOIN Semester s ON pc.SemesterGUID = s.SemesterGUID WHERE spr.RegisterGUID = @RegisterGUID AND s.SemesterGUID = @SemesterGUID", con);
                 creditCmd.Parameters.AddWithValue("@RegisterGUID", RegisterGUID);
+                creditCmd.Parameters.AddWithValue("@SemesterGUID", ddlSemester.SelectedValue);
                 SqlDataReader dtrCredit = creditCmd.ExecuteReader();
                 DataTable dtCredit = new DataTable();
                 dtCredit.Load(dtrCredit);
-
-
 
                 //calculation
                 string paymentNo = "P" + DateTime.Now.ToString("yyyyMMddHHmmss");
