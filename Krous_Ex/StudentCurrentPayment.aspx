@@ -7,36 +7,6 @@
     <link href="https://cdn.datatables.net/1.11.3/css/jquery.dataTables.min.css" rel="stylesheet" type="text/css" />
     <script src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js"></script>
 
-    <%--<script src="https://www.paypal.com/sdk/js?client-id=AcFUzJGf-ncsAe35gb2ygkQ95BCP-_z31R1nXQk_3bxELTWx6qGky1GyKVQSPmjYGB_nzMTWITTtXdIE&components=buttons"></script>
-    <script>
-        paypal.Buttons({
-            style: {
-                layout: 'vertical',
-                color: 'blue',
-                shape: 'rect',
-                label: 'paypal'
-            },
-            createOrder: function (data, actions) {
-                // Set up the transaction
-                return actions.order.create({
-                    purchase_units: [{
-                        amount: {
-                            value: '0.01'
-                        }
-                    }]
-                });
-            },
-            onApprove: function (data, actions) {
-                // This function captures the funds from the transaction.
-                return actions.order.capture().then(function (details) {
-                    // This function shows a transaction success message to your buyer.
-                    alert('Transaction completed by ' + details.payer.name.given_name);
-                });
-            }
-       
-        }).render('#paypal-button-container');
-
-    </script>--%>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="body" runat="server">
 
@@ -76,12 +46,18 @@
                             <asp:BoundField DataField="TotalAmount" HeaderText="Amount" SortExpression="TotalAmount" ReadOnly="True" />
                             <asp:BoundField DataField="DateIssued" HeaderText="Date Issued" ReadOnly="true" SortExpression="DateIssued" />
                             <asp:BoundField DataField="DateOverdue" HeaderText="Due Date" SortExpression="DateOverdue" ReadOnly="True" />
-                            <asp:TemplateField>
+                              <asp:TemplateField HeaderText="Action">
                                 <ItemTemplate>
-                                    <div id="paypal-button-container"></div>
+                                    <asp:Button ID="btnMakePayment" type="button" CssClass="btn btn-success btn-fw" style="height:31px;" runat="server" Text="Make Payment" OnClick="btnMakePayment_Click" />
                                 </ItemTemplate>
                                 <ItemStyle CssClass="text-center" HorizontalAlign="Center" />
                             </asp:TemplateField>
+                           <%-- <asp:TemplateField>
+                                <ItemTemplate>
+                                    <div id="paypal-button-container"></div> 
+                                </ItemTemplate>
+                                <ItemStyle CssClass="text-center" HorizontalAlign="Center" />
+                            </asp:TemplateField>--%>
                         </Columns>
                         <FooterStyle BackColor="#CCCCCC" />
                         <HeaderStyle BackColor="#191c24" Font-Bold="True" HorizontalAlign="Left" CssClass="header-style" />

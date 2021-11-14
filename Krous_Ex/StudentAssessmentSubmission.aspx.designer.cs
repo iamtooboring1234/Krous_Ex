@@ -132,13 +132,22 @@ namespace Krous_Ex
         protected global::System.Web.UI.WebControls.Label lblStatus;
 
         /// <summary>
-        /// lblUpload control.
+        /// lblUploadHere control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblUpload;
+        protected global::System.Web.UI.WebControls.Label lblUploadHere;
+
+        /// <summary>
+        /// lblUploaded control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblUploaded;
 
         /// <summary>
         /// hlSubmitFile control.
