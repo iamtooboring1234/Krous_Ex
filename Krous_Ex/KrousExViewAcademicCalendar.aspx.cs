@@ -98,8 +98,12 @@ namespace Krous_Ex
                             {
                                 if (x == 15)
                                 {
-                                    strTable += "<td class=\"text-center\">" + startDate.ToString("dd MMM") + " - " + startDate.AddDays(3).ToString("dd MMM yyyy") + "<br /> (" + dt.Rows[i]["SemesterStudyDuration"].ToString() + " days)" + "</td>";
-                                    strTable += "<td class=\"text-center\" rowspan=\"3\">" + semExamStartDate.ToString("dd MMM") + " - " + semExamStartDate.AddDays(int.Parse(dt.Rows[i]["SemesterExaminationDuration"].ToString()) - 1).ToString("dd MMM yyyy") + "<br /> (" + dt.Rows[i]["SemesterExaminationDuration"].ToString() + " days)" + "</td>";
+                                    if (int.Parse(dt.Rows[i]["SemesterStudyDuration"].ToString()) > 0)
+                                    {
+                                        DateTime semesterExamStartDate = startDate.AddDays(int.Parse(dt.Rows[i]["SemesterStudyDuration"].ToString()));
+                                        strTable += "<td class=\"text-center\">" + startDate.ToString("dd MMM") + " - " + startDate.AddDays(int.Parse(dt.Rows[i]["SemesterStudyDuration"].ToString()) - 1).ToString("dd MMM yyyy") + "<br /> (" + dt.Rows[i]["SemesterStudyDuration"].ToString() + " days)" + "</td>";
+                                        strTable += "<td class=\"text-center\" rowspan=\"3\">" + semesterExamStartDate.ToString("dd MMM") + " - " + semesterExamStartDate.AddDays(int.Parse(dt.Rows[i]["SemesterExaminationDuration"].ToString()) - 1).ToString("dd MMM yyyy") + "<br /> (" + dt.Rows[i]["SemesterExaminationDuration"].ToString() + " days)" + "</td>";
+                                    }
                                 }
                                 else if ( x < 15 || x > 17)
                                 {
@@ -112,8 +116,20 @@ namespace Krous_Ex
                             }
                             else
                             {
-                                strTable += "<td></td>";
-                                strTable += "<td></td>";
+                                if (x == 8)
+                                {
+                                    strTable += "<td></td>";
+                                    strTable += "<td class=\"text-center\" rowspan=\"2\">" + startDate.ToString("dd MMM") + " - " + startDate.AddDays(int.Parse(dt.Rows[i]["SemesterExaminationDuration"].ToString()) - 1).ToString("dd MMM yyyy") + "<br /> (" + dt.Rows[i]["SemesterExaminationDuration"].ToString() + " days)" + "</td>";
+                                }
+                                else if (x < 8 || x > 9)
+                                {
+                                    strTable += "<td></td>";
+                                    strTable += "<td></td>";
+                                }
+                                else
+                                {
+                                    strTable += "<td></td>";
+                                }
                             }
                             strTable += "</tr>";
                             x++;

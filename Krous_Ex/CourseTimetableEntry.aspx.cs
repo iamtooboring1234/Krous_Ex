@@ -418,11 +418,12 @@ namespace Krous_Ex
                 {
                     con.Open();
 
-                    SqlCommand insertCommand = new SqlCommand("INSERT INTO TimetableCourse VALUES(newID(), @ProgrammeCourseGUID, @SessionGUID, @GroupGUID, @ClassStartTime, @ClassEndTime, @DaysOfWeek, @ClassType, @ClassCategory) ", con);
+                    SqlCommand insertCommand = new SqlCommand("INSERT INTO TimetableCourse VALUES(newID(), @ProgrammeCourseGUID, @SessionGUID, @GroupGUID, @StaffGUID, @ClassStartTime, @ClassEndTime, @DaysOfWeek, @ClassType, @ClassCategory) ", con);
                     
                     insertCommand.Parameters.AddWithValue("@ProgrammeCourseGUID", dtSemester.Rows[0]["ProgrammeCourseGUID"]);
                     insertCommand.Parameters.AddWithValue("@SessionGUID", ddlSession.SelectedValue);
                     insertCommand.Parameters.AddWithValue("@GroupGUID", ddlGroup.SelectedValue);
+                    insertCommand.Parameters.AddWithValue("@GroupGUID", ddlStaff.SelectedValue);
                     insertCommand.Parameters.AddWithValue("@ClassStartTime", txtClassStartTime.Text);
                     insertCommand.Parameters.AddWithValue("@ClassEndTime", txtClassEndTime.Text);
                     insertCommand.Parameters.AddWithValue("@DaysOfWeek", ddlWeekDay.SelectedValue);
