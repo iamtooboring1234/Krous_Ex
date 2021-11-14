@@ -321,6 +321,7 @@ CREATE TABLE [TimetableCourse] (
 	[ProgrammeCourseGUID] UNIQUEIDENTIFIER NOT NULL,
     [SessionGUID] UNIQUEIDENTIFIER NOT NULL,
     [GroupGUID] UNIQUEIDENTIFIER NOT NULL,
+    [StaffGUID] UNIQUEIDENTIFIER NOT NULL,
 	[ClassStartTime] DATETIME NOT NULL,
 	[ClassEndTime] DATETIME NOT NULL,
 	[DaysOfWeek] VARCHAR(10) NOT NULL,
@@ -329,7 +330,8 @@ CREATE TABLE [TimetableCourse] (
     CONSTRAINT pk_timetable_course PRIMARY KEY ([TimetableCourseGUID]),
 	CONSTRAINT fk_course_timetable_course FOREIGN KEY ([ProgrammeCourseGUID]) REFERENCES ProgrammeCourse([ProgrammeCourseGUID]),
     CONSTRAINT fk_course_timetable_course FOREIGN KEY ([SessionGUID]) REFERENCES Session([SessionGUID]),
-    CONSTRAINT fk_course_timetable_course FOREIGN KEY ([GroupGUID]) REFERENCES [Group]([GroupGUID])
+    CONSTRAINT fk_course_timetable_course FOREIGN KEY ([GroupGUID]) REFERENCES [Group]([GroupGUID]),
+    CONSTRAINT fk_course_timetable_course FOREIGN KEY ([StaffGUID]) REFERENCES [Staff]([StaffGUID])
 );
 
 CREATE TABLE [GroupStudentList] (
