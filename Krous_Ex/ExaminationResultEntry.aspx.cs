@@ -60,10 +60,11 @@ namespace Krous_Ex
                     if (radSession.SelectedValue == "1")
                     {
                         //txtSession.Text = "202105";
-                        //hdSession.Value = "b74961ab-5fcd-4dba-a069-eab969745f18";
+                        //hdSession.Value = "dbe19259-5228-47ee-8cde-86344f5d1f74";
                         txtSession.Text = dtSession.Rows[0]["SessionYear"].ToString() + dtSession.Rows[0]["SessionMonth"].ToString().PadLeft(2, '0');
                         hdSession.Value = dtSession.Rows[0]["SessionGUID"].ToString();
-                    } else 
+                    }
+                    else 
                     {
                         ddlExistingSession.Items.Clear();
 
@@ -378,13 +379,14 @@ namespace Krous_Ex
                         sqlQuery = "SELECT * FROM CurrentSessionSemester css ";
                         sqlQuery += "LEFT JOIN ProgrammeCourse pc ON css.SemesterGUID = pc.SemesterGUID ";
                         sqlQuery += "LEFT JOIN Course C ON pc.CourseGUID = C.CourseGUID ";
-                        sqlQuery += "LEFT JOIN ExamResult er ON er.StudentGUID = css.StudentGUID ";
+                        sqlQuery += "LEFT JOIN ExamResult er ON er.StudentGUID = css.StudentGUID AND css.SessionGUID = er.SessionGUID ";
                         sqlQuery += "LEFT JOIN ExamResultPerCourse ec ON C.CourseGUID = ec.CourseGUID AND er.ExamResultGUID = ec.ExamResultGUID ";
-                        sqlQuery += "WHERE css.StudentGUID = @StudentGUID AND ";
+                        sqlQuery += "WHERE css.StudentGUID = @StudentGUID AND pc.ProgrammeGUID = @ProgrammeGUID AND ";
                         sqlQuery += "pc.SessionMonth = (SELECT SessionMonth FROM Student st, Session S WHERE st.SessionGUID = s.SessionGUID AND st.StudentGUID = @StudentGUID) ";
 
                         SqlCommand GetCommand = new SqlCommand(sqlQuery, con);
                         GetCommand.Parameters.AddWithValue("@StudentGUID", ddlStudent.SelectedValue);
+                        GetCommand.Parameters.AddWithValue("@ProgrammeGUID", ddlProgramme.SelectedValue);
                         reader = GetCommand.ExecuteReader();
 
                     } else
