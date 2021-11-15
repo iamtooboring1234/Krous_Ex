@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
+using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.UI;
@@ -35,7 +36,7 @@ namespace Krous_Ex
                 con.Open();
 
                 string studentInfo;
-                studentInfo = "SELECT s.StudentGUID, s.StudentFullName, s.PhoneNumber, s.NRIC, ss.SessionYear, sm.SemesterYear, sm.SemesterSem, p.ProgrammeName, CONVERT(VARCHAR, pm.DateOverdue, 100) as DateOverdue ";
+                studentInfo = "SELECT s.StudentGUID, s.StudentFullName, s.PhoneNumber, s.NRIC, ss.SessionYear, sm.SemesterYear, sm.SemesterSem, p.ProgrammeName, CONVERT(VARCHAR, pm.DateOverdue, 100) as DateOverdue, pm.PaymentNo ";
                 studentInfo += "FROM Student_Programme_Register spr ";
                 studentInfo += "LEFT JOIN Student s ON spr.StudentGUID = s.StudentGUID ";
                 studentInfo += "LEFT JOIN[Session] ss ON spr.SessionGUID = ss.SessionGUID ";
@@ -66,8 +67,8 @@ namespace Krous_Ex
                     lblAcaYear.Text = dtStud.Rows[0]["SessionYear"].ToString() + "/" + sum;
                     lblYearSem.Text = "Year " + dtStud.Rows[0]["SemesterYear"].ToString() + " Semester " + dtStud.Rows[0]["SemesterSem"].ToString();
                     lblProgrammeName.Text = dtStud.Rows[0]["ProgrammeName"].ToString().ToUpper();
+                    lblPaymentReferenceNo.Text = dtStud.Rows[0]["PaymentNo"].ToString();
                     dateLiteral += "<asp:Label ID=\"lblOverdue\" runat=\"server\">PLEASE MAKE SURE YOU PAY THIS BILL BY <span style=\"color:red\">" + DateTime.Parse(dtStud.Rows[0]["DateOverdue"].ToString()).ToString("dd-MMM-yyyy") + "</span></asp:Label>";
-
                     litDate.Text = dateLiteral;
                     //lblOverdue.Text = "PLEASE MAKE SURE YOU PAY THIS BILL BY " + DateTime.Parse(dtStud.Rows[0]["DateOverdue"].ToString()).ToString("dd-MMM-yyyy");
 
@@ -94,7 +95,7 @@ namespace Krous_Ex
                 paymentInfo += "LEFT JOIN Semester s ON pc.SemesterGUID = s.SemesterGUID ";
                 paymentInfo += "WHERE st.StudentGUID = @StudentGUID AND ";
                 paymentInfo += "s.SemesterGUID = @SemesterGUID AND ";
-                paymentInfo += "pc.SessionMonth = (SELECT s.SessionMonth FROM Session S LEFT JOIN Student st ON S.SessionGUID = st.SessionGUID WHERE StudentGUID = @StudentGUID )";
+                paymentInfo += "pc.SessionMonth = (SELECT s.SessionMonth FROM Session S LEFT JOIN Student st ON S.SessionGUID = st.SessionGUID WHERE StudentGUID = @StudentGUID)";
 
                 SqlCommand getPayment = new SqlCommand(paymentInfo, con);
                 getPayment.Parameters.AddWithValue("@StudentGUID", userGUID);
@@ -155,6 +156,43 @@ namespace Krous_Ex
             {
                 clsFunction.DisplayAJAXMessage(this, ex.Message);
             }
+        }
+
+        protected void btnPrintPayment_Click(object sender, EventArgs e)
+        {
+            string base64 = Request.Form[hfImagePayment.UniqueID].Split(',')[1];
+            string paymentNo = "StudentBill_" + Request["__EVENTARGUMENT"];
+            byte[] bytes = Convert.FromBase64String(base64);
+
+            string ReceiptImgName = paymentNo + ".png";
+
+            string folderName = "~/Uploads/Receipts/" + PaymentGUID + "/";
+            string ReceiptImgSavePath = Server.MapPath(folderName);
+            string ReceiptFullSavePath = ReceiptImgSavePath + ReceiptImgName;
+
+            MemoryStream ms = new MemoryStream(bytes);
+            System.Drawing.Image img = System.Drawing.Image.FromStream(ms);
+            img.Save(ReceiptFullSavePath, System.Drawing.Imaging.ImageFormat.Jpeg);
+
+            //Response.Clear();
+            //Response.ContentType = "image/png";
+            //Response.AddHeader("Content-Disposition", "attachment; filename=" + paymentNo + ".png");
+            //Response.Buffer = true;
+            //Response.Cache.SetCacheability(HttpCacheability.NoCache);
+            //Response.BinaryWrite(bytes);
+            //Response.End();
+
+
+
+            //Response.ContentType = "image/png";
+            //Response.AddHeader("Content-Disposition", "attachment; filename=" + ReceiptFullSavePath + "");
+
+            //Response.TransmitFile(ReceiptFullSavePath);
+            //Response.End();
+
+
+
+            //SendEmail(ReceiptFullSavePath);
         }
     }
 }

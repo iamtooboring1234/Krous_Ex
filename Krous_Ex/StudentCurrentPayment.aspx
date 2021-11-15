@@ -31,13 +31,13 @@
                                 <ItemStyle CssClass="text-center" HorizontalAlign="Center" />
                                 <HeaderStyle HorizontalAlign="Center" CssClass="text-center" />
                             </asp:TemplateField>
-                            <asp:TemplateField>
+                            <%--<asp:TemplateField>
                                 <ItemTemplate>
                                     <asp:HyperLink ID="hlView" runat="server" Text="View" Target="_blank" Style="margin-right: 10px;" />
                                     <asp:LinkButton ID="lbDownload" runat="server" CssClass="linkButton"><i class="fas fa-download"></i></asp:LinkButton>
                                 </ItemTemplate>
                                 <ItemStyle CssClass="text-center" HorizontalAlign="Center" />
-                            </asp:TemplateField>
+                            </asp:TemplateField>--%>
                             <asp:BoundField DataField="PaymentGUID" HeaderText="RegisterGUID" ReadOnly="true" SortExpression="RegisterGUID" Visible="false" />
                             <asp:BoundField DataField="PaymentNo" HeaderText="Reference No." ReadOnly="true" SortExpression="PaymentNo" />
                             <asp:BoundField DataField="PaymentStatus" HeaderText="PaymentStatus" ReadOnly="true" SortExpression="PaymentStatus" Visible="false" />

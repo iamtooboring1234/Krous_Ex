@@ -11,26 +11,8 @@ namespace Krous_Ex
 {
 
 
-    public partial class StudentMakePayment
+    public partial class StudentPaymentDoneReceipt
     {
-
-        /// <summary>
-        /// lblReference control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblReference;
-
-        /// <summary>
-        /// lblPaymentReferenceNo control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblPaymentReferenceNo;
 
         /// <summary>
         /// lblTitle control.
@@ -51,138 +33,147 @@ namespace Krous_Ex
         protected global::System.Web.UI.WebControls.Label lblStudentBill;
 
         /// <summary>
-        /// lblName control.
+        /// lblReceipt control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblName;
+        protected global::System.Web.UI.WebControls.Label lblReceipt;
 
         /// <summary>
-        /// lblStudentName control.
+        /// lblReceiptNo control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblStudentName;
+        protected global::System.Web.UI.WebControls.Label lblReceiptNo;
 
         /// <summary>
-        /// lblContact control.
+        /// Label1 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblContact;
+        protected global::System.Web.UI.WebControls.Label Label1;
 
         /// <summary>
-        /// lblContactNumber control.
+        /// lblPaymentNo control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblContactNumber;
+        protected global::System.Web.UI.WebControls.Label lblPaymentNo;
 
         /// <summary>
-        /// lblIC control.
+        /// Label3 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblIC;
+        protected global::System.Web.UI.WebControls.Label Label3;
 
         /// <summary>
-        /// lblICNumber control.
+        /// lblStudFullName control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblICNumber;
+        protected global::System.Web.UI.WebControls.Label lblStudFullName;
 
         /// <summary>
-        /// lblAcademic control.
+        /// Label5 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblAcademic;
+        protected global::System.Web.UI.WebControls.Label Label5;
 
         /// <summary>
-        /// lblAcaYear control.
+        /// lblBillAmt control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblAcaYear;
+        protected global::System.Web.UI.WebControls.Label lblBillAmt;
 
         /// <summary>
-        /// lblYS control.
+        /// Label7 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblYS;
+        protected global::System.Web.UI.WebControls.Label Label7;
 
         /// <summary>
-        /// lblYearSem control.
+        /// lblAmountPaid control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblYearSem;
+        protected global::System.Web.UI.WebControls.Label lblAmountPaid;
 
         /// <summary>
-        /// lblProgrammeName control.
+        /// Label9 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblProgrammeName;
+        protected global::System.Web.UI.WebControls.Label Label9;
 
         /// <summary>
-        /// litPayment control.
+        /// lblPaidOn control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Literal litPayment;
+        protected global::System.Web.UI.WebControls.Label lblPaidOn;
 
         /// <summary>
-        /// litDate control.
+        /// Label11 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Literal litDate;
+        protected global::System.Web.UI.WebControls.Label Label11;
 
         /// <summary>
-        /// hfImagePayment control.
+        /// lblReceiptDate control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.HiddenField hfImagePayment;
+        protected global::System.Web.UI.WebControls.Label lblReceiptDate;
 
         /// <summary>
-        /// btnPrintPayment control.
+        /// hfPaymentReceipt control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnPrintPayment;
+        protected global::System.Web.UI.WebControls.HiddenField hfPaymentReceipt;
+
+        /// <summary>
+        /// btnPrintReceipt control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button btnPrintReceipt;
     }
 }

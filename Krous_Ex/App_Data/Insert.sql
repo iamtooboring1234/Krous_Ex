@@ -1,6 +1,4 @@
-INSERT INTO [dbo].[Branches] ([BranchesGUID], [BranchesName], [BranchesAddress], [BranchesEmail], [BranchesTel]) VALUES (N'c44f8b97-b8f9-44e1-94ab-b21d4518cb29', N'KUALA LUMPUR MAIN CAMPUS', N'Jalan Genting Kelang, Setapak,
-53300 Kuala Lumpur,
-P.O. Box 10979, 50932 Kuala Lumpur, Malaysia.', N'info_krousex@gmail.com', N'60123456789')
+INSERT INTO [dbo].[Branches] ([BranchesGUID], [BranchesName], [BranchesAddress], [BranchesEmail], [BranchesTel]) VALUES (N'c44f8b97-b8f9-44e1-94ab-b21d4518cb29', N'KUALA LUMPUR MAIN CAMPUS', N'Jalan Genting Kelang, Setapak,53300 Kuala Lumpur,P.O. Box 10979, 50932 Kuala Lumpur, Malaysia.', N'info_krousex@gmail.com', N'60123456789')
 
 INSERT INTO [dbo].[Faculty] ([FacultyGUID], [FacultyAbbrv], [FacultyName], [FacultyDesc]) VALUES (N'c913ca56-1809-4792-b5e7-f3f2b0eebd9c', N'FOCS', N'Faculty of Computer Science ', N'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus vulputate sed sem vel dapibus. Vestibulum blandit venenatis justo, vitae interdum.')
 

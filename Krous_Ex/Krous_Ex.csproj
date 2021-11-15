@@ -469,7 +469,9 @@
     <Content Include="Assests\main\img\2021-06-29_215318.png" />
     <Content Include="Assests\main\img\assessment.png" />
     <Content Include="Assests\main\img\contract.png" />
+    <Content Include="Assests\main\img\logo.jpg" />
     <Content Include="Assests\main\img\logo.png" />
+    <Content Include="Assests\main\img\mini_logo.jpg" />
     <Content Include="Assests\main\img\mini_logo.png" />
     <Content Include="Assests\main\img\submitIcon.png" />
     <Content Include="Assests\main\js\data-table.js" />
@@ -524,6 +526,7 @@
     <Content Include="StudentExaminationDashboard.aspx" />
     <Content Include="StudentExaminationSubmission.aspx" />
     <Content Include="StudentMakePayment.aspx" />
+    <Content Include="StudentPaymentDoneReceipt.aspx" />
     <Content Include="StudentPaymentHistory.aspx" />
     <Content Include="StudentProgrammeRegister.aspx" />
     <Content Include="StudentFAQChatList.aspx" />
@@ -1886,6 +1889,13 @@
     <Compile Include="StudentMakePayment.aspx.designer.cs">
       <DependentUpon>StudentMakePayment.aspx</DependentUpon>
     </Compile>
+    <Compile Include="StudentPaymentDoneReceipt.aspx.cs">
+      <DependentUpon>StudentPaymentDoneReceipt.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="StudentPaymentDoneReceipt.aspx.designer.cs">
+      <DependentUpon>StudentPaymentDoneReceipt.aspx</DependentUpon>
+    </Compile>
     <Compile Include="StudentPaymentHistory.aspx.cs">
       <DependentUpon>StudentPaymentHistory.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -2049,6 +2059,7 @@
     <Folder Include="Uploads\ExaminationPreparationFolder\" />
     <Folder Include="Uploads\ExaminationSubmissionFolder\" />
     <Folder Include="Uploads\FAQChatFile\" />
+    <Folder Include="Uploads\Receipts\" />
     <Folder Include="Uploads\StudentRegisterFile\" />
     <Folder Include="Uploads\StudentSubmission\" />
   </ItemGroup>
