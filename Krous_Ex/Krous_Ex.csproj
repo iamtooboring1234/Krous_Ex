@@ -496,6 +496,7 @@
     <Content Include="ExaminationInvigilatorsEntry.aspx" />
     <Content Include="ExaminationInvigilatorsListings.aspx" />
     <Content Include="ExaminationPrePreparationEntry.aspx" />
+    <Content Include="ExaminationReleaseResult.aspx" />
     <Content Include="ExaminationResultEntry.aspx" />
     <Content Include="ExaminationSubmissionListings.aspx" />
     <Content Include="FAQChat.aspx" />
@@ -1485,6 +1486,13 @@
     </Compile>
     <Compile Include="ExaminationPrePreparationEntry.aspx.designer.cs">
       <DependentUpon>ExaminationPrePreparationEntry.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="ExaminationReleaseResult.aspx.cs">
+      <DependentUpon>ExaminationReleaseResult.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="ExaminationReleaseResult.aspx.designer.cs">
+      <DependentUpon>ExaminationReleaseResult.aspx</DependentUpon>
     </Compile>
     <Compile Include="ExaminationResultEntry.aspx.cs">
       <DependentUpon>ExaminationResultEntry.aspx</DependentUpon>

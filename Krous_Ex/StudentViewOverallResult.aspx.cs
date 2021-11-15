@@ -96,7 +96,7 @@ namespace Krous_Ex
                         strTable += "<tr>";
                         strTable += "<td colspan=\"5\"><strong>" + dtSemesterResult.Rows[i]["SessionYear"].ToString() + dtSemesterResult.Rows[i]["SessionMonth"].ToString().PadLeft(2, '0') + "</strong></td>";
                         strTable += "</tr>";
-                    }
+                    } 
 
                     strTable += "<tr>";
                     strTable += "<td class=\"text-center\">" + dtSemesterResult.Rows[i]["Category"].ToString().Substring(0, 4) + "</td>";
@@ -107,6 +107,22 @@ namespace Krous_Ex
                     strTable += "</tr>";
 
                     lastSession = dtSemesterResult.Rows[i]["SessionGUID"].ToString();
+
+                    if (i != dtSemesterResult.Rows.Count -1)
+                    {
+                        if (dtSemesterResult.Rows[i+1]["SessionGUID"].ToString() != lastSession)
+                        {
+                            strTable += "<tr>";
+                            strTable += "<td colspan=\"5\"><strong>GPA: " + "</strong>" + dtSemesterResult.Rows[i]["GPA"].ToString() + "<br /><strong>CGPA: " + "</strong>" + dtSemesterResult.Rows[i]["CGPA"].ToString().PadLeft(2, '0') + "</td>";
+                            strTable += "</tr>";
+                        }
+                    } 
+                    else
+                    {
+                        strTable += "<tr>";
+                        strTable += "<td colspan=\"5\"><strong>GPA: " + "</strong>" + dtSemesterResult.Rows[i]["GPA"].ToString() + "<br /><strong>CGPA: " + "</strong>" + dtSemesterResult.Rows[i]["CGPA"].ToString().PadLeft(2, '0') + "</td>";
+                        strTable += "</tr>";
+                    }
                 }
 
                 strTable += "</div>";
