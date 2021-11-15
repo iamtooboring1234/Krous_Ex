@@ -15,9 +15,7 @@
             <div class="card-body">
                 <div class="row">
                     <div class="col-md-12">
-                        <h3>Current Payment
-                            <%--<asp:Label ID="lblPaymentHistory" runat="server" Font-Size="large">Payment History</asp:Label>--%>
-                        </h3>
+                        <h3>Current Payment</h3>
                         <p class="card-description"><span style="color: red;">*</span>Please note that you should pay the bill(s) before the <strong style="color: red">DUE DATE</strong> is approaching.</p>
                     </div>
                 </div>
@@ -48,16 +46,10 @@
                             <asp:BoundField DataField="DateOverdue" HeaderText="Due Date" SortExpression="DateOverdue" ReadOnly="True" />
                               <asp:TemplateField HeaderText="Action">
                                 <ItemTemplate>
-                                    <asp:Button ID="btnMakePayment" type="button" CssClass="btn btn-success btn-fw" style="height:31px;" runat="server" Text="Make Payment" OnClick="btnMakePayment_Click" />
+                                    <asp:Button ID="btnMakePayment" CssClass="btn btn-success btn-fw" style="height:31px;" runat="server" Text="Make Payment" OnClick="btnMakePayment_Click"/>
                                 </ItemTemplate>
                                 <ItemStyle CssClass="text-center" HorizontalAlign="Center" />
                             </asp:TemplateField>
-                           <%-- <asp:TemplateField>
-                                <ItemTemplate>
-                                    <div id="paypal-button-container"></div> 
-                                </ItemTemplate>
-                                <ItemStyle CssClass="text-center" HorizontalAlign="Center" />
-                            </asp:TemplateField>--%>
                         </Columns>
                         <FooterStyle BackColor="#CCCCCC" />
                         <HeaderStyle BackColor="#191c24" Font-Bold="True" HorizontalAlign="Left" CssClass="header-style" />

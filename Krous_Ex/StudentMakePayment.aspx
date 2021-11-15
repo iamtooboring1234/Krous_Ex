@@ -19,7 +19,7 @@
                 return actions.order.create({
                     purchase_units: [{
                         amount: {
-                            value: '0.01'
+                            value: total
                         }
                     }]
                 });
@@ -100,7 +100,7 @@
                                                 </div>
                                                 <p>:</p>
                                                 <div class="col-md-9">
-                                                    <asp:Label ID="lblStudentName" runat="server">WOON CUI YEN</asp:Label>
+                                                    <asp:Label ID="lblStudentName" runat="server"></asp:Label>
                                                 </div>
                                             </div>
 
@@ -110,7 +110,7 @@
                                                 </div>
                                                 <p>:</p>
                                                 <div class="col-md-5">
-                                                    <asp:Label ID="lblContactNumber" runat="server">01126085647</asp:Label>
+                                                    <asp:Label ID="lblContactNumber" runat="server"></asp:Label>
                                                 </div>
 
                                                 <div class="col-sm-2">
@@ -118,7 +118,7 @@
                                                 </div>
                                                 <p>:</p>
                                                 <div class="col-md-2">
-                                                    <asp:Label ID="lblICNumber" runat="server">001225-14-0368</asp:Label>
+                                                    <asp:Label ID="lblICNumber" runat="server"></asp:Label>
                                                 </div>
                                             </div>
 
@@ -128,20 +128,20 @@
                                                 </div>
                                                 <p>:</p>
                                                 <div class="col-md-5">
-                                                    <asp:Label ID="lblAcaYear" runat="server">2021/22</asp:Label>
+                                                    <asp:Label ID="lblAcaYear" runat="server"></asp:Label>
                                                 </div>
                                                 <div class="col-sm-2">
                                                     <asp:Label ID="lblYS" runat="server">Semester</asp:Label>
                                                 </div>
                                                 <p>:</p>
                                                 <div class="col-md-2">
-                                                    <asp:Label ID="lblYearSem" runat="server">Year 3 Semester 2</asp:Label>
+                                                    <asp:Label ID="lblYearSem" runat="server"></asp:Label>
                                                 </div>
                                             </div>
 
                                             <div class="row">
                                                 <div class="col-md-12">
-                                                    <asp:Label ID="lblProgrammeName" runat="server">BACHELOR OF INFORMATION TECHNOLOGY (HONOURS) IN SOFTWARE SYSTEMS DEVELOPMENT</asp:Label>
+                                                    <asp:Label ID="lblProgrammeName" runat="server"></asp:Label>
                                                 </div>
                                             </div>
                                         </div>
@@ -151,7 +151,8 @@
 
                                 <!--display course-->
                                 <asp:Literal ID="litPayment" runat="server"></asp:Literal>
-                                <div style="margin-top: 20px;">
+
+                               <%-- <div style="margin-top: 20px;">
                                     <div style="padding: 0px 50px 0px 50px">
                                         <table class="table table-clear">
                                             <tbody>
@@ -165,28 +166,6 @@
                                                     <td>50.00</td>
                                                 </tr>
                                                 <tr>
-                                                    <td style="width: 5%">2</td>
-                                                    <td>gfgf</td>
-                                                    <td>50.00</td>
-                                                </tr>
-                                                <tr>
-                                                    <td style="width: 5%">3</td>
-                                                    <td>gfgf</td>
-                                                    <td>50.00</td>
-                                                </tr>
-                                                <tr>
-                                                    <td style="width: 5%">4</td>
-                                                    <td>gfgf</td>
-                                                    <td>50.00</td>
-                                                </tr>
-                                                <tr>
-                                                    <td style="width: 5%">5</td>
-                                                    <td>gfgf</td>
-                                                    <td>50.00</td>
-                                                </tr>
-
-
-                                                <tr>
                                                     <td></td>
                                                     <th style="font-size: 17px;">Total Amount :</th>
                                                     <th style="font-size: 17px;"><span style="color:limegreen">250.00</span></th>
@@ -194,11 +173,12 @@
                                             </tbody>
                                         </table>
                                     </div>
-                                </div>
+                                </div>--%>
                                 <hr style="border: 1px solid #0066CC;" />
                                 <div class="row">
                                     <div class="col-md-8">
-                                        <asp:Label ID="Label2" runat="server">PLEASE MAKE SURE YOU PAY THIS BILL BY <strong style="color:red">10-12-2021</strong></asp:Label>
+                                        <asp:Literal ID="litDate" runat="server"></asp:Literal>
+                                        <%--<asp:Label ID="lblOverdue" runat="server"></asp:Label>--%>
                                     </div>
                                 </div>
                             </div>
@@ -210,13 +190,13 @@
 
             <div class="card-body">
                 <div class="row" style="padding:0px 30px 0px 30px">
-                    <div class="col-md-5">
+                    <div class="col-md-3">
                         <asp:Button ID="btnPrintPayment" type="button" CssClass="btn btn-inverse-primary btn-fw" style="height:31px; margin-top:12px;" runat="server" Text="Download bill as image" /> 
                     </div>
-                    <div class="col-md-7">
+                    <div class="col-md-9">
                         <!--paypal button-->
                         <div>
-                            <div id="paypal-button-container" class="col-md-4 mt-3" style="float: right;"></div>
+                            <div id="paypal-button-container" class="col-md-5 mt-3" style="float: right;"></div>
                         </div>
                     </div>
                 </div>
