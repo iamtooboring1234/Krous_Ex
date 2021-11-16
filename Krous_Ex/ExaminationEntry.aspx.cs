@@ -1,9 +1,14 @@
-﻿using System;
+﻿using Microsoft.IdentityModel.Tokens;
+using Newtonsoft.Json.Linq;
+using RestSharp;
+using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
+using System.Net;
+using System.Text;
 using System.Web;
 using System.Web.Security;
 using System.Web.UI;
@@ -249,36 +254,110 @@ namespace Krous_Ex
         {
             try
             {
+                Guid newMeetingGUID = Guid.NewGuid();
+
                 DateTime startDate = DateTime.Parse(txtExamDate.Text + " " + txtStartTime.Text);
                 DateTime endDate = DateTime.Parse(txtExamDate.Text + " " + txtEndTime.Text);
                 Guid ExamTimetableGUID = Guid.NewGuid();
 
-                SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["Krous_Ex"].ConnectionString);
+                if (NewMeeting(newMeetingGUID))
+                {
+                    SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["Krous_Ex"].ConnectionString);
+                    con.Open();
+
+                    SqlCommand InsertCommand = new SqlCommand("INSERT INTO ExamTimetable VALUES(@ExamTimetableGUID,@SessionGUID,@CourseGUID,@ExamStartDateTime,@ExamEndDateTime,@MeetingLinkGUID)", con);
+
+                    InsertCommand.Parameters.AddWithValue("@ExamTimetableGUID", ExamTimetableGUID);
+                    InsertCommand.Parameters.AddWithValue("@SessionGUID", hdSession.Value);
+                    InsertCommand.Parameters.AddWithValue("@CourseGUID", ddlCourse.SelectedValue);
+                    InsertCommand.Parameters.AddWithValue("@ExamStartDateTime", startDate);
+                    InsertCommand.Parameters.AddWithValue("@ExamEndDateTime", endDate);
+                    InsertCommand.Parameters.AddWithValue("@MeetingLinkGUID", newMeetingGUID);
+
+                    InsertCommand.ExecuteNonQuery();
+
+                    InsertCommand = new SqlCommand("INSERT INTO ExamPreparation VALUES(NEWID(),@ExamTimetableGUID,NULL, NULL)", con);
+
+                    InsertCommand.Parameters.AddWithValue("@ExamTimetableGUID", ExamTimetableGUID);
+
+                    InsertCommand.ExecuteNonQuery();
+
+                    con.Close();
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+
+            }
+            catch (Exception ex)
+            {
+                clsFunction.DisplayAJAXMessage(this, ex.Message);
+                return false;
+            }
+        }
+
+        private bool NewMeeting(Guid newMeetingGUID)
+        {
+            try
+            {
+                var tokenHandler = new System.IdentityModel.Tokens.Jwt.JwtSecurityTokenHandler();
+                var now = DateTime.Now;
+                var apiSecret = "Q0LoySQi1Q5qvNGQpcS3AjvmkUgoTfen7dKt";
+                byte[] symmetricKey = Encoding.ASCII.GetBytes(apiSecret);
+
+                var tokenDescriptor = new SecurityTokenDescriptor
+                {
+                    Issuer = "fft_NLb7TBqnGMdiEXaMoA",
+                    Expires = now.AddSeconds(300),
+                    SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(symmetricKey), SecurityAlgorithms.HmacSha256),
+                };
+                var token = tokenHandler.CreateToken(tokenDescriptor);
+                var tokenString = tokenHandler.WriteToken(token);
+
+                var client = new RestClient("https://api.zoom.us/v2/users/me/meetings");
+                var request = new RestRequest(Method.POST);
+                request.RequestFormat = DataFormat.Json;
+                request.AddJsonBody(new { topic = "Topic", duration = "60", start_time = DateTime.Now, type = "2" });
+                request.AddHeader("authorization", "Bearer" + tokenString);
+
+                IRestResponse restResponse = client.Execute(request);
+                HttpStatusCode statusCode = restResponse.StatusCode;
+                int numericStatusCode = (int)statusCode;
+                var jObject = JObject.Parse(restResponse.Content);
+                Host.Value = (string)jObject["start_url"];
+                Join.Value = (string)jObject["join_url"];
+                Code.Value = Convert.ToString(numericStatusCode);
+
+                string RoomID = Join.Value.Substring(26);
+                RoomID = RoomID.Substring(0, 11);
+                string RoomPass = Join.Value.Substring(42);
+
+
+                string strCon = ConfigurationManager.ConnectionStrings["Krous_Ex"].ConnectionString;
+                SqlConnection con = new SqlConnection(strCon);
+
                 con.Open();
 
-                SqlCommand InsertCommand = new SqlCommand("INSERT INTO ExamTimetable VALUES(@ExamTimetableGUID,@SessionGUID,@CourseGUID,@ExamStartDateTime,@ExamEndDateTime)", con);
+                string sqlQuery = "INSERT INTO MeetingLink VALUES (@MeetingLinkGUID, 'Topic', @RoomID, @RoomPass, @CreatedDate)";
 
-                InsertCommand.Parameters.AddWithValue("@ExamTimetableGUID", ExamTimetableGUID);
-                InsertCommand.Parameters.AddWithValue("@SessionGUID", hdSession.Value);
-                InsertCommand.Parameters.AddWithValue("@CourseGUID", ddlCourse.SelectedValue);
-                InsertCommand.Parameters.AddWithValue("@ExamStartDateTime", startDate);
-                InsertCommand.Parameters.AddWithValue("@ExamEndDateTime", endDate);
+                SqlCommand insertCmd = new SqlCommand(sqlQuery, con);
 
-                InsertCommand.ExecuteNonQuery();
+                insertCmd.Parameters.AddWithValue("@MeetingLinkGUID", newMeetingGUID);
+                insertCmd.Parameters.AddWithValue("@RoomID", RoomID);
+                insertCmd.Parameters.AddWithValue("@RoomPass", RoomPass);
+                insertCmd.Parameters.AddWithValue("@CreatedDate", DateTime.Now);
 
-                InsertCommand = new SqlCommand("INSERT INTO ExamPreparation VALUES(NEWID(),@ExamTimetableGUID,NULL, NULL)", con);
-
-                InsertCommand.Parameters.AddWithValue("@ExamTimetableGUID", ExamTimetableGUID);
-
-                InsertCommand.ExecuteNonQuery();
+                insertCmd.ExecuteNonQuery();
 
                 con.Close();
 
                 return true;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                clsFunction.DisplayAJAXMessage(this, "Input time is not in correct format.");
+                System.Diagnostics.Trace.WriteLine(ex.Message);
                 return false;
             }
         }

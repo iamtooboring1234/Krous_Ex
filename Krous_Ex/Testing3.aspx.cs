@@ -24,7 +24,13 @@ namespace Krous_Ex
             {
                 string meeting = Request.QueryString["MeetingLinkGUID"];
 
-                txtRole.Text = "0";
+                if (clsLogin.GetLoginUserType() == "Student")
+                {
+                    txtRole.Text = "0";
+                } else 
+                {
+                    txtRole.Text = "1";
+                }
 
                 DataTable dt = new DataTable();
 

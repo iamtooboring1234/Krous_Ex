@@ -182,7 +182,7 @@
                                                 </div>
                                                 <div class="input-group-addon col-form-label mx-4">to</div>
                                                 <div class="col-md-4">
-                                                    <asp:TextBox ID="txtEndTime" CssClass="timepickerend form-control" runat="server"></asp:TextBox>
+                                                    <asp:TextBox ID="txtEndTime" CssClass="timepickerend form-control" runat="server" AutoCompleteType="Disabled"></asp:TextBox>
                                                 </div>
                                             </div>
 
@@ -211,6 +211,10 @@
             </div>
         </div>
     </div>
+
+    <asp:HiddenField ID="Host" runat="server" />
+    <asp:HiddenField ID="Join" runat="server" />
+    <asp:HiddenField ID="Code" runat="server" />
 
     <script src="Assests/main/js/toastDemo.js"></script>
 
