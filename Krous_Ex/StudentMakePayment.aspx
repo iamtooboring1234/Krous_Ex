@@ -1,48 +1,47 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/StudentMaster.Master" AutoEventWireup="true" CodeBehind="StudentMakePayment.aspx.cs" Inherits="Krous_Ex.StudentMakePayment" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
-    <script src="https://www.paypal.com/sdk/js?client-id=AcFUzJGf-ncsAe35gb2ygkQ95BCP-_z31R1nXQk_3bxELTWx6qGky1GyKVQSPmjYGB_nzMTWITTtXdIE&components=buttons&currency=MYR&locale=en_MY"></script>
+
+    <script src="https://www.paypal.com/sdk/js?client-id=AUR-pzxfxl4dk2hZgmY6EAik0tl9Wxd1GHBAO9_NhC3wbExE2tx-K3kKs9MqoJ2jtkhy5RnjzuQr3aiE&components=buttons&currency=MYR"></script>
+
+
     <script>
-
-        let total = document.getElementById("head_lblTotalAmount")?.innerText.replace("RM", "");
-
+        //let total = document.getElementById("head_amount");
         paypal.Buttons({
-            style: {
-                layout: 'vertical',
-                color: 'blue',
-                shape: 'rect',
-                label: 'paypal'
-            },
+
+            // Set up the transaction
             createOrder: function (data, actions) {
                 // This function sets up the details of the transaction, including the amount and line item details.
                 return actions.order.create({
                     purchase_units: [{
+
                         amount: {
-                            value: total
+                            value:'<%=lblTotalPrice.Text%>', currency: 'MYR'
+
                         }
                     }]
                 });
             },
+
+            // Finalize the transaction
             onApprove: function (data, actions) {
-                // This function captures the funds from the transaction.
                 return actions.order.capture().then(function (details) {
-                    // This function shows a transaction success message to your buyer.
-                    alert("Your payment has been made successfully!");
+                    // Successful capture! For demo purposes:
+                    alert("Payment has been made successfully");
 
-                    //var button = document.getElementById('MainContent_hiddenBtn');
-                    //setTimeout(function () {
-                    //    button.click();
+                    var button = document.getElementById("<%=hiddenBtn.ClientID%>");
+                    setTimeout(function () {
+                        button.click();
+                        // Something you want delayed.
 
-                    //    // Something you want delayed.
-
-                    //}, 1000);
+                    }, 1000);
                 });
             },
-            onCancel: function (data) {
-                // Show a cancel page, or return to cart
-                window.history.go(-1)
-            }
 
+            //onCancel: function (data) {
+            //    // Show a cancel page, or return to cart
+            //    window.history.go(-1)
+            //}
         }).render('#paypal-button-container');
     </script>
 
@@ -59,6 +58,8 @@
             return false;
         }
     </script>
+
+
 
     <style>
         table, th {
@@ -161,29 +162,23 @@
 
                                 <!--display course-->
                                 <asp:Literal ID="litPayment" runat="server"></asp:Literal>
-                                <%-- <div style="margin-top: 20px;">
-                                    <div style="padding: 0px 50px 0px 50px">
-                                        <table class="table table-clear">
-                                            <tbody>
-                                                <tr>
-                                                    <th colspan="2" style="width: 80%; font-size: 15px;">Tuition Fee</th>
-                                                    <th style="font-size: 15px;">Amount(RM)</th>
-                                                </tr>
-                                                <tr>
-                                                    <td style="width: 5%">1</td>
-                                                    <td>gfgf</td>
-                                                    <td>50.00</td>
-                                                </tr>
-                                                <tr>
-                                                    <td></td>
-                                                    <th style="font-size: 17px;">Total Amount :</th>
-                                                    <th style="font-size: 17px;"><span style="color:limegreen">250.00</span></th>
-                                                </tr>
-                                            </tbody>
-                                        </table>
+                                <div>
+                                    <div class="row" style="margin-top: 10px;">
+                                        <div class="col-md-8 ml-5">
+                                            <div class="d-flex" style="margin-left: 67px;">
+                                                <span class="font-weight-bold"><strong>
+                                                    <asp:Label ID="lblTotal" runat="server">Total Amount:</asp:Label></strong></span>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <div class="d-flex" style="margin-left: 68px;">
+                                                <span class="font-weight-bold"><strong>
+                                                    <asp:Label ID="lblTotalPrice" runat="server"></asp:Label></strong></span>
+                                                <%--<input name="hdnAmount" type="hidden" id="amount" value="" runat="server" clientidmode="static" />     --%>
+                                            </div>
+                                        </div>
                                     </div>
-                                </div>--%>
-
+                                </div>
                                 <hr style="border: 1px solid #0066CC;" />
                                 <div class="row">
                                     <div class="col-md-8">
@@ -195,24 +190,28 @@
                         </div>
                     </div>
                 </div>
-            </div><!--end of divPaymentDetails-->
+            </div>
+            <!--end of divPaymentDetails-->
 
             <div class="card-body">
                 <div class="row" style="padding: 0px 30px 0px 30px">
                     <div class="col-md-3">
                         <asp:HiddenField ID="hfImagePayment" runat="server" />
-                        <asp:Button ID="btnPrintPayment" type="button" CssClass="btn btn-inverse-primary btn-fw" Style="height: 31px; margin-top: 12px;" runat="server" Text="Download bill as image" OnClick="btnPrintPayment_Click" />
+                        <asp:Button ID="btnPrintPayment" type="button" CssClass="btn btn-inverse-primary btn-fw" Style="height: 31px; margin-top: 12px;" runat="server" Text="Download bill as image" OnClientClick="return ConvertToImage(this)" OnClick="btnPrintPayment_Click" />
                     </div>
                     <div class="col-md-9">
                         <!--paypal button-->
                         <div>
-                            <div id="paypal-button-container" class="col-md-5 mt-3" style="float: right;"></div>
+                            <div id="paypal-button-container"></div>
                         </div>
                     </div>
                 </div>
             </div>
+
+            <!--hidden field-->
+            <div style="display: none">
+                <asp:Button ID="hiddenBtn" runat="server" OnClick="hiddenBtn_Click" OnClientClick="javascript:update();" />
+            </div>
         </div>
     </div>
-
-
 </asp:Content>

@@ -18,11 +18,14 @@ namespace Krous_Ex
         protected void Page_Load(object sender, EventArgs e)
         {
             userGUID = Guid.Parse(clsLogin.GetLoginUserGUID());
-            if (IsPostBack != true)
+            if (Request.QueryString["PaymentGUID"] != null)
+            {
+                PaymentGUID = Guid.Parse(Request.QueryString["PaymentGUID"]);
+            }
+            if (!IsPostBack)
             {
                 if (!String.IsNullOrEmpty(Request.QueryString["PaymentGUID"]))
                 {
-                    PaymentGUID = Guid.Parse(Request.QueryString["PaymentGUID"]);
                     loadPaymentDetails();
                 }
             }
@@ -137,11 +140,15 @@ namespace Krous_Ex
 
                         y++;
                     }
-                    paymentTable += "<tr>";
-                    paymentTable += "<td></td>";
-                    paymentTable += "<th style=\"font-size: 17px;\">Total Amount :</th>";
-                    paymentTable += "<th style=\"font-size: 17px;\"><span style=\"color:limegreen\">" + Convert.ToDecimal(total).ToString("F2") + "</span></th>";
-                    paymentTable += "</tr>";
+
+                    lblTotalPrice.Text = Convert.ToDecimal(total).ToString("F2");
+                    lblTotalPrice.ForeColor = System.Drawing.Color.LimeGreen;
+
+                    //paymentTable += "<tr>";
+                    //paymentTable += "<td></td>";
+                    //paymentTable += "<th style=\"font-size: 17px;\">Total Amount :</th>";
+                    //paymentTable += "<th style=\"font-size: 17px;\"><span style=\"color:limegreen\">" + Convert.ToDecimal(total).ToString("F2") + "</span></th>";
+                    //paymentTable += "</tr>";
                     paymentTable += "</tbody>";
                     paymentTable += "</table>";
                     paymentTable += "</div>";
@@ -160,39 +167,82 @@ namespace Krous_Ex
 
         protected void btnPrintPayment_Click(object sender, EventArgs e)
         {
-            string base64 = Request.Form[hfImagePayment.UniqueID].Split(',')[1];
-            string paymentNo = "StudentBill_" + Request["__EVENTARGUMENT"];
-            byte[] bytes = Convert.FromBase64String(base64);
+            //id = Request.Form[hfImagePayment.UniqueID];
+            try
+            {
+                string base64 = Request.Form[hfImagePayment.UniqueID].Split(',')[1];
+                string paymentNo = "StudentBill_" + Request["__EVENTARGUMENT"];
+                byte[] bytes = Convert.FromBase64String(base64);
 
-            string ReceiptImgName = paymentNo + ".png";
+                string ReceiptImgName = paymentNo + ".png";
 
-            string folderName = "~/Uploads/Receipts/" + PaymentGUID + "/";
-            string ReceiptImgSavePath = Server.MapPath(folderName);
-            string ReceiptFullSavePath = ReceiptImgSavePath + ReceiptImgName;
-
-            MemoryStream ms = new MemoryStream(bytes);
-            System.Drawing.Image img = System.Drawing.Image.FromStream(ms);
-            img.Save(ReceiptFullSavePath, System.Drawing.Imaging.ImageFormat.Jpeg);
-
-            //Response.Clear();
-            //Response.ContentType = "image/png";
-            //Response.AddHeader("Content-Disposition", "attachment; filename=" + paymentNo + ".png");
-            //Response.Buffer = true;
-            //Response.Cache.SetCacheability(HttpCacheability.NoCache);
-            //Response.BinaryWrite(bytes);
-            //Response.End();
+                string folderName = "~/Uploads/Receipts/" + PaymentGUID + "/";
+                string ReceiptImgSavePath = Server.MapPath(folderName);
+                if (!(Directory.Exists(ReceiptImgSavePath)))
+                {
+                    Directory.CreateDirectory(ReceiptImgSavePath);
+                }
+                string ReceiptFullSavePath = ReceiptImgSavePath + ReceiptImgName;
 
 
+                using (MemoryStream ms = new MemoryStream(bytes))
+                {
+                    System.Drawing.Image img = System.Drawing.Image.FromStream(ms);
+                    img.Save(ReceiptFullSavePath, System.Drawing.Imaging.ImageFormat.Png);
+                }
 
-            //Response.ContentType = "image/png";
-            //Response.AddHeader("Content-Disposition", "attachment; filename=" + ReceiptFullSavePath + "");
+                Response.Clear();
+                Response.ContentType = "image/png";
+                Response.AddHeader("Content-Disposition", "attachment; filename=" + paymentNo + ".png");
+                Response.Buffer = true;
+                Response.Cache.SetCacheability(HttpCacheability.NoCache);
+                Response.BinaryWrite(bytes);
+                Response.End();
+            }
+            catch (Exception ex)
+            {
+                clsFunction.DisplayAJAXMessage(this, ex.Message);
+            }
 
-            //Response.TransmitFile(ReceiptFullSavePath);
-            //Response.End();
+            //SendEmail(ReceiptFullSavePath);   
+        }
 
+        protected void hiddenBtn_Click(object sender, EventArgs e)
+        {
+            //save the total amount, total paid, payment status, payment date
+            try
+            {
+                PaymentGUID = Guid.Parse(Request.QueryString["PaymentGUID"]);
+                Guid receiptGUID = Guid.NewGuid();
+                SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["Krous_Ex"].ConnectionString);
+                con.Open();
 
+                decimal total = Convert.ToDecimal(lblTotalPrice.Text.ToString());
 
-            //SendEmail(ReceiptFullSavePath);
+                SqlCommand save = new SqlCommand("UPDATE Payment SET TotalPaid = @TotalPaid, PaymentStatus = @PaymentStatus, PaymentDate = @PaymentDate WHERE PaymentGUID = @PaymentGUID", con);
+                save.Parameters.AddWithValue("@PaymentGUID", PaymentGUID);
+                save.Parameters.AddWithValue("@TotalPaid", lblTotalPrice.Text);
+                save.Parameters.AddWithValue("@PaymentStatus", "Paid");
+                save.Parameters.AddWithValue("@PaymentDate", DateTime.Now.ToString());
+                save.ExecuteNonQuery();
+
+                //insert into receipt, createa new receipt for the payment
+                string receiptNo = "R" + DateTime.Now.ToString("yyyyMMddHHmmss");
+                SqlCommand insertReceipt = new SqlCommand("INSERT INTO Receipt (ReceiptGUID, ReceiptNo, PaymentGUID, DateIssued) VALUES (@ReceiptGUID, @ReceiptNo, @PaymentGUID, @DateIssued)", con);
+                insertReceipt.Parameters.AddWithValue("@ReceiptGUID", receiptGUID);
+                insertReceipt.Parameters.AddWithValue("@PaymentGUID", PaymentGUID);
+                insertReceipt.Parameters.AddWithValue("@ReceiptNo", receiptNo);
+                insertReceipt.Parameters.AddWithValue("@DateIssued", DateTime.Now.ToString());
+                insertReceipt.ExecuteNonQuery();
+
+                //clsFunction.DisplayAJAXMessage(this, "payment is successfully made");
+
+                con.Close();
+            }
+            catch (Exception ex)
+            {
+                clsFunction.DisplayAJAXMessage(this, ex.Message);
+            }
         }
     }
 }

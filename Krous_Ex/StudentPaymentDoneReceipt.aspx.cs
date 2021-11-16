@@ -60,8 +60,6 @@ namespace Krous_Ex
                     lblReceiptDate.Text = dt.Rows[0]["DateIssued"].ToString();
                 }
 
-
-
                 con.Close();
             }
             catch (Exception ex)
@@ -72,28 +70,48 @@ namespace Krous_Ex
 
         protected void btnPrintReceipt_Click(object sender, EventArgs e)
         {
-            //string base64 = Request.Form[hfPaymentReceipt.UniqueID].Split(',')[1];
-            //string receiptNo = "Receipt" + Request["__EVENTARGUMENT"];
-            //byte[] bytes = Convert.FromBase64String(base64);
+          
+            PaymentGUID = Guid.Parse(Request.QueryString["PaymentGUID"]);
+            SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["Krous_Ex"].ConnectionString);
+            con.Open();
+            SqlCommand getReceiptNo = new SqlCommand("SELECT r.ReceiptGUID FROM Receipt r LEFT JOIN Payment p ON r.PaymentGUID = p.PaymentGUID WHERE p.PaymentGUID = @PaymentGUID", con);
+            getReceiptNo.Parameters.AddWithValue("@PaymentGUID", PaymentGUID);
+            SqlDataReader dtrReceipt = getReceiptNo.ExecuteReader();
+            DataTable dtReceipt = new DataTable();
+            dtReceipt.Load(dtrReceipt);
 
-            //string ReceiptImgName = paymentNo + ".png";
+            Guid receiptGUID = Guid.Parse(dtReceipt.Rows[0]["ReceiptGUID"].ToString());
 
-            //string folderName = "~/Uploads/Receipts/" + ReceiptNo + "/";
-            //string ReceiptImgSavePath = Server.MapPath(folderName);
-            //string ReceiptFullSavePath = ReceiptImgSavePath + ReceiptImgName;
+            string base64 = Request.Form[hfPaymentReceipt.UniqueID].Split(',')[1];
+            string receiptNo = "Receipt_" + Request["__EVENTARGUMENT"];
+            byte[] bytes = Convert.FromBase64String(base64);
 
-            //MemoryStream ms = new MemoryStream(bytes);
-            //System.Drawing.Image img = System.Drawing.Image.FromStream(ms);
-            //img.Save(ReceiptFullSavePath, System.Drawing.Imaging.ImageFormat.Jpeg);
+            string ReceiptImgName = receiptNo + ".png";
 
-            ////download
-            //Response.Clear();
-            //Response.ContentType = "image/png";
-            //Response.AddHeader("Content-Disposition", "attachment; filename=" + receiptNo + ".png");
-            //Response.Buffer = true;
-            //Response.Cache.SetCacheability(HttpCacheability.NoCache);
-            //Response.BinaryWrite(bytes);
-            //Response.End();
+            string folderName = "~/Uploads/Receipts/" + receiptGUID + "/";
+            string ReceiptImgSavePath = Server.MapPath(folderName);
+            if (!(Directory.Exists(ReceiptImgSavePath)))
+            {
+                Directory.CreateDirectory(ReceiptImgSavePath);
+            }
+            string ReceiptFullSavePath = ReceiptImgSavePath + ReceiptImgName;
+
+
+            using (MemoryStream ms = new MemoryStream(bytes))
+            {
+                System.Drawing.Image img = System.Drawing.Image.FromStream(ms);
+                img.Save(ReceiptFullSavePath, System.Drawing.Imaging.ImageFormat.Png);
+            }
+
+            //download
+            Response.Clear();
+            Response.ContentType = "image/png";
+            Response.AddHeader("Content-Disposition", "attachment; filename=" + receiptNo + ".png");
+            Response.Buffer = true;
+            Response.Cache.SetCacheability(HttpCacheability.NoCache);
+            Response.BinaryWrite(bytes);
+            Response.End();
+           
         }
 
 

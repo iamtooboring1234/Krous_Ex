@@ -152,7 +152,7 @@
                 <div class="row" style="float: right">
                     <div class="col-md-3">
                         <asp:HiddenField ID="hfPaymentReceipt" runat="server" />
-                        <asp:Button ID="btnPrintReceipt" type="button" CssClass="btn btn-outline-secondary btn-fw" Style="height: 31px; margin-top: 12px;" runat="server" Text="Download receipt as image" />
+                        <asp:Button ID="btnPrintReceipt" type="button" CssClass="btn btn-outline-secondary btn-fw" Style="height: 31px; margin-top: 12px;" runat="server" Text="Download receipt as image" OnClientClick="return ConvertToImage(this)" OnClick="btnPrintReceipt_Click"/>
                     </div>
                 </div>
             </div>
