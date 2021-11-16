@@ -10,7 +10,7 @@ using System.Web.UI.WebControls;
 
 namespace Krous_Ex
 {
-    public partial class Testing3 : System.Web.UI.Page
+    public partial class JoinMeeting : System.Web.UI.Page
     {
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -24,7 +24,13 @@ namespace Krous_Ex
             {
                 string meeting = Request.QueryString["MeetingLinkGUID"];
 
-                txtRole.Text = "0";
+                if (clsLogin.GetLoginUserType() == "Student")
+                {
+                    txtRole.Text = "0";
+                } else 
+                {
+                    txtRole.Text = "1";
+                }
 
                 DataTable dt = new DataTable();
 

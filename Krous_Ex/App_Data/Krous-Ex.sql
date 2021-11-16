@@ -184,14 +184,16 @@ CREATE TABLE [dbo].[ExamResultPerCourse] (
     CONSTRAINT [fk_course_exam_result_per_course] FOREIGN KEY ([CourseGUID]) REFERENCES [dbo].[Course] ([CourseGUID])
 );
 
-CREATE TABLE [ExamTimetable] (
-	[ExamTimetableGUID] UNIQUEIDENTIFIER NOT NULL,
-    [SessionGUID] UNIQUEIDENTIFIER NOT NULL,
-    [CourseGUID] UNIQUEIDENTIFIER NOT NULL,
-	[ExamStartDateTime] datetime NOT NULL,
-    [ExamEndDateTime] datetime NOT NULL,
-    CONSTRAINT pk_exam_timetable PRIMARY KEY ([ExamTimetableGUID] ASC),
-	CONSTRAINT fk_course_examtimetable FOREIGN KEY (CourseGUID) REFERENCES Course(CourseGUID)
+CREATE TABLE [dbo].[ExamTimetable] (
+    [ExamTimetableGUID] UNIQUEIDENTIFIER NOT NULL,
+    [SessionGUID]       UNIQUEIDENTIFIER NOT NULL,
+    [CourseGUID]        UNIQUEIDENTIFIER NOT NULL,
+	[MeetingLinkGUID]	UNIQUEIDENTIFIER NULL,
+    [ExamStartDateTime] DATETIME         NOT NULL,
+    [ExamEndDateTime]   DATETIME         NOT NULL,
+    CONSTRAINT [pk_exam_timetable] PRIMARY KEY CLUSTERED ([ExamTimetableGUID] ASC),
+    CONSTRAINT [fk_course_examtimetable] FOREIGN KEY ([CourseGUID]) REFERENCES [dbo].[Course] ([CourseGUID]),
+	CONSTRAINT fk_meetinglink_examtimetable FOREIGN KEY ([MeetingLinkGUID]) REFERENCES MeetingLink([MeetingLinkGUID])
 );
 
 CREATE TABLE [ExamPreparation] (
@@ -305,15 +307,15 @@ CREATE TABLE [dbo].[Submission] (
 );
 
 CREATE TABLE [dbo].[ExamSubmission] (
-    [ExamSubmissionGUID]   UNIQUEIDENTIFIER NOT NULL,
-    [StudentGUID]      UNIQUEIDENTIFIER NOT NULL,
-    [ExamTimetableGUID]   UNIQUEIDENTIFIER NOT NULL,
-    [SubmissionDate]   DATETIME         NOT NULL,
-    [SubmissionFile]   VARCHAR (300)    NULL,
-    [SubmissionStatus] VARCHAR (15)     NOT NULL,
+    [ExamSubmissionGUID] UNIQUEIDENTIFIER NOT NULL,
+    [StudentGUID]        UNIQUEIDENTIFIER NOT NULL,
+    [ExamTimetableGUID]  UNIQUEIDENTIFIER NOT NULL,
+    [SubmissionDate]     DATETIME         NOT NULL,
+    [SubmissionFile]     VARCHAR (300)    NULL,
+    [SubmissionStatus]   VARCHAR (15)     NOT NULL,
     CONSTRAINT [pk_examsubmission] PRIMARY KEY CLUSTERED ([ExamSubmissionGUID] ASC),
     CONSTRAINT [fk_student_examsubmission] FOREIGN KEY ([StudentGUID]) REFERENCES [dbo].[Student] ([StudentGUID]),
-    CONSTRAINT [fk_assessment_submission] FOREIGN KEY ([ExamTimetableGUID]) REFERENCES [dbo].[ExamTimetable] ([ExamTimetableGUID])
+    CONSTRAINT [fk_examtimetable_examsubmission] FOREIGN KEY ([ExamTimetableGUID]) REFERENCES [dbo].[ExamTimetable] ([ExamTimetableGUID])
 );
 
 CREATE TABLE [TimetableCourse] (
@@ -437,21 +439,13 @@ CREATE TABLE [dbo].[Assessment] (
     [AssessmentTitle] VARCHAR (50)     NOT NULL,
     [AssessmentDesc]  VARCHAR (150)    NOT NULL,
     [DueDate]         DATETIME         NOT NULL,
-    [CreatedDate]     DATETIME         NOT NULL,
+    [CreatedDate]     DATETIME         NOT NULL,    
     [LastUpdateDate]  DATETIME         NULL,
 	[UploadMaterials] VARCHAR (500) NULL,
     CONSTRAINT [pk_assessment] PRIMARY KEY CLUSTERED ([AssessmentGUID] ASC),
     CONSTRAINT [fk_staff_assessment] FOREIGN KEY ([StaffGUID]) REFERENCES [dbo].[Staff] ([StaffGUID]),
     CONSTRAINT [fk_group_assessment] FOREIGN KEY ([GroupGUID]) REFERENCES [dbo].[Group] ([GroupGUID]),
     CONSTRAINT [fk_session_assessment] FOREIGN KEY ([SessionGUID]) REFERENCES [dbo].[Session] ([SessionGUID])
-);
-
-CREATE TABLE [dbo].[AssessmentFileList] (
-    [AssessmentFileListGUID] UNIQUEIDENTIFIER NOT NULL,
-    [AssessmentGUID]         UNIQUEIDENTIFIER NOT NULL,
-    [FileName]               VARCHAR (500)    NULL,
-    CONSTRAINT [pk_fileList] PRIMARY KEY CLUSTERED ([AssessmentFileListGUID] ASC),
-    CONSTRAINT [fk_assessment_fileList] FOREIGN KEY ([AssessmentGUID]) REFERENCES [dbo].[Assessment] ([AssessmentGUID])
 );
 
 CREATE TABLE [dbo].[CurrentSessionSemester] (

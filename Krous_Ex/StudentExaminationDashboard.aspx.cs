@@ -86,14 +86,18 @@ namespace Krous_Ex
                             strExam += "<h4 class=\"mb-0\"><i class=\"fas fa-edit mr-2\"></i>" + dt.Rows[i]["CourseName"] + "</h4>";
                             strExam += "</div>";
                             strExam += "<hr />";
-                            strExam += "<h6 class=\"text-muted font-weight-normal\">";
-                            strExam += "<p class=\"mb-1\" style=\"color: white\">Exam Start Time : </p>";
-                            strExam += "Created Date";
-                            strExam += "</h6>";
-                            strExam += "<h6 class=\"text-muted font-weight-normal\">";
-                            strExam += "<p class=\"mb-1\" style=\"color: white\">Exam End Time : </p>";
-                            strExam += "Created Date";
-                            strExam += "</h6>";
+                            strExam += "<table style=\"font-size: 0.875rem;\">";
+                            strExam += "<tr>";
+                            strExam += "<td class=\"mb-1 text-muted\">Exam Start Time </td> <td>:</td> </tr> <tr colspan=\"2\"> <td>" + dt.Rows[i]["ExamStartDateTime"] + "</td> </tr>";
+                            strExam += "<tr>";
+                            strExam += "<td class=\"mb-1 text-muted\">Exam End Time </td> <td>:</td> </tr> <tr colspan=\"2\"> <td>" + dt.Rows[i]["ExamEndDateTime"] + "</td> </tr>";
+                            if (!string.IsNullOrEmpty(dt.Rows[i]["MeetingLinkGUID"].ToString()))
+                            {
+                                strExam += "<tr>";
+                                strExam += "<td class=\"mb-1 text-muted\">Meeting Link </td> <td>:</td> </tr> <tr colspan=\"2\"> <td>" + "<a href=\"JoinMeeting?MeetingLinkGUID=" + dt.Rows[i]["MeetingLinkGUID"] + "\" class=\"btn btn-primary\">Join</a></td>";
+                                strExam += "</tr>";
+                            }
+                            strExam += "</table>";
                             strExam += "<hr />";
                             strExam += "<div class=\"d-flex d-sm-block align-items-center\">";
 
