@@ -49,7 +49,7 @@ namespace Krous_Ex
                 con.Open();
 
                 string loadQuery;
-                loadQuery = "SELECT s.StudentGUID, s.StudentFullName, s.Gender, CONVERT(varchar, s.DOB,1) as DOB, s.PhoneNumber, s.Email, s.NRIC, s.Address, s.ProfileImage, CONVERT(varchar, s.AccountRegisterDate, 1) as DateJoined, s.LastUpdateInfo, CONCAT(f.facultyname, ' ','(', (f.facultyAbbrv),')') AS FacultyName, b.BranchesName, p.ProgrammeName, s.SessionGUID, spr.Status ";
+                loadQuery = "SELECT s.StudentGUID, s.StudentFullName, s.Gender, CONVERT(varchar, s.DOB,103) as DOB, s.PhoneNumber, s.Email, s.NRIC, s.Address, s.ProfileImage, CONVERT(varchar, s.AccountRegisterDate, 103) as DateJoined, s.LastUpdateInfo, CONCAT(f.facultyname, ' ','(', (f.facultyAbbrv),')') AS FacultyName, b.BranchesName, p.ProgrammeName, s.SessionGUID, spr.Status ";
                 loadQuery += "FROM Student s ";
                 loadQuery += "LEFT JOIN Branches b ON s.BranchesGUID = b.BranchesGUID ";
                 loadQuery += "LEFT JOIN Faculty f ON s.FacultyGUID = f.FacultyGUID ";

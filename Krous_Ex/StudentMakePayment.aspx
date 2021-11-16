@@ -1,7 +1,6 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/StudentMaster.Master" AutoEventWireup="true" CodeBehind="StudentMakePayment.aspx.cs" Inherits="Krous_Ex.StudentMakePayment" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
-
     <script src="https://www.paypal.com/sdk/js?client-id=AcFUzJGf-ncsAe35gb2ygkQ95BCP-_z31R1nXQk_3bxELTWx6qGky1GyKVQSPmjYGB_nzMTWITTtXdIE&components=buttons&currency=MYR&locale=en_MY"></script>
     <script>
 
@@ -47,13 +46,15 @@
         }).render('#paypal-button-container');
     </script>
 
+
+    <script type="text/javascript" src="https://github.com/niklasvh/html2canvas/releases/download/v1.0.0-alpha.8/html2canvas.min.js"></script>
     <script type="text/javascript">
-        function ConvertToImage(btnExport) {
+        function ConvertToImage(btnPrintPayment) {
             html2canvas($("#divPaymentDetails")[0]).then(function (canvas) {
-               <%-- var label = document.getElementById("<%=lblOrderNo.ClientID %>").innerText;--%>
+                var label = document.getElementById("<%=lblPaymentReferenceNo.ClientID %>").innerText;
                 var base64 = canvas.toDataURL();
-                $("[id*=hfImageData]").val(base64);
-                __doPostBack(btnExport.name, label);
+                $("[id*=hfImagePayment]").val(base64);
+                __doPostBack(btnPrintPayment.name, label);
             });
             return false;
         }
@@ -77,15 +78,24 @@
                             <div class="form-horizontal">
                                 <div class=" pdForm">
                                     <div class="row">
+                                        <div class="col-md-12">
+                                            <asp:Label ID="lblReference" runat="server" Style="float: right; font-size: 15px;">Reference No.</asp:Label><br />
+                                            <asp:Label ID="lblPaymentReferenceNo" runat="server" Style="float: right; font-size: 13px;"></asp:Label>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class=" pdForm">
+                                    <div class="row">
                                         <div class="col-md-12" style="text-align: center; margin-top: 14px;">
-                                            <asp:Label ID="lblAssessmentTitle" runat="server" Style="font-size: 26px;">Krous Ex Learning Education</asp:Label>
+                                            <asp:Label ID="lblTitle" runat="server" Style="font-size: 26px;">Krous Ex Learning Education</asp:Label>
                                         </div>
                                     </div>
                                 </div>
                                 <div class=" pdForm">
                                     <div class="row">
                                         <div class="col-md-12" style="text-align: center; margin-top: 12px;">
-                                            <asp:Label ID="Label1" runat="server" Style="font-size: 20px;">STUDENT BILL</asp:Label>
+                                            <asp:Label ID="lblStudentBill" runat="server" Style="font-size: 20px;">STUDENT BILL</asp:Label>
                                         </div>
                                     </div>
                                 </div>
@@ -151,8 +161,7 @@
 
                                 <!--display course-->
                                 <asp:Literal ID="litPayment" runat="server"></asp:Literal>
-
-                               <%-- <div style="margin-top: 20px;">
+                                <%-- <div style="margin-top: 20px;">
                                     <div style="padding: 0px 50px 0px 50px">
                                         <table class="table table-clear">
                                             <tbody>
@@ -174,6 +183,7 @@
                                         </table>
                                     </div>
                                 </div>--%>
+
                                 <hr style="border: 1px solid #0066CC;" />
                                 <div class="row">
                                     <div class="col-md-8">
@@ -185,13 +195,13 @@
                         </div>
                     </div>
                 </div>
-                <!--end of divPaymentDetails-->
-            </div>
+            </div><!--end of divPaymentDetails-->
 
             <div class="card-body">
-                <div class="row" style="padding:0px 30px 0px 30px">
+                <div class="row" style="padding: 0px 30px 0px 30px">
                     <div class="col-md-3">
-                        <asp:Button ID="btnPrintPayment" type="button" CssClass="btn btn-inverse-primary btn-fw" style="height:31px; margin-top:12px;" runat="server" Text="Download bill as image" /> 
+                        <asp:HiddenField ID="hfImagePayment" runat="server" />
+                        <asp:Button ID="btnPrintPayment" type="button" CssClass="btn btn-inverse-primary btn-fw" Style="height: 31px; margin-top: 12px;" runat="server" Text="Download bill as image" OnClick="btnPrintPayment_Click" />
                     </div>
                     <div class="col-md-9">
                         <!--paypal button-->
@@ -203,5 +213,6 @@
             </div>
         </div>
     </div>
+
 
 </asp:Content>

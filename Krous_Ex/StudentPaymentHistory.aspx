@@ -37,11 +37,10 @@
                             <asp:BoundField DataField="TotalAmount" HeaderText="Total Amount" SortExpression="TotalAmount" ReadOnly="True" />
                             <asp:BoundField DataField="TotalPaid" HeaderText="Amount Paid" SortExpression="TotalPaid" ReadOnly="True" />
                             <asp:BoundField DataField="PaymentDate" HeaderText="Payment Date" ReadOnly="true" SortExpression="PaymentDate" />
-                            <asp:BoundField DataField="PaymentStatus" HeaderText="PaymentStatus" ReadOnly="true" SortExpression="PaymentStatus" />
+                            <asp:BoundField DataField="PaymentStatus" HeaderText="Status" ReadOnly="true" SortExpression="PaymentStatus" />
                             <asp:TemplateField>
                                 <ItemTemplate>
-                                    <asp:HyperLink ID="hlView" runat="server" Text="View" Target="_blank" Style="margin-right: 10px;" />
-                                    <asp:LinkButton ID="lbDownload" runat="server" CssClass="linkButton"><i class="fas fa-download"></i></asp:LinkButton>
+                                    <asp:HyperLink ID="hlView" runat="server" Text="View" NavigateUrl='<%# Eval("PaymentGUID", "~/StudentPaymentDoneReceipt.aspx?PaymentGUID={0}") %>' Target="_blank" Style="margin-right: 10px;" />
                                 </ItemTemplate>
                                 <ItemStyle CssClass="text-center" HorizontalAlign="Center" />
                             </asp:TemplateField>
@@ -56,9 +55,6 @@
             </div>
         </div>
     </div>
-
-
-
 
     <script>
         var $ = jQuery.noConflict();
@@ -76,6 +72,5 @@
             });
         });
     </script>
-
 
 </asp:Content>
