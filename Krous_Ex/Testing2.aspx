@@ -29,7 +29,7 @@
                             <Columns>
                                 <asp:TemplateField>
                                     <ItemTemplate>
-                                        <asp:HyperLink runat="server" NavigateUrl='<%# Eval("MeetingLinkGUID", "~/Testing3.aspx?MeetingLinkGUID={0}") %>' Text="View" />
+                                        <asp:HyperLink runat="server" NavigateUrl='<%# Eval("MeetingLinkGUID", "~/JoinMeeting.aspx?MeetingLinkGUID={0}") %>' Text="View" />
                                     </ItemTemplate>
                                     <ItemStyle CssClass="text-center" HorizontalAlign="Center" />
                                 </asp:TemplateField>

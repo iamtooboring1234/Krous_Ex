@@ -94,7 +94,7 @@ namespace Krous_Ex
                             if (!string.IsNullOrEmpty(dt.Rows[i]["MeetingLinkGUID"].ToString()))
                             {
                                 strExam += "<tr>";
-                                strExam += "<td class=\"mb-1 text-muted\">Meeting Link </td> <td>:</td> </tr> <tr colspan=\"2\"> <td>" + "<a href=\"Testing3?MeetingLinkGUID=" + dt.Rows[i]["MeetingLinkGUID"] + "\" class=\"btn btn-primary\">Join</a></td>";
+                                strExam += "<td class=\"mb-1 text-muted\">Meeting Link </td> <td>:</td> </tr> <tr colspan=\"2\"> <td>" + "<a href=\"JoinMeeting?MeetingLinkGUID=" + dt.Rows[i]["MeetingLinkGUID"] + "\" class=\"btn btn-primary\">Join</a></td>";
                                 strExam += "</tr>";
                             }
                             strExam += "</table>";

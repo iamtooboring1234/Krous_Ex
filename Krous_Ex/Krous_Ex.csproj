@@ -1385,7 +1385,7 @@
     <Content Include="StudentLogin.aspx" />
     <Content Include="StudentProfile.aspx" />
     <Content Include="Testing2.aspx" />
-    <Content Include="Testing3.aspx" />
+    <Content Include="JoinMeeting.aspx" />
     <Content Include="Uploads\ProfileImage\Profile1.jpg" />
     <Content Include="Uploads\ProfileImage\Profile2.jpg" />
     <Content Include="Uploads\ProfileImage\Profile3.jpg" />
@@ -2037,12 +2037,12 @@
     <Compile Include="Testing2.aspx.designer.cs">
       <DependentUpon>Testing2.aspx</DependentUpon>
     </Compile>
-    <Compile Include="Testing3.aspx.cs">
-      <DependentUpon>Testing3.aspx</DependentUpon>
+    <Compile Include="JoinMeeting.aspx.cs">
+      <DependentUpon>JoinMeeting.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="Testing3.aspx.designer.cs">
-      <DependentUpon>Testing3.aspx</DependentUpon>
+    <Compile Include="JoinMeeting.aspx.designer.cs">
+      <DependentUpon>JoinMeeting.aspx</DependentUpon>
     </Compile>
     <Compile Include="Users.cs" />
     <Compile Include="ViewSwitcher.ascx.cs">
