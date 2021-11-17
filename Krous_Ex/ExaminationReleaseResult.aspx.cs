@@ -175,7 +175,6 @@ namespace Krous_Ex
                                 GetCommand = new SqlCommand(sqlQuery, con);
 
                                 GetCommand.Parameters.AddWithValue("@SemesterGUID", dtCss.Rows[i]["SemesterGUID"]);
-
                                 reader = GetCommand.ExecuteReader();
                                 DataTable dtSemester = new DataTable();
                                 dtSemester.Load(reader);
@@ -189,6 +188,52 @@ namespace Krous_Ex
                                 updateCommand.Parameters.AddWithValue("@StudentGUID", dtCss.Rows[i]["StudentGUID"]);
 
                                 updateCommand.ExecuteNonQuery();
+
+                                //insert the next year & sem payment details
+                                int fixedAmountPerCourse = 259;
+                                Guid paymentGUID = Guid.NewGuid();
+
+                                string creditCmd;
+                                creditCmd = "SELECT * FROM Student s ";
+                                creditCmd += "LEFT JOIN Student_Programme_Register spr ON s.StudentGUID = spr.StudentGUID ";
+                                creditCmd += "LEFT JOIN Programme p ON spr.ProgrammeGUID = p.ProgrammeGUID ";
+                                creditCmd += "LEFT JOIN ProgrammeCourse pc ON p.ProgrammeGUID = pc.ProgrammeGUID ";
+                                creditCmd += "LEFT JOIN Course c ON pc.CourseGUID = c.CourseGUID ";
+                                creditCmd += "WHERE s.StudentGUID = @StudentGUID ";
+                                creditCmd += "AND pc.SessionMonth = (SELECT ss.SessionMonth FROM Session ss LEFT JOIN Student st ON ss.SessionGUID = st.SessionGUID WHERE st.StudentGUID = @StudentGUID) ";
+                                creditCmd += "AND pc.SemesterGUID = @SemesterGUID ";
+
+                                SqlCommand getCreditCmd = new SqlCommand(creditCmd, con);
+                                getCreditCmd.Parameters.AddWithValue("@StudentGUID", dtCss.Rows[i]["StudentGUID"]);
+                                getCreditCmd.Parameters.AddWithValue("@SemesterGUID", dtSemester.Rows[0]["SemesterGUID"]);
+                                SqlDataReader dtrCredit = getCreditCmd.ExecuteReader();
+                                DataTable dtCredit = new DataTable();
+                                dtCredit.Load(dtrCredit);
+
+                                //calculation
+                                string paymentNo = "P" + DateTime.Now.ToString("yyyyMMddHHmmss");
+                                int creditHour = int.Parse(dtCredit.Rows[0]["CreditHour"].ToString());
+                                int eachCourse = 0;
+
+                                if (dtCredit.Rows.Count != 0)
+                                {
+                                    for (int k = 0; k < dtCredit.Rows.Count; k++)
+                                    {
+                                        eachCourse += creditHour * fixedAmountPerCourse;
+                                    }
+                                }
+
+                                DateTime overdue = DateTime.Now.Date.AddDays(31);
+                                SqlCommand insertPayCmd = new SqlCommand("INSERT INTO Payment(PaymentGUID, PaymentNo, StudentGUID, PaymentStatus, TotalAmount, DateIssued, DateOverdue) VALUES (@PaymentGUID, @PaymentNo, @StudentGUID, @PaymentStatus, @TotalAmount, @DateIssued, @DateOverdue)", con);
+                                insertPayCmd.Parameters.AddWithValue("@PaymentGUID", paymentGUID);
+                                insertPayCmd.Parameters.AddWithValue("@PaymentNo", paymentNo);
+                                insertPayCmd.Parameters.AddWithValue("@StudentGUID", dtCss.Rows[i]["StudentGUID"]);
+                                insertPayCmd.Parameters.AddWithValue("@PaymentStatus", "Pending");
+                                insertPayCmd.Parameters.AddWithValue("@TotalAmount", eachCourse);
+                                insertPayCmd.Parameters.AddWithValue("@DateIssued", DateTime.Now.ToString());
+                                insertPayCmd.Parameters.AddWithValue("@DateOverdue", overdue);
+                                insertPayCmd.ExecuteNonQuery();
+
                             }
                         }
                         con.Close();
@@ -203,5 +248,77 @@ namespace Krous_Ex
                 return false;
             }
         }
+
+        //insert new payment for next semester
+        //private void insertRegisterPayment()
+        //{
+        //    try
+        //    {
+        //        int fixedAmountPerCourse = 259;
+        //        Guid paymentGUID = Guid.NewGuid();
+
+        //        SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["Krous_Ex"].ConnectionString);
+        //        con.Open();
+        //        SqlCommand GetCommand = new SqlCommand("SELECT * FROM ExamResult er LEFT JOIN Session S ON er.SessionGUID = s.SessionGUID ORDER BY s.SessionYear, s.SessionMonth, er.StudentGUID ", con);
+        //        SqlDataReader readerExamR = GetCommand.ExecuteReader();
+        //        DataTable dtExamR = new DataTable();
+        //        dtExamR.Load(readerExamR);
+        //        con.Close();
+
+        //        string creditCmd;
+
+        //        creditCmd = "SELECT c.CreditHour, s.SemesterGUID, c.CourseGUID FROM ProgrammeCourse pc ";
+        //        creditCmd = "LEFT JOIN Course c ON pc.CourseGUID = c.CourseGUID ";
+        //        creditCmd = "LEFT JOIN Programme p ON pc.ProgrammeGUID = p.ProgrammeGUID ";
+        //        creditCmd = "LEFT JOIN Student_Programme_Register spr ON p.ProgrammeGUID = spr.ProgrammeGUID ";
+        //        creditCmd = "LEFT JOIN Student st ON spr.StudentGUID = st.StudentGUID ";
+        //        creditCmd = "LEFT JOIN Semester s ON pc.SemesterGUID = s.SemesterGUID ";
+        //        creditCmd = "WHERE spr.RegisterGUID = @RegisterGUID AND ";
+        //        creditCmd += "s.SemesterGUID = @SemesterGUID ";
+        //        creditCmd = "AND pc.SessionMonth = (SELECT s.SessionMonth FROM Session S LEFT JOIN Student st ON S.SessionGUID = st.SessionGUID ";
+        //        creditCmd = "WHERE StudentGUID = @StudentGUID";
+
+        //        SqlCommand getCreditCmd = new SqlCommand(creditCmd, con);
+        //        getCreditCmd.Parameters.AddWithValue("@StudentGUID", studentGUID);
+        //        getCreditCmd.Parameters.AddWithValue("@RegisterGUID", RegisterGUID);
+        //        getCreditCmd.Parameters.AddWithValue("@SemesterGUID", ddlSemester.SelectedValue);
+        //        SqlDataReader dtrCredit = getCreditCmd.ExecuteReader();
+        //        DataTable dtCredit = new DataTable();
+        //        dtCredit.Load(dtrCredit);
+
+        //        //calculation
+        //        string paymentNo = "P" + DateTime.Now.ToString("yyyyMMddHHmmss");
+        //        int creditHour = int.Parse(dtCredit.Rows[0]["CreditHour"].ToString());
+        //        int eachCourse = 0;
+
+        //        if (dtCredit.Rows.Count != 0)
+        //        {
+        //            for (int i = 0; i < dtCredit.Rows.Count; i++)
+        //            {
+        //                eachCourse += creditHour * fixedAmountPerCourse;
+        //            }
+        //        }
+
+        //        DateTime overdue = DateTime.Now.Date.AddDays(31);
+        //        SqlCommand insertPayCmd = new SqlCommand("INSERT INTO Payment(PaymentGUID, PaymentNo, StudentGUID, PaymentStatus, TotalAmount, DateIssued, DateOverdue) VALUES(@PaymentGUID, @PaymentNo, @StudentGUID, @PaymentStatus, @TotalAmount, @DateIssued, @DateOverdue)", con);
+        //        insertPayCmd.Parameters.AddWithValue("@PaymentGUID", paymentGUID);
+        //        insertPayCmd.Parameters.AddWithValue("@PaymentNo", paymentNo);
+        //        insertPayCmd.Parameters.AddWithValue("@StudentGUID", studentGUID);
+        //        insertPayCmd.Parameters.AddWithValue("@PaymentStatus", "Pending");
+        //        insertPayCmd.Parameters.AddWithValue("@TotalAmount", eachCourse);
+        //        insertPayCmd.Parameters.AddWithValue("@DateIssued", DateTime.Now.ToString());
+        //        insertPayCmd.Parameters.AddWithValue("@DateOverdue", overdue);
+        //        insertPayCmd.ExecuteNonQuery();
+
+        //        con.Close();
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        System.Diagnostics.Trace.WriteLine(ex.Message);
+        //    }
+        //}
+
+
+
     }
 }

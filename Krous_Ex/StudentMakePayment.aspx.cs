@@ -5,6 +5,8 @@ using System.Data;
 using System.Data.SqlClient;
 using System.IO;
 using System.Linq;
+using System.Net;
+using System.Net.Mail;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
@@ -209,7 +211,8 @@ namespace Krous_Ex
 
         protected void hiddenBtn_Click(object sender, EventArgs e)
         {
-            //save the total amount, total paid, payment status, payment date
+            //save the total paid, payment status, payment date
+            //then insert a new receipt
             try
             {
                 PaymentGUID = Guid.Parse(Request.QueryString["PaymentGUID"]);
@@ -219,10 +222,11 @@ namespace Krous_Ex
 
                 decimal total = Convert.ToDecimal(lblTotalPrice.Text.ToString());
 
-                SqlCommand save = new SqlCommand("UPDATE Payment SET TotalPaid = @TotalPaid, PaymentStatus = @PaymentStatus, PaymentDate = @PaymentDate WHERE PaymentGUID = @PaymentGUID", con);
+                SqlCommand save = new SqlCommand("UPDATE Payment SET TotalPaid = @TotalPaid, PaymentStatus = @PaymentStatus, PaymentDate = @PaymentDate, PaymentMethod = @PaymentMethod WHERE PaymentGUID = @PaymentGUID", con);
                 save.Parameters.AddWithValue("@PaymentGUID", PaymentGUID);
                 save.Parameters.AddWithValue("@TotalPaid", lblTotalPrice.Text);
                 save.Parameters.AddWithValue("@PaymentStatus", "Paid");
+                save.Parameters.AddWithValue("@PaymentMethod", "PayPal");
                 save.Parameters.AddWithValue("@PaymentDate", DateTime.Now.ToString());
                 save.ExecuteNonQuery();
 
@@ -236,6 +240,9 @@ namespace Krous_Ex
                 insertReceipt.ExecuteNonQuery();
 
                 //clsFunction.DisplayAJAXMessage(this, "payment is successfully made");
+                sendPaymentSuccess();
+                Response.Redirect("StudentPaymentHistory");
+
 
                 con.Close();
             }
@@ -243,6 +250,45 @@ namespace Krous_Ex
             {
                 clsFunction.DisplayAJAXMessage(this, ex.Message);
             }
+        }
+
+        //send email after payment successful
+        private bool sendPaymentSuccess()
+        {
+            SqlCommand cmd = new SqlCommand();
+            SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["Krous_Ex"].ConnectionString);
+            con.Open();
+
+            PaymentGUID = Guid.Parse(Request.QueryString["PaymentGUID"]);
+
+            SmtpClient client = new SmtpClient();
+            client.Port = 587;
+            client.Host = "smtp.gmail.com";
+            client.EnableSsl = true;
+            client.DeliveryMethod = SmtpDeliveryMethod.Network;
+            client.UseDefaultCredentials = false;
+            client.Credentials = new NetworkCredential("krousExnoreply@gmail.com", "krousex2021");
+
+            MailMessage mail = new MailMessage();
+            mail.From = new MailAddress("krousExnoreply@gmail.com");
+
+            cmd = new SqlCommand("SELECT s.Email, s.StudentFullName FROM Payment p LEFT JOIN Student s ON p.StudentGUID = s.StudentGUID WHERE p.PaymentGUID = @PaymentGUID", con);
+            cmd.Parameters.AddWithValue("@PaymentGUID", PaymentGUID);
+            SqlDataReader dtrSelect = cmd.ExecuteReader();
+            DataTable dt = new DataTable();
+            dt.Load(dtrSelect);
+            con.Close();
+            string fullname = dt.Rows[0]["StudentFullName"].ToString();
+
+            String body = "Hello " + fullname + ", <br />We are here to notify you, that your payment has been made successfully. You can download the receipt at your payment history page.<br /><br />Thank You.<br /><br />Best Regards,<br />Krous Ex";
+            mail.To.Add(dt.Rows[0]["Email"].ToString());
+            mail.Subject = "Payment Success";
+            mail.IsBodyHtml = true;
+            mail.Body = body;
+
+            client.Send(mail);
+
+            return true;
         }
     }
 }

@@ -11,7 +11,6 @@
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="body" runat="server">
 
-
     <div class="col-lg-12">
         <div class="card">
             <div class="card-body">
@@ -40,7 +39,7 @@
                             <asp:BoundField DataField="PaymentStatus" HeaderText="Status" ReadOnly="true" SortExpression="PaymentStatus" />
                             <asp:TemplateField>
                                 <ItemTemplate>
-                                    <asp:HyperLink ID="hlView" runat="server" Text="View" NavigateUrl='<%# Eval("PaymentGUID", "~/StudentPaymentDoneReceipt.aspx?PaymentGUID={0}") %>' Target="_blank" Style="margin-right: 10px;" />
+                                    <asp:HyperLink ID="hlView" runat="server" Text="View" NavigateUrl='<%# Eval("PaymentGUID", "~/StudentPaymentDoneReceipt.aspx?PaymentGUID={0}") %>' Style="margin-right: 10px;" />
                                 </ItemTemplate>
                                 <ItemStyle CssClass="text-center" HorizontalAlign="Center" />
                             </asp:TemplateField>

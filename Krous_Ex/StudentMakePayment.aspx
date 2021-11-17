@@ -27,7 +27,7 @@
             onApprove: function (data, actions) {
                 return actions.order.capture().then(function (details) {
                     // Successful capture! For demo purposes:
-                    alert("Payment has been made successfully");
+                    alert("Your payment has been made successfully!");
 
                     var button = document.getElementById("<%=hiddenBtn.ClientID%>");
                     setTimeout(function () {
@@ -197,12 +197,17 @@
                 <div class="row" style="padding: 0px 30px 0px 30px">
                     <div class="col-md-3">
                         <asp:HiddenField ID="hfImagePayment" runat="server" />
-                        <asp:Button ID="btnPrintPayment" type="button" CssClass="btn btn-inverse-primary btn-fw" Style="height: 31px; margin-top: 12px;" runat="server" Text="Download bill as image" OnClientClick="return ConvertToImage(this)" OnClick="btnPrintPayment_Click" />
+                        <asp:Button ID="btnPrintPayment" type="button" CssClass="btn btn-outline-secondary btn-fw" Style="height: 31px;" runat="server" Text="Download bill as image" OnClientClick="return ConvertToImage(this)" OnClick="btnPrintPayment_Click" />
+                    </div>
+                    <div class="col-md-9">
+                        <asp:Label ID="Label1" runat="server" Style="padding-left: 403px; font-size: 19px;">Checkout :</asp:Label>
+                    </div>
+                    <div class="col-md-3">
                     </div>
                     <div class="col-md-9">
                         <!--paypal button-->
                         <div>
-                            <div id="paypal-button-container"></div>
+                            <div id="paypal-button-container" style="float: right; width: 50%;"></div>
                         </div>
                     </div>
                 </div>

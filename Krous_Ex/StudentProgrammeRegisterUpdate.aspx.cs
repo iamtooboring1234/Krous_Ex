@@ -417,15 +417,15 @@ namespace Krous_Ex
                 string creditCmd;
       
                 creditCmd = "SELECT c.CreditHour, s.SemesterGUID, c.CourseGUID FROM ProgrammeCourse pc ";
-                creditCmd = "LEFT JOIN Course c ON pc.CourseGUID = c.CourseGUID ";
-                creditCmd = "LEFT JOIN Programme p ON pc.ProgrammeGUID = p.ProgrammeGUID ";
-                creditCmd = "LEFT JOIN Student_Programme_Register spr ON p.ProgrammeGUID = spr.ProgrammeGUID ";
-                creditCmd = "LEFT JOIN Student st ON spr.StudentGUID = st.StudentGUID ";
-                creditCmd = "LEFT JOIN Semester s ON pc.SemesterGUID = s.SemesterGUID ";
-                creditCmd = "WHERE spr.RegisterGUID = @RegisterGUID AND ";
+                creditCmd += "LEFT JOIN Course c ON pc.CourseGUID = c.CourseGUID ";
+                creditCmd += "LEFT JOIN Programme p ON pc.ProgrammeGUID = p.ProgrammeGUID ";
+                creditCmd += "LEFT JOIN Student_Programme_Register spr ON p.ProgrammeGUID = spr.ProgrammeGUID ";
+                creditCmd += "LEFT JOIN Student st ON spr.StudentGUID = st.StudentGUID ";
+                creditCmd += "LEFT JOIN Semester s ON pc.SemesterGUID = s.SemesterGUID ";
+                creditCmd += "WHERE spr.RegisterGUID = @RegisterGUID AND ";
                 creditCmd += "s.SemesterGUID = @SemesterGUID ";
-                creditCmd = "AND pc.SessionMonth = (SELECT s.SessionMonth FROM Session S LEFT JOIN Student st ON S.SessionGUID = st.SessionGUID ";
-                creditCmd = "WHERE StudentGUID = @StudentGUID";
+                creditCmd += "AND pc.SessionMonth = (SELECT s.SessionMonth FROM Session S LEFT JOIN Student st ON S.SessionGUID = st.SessionGUID ";
+                creditCmd += "WHERE StudentGUID = @StudentGUID";
 
                 SqlCommand getCreditCmd = new SqlCommand(creditCmd, con);
                 getCreditCmd.Parameters.AddWithValue("@StudentGUID", studentGUID);

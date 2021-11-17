@@ -180,7 +180,7 @@ CREATE TABLE [dbo].[ExamResultPerCourse] (
     [Grade]                   VARCHAR (3)      NULL,
     [Remarks]                 VARCHAR (100)    NULL,
     CONSTRAINT [pk_exam_result_per_course] PRIMARY KEY CLUSTERED ([ExamResultPerCourseGUID] ASC),
-	CONSTRAINT [fk_exam_result_exam_result_per_course] FOREIGN KEY ([ExamResultGUID]) REFERENCES [dbo].[ExamResult] ([ExamResultGUID]),
+    CONSTRAINT [fk_exam_result_exam_result_per_course] FOREIGN KEY ([ExamResultGUID]) REFERENCES [dbo].[ExamResult] ([ExamResultGUID]),
     CONSTRAINT [fk_course_exam_result_per_course] FOREIGN KEY ([CourseGUID]) REFERENCES [dbo].[Course] ([CourseGUID])
 );
 
