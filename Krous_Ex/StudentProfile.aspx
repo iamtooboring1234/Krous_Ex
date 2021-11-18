@@ -20,14 +20,17 @@
             </div>
 
             <!--image-->
-            <div class="form-group" style="margin-left: 450px;">
-                <div class="col-sm-5">
+            <div class="form-group">
+                <div class="row col-md-12 justify-content-center">
                     <div id="hiddenImg">
                         <asp:Image ID="imgProfile" runat="server" Width="200" Height="200" class="img-thumbnail img-circle" ImageUrl="~/Uploads/ProfileImage/defaultUserProfile.png"></asp:Image>
                     </div>
-                    <asp:FileUpload ID="imageUpload" runat="server" onchange="loadFile(event)" Enabled="true" />
+                </div>
+                <div class="row col-md-12 justify-content-center">
+                    <asp:FileUpload ID="imageUpload" runat="server" onchange="loadFile(event)" Enabled="true" Width="200px" />
                 </div>
             </div>
+
 
             <p class="card-description" style="margin-top: 30px; font-size: 17px;">Personal Particulars</p>
             <div class="form-group" style="margin-top: 25px;">
@@ -94,6 +97,7 @@
 
             <!-- account details-->
             <p class="card-description" style="font-size: 17px;">Account Settings</p>
+            <p class="card-description" style="font-size: 12px;">Please click "Change Password". NOT "Save Profile", if you only change your password.</p>
             <div class="form-group">
                 <label for="contact">Your current password</label>
                 <asp:TextBox ID="txtCurrentPass" CssClass="form-control" type="password" runat="server" Style="border-color: gray;"></asp:TextBox>

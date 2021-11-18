@@ -67,13 +67,21 @@
                         <div class="profile-desc">
                             <div class="profile-pic">
                                 <div class="count-indicator">
+                                    <asp:Image ID="imgProfileSidebar" runat="server" CssClass="img-xs rounded-circle" />
+                                    <span class="count bg-success"></span>
+                                </div>
+                                <div class="profile-name">
+                                    <h5 class="mb-0 font-weight-normal">
+                                        <asp:Literal ID="litLogonNameSidebar" runat="server"></asp:Literal></h5>
+                                </div>
+                                <%--  <div class="count-indicator">
                                     <img class="img-xs rounded-circle " src="Assests/main/img/user.jpg" alt="">
                                     <span class="count bg-success"></span>
                                 </div>
                                 <div class="profile-name">
                                     <h5 class="mb-0 font-weight-normal">Henry Klein</h5>
                                     <span>Gold Member</span>
-                                </div>
+                                </div>--%>
                             </div>
                             <a href="#" id="profile-dropdown" data-toggle="dropdown"><i class="mdi mdi-dots-vertical"></i></a>
                             <div class="dropdown-menu dropdown-menu-right sidebar-dropdown preview-list" aria-labelledby="profile-dropdown">
@@ -381,7 +389,8 @@
                                     <div class="navbar-profile">
                                         <asp:Image ID="imgProfile" runat="server" CssClass="img-xs rounded-circle" />
                                         <p class="mb-0 d-none d-sm-block navbar-profile-name">
-                                            <asp:Literal ID="litLogonName" runat="server"></asp:Literal></p>
+                                            <asp:Literal ID="litLogonName" runat="server"></asp:Literal>
+                                        </p>
                                         <i class="mdi mdi-menu-down d-none d-sm-block"></i>
                                     </div>
                                 </a>

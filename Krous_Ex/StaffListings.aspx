@@ -2,8 +2,13 @@
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
     <link href="Assests/main/css/inquiry.css" rel="stylesheet" />
-    <%--<link href="Assests/main/css/layouts.css" rel="stylesheet" />--%>
+   
+    
     <link href="Assests/main/css/table.css" rel="stylesheet" />
+
+    <link href="https://cdn.datatables.net/1.11.3/css/jquery.dataTables.min.css" rel="stylesheet" type="text/css" />
+    <script src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js"></script>
+
 </asp:Content>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="body" runat="server">
@@ -111,7 +116,7 @@
             <div class="card-body">
                 <div class="table-responsive">
                     <div class="gv-section text-center">
-                        <asp:GridView ID="gvStaff" runat="server" Width="100%" CssClass="table table-bordered" AutoGenerateColumns="False" DataKeyNames="StaffGUID" CellPadding="10" CellSpacing="2" Border="0">
+                        <asp:GridView ID="gvStaff" runat="server" Width="100%" CssClass="table table-bordered tableStaffList" AutoGenerateColumns="False" DataKeyNames="StaffGUID" CellPadding="10" CellSpacing="2" Border="0">
                             <Columns>
                                 <asp:TemplateField>
                                     <ItemTemplate>
@@ -144,7 +149,7 @@
         var $ = jQuery.noConflict();
 
         $(document).ready(function () {
-            $("[id*=gvStaff]").prepend($("<thead></thead>").html($("[id*=gvStaff]").find("tr:first"))).DataTable({
+            $(".tableStaffList").prepend($("<thead></thead>").html($(".tableStaffList").find("tr:first"))).DataTable({
                 "searching": false,
                 "pageLength": 10,
                 "order": [[1, 'asc']],
@@ -157,105 +162,5 @@
         });
     </script>
 
-    <%--<div class="col-lg-12">
-        <div class="card">
-            <div class="card-body" style="padding-top:0">
-                <div class="row">
-                    <div class="table-responsive table-wrapper-scroll-y">
-                    <table class="table">
-                    <thead>
-                    <tr>
-                    <th scope="col">#</th>
-                    <th scope="col">Username</th>
-                    <th scope="col">Full Name</th>
-                    <th scope="col">Roles</th>
-                    <th scope="col">Phone Number</th>
-                    <th scope="col">Email</th>
-                    <th scope="col">NRIC</th>
-                    <th scope="col">Specialization</th>
-                    <th scope="col">Branches</th>
-                    <th scope="col">Faculty</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr>
-                    <th scope="row">1</th>
-                    <td>Abcd1234</td>
-                    <td>Lau Pin Jian</td>
-                    <td>Dean</td>
-                    <td>012-3456789</td>
-                    <td>laupj@gmail.com</td>
-                    <td>000000-00-0000</td>
-                    <td>Computing Science</td>
-                    <td>KL Main Branch</td>
-                    <td>FOCS</td>
-                    </tr>
-                    <tr>
-                    <th scope="row">2</th>
-                    <td>Abcd1234</td>
-                    <td>Lau Pin Jian</td>
-                    <td>Dean</td>
-                    <td>012-3456789</td>
-                    <td>laupj@gmail.com</td>
-                    <td>000000-00-0000</td>
-                    <td>Computing Science</td>
-                    <td>KL Main Branch</td>
-                    <td>FOCS</td>
-                    </tr>
-                    <tr>
-                    <th scope="row">3</th>
-                    <td>Abcd1234</td>
-                    <td>Lau Pin Jian</td>
-                    <td>Dean</td>
-                    <td>012-3456789</td>
-                    <td>laupj@gmail.com</td>
-                    <td>000000-00-0000</td>
-                    <td>Computing Science</td>
-                    <td>KL Main Branch</td>
-                    <td>FOCS</td>
-                    </tr>
-                    <tr>
-                    <th scope="row">4</th>
-                    <td>Abcd1234</td>
-                    <td>Lau Pin Jian</td>
-                    <td>Dean</td>
-                    <td>012-3456789</td>
-                    <td>laupj@gmail.com</td>
-                    <td>000000-00-0000</td>
-                    <td>Computing Science</td>
-                    <td>KL Main Branch</td>
-                    <td>FOCS</td>
-                    </tr>
-                    <tr>
-                    <th scope="row">5</th>
-                    <td>Abcd1234</td>
-                    <td>Lau Pin Jian</td>
-                    <td>Dean</td>
-                    <td>012-3456789</td>
-                    <td>laupj@gmail.com</td>
-                    <td>000000-00-0000</td>
-                    <td>Computing Science</td>
-                    <td>KL Main Branch</td>
-                    <td>FOCS</td>
-                    </tr>
-                    <tr>
-                    <th scope="row">6</th>
-                    <td>Abcd1234</td>
-                    <td>Lau Pin Jian</td>
-                    <td>Dean</td>
-                    <td>012-3456789</td>
-                    <td>laupj@gmail.com</td>
-                    <td>000000-00-0000</td>
-                    <td>Computing Science</td>
-                    <td>KL Main Branch</td>
-                    <td>FOCS</td>
-                    </tr>
-                    </tbody>
-                    </table>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>--%>
 
 </asp:Content>

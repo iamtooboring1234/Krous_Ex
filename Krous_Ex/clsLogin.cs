@@ -137,7 +137,14 @@ namespace Krous_Ex
                 {
                     while (dr.Read())
                     {
-                        imgPath = ConfigurationManager.AppSettings["ProfileUploadPath"].ToString() + dr.GetValue(0).ToString();
+                        if (!string.IsNullOrEmpty(dr.GetValue(0).ToString()))
+                        {
+                            imgPath = ConfigurationManager.AppSettings["ProfileUploadPath"].ToString() + dr.GetValue(0).ToString();
+                        }
+                        else
+                        {
+                            imgPath = ConfigurationManager.AppSettings["ProfileUploadPath"].ToString() + "defaultUserProfile.png";
+                        }
                     }
                 } else
                 {

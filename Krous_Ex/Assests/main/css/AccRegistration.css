@@ -269,7 +269,7 @@ select {
     margin-left:30px;
 }*/
 
-.form-radio-item input {
+/*.form-radio-item input {
     width: 0;
     height: 0;
     position:relative;
@@ -371,7 +371,7 @@ select {
 
     .form-radio-flex input:hover {
         border: 1px solid #1abc9c;
-    }
+    }*/
 
 .form-date {
     clear: both;

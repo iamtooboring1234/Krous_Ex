@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Web;
 using System.Web.Security;
@@ -17,7 +18,10 @@ namespace Krous_Ex
             if (myCookie != null)
             {
                 litLogonName.Text = clsLogin.GetLoginUserName();
+                litLogonNameSidebar.Text = clsLogin.GetLoginUserName();
+
                 imgProfile.ImageUrl = clsLogin.GetUserImage();
+                imgProfileSidebar.ImageUrl = clsLogin.GetUserImage();
             }
             else
             {

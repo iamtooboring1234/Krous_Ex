@@ -71,14 +71,19 @@ namespace Krous_Ex
                     txtSpecialization.Text = dtStaff.Rows[0][8].ToString();
                     txtFaculty.Text = dtStaff.Rows[0][9].ToString();
                     txtBranch.Text = dtStaff.Rows[0][10].ToString();
-                    lblUpdateTime.Text = dtStaff.Rows[0][12].ToString();           
+                    lblUpdateTime.Text = dtStaff.Rows[0][12].ToString();
 
                     string profileImg = "";
-                    if (dtStaff.Rows[0][11] != null)
+                    if (!String.IsNullOrEmpty(dtStaff.Rows[0][11].ToString()))
                     {
                         profileImg = ConfigurationManager.AppSettings["ProfileUploadPath"].ToString() + dtStaff.Rows[0][11].ToString();
                     }
+                    else
+                    {
+                        profileImg = ConfigurationManager.AppSettings["ProfileUploadPath"].ToString() + "defaultUserProfile.png";
+                    }
                     imgProfile.ImageUrl = profileImg;
+
                 }
 
             }
@@ -116,7 +121,16 @@ namespace Krous_Ex
                         cmdUpdate = new SqlCommand("UPDATE Staff SET Email = @email, PhoneNumber = @phoneNo, ProfileImage = @profileImage, LastUpdateInfo = @LastUpdateInfo WHERE StaffGUID = @StaffGUID", con);
                         cmdUpdate.Parameters.AddWithValue("@email", txtEmail.Text);
                         cmdUpdate.Parameters.AddWithValue("@phoneNo", txtContact.Text);
-                        cmdUpdate.Parameters.AddWithValue("@profileImage", imgName);
+
+                        if (!(imageUpload.HasFile))
+                        {
+                            cmdUpdate.Parameters.AddWithValue("@profileImage", "defaultUserProfile.png");
+                        }
+                        else
+                        {
+                            cmdUpdate.Parameters.AddWithValue("@profileImage", imgName);
+                        }
+
                         cmdUpdate.Parameters.AddWithValue("@StaffGUID", userGUID);
                         cmdUpdate.Parameters.AddWithValue("@LastUpdateInfo", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
                         cmdUpdate.ExecuteNonQuery();
@@ -167,17 +181,26 @@ namespace Krous_Ex
                 if (!(encryptedPassword.Equals("")))
                 {
                     decryptPassword = Decrypt(encryptedPassword);
-                    encryptedPassword = Encrypt(txtNewPass.Text);
-                    cmdPassword = new SqlCommand("UPDATE Staff SET StaffPassword = @StaffPassword WHERE StaffGUID = @StaffGUID", con);
-                    cmdPassword.Parameters.AddWithValue("@StaffPassword", encryptedPassword);
-                    cmdPassword.Parameters.AddWithValue("@StaffGUID", userGUID);
 
-                    int affectedRows = cmdPassword.ExecuteNonQuery();
-
-                    if (affectedRows > 0)
+                    if(txtCurrentPass.Text == decryptPassword)
                     {
-                        changePassBool = true;
+                        encryptedPassword = Encrypt(txtNewPass.Text);
+                        cmdPassword = new SqlCommand("UPDATE Staff SET StaffPassword = @StaffPassword WHERE StaffGUID = @StaffGUID", con);
+                        cmdPassword.Parameters.AddWithValue("@StaffPassword", encryptedPassword);
+                        cmdPassword.Parameters.AddWithValue("@StaffGUID", userGUID);
+
+                        int affectedRows = cmdPassword.ExecuteNonQuery();
+
+                        if (affectedRows > 0)
+                        {
+                            changePassBool = true;
+                        }
                     }
+                    else
+                    {
+                        clsFunction.DisplayAJAXMessage(this, "Your current password is incorrect!");
+                    }
+                   
                 }
                 con.Dispose();
                 con.Close();
@@ -212,37 +235,42 @@ namespace Krous_Ex
         //can update password
         protected void btnChangePass_Click(object sender, EventArgs e)
         {
-            if (!(txtCurrentPass.Text == "" && txtNewPass.Text == "" && txtConfNewPass.Text == ""))
+            if (!(txtCurrentPass.Text == "" || txtNewPass.Text == "" || txtConfNewPass.Text == ""))
             {
-                if (ChangePassword())
+                if(!(txtNewPass.Text != txtConfNewPass.Text))
                 {
-                    clsFunction.DisplayAJAXMessage(this, "Your password has been changed successfully!");
-                    txtCurrentPass.Text = "";
-                    txtNewPass.Text = "";
-                    txtConfNewPass.Text = "";
+                    if (ChangePassword())
+                    {
+                        Session["StaffChangePass"] = "Yes";
+                        Response.Redirect("StaffLogin");
+                    }
+                    else
+                    {
+                        clsFunction.DisplayAJAXMessage(this, "Failed to change password! Please make sure you have entered the correct password.");
+                        txtCurrentPass.Text = "";
+                        txtNewPass.Text = "";
+                        txtConfNewPass.Text = "";
+                        txtCurrentPass.Focus();
+                    }
                 }
                 else
                 {
-                    clsFunction.DisplayAJAXMessage(this, "Failed to change password! Please make sure you have entered the correct password.");
-                    txtCurrentPass.Text = "";
-                    txtNewPass.Text = "";
-                    txtConfNewPass.Text = "";
-                    txtCurrentPass.Focus();
-                }
+                    clsFunction.DisplayAJAXMessage(this, "Your password entered does not match! Please re-enter again.");
+                }   
             }
             else
             {
-                clsFunction.DisplayAJAXMessage(this, "Please entered all the three password fields.");
+                clsFunction.DisplayAJAXMessage(this, "Please make sure all password are entered!");
             }
         }
 
         protected bool updateValidation()
         {
-            if (!(imageUpload.HasFile))
-            {
-                clsFunction.DisplayAJAXMessage(this, "Please choose and upload an image as your profile.");
-                return false;
-            }
+            //if (!(imageUpload.HasFile))
+            //{
+            //    clsFunction.DisplayAJAXMessage(this, "Please choose and upload an image as your profile.");
+            //    return false;
+            //}
 
             if (txtEmail.Text == "")
             {

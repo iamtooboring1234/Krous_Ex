@@ -22,17 +22,64 @@ namespace Krous_Ex
 
         protected void Page_Load(object sender, EventArgs e)
         {
+
             if (!String.IsNullOrEmpty(Request.QueryString["FromURL"]))
             {
-                if (!String.IsNullOrEmpty(Request.QueryString["ForumGUID"])) {
+                if (!String.IsNullOrEmpty(Request.QueryString["ForumGUID"]))
+                {
                     HyperLink1.NavigateUrl = "StaffLogin.aspx?FromURL=" + Request.QueryString["FromURL"] + "&ForumGUID=" + Request.QueryString["ForumGUID"] + "&ForumGUID=" + Request.QueryString["ForumCategory"];
-                } else if (!String.IsNullOrEmpty(Request.QueryString["DiscGUID"]))
+                }
+                else if (!String.IsNullOrEmpty(Request.QueryString["DiscGUID"]))
                 {
                     HyperLink1.NavigateUrl = "StaffLogin.aspx?FromURL=" + Request.QueryString["FromURL"] + "&ForumGUID=" + Request.QueryString["DiscGUID"];
                 }
-            } else
+            }
+            else
             {
                 HyperLink1.NavigateUrl = "StaffLogin";
+            }
+
+            if (Session["StudentChangePass"] != null)
+            {
+                if (Session["StudentChangePass"].ToString() == "Yes")
+                {
+                    clsFunction.DisplayAJAXMessage(this, "Your password has been changed successfully! Please login with your new password.");
+                    Session["StudentChangePass"] = null;
+                }
+                else
+                {
+                    clsFunction.DisplayAJAXMessage(this, "Your password unable to be changed!");
+                    Session["StudentChangePass"] = null;
+                }
+            }
+
+
+            if (Session["sendEmail"] != null)
+            {
+                if (Session["sendEmail"].ToString() == "Yes")
+                {
+                    clsFunction.DisplayAJAXMessage(this, "You will receive an email to change your password by clicking on link provided.");
+                    Session["sendEmail"] = null;
+                }
+                else
+                {
+                    clsFunction.DisplayAJAXMessage(this, "Unable to reset password!");
+                    Session["sendEmail"] = null;
+                }
+            }
+
+            if (Session["resetPassword"] != null)
+            {
+                if (Session["resetPassword"].ToString() == "Yes")
+                {
+                    clsFunction.DisplayAJAXMessage(this, "Your password has been reset. Please login using your new reset password.");
+                    Session["resetPassword"] = null;
+                }
+                else
+                {
+                    clsFunction.DisplayAJAXMessage(this, "Unable to reset password!");
+                    Session["resetPassword"] = null;
+                }
             }
         }
 
@@ -64,7 +111,7 @@ namespace Krous_Ex
                 } 
                 else
                 {
-                    clsFunction.DisplayAJAXMessage(this, "User account not found. Please enter correct username and password.");
+                    clsFunction.DisplayAJAXMessage(this, "User account not found. Please enter correct username or password.");
                     txtUsername.Text = string.Empty;
                     txtPassword.Text = string.Empty;
                     txtUsername.Focus();

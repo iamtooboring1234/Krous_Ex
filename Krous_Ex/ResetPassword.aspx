@@ -30,7 +30,7 @@
                             <div class="button">
                                 <asp:Button ID="btnReset" runat="server" Text="Reset" CssClass="btn btn-primary me-2" Style="padding: 10px; width: 100px; margin-top: 10px; margin-right: 13px;" OnClick="btnReset_Click" />
                                 <asp:Button ID="btnCancel" runat="server" Text="Cancel" CssClass="btn btn-dark" Style="padding: 10px; width: 100px; margin-top: 10px;" OnClick="btnCancel_Click" />
-                                <asp:Button ID="btnLogin" runat="server" Text="To Login Page" CssClass="btn btn-primary me-2" Style="padding: 10px; width: 160px; margin-top: 10px;" />
+                                <%--<asp:Button ID="btnLogin" runat="server" Text="To Login Page" CssClass="btn btn-primary me-2" Style="padding: 10px; width: 160px; margin-top: 10px;" />--%>
                             </div>
                         </div>
                     </div>

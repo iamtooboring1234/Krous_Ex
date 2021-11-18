@@ -34,15 +34,38 @@ namespace Krous_Ex
             try
             {
                 //Session["email"] = txtEmailAddress.Text;
+                SqlConnection con = new SqlConnection();
+                string strCon = ConfigurationManager.ConnectionStrings["Krous_Ex"].ConnectionString;
+                con = new SqlConnection(strCon);
 
-                if(txtEmailAddress.Text == "")
+                con.Open();
+
+                SqlCommand checkEmail = new SqlCommand("SELECT Email FROM Student WHERE Email = @Email", con);
+                checkEmail.Parameters.AddWithValue("@Email", txtEmailAddress.Text);
+                SqlDataReader dtrEmail = checkEmail.ExecuteReader();
+                DataTable dtEmail = new DataTable();
+                dtEmail.Load(dtrEmail);
+                con.Close();
+
+                if(dtEmail.Rows.Count != 0)
                 {
-                    clsFunction.DisplayAJAXMessage(this, "Please enter a valid email address.");
+                    //string email = dtEmail.Rows[0]["Email"].ToString();
+
+                    if (txtEmailAddress.Text == "")
+                    {
+                        clsFunction.DisplayAJAXMessage(this, "Please enter a valid email address.");
+                    }
+                    else
+                    {
+                        SendEmail();
+                        Session["sendEmail"] = "Yes";
+                    }
                 }
                 else
                 {
-                    SendEmail();
+                    clsFunction.DisplayAJAXMessage(this, "No such email!");
                 }
+                
             }
             catch(Exception ex)
             {
@@ -155,7 +178,7 @@ namespace Krous_Ex
                     con.Close();
 
                     String url = ConfigurationManager.AppSettings["ResetPasswordURL"].ToString() + userGUID + "&ResetPasswordGUID=" + ResetPasswordGUID.ToString() + "&UserType=" + userType + "&LinkToken=" + LinkToken;
-                    String body = "<b>Hello " + username + "<b><br />You have requested to reset your password for your account. Use the URL link below to change it.<br /><br />URL link: <a href= '" + url + "'><b>Reset Your Password<b></a><br />If you didn't request this, please ignore this email.";
+                    String body = "<b>Hello " + username + "<b><br />You have requested to reset your password for your account. Use the URL link below to change it.<br /><br />URL link: <a href= '" + url + "'><b>Reset Your Password<b></a><br />This URL link will be expired 15 minutes later.<br />If you didn't request this, please ignore this email.";
                     mail.To.Add(email);
                     mail.Subject = "Reset Password";
                     mail.IsBodyHtml = true;
@@ -208,5 +231,6 @@ namespace Krous_Ex
             }
         }
 
+        
     }
 }

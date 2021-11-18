@@ -28,7 +28,8 @@ namespace Krous_Ex
                         imgProfile.ImageUrl = clsLogin.GetUserImage();
                         imgProfileSidebar.ImageUrl = clsLogin.GetUserImage();
                         loadNotification();
-                    } else
+                    } 
+                    else
                     {
                         //acces denied
                         Response.Redirect("Homepage");

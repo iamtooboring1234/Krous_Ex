@@ -68,6 +68,8 @@ namespace Krous_Ex
                 if(!(txtConfPassword.Text != txtNewPassword.Text))
                 {
                     ChangePassword();
+                    Session["resetPassword"] = "Yes";
+                    Response.Redirect("StudentLogin.aspx");
                 }
                 else
                 {

@@ -36,6 +36,21 @@ namespace Krous_Ex
             {
                 HyperLink1.NavigateUrl = "StudentLogin";
             }
+
+            if (Session["StaffChangePass"] != null)
+            {
+                if (Session["StaffChangePass"].ToString() == "Yes")
+                {
+                    clsFunction.DisplayAJAXMessage(this, "Your password has been changed successfully! Please login with your new password.");
+                    Session["StaffChangePass"] = null;
+                }
+                else
+                {
+                    clsFunction.DisplayAJAXMessage(this, "Your password unable to be changed!");
+                    Session["StaffChangePass"] = null;
+                }
+            }
+
         }
 
         protected void btnLogin_Click(object sender, EventArgs e)

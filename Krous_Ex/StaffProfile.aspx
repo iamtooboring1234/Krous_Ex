@@ -19,14 +19,18 @@
                 <asp:Label ID="lblUpdateTime" runat="server" Text="No update before"></asp:Label>
             </div>
             <!--image-->
-            <div class="form-group" style="margin-left: 450px;">
-                <div class="col-sm-5">
+
+            <div class="form-group">
+                <div class="row col-md-12 justify-content-center">
                     <div id="hiddenImg">
-                        <asp:Image ID="imgProfile" runat="server" Width="220" Height="220" class="img-thumbnail img-circle" ImageUrl="~/Uploads/ProfileImage/defaultUserProfile.png"></asp:Image>
+                        <asp:Image ID="imgProfile" runat="server" Width="200" Height="200" class="img-thumbnail img-circle" ImageUrl="~/Uploads/ProfileImage/defaultUserProfile.png"></asp:Image>
                     </div>
-                    <asp:FileUpload ID="imageUpload" runat="server" onchange="loadFile(event)" Enabled="true" />
+                </div>
+                <div class="row col-md-12 justify-content-center">
+                    <asp:FileUpload ID="imageUpload" runat="server" onchange="loadFile(event)" Enabled="true" Width="200px" />
                 </div>
             </div>
+
 
             <p class="card-description" style="margin-top: 30px; font-size: 17px;">Personal Particulars</p>
             <div class="form-group" style="margin-top: 15px;">
@@ -52,7 +56,7 @@
             </div>
 
             <hr style="height: 2px; border-width: 0; color: #f4d47c; background-color: #f4d47c; margin-top: 23px;">
-           
+
             <!-- uni details-->
             <p class="card-description" style="font-size: 17px;">Other Particulars</p>
             <div class="form-group">
@@ -77,10 +81,11 @@
                 <asp:TextBox ID="txtSpecialization" CssClass="form-control" type="text" runat="server" Enabled="false" Style="border-color: gray;"></asp:TextBox>
             </div>
 
-             <hr style="height: 2px; border-width: 0; color: #64f9db; background-color: #64f9db; margin-top: 23px;">
+            <hr style="height: 2px; border-width: 0; color: #64f9db; background-color: #64f9db; margin-top: 23px;">
 
             <!-- account details-->
             <p class="card-description" style="font-size: 17px;">Account Settings</p>
+            <p class="card-description" style="font-size: 12px;">Please click "Change Password". NOT "Save Profile", if you only change your password.</p>
             <div class="form-group">
                 <label for="contact">Your current password</label>
                 <asp:TextBox ID="txtCurrentPass" CssClass="form-control" type="password" runat="server" Style="border-color: gray;"></asp:TextBox>
@@ -95,7 +100,8 @@
                 <label for="contact">Confirm new password</label>
                 <asp:TextBox ID="txtConfNewPass" CssClass="form-control" type="password" runat="server" Style="border-color: gray;"></asp:TextBox>
             </div>
-            <asp:Button ID="btnChangePass" runat="server" Text="Change Password" CssClass="btn btn-primary me-2" Style="padding: 10px; width: 150px; float: right;" OnClick="btnChangePass_Click" />            <br />
+            <asp:Button ID="btnChangePass" runat="server" Text="Change Password" CssClass="btn btn-primary me-2" Style="padding: 10px; width: 150px; float: right;" OnClick="btnChangePass_Click" />
+            <br />
 
             <asp:Button ID="btnSave" runat="server" Text="Save Profile" CssClass="btn btn-primary me-2" Style="padding: 10px; width: 120px; margin-top: 20px; margin-right: 13px;" OnClick="btnSave_Click" />
             <ajaxToolkit:ConfirmButtonExtender ID="ConfirmButtonExtender1" runat="server" ConfirmText="Are you sure to save updated details ?" TargetControlID="btnSave" />

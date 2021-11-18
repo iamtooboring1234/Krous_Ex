@@ -12,18 +12,19 @@ using System.Data.SqlClient;
 using System.Data;
 using System.Text.RegularExpressions;
 using System.Web.Security;
+using System.Globalization;
 
 namespace Krous_Ex
 {
     public partial class RegisterAcc : System.Web.UI.Page
     {
         String EncryptionKey = ConfigurationManager.AppSettings["EncryptionKey"];
-        string userType = clsLogin.GetLoginUserType();
-        Guid userGUID = Guid.Parse(clsLogin.GetLoginUserGUID());
+        string userType;  
+        //Guid userGUID = Guid.Parse(clsLogin.GetLoginUserGUID());
             
         protected void Page_Load(object sender, EventArgs e)
         {
-          
+            userType = Request.QueryString["userType"];
         }
 
         protected void btnSubmit_Click(object sender, EventArgs e)
@@ -59,19 +60,19 @@ namespace Krous_Ex
                 con = new SqlConnection(strCon);
                 con.Open();
 
-                cmd = new SqlCommand("INSERT INTO Student(StudentGUID, StudentUsername, StudentPassword, StudentFullName, Gender, DOB, PhoneNumber, Email, NRIC, Address AccountRegisterDate) " +
+                cmd = new SqlCommand("INSERT INTO Student(StudentGUID, StudentUsername, StudentPassword, StudentFullName, Gender, DOB, PhoneNumber, Email, NRIC, Address, AccountRegisterDate) " +
                                                 "VALUES (@StudentGUID, @StudentUsername, @StudentPassword, @StudentFullName, @Gender, @DOB, @PhoneNumber, @Email, @NRIC, @Address, @AccountRegisterDate)", con);
                 cmd.Parameters.AddWithValue("@StudentGUID", studentGUID);
                 cmd.Parameters.AddWithValue("@StudentUsername", txtUsername.Text);
                 cmd.Parameters.AddWithValue("@StudentPassword", Encrypt(txtPassword.Text.Trim()));
                 cmd.Parameters.AddWithValue("@StudentFullName", txtFullName.Text);
                 cmd.Parameters.AddWithValue("@Gender", rbGender.SelectedValue);
-                cmd.Parameters.AddWithValue("@DOB", dob_date.SelectedValue + "-" + dob_month.SelectedValue + "-" + dob_year.SelectedValue);
-                cmd.Parameters.AddWithValue("@PhoneNumber", txtPhoneNo.Text);
+                cmd.Parameters.AddWithValue("@DOB", DateTime.Parse(dob_date.SelectedValue + "/" + dob_month.SelectedValue + "/" + dob_year.SelectedValue).ToString());
+                cmd.Parameters.AddWithValue("@PhoneNumber", txtPhoneNo.Text);   
                 cmd.Parameters.AddWithValue("@Email", txtEmail.Text);
                 cmd.Parameters.AddWithValue("@NRIC", txtNRIC.Text);
                 cmd.Parameters.AddWithValue("@Address", txtAddress.Text);
-                cmd.Parameters.AddWithValue("@AccountRegisterDate", DateTime.Now);
+                cmd.Parameters.AddWithValue("@AccountRegisterDate", DateTime.Now.ToString());
 
                 cmd.ExecuteNonQuery();
                 cmd.Dispose();
@@ -169,6 +170,12 @@ namespace Krous_Ex
                 return false;
             }
 
+            if (txtPassword.Text != txtConfPass.Text)
+            {
+                clsFunction.DisplayAJAXMessage(this, "Your password does not match with confirm password!");
+                return false;
+            }
+
             if (txtConfPass.Text != txtPassword.Text)
             {
                 clsFunction.DisplayAJAXMessage(this, "Your confirm password does not match!");
@@ -223,7 +230,7 @@ namespace Krous_Ex
                 return false;
             }
             
-            if (clsValidation.CheckDuplicateICNo(userType, txtNRIC.Text, userGUID))
+            if (clsValidation.CheckDuplicateICNo(userType, txtNRIC.Text))
             {
                 clsFunction.DisplayAJAXMessage(this, "Duplicated NRIC entered!");
                 return false;
@@ -261,7 +268,7 @@ namespace Krous_Ex
                 return false;
             }
 
-            if(clsValidation.CheckDuplicateEmail(userType, txtEmail.Text, userGUID))
+            if(clsValidation.CheckRegisterDuplicateEmail(userType, txtEmail.Text))
             {
                 clsFunction.DisplayAJAXMessage(this, "Duplicated Email entered!");
                 return false;

@@ -45,7 +45,7 @@
                                     </div>
                                 </div>--%>
 
-                                <hr style="height: 2px; border-width: 0; color: #f4d47c; background-color: #f4d47c; margin-top: 23px;">
+                                <hr style="height: 2px; border-width: 0; color: #f4d47c; background-color: #CCA844; margin-top: 23px;">
 
                                 <div class="form-group pdForm">
                                     <div class="row">
@@ -101,7 +101,7 @@
                                     </div>
                                 </div>
 
-                                <hr style="height: 2px; border-width: 0; color: #f4d47c; background-color: #007AFF; margin-top: 23px;">
+                                <hr style="height: 2px; border-width: 0; color: #f4d47c; background-color: #0A60BE; margin-top: 23px;">
 
                                 <!--Staff role, position-->
                                 <div class="form-group pdForm">
@@ -164,7 +164,7 @@
                                     </div>
                                 </div>
 
-                                <hr style="height: 2px; border-width: 0; color: #f4d47c; background-color: #F300FF; margin-top: 23px;">
+                                <hr style="height: 2px; border-width: 0; color: #f4d47c; background-color: #9D1FB1; margin-top: 23px;">
                                 <!--faculty and branch ddl-->
                                 <div class="form-group pdForm">
                                     <div class="row">
@@ -191,14 +191,13 @@
                                 <div class="form-group pdForm">
                                     <div class="row">
                                         <div class="col-md-12 float-right text-right">
-                                            <asp:Button Text="Back" ID="btnBack" runat="server" Width="18%" CssClass="btn mr20 pdForm" OnClick="btnBack_Click" />
                                             <asp:Button Text="Save" ID="btnSave" runat="server" Width="18%" CssClass="btn btn-primary mr20 pdForm" OnClick="btnSave_Click" />
-                                            <ajaxToolkit:ConfirmButtonExtender ID="ConfirmButtonExtender1" runat="server" ConfirmText="Are you sure to add these details ?" TargetControlID="btnSave" />
-                                            <asp:Button Text="Cancel" ID="btnCancel" runat="server" Width="18%" CssClass="btn btn-dark mr20 pdForm" Style="margin-left: 10px; height: 38px;" OnClick="btnCancel_Click" />
-                                            <asp:Button Text="Update" ID="btnUpdate" runat="server" Width="18%" CssClass="btn mr20 pdForm" OnClick="btnUpdate_Click" />
-                                            <ajaxToolkit:ConfirmButtonExtender ID="ConfirmButtonExtender2" runat="server" ConfirmText="Are you sure to update this Programme ?" TargetControlID="btnUpdate" />
-                                            <asp:Button Text="Delete" ID="btnDelete" runat="server" Width="18%" CssClass="btn mr20 pdForm" OnClick="btnDelete_Click" />
-                                            <ajaxToolkit:ConfirmButtonExtender ID="ConfirmButtonExtender3" runat="server" ConfirmText="Are you sure to delete this Programme ?" TargetControlID="btnDelete" />
+                                            <ajaxToolkit:ConfirmButtonExtender ID="ConfirmButtonExtender1" runat="server" ConfirmText="Are you sure to add this new staff details ? Please make sure Staff Full Name, Staff NRIC, Email Address is entered correctly! These details are not allowed to change anymore." TargetControlID="btnSave" />
+                                            <asp:Button Text="Update" ID="btnUpdate" runat="server" Width="18%" CssClass="btn btn-success pdForm" OnClick="btnUpdate_Click" />
+                                            <ajaxToolkit:ConfirmButtonExtender ID="ConfirmButtonExtender2" runat="server" ConfirmText="Are you sure to update this staff details ?" TargetControlID="btnUpdate" />
+                                            <asp:Button Text="Delete" ID="btnDelete" runat="server" Width="18%" CssClass="btn btn-danger pdForm" OnClick="btnDelete_Click" />
+                                            <ajaxToolkit:ConfirmButtonExtender ID="ConfirmButtonExtender3" runat="server" ConfirmText="Are you sure to delete this staff details ?" TargetControlID="btnDelete" />
+                                            <asp:Button Text="Back" ID="btnBack" runat="server" Width="18%" CssClass="btn mr20 pdForm" OnClick="btnBack_Click" />
                                         </div>
                                     </div>
                                 </div>

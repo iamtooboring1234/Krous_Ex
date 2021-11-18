@@ -29,6 +29,7 @@ namespace Krous_Ex
             return regex.IsMatch(password);
         }
 
+        //update profile
         public static bool CheckDuplicateEmail(string UserType, string Email, Guid UserGUID)
         {
             try
@@ -67,7 +68,83 @@ namespace Krous_Ex
             }
         }
 
-        public static bool CheckDuplicateICNo(string UserType, string ICNo, Guid UserGUID)
+        public static bool CheckStaffEntryDuplicateEmail(string UserType, string Email)
+        {
+            try
+            {
+                SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["Krous_Ex"].ConnectionString);
+
+                con.Open();
+                var SelectCommand = new SqlCommand();
+                if (UserType == "Staff")
+                {
+                    SelectCommand = new SqlCommand("SELECT * FROM STAFF WHERE Email = @Email AND StaffStatus <> 'Terminated')", con);
+                    SelectCommand.Parameters.AddWithValue("@Email", Email);
+                }
+                else if (UserType == "Student")
+                {
+                    SelectCommand = new SqlCommand("SELECT * FROM STUDENT WHERE Email = @Email)", con);
+                    SelectCommand.Parameters.AddWithValue("@Email", Email);
+                }
+
+                SqlDataReader reader = SelectCommand.ExecuteReader();
+                DataTable dtFound = new DataTable();
+                dtFound.Load(reader);
+                con.Close();
+                if (dtFound.Rows.Count != 0)
+                {
+                    return true;
+                }
+
+                return false;
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
+        }
+
+
+
+        //register acc check email
+        public static bool CheckRegisterDuplicateEmail(string UserType, string Email)
+        {
+            try
+            {
+                SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["Krous_Ex"].ConnectionString);
+
+                con.Open();
+                var SelectCommand = new SqlCommand();
+                if (UserType == "Staff")
+                {
+                    SelectCommand = new SqlCommand("SELECT * FROM STAFF WHERE Email = @Email AND StaffStatus <> 'Terminated'", con);
+                    SelectCommand.Parameters.AddWithValue("@Email", Email);
+                }
+                else if (UserType == "Student")
+                {
+                    SelectCommand = new SqlCommand("SELECT * FROM STUDENT WHERE Email = @Email", con);
+                    SelectCommand.Parameters.AddWithValue("@Email", Email);
+                }
+
+                SqlDataReader reader = SelectCommand.ExecuteReader();
+                DataTable dtFound = new DataTable();
+                dtFound.Load(reader);
+                con.Close();
+                if (dtFound.Rows.Count != 0)
+                {
+                    return true;
+                }
+
+                return false;
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
+        }
+
+        //register check
+        public static bool CheckDuplicateICNo(string UserType, string ICNo)
         {
             try
             {
@@ -79,13 +156,11 @@ namespace Krous_Ex
                 {
                     SelectCommand = new SqlCommand("SELECT * FROM STAFF WHERE NRIC = @ICNo AND StaffStatus <> 'Terminated' AND StaffGUID NOT IN (@StaffGUID)", con);
                     SelectCommand.Parameters.AddWithValue("@ICNo", ICNo);
-                    SelectCommand.Parameters.AddWithValue("@StaffGUID", UserGUID);
                 }
                 else if (UserType == "Student")
                 {
                     SelectCommand = new SqlCommand("SELECT * FROM STUDENT WHERE NRIC = @NRIC AND StudentGUID NOT IN (@StudentGUID)", con);
                     SelectCommand.Parameters.AddWithValue("@NRIC", ICNo);
-                    SelectCommand.Parameters.AddWithValue("@StudentGUID", UserGUID);
                 }
 
                 SqlDataReader reader = SelectCommand.ExecuteReader();
