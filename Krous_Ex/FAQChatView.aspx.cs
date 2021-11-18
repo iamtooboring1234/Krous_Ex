@@ -5,6 +5,7 @@ using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Web;
+using System.Web.Security;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 
@@ -15,11 +16,20 @@ namespace Krous_Ex
         private string SaveFolderPath = ConfigurationManager.AppSettings.Get("FAQChatSavePath");
         private string UploadChatFolderPath = ConfigurationManager.AppSettings.Get("FAQChatUploadPath");
 
-        private void ChatView_PreInit(object sender, EventArgs e)
+        protected void Page_PreInit(object sender, EventArgs e)
         {
-            if (clsLogin.GetLoginUserType() == "Staff")
+            var myCookie = Request.Cookies[FormsAuthentication.FormsCookieName];
+
+            if (myCookie != null)
             {
-                MasterPageFile = "~/StaffMaster.Master";
+                if (clsLogin.GetLoginUserType() == "Staff")
+                {
+                    MasterPageFile = "~/StaffMaster.Master";
+                }
+            }
+            else
+            {
+                Response.Redirect("Homepage");
             }
         }
 

@@ -13,6 +13,8 @@ namespace Krous_Ex
 {
     public partial class ExaminationPrePreparationEntry : System.Web.UI.Page
     {
+        private string strMessage;
+
         protected void Page_Load(object sender, EventArgs e)
         {
             if (IsPostBack != true)
@@ -34,6 +36,9 @@ namespace Krous_Ex
                 }
                 else
                 {
+                    ddlExamination.Enabled = true;
+                    txtExamStartTime.Enabled = true;
+                    txtExamEndTime.Enabled = true;
                     loadSession();
                     loadExamCourse();
                 }
@@ -181,21 +186,53 @@ namespace Krous_Ex
 
         protected void btnSave_Click(object sender, EventArgs e)
         {
-            if (InsertExamFile())
-            {
-                Session["InsertExamFile"] = "Yes";
-                Response.Redirect("ExaminationPrePreparationEntry");
-            } else
-            {
-                if (Session["EmptyFile"] != null)
+            if (isEmptyField()) {
+                if (InsertExamFile())
                 {
-                    if (Session["EmptyFile"].ToString() == "Yes")
+                    Session["InsertExamFile"] = "Yes";
+                    Response.Redirect("ExaminationPrePreparationEntry");
+                } else
+                {
+                    if (Session["EmptyFile"] != null)
                     {
-                        clsFunction.DisplayAJAXMessage(this, "Selected exam is required both question papaer and answer sheet file.");
-                        Session["EmptyFile"] = null;
+                        if (Session["EmptyFile"].ToString() == "Yes")
+                        {
+                            clsFunction.DisplayAJAXMessage(this, "Selected exam is required both question papaer and answer sheet file.");
+                            Session["EmptyFile"] = null;
+                        }
                     }
                 }
+            } else
+            {
+                clsFunction.DisplayAJAXMessage(this, strMessage);
             }
+        }
+
+        private bool isEmptyField()
+        {
+            if (string.IsNullOrEmpty(ddlExamination.SelectedValue))
+            {
+                strMessage += "- Please select one examination \\n";
+            }
+
+            if (txtExamStartTime.Text == "")
+            {
+                strMessage += "- Semester study duration \\n";
+            }
+
+            if (txtExamEndTime.Text == "")
+            {
+                strMessage += "- Semester examination duration \\n";
+            }
+
+            if (!string.IsNullOrEmpty(strMessage))
+            {
+                string tempMessage = "Please complete all the required field as below : \\n" + strMessage;
+                strMessage = tempMessage;
+                return false;
+            }
+
+            return true;
         }
 
         private bool InsertExamFile()
@@ -219,13 +256,13 @@ namespace Krous_Ex
                     dtExamPre.Load(reader);
                     con.Close();
 
-                    if (dtExamPre.Rows.Count != 0)
+                    if (!String.IsNullOrEmpty(FileUploadQuestion.FileName) && !String.IsNullOrEmpty(FileUploadAnswerSheet.FileName))
                     {
-                        ExistingExamFilePath = "~/Uploads/ExaminationPreparationFolder/" + dtExamPre.Rows[0]["ExaminationPreparationGUID"] + "/";
-
-                        if (Directory.Exists(Server.MapPath(ExistingExamFilePath)))
+                        if (dtExamPre.Rows.Count != 0)
                         {
-                            if (!String.IsNullOrEmpty(questionPaperFileName) && !String.IsNullOrEmpty(answerSheetFileName))
+                            ExistingExamFilePath = "~/Uploads/ExaminationPreparationFolder/" + dtExamPre.Rows[0]["ExaminationPreparationGUID"] + "/";
+
+                            if (Directory.Exists(Server.MapPath(ExistingExamFilePath)))
                             {
                                 con.Open();
 
@@ -247,43 +284,44 @@ namespace Krous_Ex
                             }
                             else
                             {
-                                Session["EmptyFile"] = "Yes";
+                                clsFunction.DisplayAJAXMessage(this, "Unable to find the directory or folder. Folder may be deleted or moved. Please contact KrousEx for support.");
                                 return false;
-                            }
+                            } 
                         }
                         else
                         {
-                            clsFunction.DisplayAJAXMessage(this, "Unable to find the directory or folder. Folder may be deleted or moved. Please contact KrousEx for support.");
-                            return false;
+                            Guid ExamPreparationGUID = Guid.NewGuid();
+
+                            string ExamFilePath = "~/Uploads/ExaminationPreparationFolder/" + ExamPreparationGUID + "/";
+
+                            if (!Directory.Exists(ExamFilePath))
+                            {
+                                Directory.CreateDirectory(Server.MapPath(ExamFilePath));
+
+                                con.Open();
+                                SqlCommand InsertCommand = new SqlCommand("INSERT INTO ExamPreparation VALUES(@ExamPreparationGUID, @ExamTimetableGUID, @QuestionPaper, @AnswerSheet) ", con);
+
+                                InsertCommand.Parameters.AddWithValue("@ExamPreparationGUID", ExamPreparationGUID);
+                                InsertCommand.Parameters.AddWithValue("@ExamTimetableGUID", ddlExamination.SelectedValue);
+                                InsertCommand.Parameters.AddWithValue("@QuestionPaper", questionPaperFileName);
+                                InsertCommand.Parameters.AddWithValue("@AnswerSheet", answerSheetFileName);
+
+                                InsertCommand.ExecuteNonQuery();
+                                con.Close();
+
+                                return true;
+                            }
+                            else
+                            {
+                                clsFunction.DisplayAJAXMessage(this, "Unable to create directory or folder. Please contact KrousEx for support.");
+                                return false;
+                            }
                         }
                     }
                     else
                     {
-                        Guid ExamPreparationGUID = Guid.NewGuid();
-    
-                        string ExamFilePath = "~/Uploads/ExaminationPreparationFolder/" + ExamPreparationGUID + "/";
-                        
-                        if (!Directory.Exists(ExamFilePath))
-                        {
-                            Directory.CreateDirectory(Server.MapPath(ExamFilePath));
-
-                            con.Open();
-                            SqlCommand InsertCommand = new SqlCommand("INSERT INTO ExamPreparation VALUES(@ExamPreparationGUID, @ExamTimetableGUID, @QuestionPaper, @AnswerSheet) ", con);
-
-                            InsertCommand.Parameters.AddWithValue("@ExamPreparationGUID", ExamPreparationGUID);
-                            InsertCommand.Parameters.AddWithValue("@ExamTimetableGUID", ddlExamination.SelectedValue);
-                            InsertCommand.Parameters.AddWithValue("@QuestionPaper", questionPaperFileName);
-                            InsertCommand.Parameters.AddWithValue("@AnswerSheet", answerSheetFileName);
-
-                            InsertCommand.ExecuteNonQuery();
-                            con.Close();
-
-                            return true;
-                        } else
-                        {
-                            clsFunction.DisplayAJAXMessage(this, "Unable to create directory or folder. Please contact KrousEx for support.");
-                            return false;
-                        }
+                        Session["EmptyFile"] = "Yes";
+                        return false;
                     }
                 }
             }
@@ -302,8 +340,6 @@ namespace Krous_Ex
             {
                 File.Delete(filename);
             }
-
-            Directory.Delete(path);
         }
     }
 }

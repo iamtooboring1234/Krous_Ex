@@ -13,6 +13,8 @@ namespace Krous_Ex
 {
     public partial class AcademicCalenderEntry : System.Web.UI.Page
     {
+        private string strMessage;
+
         protected void Page_Load(object sender, EventArgs e)
         {
             txtSemesterStartDate.Attributes.Add("onkeydown", "return (event.keyCode!=13);");
@@ -85,7 +87,7 @@ namespace Krous_Ex
             }
             else
             {
-                clsFunction.DisplayAJAXMessage(this, "Please enter all the required information.");
+                clsFunction.DisplayAJAXMessage(this, strMessage);
             }
         }
 
@@ -240,27 +242,31 @@ namespace Krous_Ex
         {
             if (txtSemesterName.Text == "")
             {
-                clsFunction.DisplayAJAXMessage(this, "Please enter the semester name.");
-                return false;
+                strMessage += "- Semester name \\n";
             }
 
             if (txtSemesterStudyDuration.Text == "")
             {
-                clsFunction.DisplayAJAXMessage(this, "Please enter the semester study duration.");
-                return false;
+                strMessage += "- Semester study duration \\n";
             }
 
             if (txtSemesterExamDuration.Text == "")
             {
-                clsFunction.DisplayAJAXMessage(this, "Please enter the semester examination duration.");
-                return false;
+                strMessage += "- Semester examination duration \\n";
             }
 
             if (txtSemesterBreakDuration.Text == "")
             {
-                clsFunction.DisplayAJAXMessage(this, "Please enter the semester break duration.");
+                strMessage += "- Semester break duration \\n";
+            }
+
+            if (!string.IsNullOrEmpty(strMessage))
+            {
+                string tempMessage = "Please complete all the required field as below : \\n" + strMessage;
+                strMessage = tempMessage;
                 return false;
             }
+
             return true;
         }   
 

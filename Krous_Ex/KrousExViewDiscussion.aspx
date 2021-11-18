@@ -1,4 +1,4 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/AllUserSite.Master" AutoEventWireup="true" CodeBehind="KrousExViewDiscussion.aspx.cs" Inherits="Krous_Ex.KrousExViewDiscussion" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/AllUserSite.Master" MaintainScrollPositionOnPostback="true" AutoEventWireup="true" CodeBehind="KrousExViewDiscussion.aspx.cs" Inherits="Krous_Ex.KrousExViewDiscussion" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
 
     <script src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js"></script>
@@ -30,7 +30,7 @@
                                     <div class="row">
                                         <div class="col-md-10">
                                             <p class="card-description">
-                                                <asp:HyperLink ID="HyperLink2" runat="server" href="DiscussionEntry">Post</asp:HyperLink> a new forum / <a href="#postReplyContainer">Post</a> a comment
+                                                <asp:HyperLink ID="HyperLink2" runat="server" href="KrousExDiscussionEntry">Post</asp:HyperLink> a new forum / <a href="#postReplyContainer">Post</a> a comment
                                             </p>
                                         </div>
                                     </div>

@@ -51,7 +51,7 @@ namespace Krous_Ex
 
                 if (checkEnd == "False")
                 {
-                    sqlQuery += "WHERE C.ChatStatus = 'Pending' OR C.ChatStatus = 'In Progress' AND ";
+                    sqlQuery += "WHERE (C.ChatStatus = 'Pending' OR C.ChatStatus = 'In Progress') AND ";
                 }
                 else
                 {

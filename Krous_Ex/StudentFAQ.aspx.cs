@@ -28,7 +28,7 @@ namespace Krous_Ex
             {
                 var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Krous_Ex"].ConnectionString);
                 con.Open();
-                var GetCommand = new SqlCommand("SELECT * FROM Chat WHERE StudentGUID = @StudentGUID AND ChatStatus = 'Pending' OR ChatStatus = 'In Progress'", con);
+                var GetCommand = new SqlCommand("SELECT * FROM Chat WHERE StudentGUID = @StudentGUID AND (ChatStatus = 'Pending' OR ChatStatus = 'In Progress') ", con);
                 GetCommand.Parameters.AddWithValue("@StudentGUID", Guid.Parse(clsLogin.GetLoginUserGUID()));
                 SqlDataReader reader = GetCommand.ExecuteReader();
                 var dtChat = new DataTable();

@@ -56,7 +56,6 @@ namespace Krous_Ex
                     {
                         panelLogin.Visible = false;
                         panelPost.Visible = true;
-                        panelPostReply.Visible = true;
                         Literal3.Text = "<p style=\"color:white\">" + clsLogin.GetLoginUserName() + "</p>";
                     }
                 }
@@ -140,6 +139,7 @@ namespace Krous_Ex
                             } else
                             {
                                 panelManage.Visible = false;
+                                panelPostReply.Visible = false;
                             }
                         }
                         else
@@ -271,7 +271,13 @@ namespace Krous_Ex
                                 {
                                     if (dtReply.Rows[i]["RepliedBy"].ToString() == clsLogin.GetLoginUserName())
                                     {
-                                        strTableBody += "<p class=\"pt-3\">" + dtReply.Rows[i]["RepliedBy"] + "</p><p><a Class=\"mr-3\" href=\"KrousExEditComments?ReplyGUID=" + dtReply.Rows[i]["ReplyGUID"] + "&DiscGUID=" + dtReply.Rows[i]["DiscGUID"] + "\"><i style=\"color: #00d25b;\" class=\"fas fa-edit\"></i></a><a href=\"KrousExDeleteComment?ReplyGUID=" + dtReply.Rows[i]["ReplyGUID"] + "&DiscGUID=" + dtReply.Rows[i]["DiscGUID"] + "\"><i style=\"color: red;\" class=\"fas fa-trash-alt\"></i></a></p>";
+                                        strTableBody += "<p class=\"pt-3\">";
+
+                                        if (dtReply.Rows[0]["DiscIsLocked"].ToString() != "Yes")
+                                        {
+                                            strTableBody += dtReply.Rows[i]["RepliedBy"] + "</p><p><a Class=\"mr-3\" href=\"KrousExEditComments?ReplyGUID=" + dtReply.Rows[i]["ReplyGUID"] + "&DiscGUID=" + dtReply.Rows[i]["DiscGUID"] + "\"><i style=\"color: #00d25b;\" class=\"fas fa-edit\"></i></a>";
+                                        }
+                                        strTableBody += "<a href=\"KrousExDeleteComment?ReplyGUID=" + dtReply.Rows[i]["ReplyGUID"] + "&DiscGUID=" + dtReply.Rows[i]["DiscGUID"] + "\"><i style=\"color: red;\" class=\"fas fa-trash-alt\"></i></a></p>";
                                     }
                                     else
                                     {
@@ -312,13 +318,30 @@ namespace Krous_Ex
 
         protected void btnPostReply_Click(object sender, EventArgs e)
         {
-            if(insertReply())
+            if (isReplyMessageEmpty())
             {
-                Response.Redirect("KrousExViewDiscussion.aspx?DiscGUID=" + Request.QueryString["DiscGUID"]);
-            }
-            else
+                if (insertReply())
+                {
+                    Response.Redirect("KrousExViewDiscussion.aspx?DiscGUID=" + Request.QueryString["DiscGUID"]);
+                }
+                else
+                {
+                    clsFunction.DisplayAJAXMessage(this, "Unable to insert. Failed to create.");
+                }
+            } else
             {
-                clsFunction.DisplayAJAXMessage(this, "Unable to insert. Failed to create.");
+                ClientScript.RegisterStartupScript(GetType(), "Javascript", "javascript:showWarningToast(); ", true);
+             }
+        }
+
+        private bool isReplyMessageEmpty()
+        {
+            if (!string.IsNullOrEmpty(txtComment.Text))
+            {
+                return true;
+            } else
+            {
+                return false;
             }
         }
 

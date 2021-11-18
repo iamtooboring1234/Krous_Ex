@@ -492,7 +492,6 @@
     <Content Include="Assests\main\vendors\zoom-meeting\zoom-vconsole.min.js" />
     <Content Include="CourseListings.aspx" />
     <Content Include="CourseTimetableEntry.aspx" />
-    <Content Include="DiscussionEntry.aspx" />
     <Content Include="ExaminationInvigilatorsEntry.aspx" />
     <Content Include="ExaminationInvigilatorsListings.aspx" />
     <Content Include="ExaminationPrePreparationEntry.aspx" />
@@ -1458,13 +1457,6 @@
     </Compile>
     <Compile Include="Default.aspx.designer.cs">
       <DependentUpon>Default.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="DiscussionEntry.aspx.cs">
-      <DependentUpon>DiscussionEntry.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="DiscussionEntry.aspx.designer.cs">
-      <DependentUpon>DiscussionEntry.aspx</DependentUpon>
     </Compile>
     <Compile Include="ExaminationInvigilatorsEntry.aspx.cs">
       <DependentUpon>ExaminationInvigilatorsEntry.aspx</DependentUpon>

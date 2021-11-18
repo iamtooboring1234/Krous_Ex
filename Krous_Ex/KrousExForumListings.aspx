@@ -32,7 +32,7 @@
                                                     <Columns>
                                                         <asp:TemplateField>
                                                             <ItemTemplate>
-                                                                <asp:HyperLink runat="server" NavigateUrl='<%# Eval("ForumGUID", "~/DiscussionEntry.aspx?ForumGUID={0}") %>' Text="View" />
+                                                                <asp:HyperLink runat="server" NavigateUrl='<%# Eval("ForumGUID", "~/KrousExDiscussionEntry.aspx?ForumGUID={0}") %>' Text="View" />
                                                             </ItemTemplate>
                                                             <ItemStyle CssClass="text-center" HorizontalAlign="Center" />
                                                         </asp:TemplateField>

@@ -68,8 +68,8 @@
             var todaysDate = new Date();
 
             if (checkDate.setHours(0, 0, 0, 0) != todaysDate.setHours(0, 0, 0, 0)) {
-                divChat += '<div class="row col-lg-12 justifiy-content-center p0">';
-                divChat += '<div class="media media-meta-day">Today</div>';
+                divChat += '<div class="row col-lg-12 p0" style="justify-content: center"><hr class="col-md-4" style="border: 1px solid white;margin:auto;">';
+                divChat += '<div class="media media-meta-day">Today</div><hr class="col-md-4" style="border: 1px solid white;margin:auto;">';
                 divChat += '</div>';
                 $('#<%=hdCheckDate.ClientID%>').val(todaysDate.toDateString())
 
@@ -81,7 +81,7 @@
 
                 linkColor = "pdfLinkWhite";
                 clearMsgAfterSend()
-                divChat += '<div class="row col-lg-12 justify-content-end p0">'
+                divChat += '<div class="row col-lg-12 justify-content-end m-0">'
                 divChat += '<div class="media media-chat media-chat-reverse mediaPadding">';
 
             } else {
@@ -295,7 +295,7 @@
                     </div>
 
                     <div class="popup" id="myPopup">
-                        <div class="row col-lg-12 p0">
+                        <div class="row col-lg-12 justify-content-center m-0">
                             <div class="popuptext">
                                 Your message has successfully send to the staff.
                                                 <br />
@@ -309,8 +309,8 @@
                 <div class="box-footer mt-2">
                     <div class="input-group justify-content-end" style="float: right;">
                         <textarea id="txtMessage" class="form-control" onkeydown=""></textarea>
-                        <button type="button" id="btn-sendmsg" class="btn btn-primary rounded-circle ml-1 mr-1"><i class="fa fa-paper-plane fa-lg" style="width:40px"></i></button>
-                        <button type="button" id="btn-sendImg" class="btn btn-primary rounded-circle" onclick="ClickFileUpload();"><i class="fa fa-paperclip fa-lg" style="width:40px"></i></button>
+                        <button type="button" id="btn-sendmsg" class="btn btn-primary rounded-circle ml-1 mr-1"><i class="fa fa-paper-plane fa-lg"></i></button>
+                        <button type="button" id="btn-sendImg" class="btn btn-primary rounded-circle" onclick="ClickFileUpload();"><i class="fa fa-paperclip fa-lg"></i></button>
                         <ajaxToolkit:AsyncFileUpload OnClientUploadComplete="uploadComplete" runat="server" ID="AsyncFileUploadChat" OnUploadedComplete="FileUploadComplete"  Style="display: none"/>
                     </div>
                         

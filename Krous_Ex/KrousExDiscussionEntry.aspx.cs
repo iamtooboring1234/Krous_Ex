@@ -5,6 +5,7 @@ using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Web;
+using System.Web.Security;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 
@@ -14,10 +15,28 @@ namespace Krous_Ex
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-            if (IsPostBack != true) { 
-                loadForumCategory();
-            }
+            if (IsPostBack != true) {
 
+                var myCookie = Request.Cookies[FormsAuthentication.FormsCookieName];
+
+                if (myCookie != null)
+                {
+                    if (Session["InsertDiscussion"] != null)
+                    {
+                        if (Session["InsertDiscussion"].ToString() == "Yes")
+                        {
+                            ClientScript.RegisterStartupScript(GetType(), "Javascript", "javascript:showAddSuccessToast(); ", true);
+                            Session["InsertDiscussion"] = null;
+                        }
+                    }
+
+                    loadForumCategory();
+                }
+                else
+                {
+                    Response.Redirect("KrousExForumListings");
+                }
+            }
         }
 
         private void loadForumCategory()
@@ -64,18 +83,20 @@ namespace Krous_Ex
 
         protected void btnSubmit_Click(object sender, EventArgs e)
         {
-            if (insertFAQ())
-            {
-                ScriptManager.RegisterStartupScript(this, this.GetType(), "none", "ShowPopup();", true);
-                Response.Redirect("KrousExDiscussionEntry");
-            }
-            else
-            {
-                clsFunction.DisplayAJAXMessage(this, "Unable to insert. Failed to create.");
-            }
+
+                if (insertDiscussion())
+                {
+                    Session["InsertDiscussion"] = "Yes";
+                    Response.Redirect("KrousExDiscussionEntry");
+                }
+                else
+                {
+                    clsFunction.DisplayAJAXMessage(this, "Unable to insert. Failed to create.");
+                }
+            
         }
 
-        private bool insertFAQ()
+        private bool insertDiscussion()
         {
             Guid DiscGUID = Guid.NewGuid();
 

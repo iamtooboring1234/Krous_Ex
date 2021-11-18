@@ -24,6 +24,7 @@
                                                 </div>
                                                 <div class="col-md-12">
                                                     <asp:TextBox ID="txtDiscTopic" Width="100%" MaxLength="100" runat="server" CssClass="form-control"></asp:TextBox>
+                                                    <asp:RequiredFieldValidator ID="RequiredFieldValidator1" runat="server" ErrorMessage="* Required" ControlToValidate="txtDiscTopic" ForeColor="Red"></asp:RequiredFieldValidator>
                                                 </div>
                                             </div>
                                         </div>
@@ -35,6 +36,7 @@
                                                 </div>
                                                 <div class="col-md-12">
                                                     <asp:TextBox ID="txtDiscDesc" Width="100%" MaxLength="100" runat="server" CssClass="form-control"></asp:TextBox>
+                                                    <asp:RequiredFieldValidator ID="RequiredFieldValidator2" runat="server" ErrorMessage="* Required" ControlToValidate="txtDiscDesc" ForeColor="Red"></asp:RequiredFieldValidator>
                                                 </div>
                                             </div>
                                         </div>
@@ -57,6 +59,7 @@
                                                 </div>
                                                 <div class="col-md-12">
                                                     <asp:TextBox ID="txtDiscContent" TextMode="MultiLine" Rows="15" Width="100%" MaxLength="999" runat="server" CssClass="form-control"></asp:TextBox>
+                                                    <asp:RequiredFieldValidator ID="RequiredFieldValidator3" runat="server" ErrorMessage="* Required" ControlToValidate="txtDiscContent" ForeColor="Red"></asp:RequiredFieldValidator>
                                                 </div>
                                             </div>
                                         </div>
@@ -77,5 +80,7 @@
             </div>
         </div>
     </div>
+
+    <script src="Assests/main/js/toastDemo.js"></script>
 
 </asp:Content>
