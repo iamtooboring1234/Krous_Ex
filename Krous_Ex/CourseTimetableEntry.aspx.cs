@@ -12,6 +12,8 @@ namespace Krous_Ex
 {
     public partial class CourseTimetableEntry : System.Web.UI.Page
     {
+        private string strMessage;
+
         protected void Page_Load(object sender, EventArgs e)
         {
             if (IsPostBack != true)
@@ -185,7 +187,11 @@ namespace Krous_Ex
                 SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["Krous_Ex"].ConnectionString);
                 con.Open();
 
-                sqlQuery = "SELECT * FROM Session ORDER BY SessionYear, SessionMonth ";
+                sqlQuery = "SELECT *  ";
+                sqlQuery += "FROM AcademicCalender A LEFT JOIN Session S ";
+                sqlQuery += "ON S.SessionGUID = A.SessionGUID WHERE GetDate() < A.SemesterStartDate OR ";
+                sqlQuery += "GetDate() BETWEEN A.SemesterStartDate AND A.SemesterEndDate ";
+                sqlQuery += "ORDER BY S.SessionYear, S.SessionMonth ";
                 
                 SqlCommand GetCommand = new SqlCommand(sqlQuery, con);
                 SqlDataReader reader = GetCommand.ExecuteReader();
@@ -357,27 +363,111 @@ namespace Krous_Ex
 
         protected void btnSave_Click(object sender, EventArgs e)
         {
-            if(isStaffInChargeCourse())
+            if (isFieldEmpty())
             {
-                if (isGroupSessionSemesterHasStudent())
+                if (isStaffInChargeCourse())
                 {
-                    if (InsertCourseTimeTable())
+                    if (isGroupSessionSemesterHasStudent())
                     {
-                        //duplicate check and crashed time check
-                        Session["InsertCourseTimeTable"] = "Yes";
-                        Response.Redirect("CourseTimetableEntry");
-                    } else
-                    {
-                        clsFunction.DisplayAJAXMessage(this, "Failed to insert! Please try again.");
+                        if (InsertCourseTimeTable())
+                        {
+                            //duplicate check and crashed time check
+                            Session["InsertCourseTimeTable"] = "Yes";
+                            Response.Redirect("CourseTimetableEntry");
+                        }
+                        else
+                        {
+                            clsFunction.DisplayAJAXMessage(this, "Failed to insert! Please try again.");
+                        }
                     }
-                } else
+                    else
+                    {
+                        clsFunction.DisplayAJAXMessage(this, "Selected session, semester, programme or group may not exist any students. Please try again.");
+                    }
+                }
+                else
                 {
-                    clsFunction.DisplayAJAXMessage(this, "Selected session, semester, programme or group may not exist any students. Please try again.");
+                    clsFunction.DisplayAJAXMessage(this, "The selected staff is not in charged of this course. Please head to Course In Charge to manage it.");
                 }
             } else
             {
-                clsFunction.DisplayAJAXMessage(this, "The selected staff is not in charged of this course. Please head to Course In Charge to manage it.");
+                clsFunction.DisplayAJAXMessage(this, strMessage);
             }
+        }
+
+        private bool isFieldEmpty()
+        {
+           
+
+            if (ddlProgrammeCategory.Text == "")
+            {
+                strMessage += "- Please select one programme category \\n";
+            }
+
+            if (ddlProgramme.Text == "")
+            {
+                strMessage += "- Please select one programme \\n";
+            }
+
+            if (ddlSession.Text == "")
+            {
+                strMessage += "- Please select one session \\n";
+            }
+
+            if (ddlSemester.Text == "")
+            {
+                strMessage += "- Please select one semester \\n";
+            }
+
+            if (ddlGroup.Text == "")
+            {
+                strMessage += "- Please select one group \\n";
+            }
+
+            if (ddlCourse.Text == "")
+            {
+                strMessage += "- Please select one course \\n";
+            }
+
+            if (ddlStaff.Text == "")
+            {
+                strMessage += "- Please select one staff \\n";
+            }
+
+            if (radClassType.SelectedValue == "Main")
+            {
+                if (txtClassStartTime.Text == "")
+                {
+                    strMessage += "- Class start time cannot be null \\n";
+                }
+
+                if (txtClassEndTime.Text == "")
+                {
+                    strMessage += "- Class end time cannot be null  \\n";
+                }
+            }
+
+            if (radClassType.SelectedValue == "Replacement")
+            {
+                if (txtReplacementClassStartTime.Text == "")
+                {
+                    strMessage += "- Replacement class start time cannot be null  \\n";
+                }
+
+                if (txtReplacementClassEndTime.Text == "")
+                {
+                    strMessage += "- Replacement class end time cannot be null \\n";
+                }
+            }
+
+            if (!string.IsNullOrEmpty(strMessage))
+            {
+                string tempMessage = "Please complete all the required field as below : \\n" + strMessage;
+                strMessage = tempMessage;
+                return false;
+            }
+
+            return true;
         }
 
         private bool InsertCourseTimeTable()
@@ -423,7 +513,7 @@ namespace Krous_Ex
                     insertCommand.Parameters.AddWithValue("@ProgrammeCourseGUID", dtSemester.Rows[0]["ProgrammeCourseGUID"]);
                     insertCommand.Parameters.AddWithValue("@SessionGUID", ddlSession.SelectedValue);
                     insertCommand.Parameters.AddWithValue("@GroupGUID", ddlGroup.SelectedValue);
-                    insertCommand.Parameters.AddWithValue("@GroupGUID", ddlStaff.SelectedValue);
+                    insertCommand.Parameters.AddWithValue("@StaffGUID", ddlStaff.SelectedValue);
                     insertCommand.Parameters.AddWithValue("@ClassStartTime", txtClassStartTime.Text);
                     insertCommand.Parameters.AddWithValue("@ClassEndTime", txtClassEndTime.Text);
                     insertCommand.Parameters.AddWithValue("@DaysOfWeek", ddlWeekDay.SelectedValue);

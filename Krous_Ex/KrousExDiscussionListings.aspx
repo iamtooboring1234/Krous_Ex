@@ -29,7 +29,7 @@
                                     <div class="row">
                                     <div class="col-md-10">
                                         <p class="card-description">
-                                            <asp:HyperLink ID="HyperLink2" runat="server" href="DiscussionEntry">Post</asp:HyperLink> a new forum
+                                            <asp:HyperLink ID="HyperLink2" runat="server" href="KrousExDiscussionEntry">Post</asp:HyperLink> a new forum
                                         </p>
                                     </div>
                                     </div>

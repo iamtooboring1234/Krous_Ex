@@ -38,6 +38,7 @@
                                     <div class="row justify-content-center">
                                         <div class="col-md-10 text-right">
                                             <asp:Button ID="btnYes" runat="server" Text="Yes" CssClass="btn btn-primary" Width="18%" OnClick="btnYes_Click"/>
+                                            <ajaxToolkit:ConfirmButtonExtender ID="ConfirmButtonExtender1" runat="server" ConfirmText="Are you sure to DELETE this comments?" TargetControlID="btnYes" />
                                             <asp:Button ID="btnNo" runat="server" Text="No" CssClass="btn btn-danger" Width="18%" OnClick="btnNo_Click"/>
                                          </div>
                                     </div>

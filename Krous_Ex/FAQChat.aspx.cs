@@ -57,14 +57,16 @@ namespace Krous_Ex
                     StaffGUID = clsLogin.GetLoginUserGUID();
                 }
 
-                if (Session["NewChat"] == null)
+                if (Session["NewChat"] == null) 
                 {
-                    LoadMessage();
+
+                        LoadMessage();
+
                 } else
                 {
                     hdNewChat.Value = Session["NewChat"].ToString();
                     hdCheckDate.Value = "";
-                    Session["NewChat"] = "";
+                    Session["NewChat"] = null;
                 }
             }
         }
@@ -117,7 +119,7 @@ namespace Krous_Ex
                             convertDate = DateTime.Parse(dtMessage.Rows[i]["SendDate"].ToString());
                             if (convertDate.Date == DateTime.Now.Date & checkToday == true)
                             {
-                                strOldMessage += "<div class=\"row col-lg-12 justify-content-center m-0\"><hr class=\"col-md-4\" style=\"border: 1px solid white;margin:auto;\">";
+                                strOldMessage += "<div class=\"row col-lg-12 justify-content-center m-0\"><hr class=\"col-md-4\" style=\"border: 1px solid white;margin:auto;justify-content: center\">";
                                 strOldMessage += "<div class=\"media media-meta-day\">Today</div><hr class=\"col-md-4\" style=\"border: 1px solid white;margin:auto;\">";
                                 strOldMessage += "</div>";
                                 checkToday = false;
