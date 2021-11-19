@@ -32,7 +32,9 @@ namespace Krous_Ex
                 sqlQuery += "LEFT JOIN ExamPreparation ep ON et.ExamTimetableGUID = ep.ExamTimetableGUID ";
                 sqlQuery += "LEFT JOIN CurrentSessionSemester css ON css.SessionGUID = et.SessionGUID ";
                 sqlQuery += "INNER JOIN ProgrammeCourse pc ON css.SemesterGUID = pc.SemesterGUID AND et.CourseGUID = pc.CourseGUID ";
-                sqlQuery += "WHERE css.StudentGUID = @StudentGUID ";
+                sqlQuery += "WHERE css.StudentGUID = @StudentGUID AND ";
+                sqlQuery += "pc.ProgrammeGUID = (SELECT ProgrammeGUID FROM Student_Programme_Register WHERE studentGUID = @StudentGUID) AND ";
+                sqlQuery += "pc.SessionMonth = (SELECT SessionMonth FROM Student St LEFT JOIN Session s ON St.SessionGUID = s.SessionGUID WHERE studentGUID = @StudentGUID) ";
                 sqlQuery += "ORDER BY CourseName, ExamStartDateTime ";
 
                 SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["Krous_Ex"].ConnectionString);
@@ -62,11 +64,11 @@ namespace Krous_Ex
                         con.Close();
                     }
 
-                    DateTime examStartDate = DateTime.Parse(dtExamTimeTable.Rows[0]["SemesterEndDate"].ToString()).AddDays(-(int.Parse(dtExamTimeTable.Rows[0]["SemesterBreakDuration"].ToString()) + int.Parse(dtExamTimeTable.Rows[0]["SemesterExaminationDuration"].ToString()) + 1));
+                    DateTime examStartDate = DateTime.Parse(dtExamTimeTable.Rows[0]["SemesterEndDate"].ToString()).AddDays(-(int.Parse(dtExamTimeTable.Rows[0]["SemesterBreakDuration"].ToString()) -1 + int.Parse(dtExamTimeTable.Rows[0]["SemesterExaminationDuration"].ToString()) -1));
                     DateTime examEndDate = DateTime.Parse(dtExamTimeTable.Rows[0]["SemesterEndDate"].ToString()).AddDays(-(int.Parse(dtExamTimeTable.Rows[0]["SemesterBreakDuration"].ToString())));
                     examStartDate = examStartDate.AddHours(9);
 
-                    DateTime test = DateTime.Parse("21-dec-2021 8:30:00");
+                    DateTime test = DateTime.Parse("21-dec-2021 7:30:00");
                     if (test >= examStartDate.AddMinutes(-30))
                     {
                         for (int i = 0; i < dt.Rows.Count; i++)
@@ -155,6 +157,9 @@ namespace Krous_Ex
                             litExamination.Text = strExam;
 
                         }
+                    } else
+                    {
+                        lblNoExam.Visible = true;
                     }
 
                 }

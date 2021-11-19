@@ -11,7 +11,7 @@ namespace Krous_Ex
 {
 
 
-    public partial class ExaminationEntry
+    public partial class ExaminationTimetableEntry
     {
 
         /// <summary>

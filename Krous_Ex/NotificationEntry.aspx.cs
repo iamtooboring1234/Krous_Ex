@@ -12,6 +12,8 @@ namespace Krous_Ex
 {
     public partial class NotificationEntry : System.Web.UI.Page
     {
+        private string strMessage;
+
         protected void Page_Load(object sender, EventArgs e)
         {
             if (IsPostBack != true)
@@ -646,15 +648,73 @@ namespace Krous_Ex
 
         protected void btnSave_Click(object sender, EventArgs e)
         {
-            if (SentNotification())
+            if (isEmptyField())
             {
-                Session["SentNotification"] = "Yes";
-                Response.Redirect("NotificationEntry");
-            } 
-            else
+                if (SentNotification())
+                {
+                    Session["SentNotification"] = "Yes";
+                    Response.Redirect("NotificationEntry");
+                }
+                else
+                {
+                    clsFunction.DisplayAJAXMessage(this, "Unable to insert. Failed to create.");
+                }
+            } else
             {
-                clsFunction.DisplayAJAXMessage(this, "Unable to insert. Failed to create.");
+                clsFunction.DisplayAJAXMessage(this, strMessage);
             }
+        }
+
+        private bool isEmptyField()
+        {
+            if (radNotificationType.SelectedValue == "2")
+            {
+                if (!cbBranch.Items.Cast<ListItem>().Any(li => li.Selected))
+                {
+                    strMessage += "- Please check at least one branch(es) \\n";
+                }
+
+                if (!cbFaculty.Items.Cast<ListItem>().Any(li => li.Selected))
+                {
+                    strMessage += "- Please check at least one branch(es) \\n";
+                }
+            }
+            else if (radNotificationType.SelectedValue == "3")
+            {
+                if (!cbStudentBranch.Items.Cast<ListItem>().Any(li => li.Selected))
+                {
+                    strMessage += "- Please check at least one branch(es) \\n";
+                }
+
+                if (!cbStudentFaculty.Items.Cast<ListItem>().Any(li => li.Selected))
+                {
+                    strMessage += "- Please check at least one branch(es) \\n";
+                }
+
+                if (!cbStudentSession.Items.Cast<ListItem>().Any(li => li.Selected))
+                {
+                    strMessage += "- Please check at least one session(s) \\n";
+                }
+            }
+
+            if (string.IsNullOrEmpty(txtNotificationSubject.Text))
+            {
+                strMessage += "- Notification subject cannot be null \\n";
+            }
+
+            if (string.IsNullOrEmpty(txtNotificationContent.Text))
+            {
+                strMessage += "- Notification content cannot be null \\n";
+            }
+
+            if (!string.IsNullOrEmpty(strMessage))
+            {
+                string tempMessage = "Please complete all the required field as below : \\n" + strMessage;
+                strMessage = tempMessage;
+                return false;
+            }
+
+            return true;
         }
     }
 }

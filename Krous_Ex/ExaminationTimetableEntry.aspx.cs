@@ -16,7 +16,7 @@ using System.Web.UI.WebControls;
 
 namespace Krous_Ex
 {
-    public partial class ExaminationEntry : System.Web.UI.Page
+    public partial class ExaminationTimetableEntry : System.Web.UI.Page
     {
 
         protected void Page_Load(object sender, EventArgs e)
@@ -185,14 +185,23 @@ namespace Krous_Ex
             {
                 if (isBetweenExamDate())
                 {
-                    if (insertExam())
+                    DateTime examStartTime = DateTime.Parse(txtExamDate.Text + " " + txtStartTime.Text);
+                    DateTime examEndTime = DateTime.Parse(txtExamDate.Text + " " + txtEndTime.Text);
+
+                    if (examEndTime >= examStartTime)
                     {
-                        Session["InsertExam"] = "Yes";
-                        Response.Redirect("ExaminationEntry");
-                    }
-                    else
+                        if (insertExam())
+                        {
+                            Session["InsertExam"] = "Yes";
+                            Response.Redirect("ExaminationEntry");
+                        }
+                        else
+                        {
+                            clsFunction.DisplayAJAXMessage(this, "Error! Unable to insert.");
+                        }
+                    } else
                     {
-                        clsFunction.DisplayAJAXMessage(this, "Error! Unable to insert.");
+                        clsFunction.DisplayAJAXMessage(this, "Exam end time must higher than the exam start time.");
                     }
                 } else
                 {
@@ -226,7 +235,8 @@ namespace Krous_Ex
 
                 if (dtExamTimeTable.Rows.Count != 0)
                 {
-                    DateTime examStartDate = DateTime.Parse(dtExamTimeTable.Rows[0]["SemesterEndDate"].ToString()).AddDays(-(int.Parse(dtExamTimeTable.Rows[0]["SemesterBreakDuration"].ToString()) + int.Parse(dtExamTimeTable.Rows[0]["SemesterExaminationDuration"].ToString()) + 1));
+                    DateTime examStartDate = DateTime.Parse(dtExamTimeTable.Rows[0]["SemesterEndDate"].ToString()).AddDays(-(int.Parse(dtExamTimeTable.Rows[0]["SemesterBreakDuration"].ToString())));
+                    examStartDate = examStartDate.AddDays(-(int.Parse(dtExamTimeTable.Rows[0]["SemesterExaminationDuration"].ToString())));
                     DateTime examEndDate = DateTime.Parse(dtExamTimeTable.Rows[0]["SemesterEndDate"].ToString()).AddDays(-(int.Parse(dtExamTimeTable.Rows[0]["SemesterBreakDuration"].ToString())));
 
                     hdEndDate.Value = examEndDate.ToString("dd-MMM-yyyy");
