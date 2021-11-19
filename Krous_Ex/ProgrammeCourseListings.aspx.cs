@@ -23,8 +23,22 @@ namespace Krous_Ex
                     panelProgCourseDetails.Visible = true;
                     loadProgCourseDetails();
                 }
-
             }
+
+            if (Session["AddedProgrammeCourse"] != null)
+            {
+                if (Session["AddedProgrammeCourse"].ToString() == "Yes")
+                {
+                    clsFunction.DisplayAJAXMessage(this, "Programme course added successfully !");
+                    Session["AddedProgrammeCourse"] = null;
+                }
+                else
+                {
+                    clsFunction.DisplayAJAXMessage(this, "Error! Programme course added  unsuccessfully .");
+                    Session["AddedProgrammeCourse"] = null;
+                }
+            }
+
         }
 
         private void loadProgCourse()

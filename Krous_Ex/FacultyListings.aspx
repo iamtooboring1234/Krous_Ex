@@ -2,10 +2,10 @@
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
     <link href="Assests/main/css/inquiry.css" rel="stylesheet" />
-    <link href="Assests/main/css/table.css" rel="stylesheet" />
+     <link href="Assests/main/css/table.css" rel="stylesheet" />
 
-    <script src="Assests/main/vendors/JQuery.datatable/jquery.dataTables.min.js"></script>
-    <link href="Assests/main/vendors/JQuery.datatable/jquery.dataTables.min.css" rel="stylesheet" />
+    <link href="https://cdn.datatables.net/1.11.3/css/jquery.dataTables.min.css" rel="stylesheet" type="text/css" />
+    <script src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js"></script>
 </asp:Content>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="body" runat="server">
@@ -47,17 +47,6 @@
                                 </div>
                             </div>
                         </div>
-                        <%--   <!--desc-->
-                        <div class="form-group pdForm">
-                            <div class="row">
-                                <div class="col-md-2 col-form-label">
-                                    <asp:Label ID="lblFacultyDesc" runat="server">Faculty Description</asp:Label>
-                                </div>
-                                <div class="col-md-8">
-                                    <asp:TextBox ID="txtFacultyDescription" runat="server" CssClass="form-control"></asp:TextBox>
-                                </div>
-                            </div>
-                        </div>--%>
 
                         <div class="form-group pdForm">
                             <div class="row">
@@ -81,7 +70,7 @@
             <div class="card-body">
                 <div class="table-responsive">
                     <div class="gv-section text-center">
-                        <asp:GridView ID="gvFaculty" runat="server" Width="100%" CssClass="table table-bordered" AutoGenerateColumns="False" DataKeyNames="FacultyGUID" CellPadding="10" CellSpacing="2" Border="0">
+                        <asp:GridView ID="gvFaculty" runat="server" Width="100%" CssClass="table table-bordered tableFaculty" AutoGenerateColumns="False" DataKeyNames="FacultyGUID" CellPadding="10" CellSpacing="2" Border="0">
                             <Columns>
                                 <asp:TemplateField>
                                     <ItemTemplate>
@@ -105,11 +94,12 @@
         </div>
     </div>
 
+
     <script>
         var $ = jQuery.noConflict();
 
         $(document).ready(function () {
-            $("[id*=gvFaculty]").prepend($("<thead></thead>").html($("[id*=gvFaculty]").find("tr:first"))).DataTable({
+            $(".tableFaculty").prepend($("<thead></thead>").html($(".tableFaculty").find("tr:first"))).DataTable({
                 "searching": false,
                 "pageLength": 10,
                 "order": [[1, 'asc']],

@@ -18,8 +18,51 @@ namespace Krous_Ex
             {
                 loadBranchName();
                 loadBranchGV();
-              
             }
+
+            if (Session["updateBranch"] != null)
+            {
+                if (Session["updateBranch"].ToString() == "Yes")
+                {
+                    clsFunction.DisplayAJAXMessage(this, "Branch details has been updated!");
+                    Session["updateBranch"] = null;
+                }
+                else
+                {
+                    clsFunction.DisplayAJAXMessage(this, "Unable to update branch details!");
+                    Session["updateBranch"] = null;
+                }
+            }
+
+            if (Session["deleteBranch"] != null)
+            {
+                if (Session["deleteBranch"].ToString() == "Yes")
+                {
+                    clsFunction.DisplayAJAXMessage(this, "Branch details has been deleted!");
+                    Session["deleteBranch"] = null;
+                }
+                else
+                {
+                    clsFunction.DisplayAJAXMessage(this, "Unable to delete branch details!");
+                    Session["deleteBranch"] = null;
+                }
+            }
+
+            if (Session["AddNewBranch"] != null)
+            {
+                if (Session["AddNewBranch"].ToString() == "Yes")
+                {
+                    clsFunction.DisplayAJAXMessage(this, "Added new branch successfully!");
+                    Session["AddNewBranch"] = null;
+                }
+                else
+                {
+                    clsFunction.DisplayAJAXMessage(this, "Unable to delete branch details!");
+                    Session["AddNewBranch"] = null;
+                }
+            }
+
+
         }
 
         protected void loadBranchName()

@@ -154,14 +154,18 @@ namespace Krous_Ex
 
         protected void btnUpdate_Click(object sender, EventArgs e)
         {
-            if (updateFaculty())
+            if (validateEmpty())
             {
-                clsFunction.DisplayAJAXMessage(this, "Faculty details has been updated!");
-                Response.Redirect("FacultyListings");
-            }
-            else
-            {
-                clsFunction.DisplayAJAXMessage(this, "Unable to update faculty details.");
+                if (updateFaculty())
+                {
+                    Session["updateFaculty"] = "Yes";
+                    Response.Redirect("FacultyListings");
+                }
+                else
+                {
+                    clsFunction.DisplayAJAXMessage(this, "Unable to update faculty details.");
+                    loadFacultyInfo();
+                }
             }
         }
 
@@ -169,7 +173,7 @@ namespace Krous_Ex
         {
             if (deleteFaculty())
             {
-                clsFunction.DisplayAJAXMessage(this, "Faculty details has been deleted!");
+                Session["deleteFaculty"] = "Yes";
                 Response.Redirect("FacultyListings");
             }
             else
@@ -182,14 +186,21 @@ namespace Krous_Ex
         {
             if (validateDuplicate())
             {
-                if (insertFaculty())
+                if (validateEmpty())
                 {
-                    clsFunction.DisplayAJAXMessage(this, "Added new faculty successfully!");
-                    Response.Redirect("FacultyEntry");
-                }
-                else
-                {
-                    clsFunction.DisplayAJAXMessage(this, "Unable to insert. Failed to create.");
+                    if (insertFaculty())
+                    {
+                        Session["addNewFaculty"] = "Yes";
+                        Response.Redirect("FacultyListings");
+                    }
+                    else
+                    {
+                        clsFunction.DisplayAJAXMessage(this, "Unable to insert. Failed to create.");
+                        txtFacultyName.Text = string.Empty;
+                        txtFacultyDesc.Text = string.Empty;
+                        txtFacultyAbbrv.Text = string.Empty;
+                        txtFacultyName.Focus();
+                    }
                 }
             }
         }
@@ -198,17 +209,6 @@ namespace Krous_Ex
             Response.Redirect("FacultyListings");
         }
 
-        protected void btnCancel_Click(object sender, EventArgs e)
-        {
-            if (!String.IsNullOrEmpty(Request.QueryString["FacultyGUID"]))
-            {
-                Response.Redirect("FacultyEntry?FacultyGUID=" + Request.QueryString["FacultyGUID"]);
-            }
-            else
-            {
-                Response.Redirect("FacultyEntry");
-            }
-        }
 
         public string GetInitials(string MyText)
         {
@@ -239,6 +239,35 @@ namespace Krous_Ex
             if (clsValidation.CheckDuplicateFacultyAbbrv(txtFacultyAbbrv.Text))
             {
                 clsFunction.DisplayAJAXMessage(this, "This Faculty Abbreviation is already exists in the database!");
+                return false;
+            }
+
+            return true;
+        }
+
+        private bool validateEmpty()
+        {
+            if (txtFacultyName.Text == "")
+            {
+                clsFunction.DisplayAJAXMessage(this, "Please enter the faculty name.");
+                return false;
+            }
+
+            if (txtFacultyAbbrv.Text == "")
+            {
+                clsFunction.DisplayAJAXMessage(this, "Please enter the faculty abbreviation.");
+                return false;
+            }
+
+            if (txtFacultyAbbrv.Text.Length > 5)
+            {
+                clsFunction.DisplayAJAXMessage(this, "Please make sure the faculty abbreviation must within 5 character.");
+                return false;
+            }
+
+           if (txtFacultyDesc.Text == "")
+            {
+                clsFunction.DisplayAJAXMessage(this, "Please enter the faculty description.");
                 return false;
             }
 

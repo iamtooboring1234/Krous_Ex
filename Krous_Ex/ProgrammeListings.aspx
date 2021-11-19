@@ -55,8 +55,8 @@
                                         <asp:ListItem Value="Foundation">Foundation</asp:ListItem>
                                         <asp:ListItem Value="Diploma">Diploma</asp:ListItem>
                                         <asp:ListItem Value="Bachelor Degree">Bachelor Degree</asp:ListItem>
-                                        <asp:ListItem Value="Master">Master</asp:ListItem>
-                                        <asp:ListItem Value="Doctor of Philosophy">Doctor of Philosophy</asp:ListItem>
+                                        <%--<asp:ListItem Value="Master">Master</asp:ListItem>
+                                        <asp:ListItem Value="Doctor of Philosophy">Doctor of Philosophy</asp:ListItem>--%>
                                     </asp:DropDownList>
                                 </div>
                             </div>
@@ -76,7 +76,7 @@
                         </div>
 
                         <!--full or part time-->
-                        <div class="form-group pdForm">
+                        <%--<div class="form-group pdForm">
                             <div class="row">
                                 <div class="col-md-3 col-form-label">
                                     <asp:Label ID="lblProgFullorPart" runat="server">Full/Part Time</asp:Label>
@@ -89,7 +89,7 @@
                                     </asp:DropDownList>
                                 </div>
                             </div>
-                        </div>
+                        </div>--%>
 
                         <div class="form-group pdForm">
                             <div class="row">
@@ -97,6 +97,7 @@
                                 </div>
                                 <div class="col-md-8">
                                     <asp:Button Text="Search" ID="btnSearch" runat="server" Width="18%" CssClass="btn btn-primary" OnClick="btnSearch_Click" />
+                                    <asp:Button Text="Add New" ID="btnAdd" runat="server" Width="18%" CssClass="btn btn-secondary" style="margin-left:12px; padding:10px 0;" OnClick="btnAdd_Click"/>
                                 </div>
                             </div>
                         </div>
@@ -124,7 +125,6 @@
                                 <asp:BoundField DataField="ProgrammeName" HeaderText="Name" SortExpression="ProgrammeName" />
                                 <asp:BoundField DataField="ProgrammeAbbrv" HeaderText="Abbreviation" SortExpression="ProgrammeAbbrv" />
                                 <asp:BoundField DataField="ProgrammeCategory" HeaderText="Category" SortExpression="ProgrammeCategory" />
-                                <asp:BoundField DataField="ProgrammeFullorPart" HeaderText="Full/Part Time" SortExpression="ProgrammeFullorPart" />
                                 <asp:BoundField DataField="FacultyName" HeaderText="Faculty Name" SortExpression="FacultyName" />
                             </Columns>
                             <FooterStyle BackColor="#CCCCCC" />

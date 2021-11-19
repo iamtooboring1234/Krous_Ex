@@ -68,27 +68,12 @@ namespace Krous_Ex
 
                 if (dt.Rows.Count != 0)
                 {
-                    if(dt.Rows[0]["ProgrammeCategory"].Equals("Master") || dt.Rows[0]["ProgrammeCategory"].Equals("Doctor of Philosophy"))
-                    {
-                        rblFullorPart.Visible = true;
-                        txtProgName.Text = dt.Rows[0]["ProgrammeName"].ToString();
-                        txtProgAbbrv.Text = dt.Rows[0]["ProgrammeAbbrv"].ToString();
-                        txtProgDesc.Text = dt.Rows[0]["ProgrammeDesc"].ToString();
-                        ddlProgCategory.SelectedValue = dt.Rows[0]["ProgrammeCategory"].ToString();
-                        ddlProgDuration.SelectedValue = dt.Rows[0]["ProgrammeDuration"].ToString();
-                        rblFullorPart.SelectedValue = dt.Rows[0]["ProgrammeFullorPart"].ToString();
-                        ddlFacultyInChg.SelectedValue = dt.Rows[0]["FacultyGUID"].ToString();
-                    }
-                    else
-                    {
-                        txtProgName.Text = dt.Rows[0]["ProgrammeName"].ToString();
-                        txtProgAbbrv.Text = dt.Rows[0]["ProgrammeAbbrv"].ToString();
-                        txtProgDesc.Text = dt.Rows[0]["ProgrammeDesc"].ToString();
-                        ddlProgCategory.SelectedValue = dt.Rows[0]["ProgrammeCategory"].ToString();
-                        ddlProgDuration.SelectedValue = dt.Rows[0]["ProgrammeDuration"].ToString();
-                        rblFullorPart.SelectedValue = dt.Rows[0]["ProgrammeFullorPart"].ToString();
-                        ddlFacultyInChg.SelectedValue = dt.Rows[0]["FacultyGUID"].ToString();
-                    }
+                    txtProgName.Text = dt.Rows[0]["ProgrammeName"].ToString();
+                    txtProgAbbrv.Text = dt.Rows[0]["ProgrammeAbbrv"].ToString();
+                    txtProgDesc.Text = dt.Rows[0]["ProgrammeDesc"].ToString();
+                    ddlProgCategory.SelectedValue = dt.Rows[0]["ProgrammeCategory"].ToString();
+                    ddlProgDuration.SelectedValue = dt.Rows[0]["ProgrammeDuration"].ToString();
+                    ddlFacultyInChg.SelectedValue = dt.Rows[0]["FacultyGUID"].ToString();
                 }
                 con.Close();
             }
@@ -130,7 +115,6 @@ namespace Krous_Ex
         protected bool addNewProgramme()
         {
             Guid progGUID = Guid.NewGuid();
-
             try
             {
                 SqlConnection con = new SqlConnection();
@@ -140,32 +124,17 @@ namespace Krous_Ex
                 con = new SqlConnection(strCon);
                 con.Open();
 
-                if (ddlProgCategory.SelectedValue == "Foundation" || ddlProgCategory.SelectedValue == "Diploma" || ddlProgCategory.SelectedValue == "Bachelor Degree")
-                {
-                    insertCmd = new SqlCommand("INSERT INTO Programme VALUES (@ProgrammeGUID, @ProgrammeAbbrv, @ProgrammeName, @ProgrammeDesc, @ProgrammeDuration, @ProgrammeCategory, @ProgrammeFullorPart, @FacultyGUID)", con);
-                    insertCmd.Parameters.AddWithValue("@ProgrammeGUID", progGUID);
-                    insertCmd.Parameters.AddWithValue("@ProgrammeAbbrv", txtProgAbbrv.Text.ToUpper());
-                    insertCmd.Parameters.AddWithValue("@ProgrammeName", txtProgName.Text);
-                    insertCmd.Parameters.AddWithValue("@ProgrammeDesc", txtProgDesc.Text);
-                    insertCmd.Parameters.AddWithValue("@ProgrammeDuration", ddlProgDuration.SelectedValue);
-                    insertCmd.Parameters.AddWithValue("@ProgrammeCategory", ddlProgCategory.SelectedValue);
-                    insertCmd.Parameters.AddWithValue("@ProgrammeFullorPart", "Full Time");
-                    insertCmd.Parameters.AddWithValue("@FacultyGUID", ddlFacultyInChg.SelectedValue);
-                    insertCmd.ExecuteNonQuery();
-                }
-                else
-                {
-                    insertCmd = new SqlCommand("INSERT INTO Programme VALUES (@ProgrammeGUID, @ProgrammeAbbrv, @ProgrammeName, @ProgrammeDesc, @ProgrammeDuration, @ProgrammeCategory, @ProgrammeFullorPart, @FacultyGUID)", con);
-                    insertCmd.Parameters.AddWithValue("@ProgrammeGUID", progGUID);
-                    insertCmd.Parameters.AddWithValue("@ProgrammeAbbrv", txtProgAbbrv.Text.ToUpper());
-                    insertCmd.Parameters.AddWithValue("@ProgrammeName", txtProgName.Text);
-                    insertCmd.Parameters.AddWithValue("@ProgrammeDesc", txtProgDesc.Text);
-                    insertCmd.Parameters.AddWithValue("@ProgrammeDuration", ddlProgDuration.SelectedValue);
-                    insertCmd.Parameters.AddWithValue("@ProgrammeCategory", ddlProgCategory.SelectedValue);
-                    insertCmd.Parameters.AddWithValue("@ProgrammeFullorPart", rblFullorPart.SelectedValue);
-                    insertCmd.Parameters.AddWithValue("@FacultyGUID", ddlFacultyInChg.SelectedValue);
-                    insertCmd.ExecuteNonQuery();
-                }
+                insertCmd = new SqlCommand("INSERT INTO Programme VALUES (@ProgrammeGUID, @ProgrammeAbbrv, @ProgrammeName, @ProgrammeDesc, @ProgrammeDuration, @ProgrammeCategory, @ProgrammeFullorPart, @FacultyGUID)", con);
+                insertCmd.Parameters.AddWithValue("@ProgrammeGUID", progGUID);
+                insertCmd.Parameters.AddWithValue("@ProgrammeAbbrv", txtProgAbbrv.Text.ToUpper());
+                insertCmd.Parameters.AddWithValue("@ProgrammeName", txtProgName.Text);
+                insertCmd.Parameters.AddWithValue("@ProgrammeDesc", txtProgDesc.Text);
+                insertCmd.Parameters.AddWithValue("@ProgrammeDuration", ddlProgDuration.SelectedValue);
+                insertCmd.Parameters.AddWithValue("@ProgrammeCategory", ddlProgCategory.SelectedValue);
+                insertCmd.Parameters.AddWithValue("@ProgrammeFullorPart", "Full Time");
+                insertCmd.Parameters.AddWithValue("@FacultyGUID", ddlFacultyInChg.SelectedValue);
+                insertCmd.ExecuteNonQuery();
+               
                 con.Close();
                 return true;
             }
@@ -188,14 +157,13 @@ namespace Krous_Ex
                 con = new SqlConnection(strCon);
                 con.Open();
 
-                updateCmd = new SqlCommand("UPDATE Programme SET ProgrammeAbbrv = @ProgrammeAbbrv, ProgrammeName = @ProgrammeName, ProgrammeDesc = @ProgrammeDesc, ProgrammeDuration = @ProgrammeDuration, ProgrammeCategory = @ProgrammeCategory, ProgrammeFullorPart = @ProgrammeFullorPart, FacultyGUID = @FacultyGUID WHERE ProgrammeGUID = @ProgrammeGUID", con);
+                updateCmd = new SqlCommand("UPDATE Programme SET ProgrammeAbbrv = @ProgrammeAbbrv, ProgrammeName = @ProgrammeName, ProgrammeDesc = @ProgrammeDesc, ProgrammeDuration = @ProgrammeDuration, ProgrammeCategory = @ProgrammeCategory, FacultyGUID = @FacultyGUID WHERE ProgrammeGUID = @ProgrammeGUID", con);
                 updateCmd.Parameters.AddWithValue("@ProgrammeGUID", ProgrammeGUID);
                 updateCmd.Parameters.AddWithValue("@ProgrammeAbbrv", txtProgAbbrv.Text.ToUpper());
                 updateCmd.Parameters.AddWithValue("@ProgrammeName", txtProgName.Text);
                 updateCmd.Parameters.AddWithValue("@ProgrammeDesc", txtProgDesc.Text);
                 updateCmd.Parameters.AddWithValue("@ProgrammeDuration", ddlProgDuration.SelectedValue);
                 updateCmd.Parameters.AddWithValue("@ProgrammeCategory", ddlProgCategory.SelectedValue);
-                updateCmd.Parameters.AddWithValue("@ProgrammeFullorPart", rblFullorPart.SelectedValue);
                 updateCmd.Parameters.AddWithValue("@FacultyGUID", ddlFacultyInChg.SelectedValue);     
                 updateCmd.ExecuteNonQuery();
 
@@ -243,63 +211,40 @@ namespace Krous_Ex
                 {
                     if (addNewProgramme())
                     {
-                        clsFunction.DisplayAJAXMessage(this, "Added new programme successfully!");
+                        Session["AddNewProgramme"] = "Yes";
+                        Response.Redirect("ProgrammeListings");                     
+                    }
+                    else
+                    {
+                        clsFunction.DisplayAJAXMessage(this, "Unable to add new programme entry.");
                         txtProgName.Text = string.Empty;
                         txtProgAbbrv.Text = string.Empty;
                         txtProgDesc.Text = string.Empty;
                         ddlProgDuration.SelectedIndex = 0;
                         ddlProgCategory.SelectedIndex = 0;
-                        rblFullorPart.ClearSelection();
-                        rblFullorPart.Visible = false;
                         ddlFacultyInChg.SelectedIndex = 0;
                         txtProgName.Focus();
                     }
-                    else
-                    {
-                        clsFunction.DisplayAJAXMessage(this, "Unable to add new programme entry.");
-                    }
-                }
-                else
-                {
-                    clsFunction.DisplayAJAXMessage(this, "Please fill in the required details.");
                 }
             }
-        }
-
-        protected void btnCancel_Click(object sender, EventArgs e)
-        {
-            if (!String.IsNullOrEmpty(Request.QueryString["ProgrammeGUID"]))
-            {
-                Response.Redirect("ProgrammeEntry?ProgrammeGUID=" + Request.QueryString["ProgrammeGUID"]);
-            }
-            else
-            {
-                Response.Redirect("ProgrammeEntry");
-            }
-        }
-
-        protected void btnBack_Click(object sender, EventArgs e)
-        {
-            Response.Redirect("ProgrammeListings");
         }
 
         protected void btnUpdate_Click(object sender, EventArgs e)
         {
+
             if (validateEmpty())
             {
                 if (updateProgramme())
                 {
-                    clsFunction.DisplayAJAXMessage(this, "Programme details has been updated!");
+                    Session["updateProgramme"] = "Yes";
                     Response.Redirect("ProgrammeListings");
                 }
                 else
                 {
                     clsFunction.DisplayAJAXMessage(this, "Unable to update programme details.");
+                    loadProgInfo();
                 }
-            }
-            else
-            {
-                clsFunction.DisplayAJAXMessage(this, "Please fill in the required details.");
+
             }
         }
 
@@ -307,7 +252,7 @@ namespace Krous_Ex
         {
             if (deleteProgramme())
             {
-                clsFunction.DisplayAJAXMessage(this, "Programme details has been deleted!");
+                Session["deleteProgramme"] = "Yes";
                 Response.Redirect("ProgrammeListings");
             }
             else
@@ -316,16 +261,9 @@ namespace Krous_Ex
             }
         }
 
-        protected void ddlProgCategory_SelectedIndexChanged(object sender, EventArgs e)
+        protected void btnBack_Click(object sender, EventArgs e)
         {
-            if (ddlProgCategory.SelectedValue == "Master" || ddlProgCategory.SelectedValue == "Doctor of Philosophy")
-            {
-                rblFullorPart.Visible = true;
-            }
-            else
-            {
-                rblFullorPart.Visible = false;
-            }
+            Response.Redirect("ProgrammeListings");
         }
 
         protected bool validateEmpty()
@@ -365,16 +303,6 @@ namespace Krous_Ex
                 return false;
             }
 
-            //if master and doctor, if radio button is not selected then error
-            if (ddlProgCategory.SelectedValue == "Master" || ddlProgCategory.SelectedValue == "Doctor of Philosophy")
-            {
-                if (rblFullorPart.SelectedValue == "")
-                {
-                    clsFunction.DisplayAJAXMessage(this, "Please select Full time or Part time duration for Master and Doctor of Philosophy Category.");
-                    return false;
-                }
-            }
-
             //programme duration
             if (ddlProgDuration.SelectedValue == "")
             {
@@ -392,53 +320,22 @@ namespace Krous_Ex
             return true;
         }
 
-        //master and doctor
+        //validate duplicate name and abbrv
         protected bool validationEntry()
         {
-            if(ddlProgCategory.SelectedValue == "Foundation" || ddlProgCategory.SelectedValue == "Diploma" || ddlProgCategory.SelectedValue == "Bachelor Degree")
+            if (clsValidation.CheckDuplicateProgrammeName(txtProgName.Text))
             {
-                if (clsValidation.CheckDuplicateProgrammeName(txtProgName.Text))
-                {
-                    clsFunction.DisplayAJAXMessage(this, "The Programme name is already exists in the database!");
-                    return false;
-                }
-
-                if (clsValidation.CheckDuplicateProgrammeAbbrv(txtProgAbbrv.Text))
-                {
-                    clsFunction.DisplayAJAXMessage(this, "The Programme Abbreviation is already exists in the database!");
-                    return false;
-                }
-            }
-            else 
-            {
-                if (clsValidation.CheckDuplicateMasterOrDoctor(ddlProgCategory.SelectedValue, txtProgName.Text))
-                {
-                    if (clsValidation.CheckDuplicateProgrammeName(txtProgName.Text))
-                    {
-                        if (clsValidation.CheckDuplicateProgrammeAbbrv(txtProgAbbrv.Text))
-                        {
-                            clsFunction.DisplayAJAXMessage(this, "You can only insert 2 similar programme name for master and doctor category.");
-                            return false;
-                        }
-                        else
-                        {
-                            clsFunction.DisplayAJAXMessage(this, "The Programme Abbreviation is already exists in the database!");
-                            return false;
-                        }
-                    }
-                    else
-                    {
-                        clsFunction.DisplayAJAXMessage(this, "The Programme name is already exists in the database!");
-                        return false;
-                    }
-                }
+                clsFunction.DisplayAJAXMessage(this, "The Programme name is already exists in the database!");
+                txtProgName.Focus();
+                return false;
             }
 
-            //if (Master || philosophy) { //fang zhe bian li  mian }
-            //    else { //degree diploma foundation de validation fang zhe bian lo, ni jiu bu yong quan bu check guo }
-
-            //只可以有两个一样name 和 code for master and doctor category
-            //if other then master and category name and code dou yao check duplicate validation
+            if (clsValidation.CheckDuplicateProgrammeAbbrv(txtProgAbbrv.Text))
+            {
+                clsFunction.DisplayAJAXMessage(this, "The Programme Abbreviation is already exists in the database!");
+                txtProgAbbrv.Focus();
+                return false;
+            }
             return true;
         }
 

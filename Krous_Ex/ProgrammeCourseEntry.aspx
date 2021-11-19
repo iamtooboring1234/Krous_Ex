@@ -98,42 +98,6 @@
                                 </div>
                             </div>
 
-                            <%--<div class="panel-body">
-                    <div class="form-horizontal">
-                        <div class="form-group pdForm">
-                            <div class="row">
-                                <div class="col-md-2 col-form-label">
-                                    <asp:Label ID="Label5" runat="server">Programme Category</asp:Label><span style="color: red;">*</span>
-                                </div>
-                                <div class="col-md-8">
-                                    <asp:DropDownList ID="DropDownList1" runat="server" CssClass="form-control" OnSelectedIndexChanged="ddlProgrammCategory_SelectedIndexChanged" AutoPostBack="true"></asp:DropDownList>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="form-group pdForm">
-                            <div class="row">
-                                <div class="col-md-2 col-form-label">
-                                    <asp:Label ID="Label6" runat="server">Programme Name</asp:Label><span style="color: red;">*</span>
-                                </div>
-                                <div class="col-md-8">
-                                    <asp:DropDownList ID="DropDownList2" runat="server" CssClass="form-control" Enabled="false"></asp:DropDownList>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="form-group pdForm">
-                            <div class="row">
-                                <div class="col-md-2 col-form-label">
-                                    <asp:Label ID="Label7" runat="server">Semester</asp:Label><span style="color: red;">*</span>
-
-                                </div>
-                                <div class="col-md-8">
-                                    <asp:DropDownList ID="DropDownList3" runat="server" CssClass="form-control" Enabled="false"></asp:DropDownList>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>--%>
-
                             <div class="panel-body ">
                                 <div class="table-responsive">
                                     <div class="gv-section gv-staff text-center">
@@ -203,7 +167,7 @@
                                             <div class="col-md-12 mt-5 text-right">
                                                 <asp:Button ID="btnSubmit" runat="server" Text="Submit" CssClass="btn btn-primary p-2" Width="18%" OnClick="btnSubmit_Click" Visible="false" />
                                                 <ajaxToolkit:ConfirmButtonExtender ID="ConfirmButtonExtender1" runat="server" ConfirmText="Are you sure to SUBMIT this ?" TargetControlID="btnSubmit" />
-                                                <asp:Button ID="btnCancel" runat="server" Text="Cancel" CssClass="btn btn-danger p-2" Width="18%" Visible="false" />
+                                                <asp:Button ID="btnCancel" runat="server" Text="Cancel" CssClass="btn btn-danger p-2" Width="18%" Visible="false" OnClick="btnCancel_Click"/>
                                             </div>
                                         </div>
                                     </div>

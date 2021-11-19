@@ -210,7 +210,6 @@ namespace Krous_Ex
                         oList.Value = dt.Rows[i]["SessionGUID"].ToString();
                         ddlSession.Items.Add(oList);
                     }
-
                 }
             }
 
@@ -541,12 +540,12 @@ namespace Krous_Ex
                 SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["Krous_Ex"].ConnectionString);
                 con.Open();
 
-                sqlQuery = "SELECT* FROM CurrentSessionSemester css ";
-                sqlQuery += "LEFT JOIN GroupStudentList gsl ON Css.StudentGUID = gsl.StudentGUID ";
+                sqlQuery = "SELECT * FROM CurrentSessionSemester css ";
+                sqlQuery += "LEFT JOIN GroupStudentList gsl ON css.StudentGUID = gsl.StudentGUID ";
                 sqlQuery += "LEFT JOIN Student S ON gsl.StudentGUID = S.StudentGUID ";
                 sqlQuery += "LEFT JOIN Student_Programme_Register spr ON S.StudentGUID = spr.StudentGUID ";
                 sqlQuery += "WHERE css.SessionGUID = @SessionGUID ";
-                sqlQuery += "AND SemesterGUID = @SemesterGUID ";
+                sqlQuery += "AND css.SemesterGUID = @SemesterGUID ";
                 sqlQuery += "AND GroupGUID = @GroupGUID ";
                 sqlQuery += "AND ProgrammeGUID = @ProgrammeGUID ";
 

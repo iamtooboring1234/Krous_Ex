@@ -238,43 +238,6 @@ namespace Krous_Ex
             }
         }
 
-        public static bool CheckDuplicateMasterOrDoctor(string ProgrammeCategory, string ProgrammeName)
-        {
-            try
-            {
-                SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["Krous_Ex"].ConnectionString);
-                con.Open();
-                var SelectCommand = new SqlCommand();
-
-                SelectCommand = new SqlCommand("SELECT * FROM Programme WHERE ProgrammeCategory = @ProgrammeCategory AND ProgrammeName = @ProgrammeName ", con);
-                SelectCommand.Parameters.AddWithValue("@ProgrammeCategory", ProgrammeCategory);
-                SelectCommand.Parameters.AddWithValue("@ProgrammeName", ProgrammeName);
-
-                SqlDataReader reader = SelectCommand.ExecuteReader();
-                DataTable dtFound = new DataTable();
-                dtFound.Load(reader);
-                con.Close();
-
-                if (ProgrammeCategory == "Master" || ProgrammeCategory == "Doctor of Philosophy")
-                {
-                    if (dtFound.Rows.Count == 2)
-                    {
-                        return true;
-                    }
-                    else
-                    {
-                        return false;
-                    }
-                }
-
-                return false;
-            }
-            catch (Exception ex)
-            {
-                return false;
-            }
-        }
-
         public static bool CheckDuplicateCourseName(string CourseName)
         {
             try
@@ -443,6 +406,42 @@ namespace Krous_Ex
             }
         }
 
+        //public static bool CheckDuplicateMasterOrDoctor(string ProgrammeCategory, string ProgrammeName)
+        //{
+        //    try
+        //    {
+        //        SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["Krous_Ex"].ConnectionString);
+        //        con.Open();
+        //        var SelectCommand = new SqlCommand();
+
+        //        SelectCommand = new SqlCommand("SELECT * FROM Programme WHERE ProgrammeCategory = @ProgrammeCategory AND ProgrammeName = @ProgrammeName ", con);
+        //        SelectCommand.Parameters.AddWithValue("@ProgrammeCategory", ProgrammeCategory);
+        //        SelectCommand.Parameters.AddWithValue("@ProgrammeName", ProgrammeName);
+
+        //        SqlDataReader reader = SelectCommand.ExecuteReader();
+        //        DataTable dtFound = new DataTable();
+        //        dtFound.Load(reader);
+        //        con.Close();
+
+        //        if (ProgrammeCategory == "Master" || ProgrammeCategory == "Doctor of Philosophy")
+        //        {
+        //            if (dtFound.Rows.Count == 2)
+        //            {
+        //                return true;
+        //            }
+        //            else
+        //            {
+        //                return false;
+        //            }
+        //        }
+
+        //        return false;
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        return false;
+        //    }
+        //}
 
 
     }
