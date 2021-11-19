@@ -102,7 +102,7 @@ namespace Krous_Ex
                                     {
                                         DateTime semesterExamStartDate = startDate.AddDays(int.Parse(dt.Rows[i]["SemesterStudyDuration"].ToString()));
                                         strTable += "<td class=\"text-center\">" + startDate.ToString("dd MMM") + " - " + startDate.AddDays(int.Parse(dt.Rows[i]["SemesterStudyDuration"].ToString()) - 1).ToString("dd MMM yyyy") + "<br /> (" + dt.Rows[i]["SemesterStudyDuration"].ToString() + " days)" + "</td>";
-                                        strTable += "<td class=\"text-center\" rowspan=\"3\">" + semesterExamStartDate.ToString("dd MMM") + " - " + semesterExamStartDate.AddDays(int.Parse(dt.Rows[i]["SemesterExaminationDuration"].ToString()) - 1).ToString("dd MMM yyyy") + "<br /> (" + dt.Rows[i]["SemesterExaminationDuration"].ToString() + " days)" + "</td>";
+                                        strTable += "<td class=\"text-center\" rowspan=\"3\">" + semesterExamStartDate.ToString("dd MMM") + " - " + semesterExamStartDate.AddDays(int.Parse(dt.Rows[i]["SemesterExaminationDuration"].ToString())).ToString("dd MMM yyyy") + "<br /> (" + dt.Rows[i]["SemesterExaminationDuration"].ToString() + " days)" + "</td>";
                                     }
                                 }
                                 else if ( x < 15 || x > 17)

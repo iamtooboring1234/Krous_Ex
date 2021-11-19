@@ -319,7 +319,6 @@ namespace Krous_Ex
                     }
                     else
                     {
-
                         return false;
                     }
                 }

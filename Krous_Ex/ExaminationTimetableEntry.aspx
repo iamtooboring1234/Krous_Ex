@@ -1,4 +1,4 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/StaffMaster.Master" AutoEventWireup="true" CodeBehind="ExaminationEntry.aspx.cs" Inherits="Krous_Ex.ExaminationEntry" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/StaffMaster.Master" AutoEventWireup="true" CodeBehind="ExaminationTimetableEntry.aspx.cs" Inherits="Krous_Ex.ExaminationTimetableEntry" %>
 
 <%@ Register Assembly="AjaxControlToolkit" Namespace="AjaxControlToolkit" TagPrefix="ajaxToolkit" %>
 
@@ -178,14 +178,13 @@
                                         <div class="col-md-8">
                                             <div class="row">
                                                 <div class="col-md-4">
-                                                    <asp:TextBox ID="txtStartTime" CssClass="timepickerstart form-control" runat="server" AutoCompleteType="Disabled"></asp:TextBox>
+                                                    <asp:TextBox ID="txtStartTime" CssClass="timepickerstart form-control" runat="server" AutoCompleteType="Disabled" onkeydown="return false;"></asp:TextBox>
                                                 </div>
                                                 <div class="input-group-addon col-form-label mx-4">to</div>
                                                 <div class="col-md-4">
-                                                    <asp:TextBox ID="txtEndTime" CssClass="timepickerend form-control" runat="server" AutoCompleteType="Disabled"></asp:TextBox>
+                                                    <asp:TextBox ID="txtEndTime" CssClass="timepickerend form-control" runat="server" AutoCompleteType="Disabled" onkeydown="return false;"></asp:TextBox>
                                                 </div>
                                             </div>
-
                                         </div>
                                     </div>
                                 </div>

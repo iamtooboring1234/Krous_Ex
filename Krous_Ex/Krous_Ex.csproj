@@ -1110,7 +1110,7 @@
     <Content Include="Default.aspx" />
     <Content Include="KrousExDiscussionEntry.aspx" />
     <Content Include="Error_Page\Error_404.aspx" />
-    <Content Include="ExaminationEntry.aspx" />
+    <Content Include="ExaminationTimetableEntry.aspx" />
     <Content Include="ExaminationDashboard.aspx" />
     <Content Include="ExaminationTimetableListings.aspx" />
     <Content Include="FacultyEntry.aspx" />
@@ -1556,12 +1556,12 @@
     <Compile Include="Error_Page\Error_404.aspx.designer.cs">
       <DependentUpon>Error_404.aspx</DependentUpon>
     </Compile>
-    <Compile Include="ExaminationEntry.aspx.cs">
-      <DependentUpon>ExaminationEntry.aspx</DependentUpon>
+    <Compile Include="ExaminationTimetableEntry.aspx.cs">
+      <DependentUpon>ExaminationTimetableEntry.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="ExaminationEntry.aspx.designer.cs">
-      <DependentUpon>ExaminationEntry.aspx</DependentUpon>
+    <Compile Include="ExaminationTimetableEntry.aspx.designer.cs">
+      <DependentUpon>ExaminationTimetableEntry.aspx</DependentUpon>
     </Compile>
     <Compile Include="ExaminationDashboard.aspx.cs">
       <DependentUpon>ExaminationDashboard.aspx</DependentUpon>

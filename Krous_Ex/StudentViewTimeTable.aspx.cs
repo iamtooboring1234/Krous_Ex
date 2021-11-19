@@ -117,6 +117,9 @@ namespace Krous_Ex
 
                         for (int x = 0; x < dt.Rows.Count; x++)
                         {
+                            string test = strWeekday[i].ToString();
+                            string test1 = dt.Rows[x]["DaysOfWeek"].ToString();
+
                             if (strWeekday[i].Equals(dt.Rows[x]["DaysOfWeek"].ToString()))
                             {
                                 int intHourColSpan = 0;
@@ -144,6 +147,7 @@ namespace Krous_Ex
                                             } 
                                             else if (dt.Rows[x]["ClassType"].ToString() == "Replacement")
                                             {
+                                                leftCol = leftCol - intHourColSpan;
                                                 if (selectedWeekRange.ToString("dd-MMM-yyyy") == DateTime.Parse(dt.Rows[x]["ClassStartTime"].ToString()).ToString("dd-MMM-yyyy"))
                                                 {
                                                     strTable += "<td colspan=\"" + intHourColSpan + "\" style=\"background-color:#aEA434;color:#FFFFFF;text-align:center\">";
@@ -155,6 +159,7 @@ namespace Krous_Ex
                                                     strTable += "<span style=\"font-size: 10px\">" + classStartTime.ToString("hh:mm tt") + " - " + classEndTime.ToString("hh:mm tt") + "</span>";
                                                     strTable += "</div>";
                                                     strTable += "</td>";
+                                                    leftCol = leftCol + intHourColSpan;
                                                 }
                                             }
 
