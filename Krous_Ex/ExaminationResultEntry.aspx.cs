@@ -503,98 +503,105 @@ namespace Krous_Ex
                 {
                     if (row.RowType == DataControlRowType.DataRow)
                     {
-                        DataTable dtHasExistingCourse = new DataTable();
+                        if (!string.IsNullOrEmpty(((TextBox)row.FindControl("txtMark")).Text))
+                        {
+                            DataTable dtHasExistingCourse = new DataTable();
 
-                        string CourseGUID = row.Cells[0].Text;
-                        int intMark = int.Parse(((TextBox)row.FindControl("txtMark")).Text);
-                        string strGrade = "";
+                            string CourseGUID = row.Cells[0].Text;
+                            int intMark = int.Parse(((TextBox)row.FindControl("txtMark")).Text);
+                            string strGrade = "";
 
-                        if (intMark >= 80 && intMark <= 100)
-                        {
-                            strGrade = "A";
-                        } else if (intMark >= 75  && intMark <= 79)
-                        {
-                            strGrade = "A-";
-                        }
-                        else if (intMark >= 70 && intMark <= 74)
-                        {
-                            strGrade = "B+";
-                        }
-                        else if (intMark >= 65 && intMark <= 69)
-                        {
-                            strGrade = "B";
-                        }
-                        else if (intMark >= 60 && intMark <= 64)
-                        {
-                            strGrade = "B-";
-                        }
-                        else if (intMark >= 55 && intMark <= 59)
-                        {
-                            strGrade = "C+";
-                        }
-                        else if (intMark >= 50 && intMark <= 54)
-                        {
-                            strGrade = "C";
-                        } else
-                        {
-                            strGrade = "F";
-                        }
-
-                        using (SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["Krous_Ex"].ConnectionString))
-                        {
-                            con.Open();
-                            SqlCommand getCommand = new SqlCommand("SELECT * FROM ExamResultPerCourse WHERE ExamResultGUID = @ExamResultGUID AND CourseGUID = @CourseGUID ", con);
-                            getCommand.Parameters.AddWithValue("@ExamResultGUID", ExamResultGUID);
-                            getCommand.Parameters.AddWithValue("@CourseGUID", CourseGUID);
-                            SqlDataReader reader = getCommand.ExecuteReader();
-                            dtHasExistingCourse.Load(reader);
-                            con.Close();
-                        }
-
-                        if (dtHasExistingCourse.Rows.Count == 0)
-                        {
-                            using (SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["Krous_Ex"].ConnectionString))
+                            if (intMark >= 80 && intMark <= 100)
                             {
-                                string remarks = null;
-                                con.Open();
-                                SqlCommand insertCommand = new SqlCommand("INSERT INTO ExamResultPerCourse VALUES(newID(), @ExamResultGUID, @CourseGUID, @Mark, @Grade, @Remarks) ", con);
-                                insertCommand.Parameters.AddWithValue("@ExamResultGUID", ExamResultGUID);
-                                insertCommand.Parameters.AddWithValue("@CourseGUID", CourseGUID);
-                                insertCommand.Parameters.AddWithValue("@Mark", intMark);
-                                insertCommand.Parameters.AddWithValue("@Grade", strGrade);
-
-                                if (intMark <= 49)
-                                {
-                                    remarks = "You have failed this exam. You're required to retake this examination.";
-                                    insertCommand.Parameters.AddWithValue("@Remarks", remarks);
-                                } else 
-                                {
-                                    insertCommand.Parameters.AddWithValue("@Remarks", DBNull.Value);
-                                }
-
-                                insertCommand.ExecuteNonQuery();
-                                con.Close();
+                                strGrade = "A";
                             }
-                        } else
-                        {
+                            else if (intMark >= 75 && intMark <= 79)
+                            {
+                                strGrade = "A-";
+                            }
+                            else if (intMark >= 70 && intMark <= 74)
+                            {
+                                strGrade = "B+";
+                            }
+                            else if (intMark >= 65 && intMark <= 69)
+                            {
+                                strGrade = "B";
+                            }
+                            else if (intMark >= 60 && intMark <= 64)
+                            {
+                                strGrade = "B-";
+                            }
+                            else if (intMark >= 55 && intMark <= 59)
+                            {
+                                strGrade = "C+";
+                            }
+                            else if (intMark >= 50 && intMark <= 54)
+                            {
+                                strGrade = "C";
+                            }
+                            else
+                            {
+                                strGrade = "F";
+                            }
+
                             using (SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["Krous_Ex"].ConnectionString))
                             {
                                 con.Open();
-                                SqlCommand updateCommand = new SqlCommand("Update ExamResultPerCourse SET Mark = @Mark, Grade = @Grade, Remarks = @Remarks WHERE ExamResultGUID = @ExamResultGUID AND CourseGUID = @CourseGUID ", con);
-                                updateCommand.Parameters.AddWithValue("@ExamResultGUID", ExamResultGUID);
-                                updateCommand.Parameters.AddWithValue("@CourseGUID", CourseGUID);
-                                updateCommand.Parameters.AddWithValue("@Mark", intMark);
-                                updateCommand.Parameters.AddWithValue("@Grade", strGrade);
-
-                                if (intMark >= 50)
-                                {
-                                    updateCommand.Parameters.AddWithValue("@Remarks", DBNull.Value);
-                                }
-
-                                updateCommand.ExecuteNonQuery();
+                                SqlCommand getCommand = new SqlCommand("SELECT * FROM ExamResultPerCourse WHERE ExamResultGUID = @ExamResultGUID AND CourseGUID = @CourseGUID ", con);
+                                getCommand.Parameters.AddWithValue("@ExamResultGUID", ExamResultGUID);
+                                getCommand.Parameters.AddWithValue("@CourseGUID", CourseGUID);
+                                SqlDataReader reader = getCommand.ExecuteReader();
+                                dtHasExistingCourse.Load(reader);
                                 con.Close();
                             }
-                        }
+
+                            if (dtHasExistingCourse.Rows.Count == 0)
+                            {
+                                using (SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["Krous_Ex"].ConnectionString))
+                                {
+                                    string remarks = null;
+                                    con.Open();
+                                    SqlCommand insertCommand = new SqlCommand("INSERT INTO ExamResultPerCourse VALUES(newID(), @ExamResultGUID, @CourseGUID, @Mark, @Grade, @Remarks) ", con);
+                                    insertCommand.Parameters.AddWithValue("@ExamResultGUID", ExamResultGUID);
+                                    insertCommand.Parameters.AddWithValue("@CourseGUID", CourseGUID);
+                                    insertCommand.Parameters.AddWithValue("@Mark", intMark);
+                                    insertCommand.Parameters.AddWithValue("@Grade", strGrade);
+
+                                    if (intMark <= 49)
+                                    {
+                                        remarks = "You have failed this exam. You're required to retake this examination.";
+                                        insertCommand.Parameters.AddWithValue("@Remarks", remarks);
+                                    }
+                                    else
+                                    {
+                                        insertCommand.Parameters.AddWithValue("@Remarks", DBNull.Value);
+                                    }
+
+                                    insertCommand.ExecuteNonQuery();
+                                    con.Close();
+                                }
+                            }
+                            else
+                            {
+                                using (SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["Krous_Ex"].ConnectionString))
+                                {
+                                    con.Open();
+                                    SqlCommand updateCommand = new SqlCommand("Update ExamResultPerCourse SET Mark = @Mark, Grade = @Grade, Remarks = @Remarks WHERE ExamResultGUID = @ExamResultGUID AND CourseGUID = @CourseGUID ", con);
+                                    updateCommand.Parameters.AddWithValue("@ExamResultGUID", ExamResultGUID);
+                                    updateCommand.Parameters.AddWithValue("@CourseGUID", CourseGUID);
+                                    updateCommand.Parameters.AddWithValue("@Mark", intMark);
+                                    updateCommand.Parameters.AddWithValue("@Grade", strGrade);
+
+                                    if (intMark >= 50)
+                                    {
+                                        updateCommand.Parameters.AddWithValue("@Remarks", DBNull.Value);
+                                    }
+
+                                    updateCommand.ExecuteNonQuery();
+                                    con.Close();
+                                }
+                            }
+                        } 
                     }
                 }
 

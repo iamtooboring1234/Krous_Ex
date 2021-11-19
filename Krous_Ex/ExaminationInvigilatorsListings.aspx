@@ -107,14 +107,14 @@
                                     <div class="row">
                                         <div class="col-md-4">
                                             <span class="input-group-addon input-group-append border-left">
-                                                <asp:TextBox ID="txtExamStartDateTime" runat="server" CssClass="form-control startDateTime"></asp:TextBox>
+                                                <asp:TextBox ID="txtExamStartDateTime" runat="server" CssClass="form-control startDateTime" AutoCompleteType="Disabled"></asp:TextBox>
                                                 <span class="mdi mdi-calendar input-group-text"></span>
                                             </span>
                                         </div>
                                         <div class="input-group-addon col-form-label mx-4">to</div>
                                         <div class="col-md-4">
                                             <span class="input-group-addon input-group-append border-left">
-                                                <asp:TextBox ID="txtExamEndDateTime" runat="server" CssClass="form-control endDateTime"></asp:TextBox>
+                                                <asp:TextBox ID="txtExamEndDateTime" runat="server" CssClass="form-control endDateTime" AutoCompleteType="Disabled"></asp:TextBox>
                                                 <span class="mdi mdi-calendar input-group-text"></span>
                                             </span>
                                         </div>

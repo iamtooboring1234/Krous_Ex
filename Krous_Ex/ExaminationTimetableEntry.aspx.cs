@@ -18,6 +18,7 @@ namespace Krous_Ex
 {
     public partial class ExaminationTimetableEntry : System.Web.UI.Page
     {
+        private string strMessage;
 
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -181,36 +182,72 @@ namespace Krous_Ex
 
         protected void btnSave_Click(object sender, EventArgs e)
         {
-            if (checkExistExam())
+            if (isEmptyField())
             {
-                if (isBetweenExamDate())
+                if (checkExistExam())
                 {
-                    DateTime examStartTime = DateTime.Parse(txtExamDate.Text + " " + txtStartTime.Text);
-                    DateTime examEndTime = DateTime.Parse(txtExamDate.Text + " " + txtEndTime.Text);
-
-                    if (examEndTime >= examStartTime)
+                    if (isBetweenExamDate())
                     {
-                        if (insertExam())
+                        DateTime examStartTime = DateTime.Parse(txtExamDate.Text + " " + txtStartTime.Text);
+                        DateTime examEndTime = DateTime.Parse(txtExamDate.Text + " " + txtEndTime.Text);
+
+                        if (examEndTime >= examStartTime)
                         {
-                            Session["InsertExam"] = "Yes";
-                            Response.Redirect("ExaminationEntry");
+                            if (insertExam())
+                            {
+                                Session["InsertExam"] = "Yes";
+                                Response.Redirect("ExaminationEntry");
+                            }
+                            else
+                            {
+                                clsFunction.DisplayAJAXMessage(this, "Error! Unable to insert.");
+                            }
                         }
                         else
                         {
-                            clsFunction.DisplayAJAXMessage(this, "Error! Unable to insert.");
+                            clsFunction.DisplayAJAXMessage(this, "Exam end time must higher than the exam start time.");
                         }
-                    } else
-                    {
-                        clsFunction.DisplayAJAXMessage(this, "Exam end time must higher than the exam start time.");
                     }
-                } else
+                    else
+                    {
+                        clsFunction.DisplayAJAXMessage(this, "Exam date is not between " + hdStartDate.Value + " and " + hdEndDate.Value);
+                    }
+                }
+                else
                 {
-                    clsFunction.DisplayAJAXMessage(this, "Exam date is not between " + hdStartDate.Value + " and " + hdEndDate.Value);
+                    clsFunction.DisplayAJAXMessage(this, "Selected Course: " + ddlCourse.SelectedItem.Text + " has existing record. Please go to listings to manage it.");
                 }
             } else
             {
-                clsFunction.DisplayAJAXMessage(this, "Selected Course: " + ddlCourse.SelectedItem.Text + " has existing record. Please go to listings to manage it." );
+                clsFunction.DisplayAJAXMessage(this, strMessage);
             }
+        }
+
+        private bool isEmptyField()
+        {
+            if (string.IsNullOrEmpty(txtExamDate.Text))
+            {
+                strMessage += "- Exam date cannot be empty \\n";
+            }
+
+            if (string.IsNullOrEmpty(txtStartTime.Text))
+            {
+                strMessage += "- Exam start time cannot be empty \\n";
+            }
+
+            if (string.IsNullOrEmpty(txtEndTime.Text))
+            {
+                strMessage += "- Exam end time cannot be empty \\n";
+            }
+
+            if (!string.IsNullOrEmpty(strMessage))
+            {
+                string tempMessage = "Please complete all the required field as below : \\n" + strMessage;
+                strMessage = tempMessage;
+                return false;
+            }
+
+            return true;
         }
 
         private bool isBetweenExamDate()

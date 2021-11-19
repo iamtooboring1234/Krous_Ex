@@ -12,6 +12,8 @@ namespace Krous_Ex
 {
     public partial class ExaminationInvigilatorsEntry : System.Web.UI.Page
     {
+        private string strMessage;
+
         protected void Page_Load(object sender, EventArgs e)
         {
             if (IsPostBack != true)
@@ -190,28 +192,57 @@ namespace Krous_Ex
 
         protected void btnSave_Click(object sender, EventArgs e)
         {
-            if (isDuplicateStaff())
+            if (isEmptyField())
             {
-                if (isTimeClashed())
+                if (isDuplicateStaff())
                 {
-                    if (insertInvigilators())
+                    if (isTimeClashed())
                     {
-                        Session["InsertInvigilators"] = "Yes";
-                        Response.Redirect("ExaminationInvigilatorsEntry");
+                        if (insertInvigilators())
+                        {
+                            Session["InsertInvigilators"] = "Yes";
+                            Response.Redirect("ExaminationInvigilatorsEntry");
+                        }
+                        else
+                        {
+                            clsFunction.DisplayAJAXMessage(this, "Error! Unable to insert.");
+                        }
                     }
                     else
                     {
-                        clsFunction.DisplayAJAXMessage(this, "Error! Unable to insert.");
+                        clsFunction.DisplayAJAXMessage(this, "Error! The selected staff may clashed with other examination time.");
                     }
                 }
                 else
                 {
-                    clsFunction.DisplayAJAXMessage(this, "Error! The selected staff may clashed with other examination time.");
+                    clsFunction.DisplayAJAXMessage(this, "Error! Some selected staff are already in-charged. Please proceed to listings to manage.");
                 }
             } else
             {
-                clsFunction.DisplayAJAXMessage(this, "Error! Some selected staff are already in-charged. Please proceed to listings to manage.");
+                clsFunction.DisplayAJAXMessage(this, strMessage);
             }
+        }
+
+        private bool isEmptyField()
+        {
+            if (string.IsNullOrEmpty(ddlCourseExam.SelectedValue)) 
+            {
+                strMessage += "- Please select one exam to manage it \\n";
+            }
+
+            if (string.IsNullOrEmpty(hdSelectedStaff.Value))
+            {
+                strMessage += "- Please select at least one staff \\n";
+            }
+
+            if (!string.IsNullOrEmpty(strMessage))
+            {
+                string tempMessage = "Please complete all the required field as below : \\n" + strMessage;
+                strMessage = tempMessage;
+                return false;
+            }
+
+            return true;
         }
 
         private bool isDuplicateStaff()
