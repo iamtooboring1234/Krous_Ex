@@ -96,24 +96,6 @@ namespace Krous_Ex
         protected global::System.Web.UI.WebControls.DropDownList ddlFacultyInChg;
 
         /// <summary>
-        /// lblProgFullorPart control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblProgFullorPart;
-
-        /// <summary>
-        /// ddlFullorPart control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList ddlFullorPart;
-
-        /// <summary>
         /// btnSearch control.
         /// </summary>
         /// <remarks>
@@ -121,6 +103,15 @@ namespace Krous_Ex
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Button btnSearch;
+
+        /// <summary>
+        /// btnAdd control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button btnAdd;
 
         /// <summary>
         /// gvProgramme control.

@@ -15,20 +15,7 @@ namespace Krous_Ex
 
         protected void Page_Load(object sender, EventArgs e)
         {
-            if (Session["AddedProgrammeCourse"] != null)
-            {
-                if (Session["AddedProgrammeCourse"].ToString() == "Yes")
-                {
-                    clsFunction.DisplayAJAXMessage(this, "Programme course added successfully !");
-                    Session["AddedProgrammeCourse"] = null;
-                }
-                else
-                {
-                    clsFunction.DisplayAJAXMessage(this, "Error! Programme course added  unsuccessfully .");
-                    Session["AddedProgrammeCourse"] = null;
-                }
-            }
-
+           
             if (IsPostBack != true)
             {
                 if (!string.IsNullOrEmpty(Request.QueryString["ProgrammeGUID"]) && !string.IsNullOrEmpty(Request.QueryString["SemesterGUID"]) && !string.IsNullOrEmpty(Request.QueryString["ProgrammeCategory"]))
@@ -522,8 +509,15 @@ namespace Krous_Ex
                 }
                 else
                 {
-                    Session["NoData"] = "Yes";
-                    return false;
+                    if (!string.IsNullOrEmpty(Request.QueryString["ProgrammeGUID"]) && !string.IsNullOrEmpty(Request.QueryString["SemesterGUID"]) && !string.IsNullOrEmpty(Request.QueryString["ProgrammeCategory"]))
+                    {
+                        Session["NoData"] = "Yes";
+                        return false;
+                    } else
+                    {
+                        return false;
+                    }
+
                 }
             }
             catch (Exception ex)
@@ -602,7 +596,7 @@ namespace Krous_Ex
                 if (AddProgrammeCourse())
                 {
                     Session["AddedProgrammeCourse"] = "Yes";
-                    Response.Redirect("ProgrammeCourseEntry.aspx");
+                    Response.Redirect("ProgrammeCourseListings.aspx"); 
                 }
             }
             else
@@ -612,7 +606,7 @@ namespace Krous_Ex
                     if (AddProgrammeCourse())
                     {
                         Session["AddedProgrammeCourse"] = "Yes";
-                        Response.Redirect("ProgrammeCourseEntry.aspx");
+                        Response.Redirect("ProgrammeCourseListings.aspx"); 
                     }
                 }
             }
@@ -692,7 +686,8 @@ namespace Krous_Ex
                             gvSelectedCourse.DataBind();
                             litStep2.Text = "<p class=\"card-description\"><strong>Please change session.</strong></p>";
                         }
-                    } else
+                    } 
+                    else
                     {
                         loadGV();
                     }
@@ -770,6 +765,13 @@ namespace Krous_Ex
             {
                 clsFunction.DisplayAJAXMessage(this, ex.Message);
             }
+        }
+
+        protected void btnCancel_Click(object sender, EventArgs e)
+        {
+            loadExistingGV();
+            btnCancel.Visible = false;
+            btnSubmit.Visible = false;
         }
     }
 }

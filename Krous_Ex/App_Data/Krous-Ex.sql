@@ -101,11 +101,12 @@ CREATE TABLE [dbo].[Programme] (
     [ProgrammeDesc]       VARCHAR (999)    NOT NULL,
     [ProgrammeDuration]   VARCHAR (30)     NOT NULL,
     [ProgrammeCategory]   VARCHAR (30)     NOT NULL,
-    [ProgrammeFullorPart] VARCHAR (10)     NULL,
-	[FacultyGUID]         UNIQUEIDENTIFIER NOT NULL,
+    [ProgrammeFullorPart] VARCHAR (10)     NOT NULL,
+    [FacultyGUID]         UNIQUEIDENTIFIER NOT NULL,
     CONSTRAINT [pk_programme] PRIMARY KEY CLUSTERED ([ProgrammeGUID] ASC),
-    CONSTRAINT fk_faulty_prog FOREIGN KEY (FacultyGUID) REFERENCES Faculty(FacultyGUID)
+    CONSTRAINT [fk_faulty_prog] FOREIGN KEY ([FacultyGUID]) REFERENCES [dbo].[Faculty] ([FacultyGUID])
 );
+
 
 CREATE TABLE [dbo].[Payment] (
     [PaymentGUID]   UNIQUEIDENTIFIER NOT NULL,

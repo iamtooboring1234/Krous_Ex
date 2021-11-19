@@ -172,27 +172,22 @@ namespace Krous_Ex
                 {
                     if (insertBranches())
                     {
-                        //Session["InsertBranch"] = "Yes";
-                        //Response.Redirect("BranchesEntry");
-                        clsFunction.DisplayAJAXMessage(this, "Added new branch successfully!");
-                        Response.Redirect("BranchesEntry");
+                        Session["AddNewBranch"] = "Yes";
+                        Response.Redirect("BranchesListings");
                     }
                     else
                     {
                         clsFunction.DisplayAJAXMessage(this, "Unable to insert. Failed to create.");
+                        txtBranchName.Text = string.Empty;
+                        txtBranchPhone.Text = string.Empty;
+                        txtBranchEmail.Text = string.Empty;
+                        txtBranchAddress.Text = string.Empty;
+                        txtBranchName.Focus();
                     }
-
-                }
-                else
-                {
-                    clsFunction.DisplayAJAXMessage(this, "Please fill in the required details.");
-                }
+                }            
             }
         }
-        protected void btnBack_Click(object sender, EventArgs e)
-        {
-            Response.Redirect("BranchesListings");
-        }
+
 
         protected void btnUpdate_Click(object sender, EventArgs e)
         {
@@ -200,17 +195,15 @@ namespace Krous_Ex
             {
                 if (updateBranches())
                 {
-                    clsFunction.DisplayAJAXMessage(this, "Branch details has been updated!");
-                    Response.Redirect("CourseListings");
+                    Session["updateBranch"] = "Yes";
+                    Response.Redirect("BranchesListings");
                 }
                 else
                 {
                     clsFunction.DisplayAJAXMessage(this, "Unable to update branch details.");
+                    loadBranchInfo();
                 }
-            }
-            else
-            {
-                clsFunction.DisplayAJAXMessage(this, "Please fill in the required details.");
+                
             }
         }
 
@@ -218,7 +211,8 @@ namespace Krous_Ex
         {
             if (deleteBranches())
             {
-                clsFunction.DisplayAJAXMessage(this, "Branch details has been deleted!");
+
+                Session["deleteBranch"] = "Yes";
                 Response.Redirect("BranchesListings");
             }
             else
@@ -227,32 +221,28 @@ namespace Krous_Ex
             }
         }
 
-        protected void btnCancel_Click(object sender, EventArgs e)
+        protected void btnBack_Click(object sender, EventArgs e)
         {
-            if (!String.IsNullOrEmpty(Request.QueryString["BranchesGUID"]))
-            {
-                Response.Redirect("BranchesEntry?BranchesGUID=" + Request.QueryString["BranchesGUID"]);
-            }
-            else
-            {
-                Response.Redirect("BranchesEntry");
-            }
+            Response.Redirect("BranchesListings");
         }
 
         private bool validateBranches()
         {
             if (txtBranchName.Text == "")
             {
+                clsFunction.DisplayAJAXMessage(this, "Please enter the branch name.");
                 return false;
             }
 
             if (txtBranchAddress.Text == "")
             {
+                clsFunction.DisplayAJAXMessage(this, "Please enter the branch address.");
                 return false;
             }
 
             if (txtBranchEmail.Text == "")
             {
+                clsFunction.DisplayAJAXMessage(this, "Please enter the branch email address.");
                 return false;
             }
 
@@ -264,6 +254,7 @@ namespace Krous_Ex
 
             if (txtBranchPhone.Text == "")
             {
+                clsFunction.DisplayAJAXMessage(this, "Please enter the branch phone number.");
                 return false;
             }
 

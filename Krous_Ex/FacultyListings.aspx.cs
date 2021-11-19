@@ -18,6 +18,50 @@ namespace Krous_Ex
             {
                 loadFacultyAbbrv();
                 loadFacultyGV();
+                lblNoData.Visible = false;
+            }
+
+
+            if (Session["updateFaculty"] != null)
+            {
+                if (Session["updateFaculty"].ToString() == "Yes")
+                {
+                    clsFunction.DisplayAJAXMessage(this, "Faculty details has been updated!");
+                    Session["updateFaculty"] = null;
+                }
+                else
+                {
+                    clsFunction.DisplayAJAXMessage(this, "Unable to update faculty details!");
+                    Session["updateFaculty"] = null;
+                }
+            }
+
+            if (Session["deleteFaculty"] != null)
+            {
+                if (Session["deleteFaculty"].ToString() == "Yes")
+                {
+                    clsFunction.DisplayAJAXMessage(this, "Faculty details has been deleted!");
+                    Session["deleteFaculty"] = null;
+                }
+                else
+                {
+                    clsFunction.DisplayAJAXMessage(this, "Unable to delete faculty details!");
+                    Session["deleteFaculty"] = null;
+                }
+            }
+
+            if (Session["addNewFaculty"] != null)
+            {
+                if (Session["addNewFaculty"].ToString() == "Yes")
+                {
+                    clsFunction.DisplayAJAXMessage(this, "Added new faculty successfully!");
+                    Session["addNewFaculty"] = null;
+                }
+                else
+                {
+                    clsFunction.DisplayAJAXMessage(this, "Unable to add new faculty entry!");
+                    Session["addNewFaculty"] = null;
+                }
             }
         }
 

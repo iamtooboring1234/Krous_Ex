@@ -18,7 +18,51 @@ namespace Krous_Ex
             {
                 loadCourseAbbrv();
                 loadCourseGV();
+                lblNoData.Visible = false;
             }
+
+            if (Session["AddNewCourse"] != null)
+            {
+                if (Session["AddNewCourse"].ToString() == "Yes")
+                {
+                    clsFunction.DisplayAJAXMessage(this, "Added new course successfully!");
+                    Session["AddNewCourse"] = null;
+                }
+                else
+                {
+                    clsFunction.DisplayAJAXMessage(this, "Unable to add new course!");
+                    Session["AddNewCourse"] = null;
+                }
+            }
+
+            if (Session["updateCourse"] != null)
+            {
+                if (Session["updateCourse"].ToString() == "Yes")
+                {
+                    clsFunction.DisplayAJAXMessage(this, "Course details has been updated!");
+                    Session["updateCourse"] = null;
+                }
+                else
+                {
+                    clsFunction.DisplayAJAXMessage(this, "Unable to update course details.");
+                    Session["updateCourse"] = null;
+                }
+            }
+
+            if (Session["deleteCourse"] != null)
+            {
+                if (Session["deleteCourse"].ToString() == "Yes")
+                {
+                    clsFunction.DisplayAJAXMessage(this, "Course details has been deleted!");
+                    Session["deleteCourse"] = null;
+                }
+                else
+                {
+                    clsFunction.DisplayAJAXMessage(this, "Unable to course programme details!");
+                    Session["deleteCourses"] = null;
+                }
+            }
+
         }
 
         protected void loadCourseAbbrv()

@@ -22,6 +22,50 @@ namespace Krous_Ex
                 loadProgAbbrv();
                 loadProgGV();
             }
+
+            if (Session["AddNewProgramme"] != null)
+            {
+                if (Session["AddNewProgramme"].ToString() == "Yes")
+                {
+                    clsFunction.DisplayAJAXMessage(this, "Added new programme successfully!");
+                    Session["AddNewProgramme"] = null;
+                }
+                else
+                {
+                    clsFunction.DisplayAJAXMessage(this, "Unable to add new programme!");
+                    Session["AddNewProgramme"] = null;
+                }
+            }
+
+            if (Session["updateProgramme"] != null)
+            {
+                if (Session["updateProgramme"].ToString() == "Yes")
+                {
+                    clsFunction.DisplayAJAXMessage(this, "Programme details has been updated!");
+                    Session["updateProgramme"] = null;
+                }
+                else
+                {
+                    clsFunction.DisplayAJAXMessage(this, "Unable to update programme details!");
+                    Session["updateProgramme"] = null;
+                }
+            }
+
+
+            if (Session["deleteProgramme"] != null)
+            {
+                if (Session["deleteProgramme"].ToString() == "Yes")
+                {
+                    clsFunction.DisplayAJAXMessage(this, "Programme details has been deleted!");
+                    Session["deleteProgramme"] = null;
+                }
+                else
+                {
+                    clsFunction.DisplayAJAXMessage(this, "Unable to delete programme details!");
+                    Session["deleteProgramme"] = null;
+                }
+            }
+
         }
 
         //load faculty 
@@ -37,13 +81,13 @@ namespace Krous_Ex
                 con = new SqlConnection(strCon);
                 con.Open();
 
-                loadCmd = new SqlCommand("SELECT FacultyGUID, FacultyName FROM Faculty GROUP BY FacultyGUID, FacultyName ORDER BY FacultyName", con);
+                loadCmd = new SqlCommand("SELECT FacultyName FROM Faculty GROUP BY FacultyGUID, FacultyName ORDER BY FacultyName", con);
                 SqlDataAdapter da = new SqlDataAdapter(loadCmd);
                 DataSet dsFaculty = new DataSet();
                 da.Fill(dsFaculty);
                 ddlFacultyInChg.DataSource = dsFaculty;
                 ddlFacultyInChg.DataTextField = "FacultyName";
-                ddlFacultyInChg.DataValueField = "FacultyGUID";
+                ddlFacultyInChg.DataValueField = "FacultyName";
                 ddlFacultyInChg.DataBind();
                 ddlFacultyInChg.Items.Insert(0, new ListItem("", "")); 
             }
@@ -91,10 +135,9 @@ namespace Krous_Ex
             {
                 string loadQuery;
                 loadQuery = "SELECT p.ProgrammeGUID, p.ProgrammeAbbrv, p.ProgrammeName, p.ProgrammeFullorPart, p.ProgrammeCategory, f.FacultyName FROM Programme p, Faculty f WHERE p.FacultyGUID = f.FacultyGUID AND";
-                loadQuery += "CASE WHEN @ProgrammeAbbrv = '' THEN @ProgrammeAbbrv ELSE p.ProgrammeAbbrv END = @ProgrammeAbbrv AND "; //ddl
+                loadQuery += "WHERE CASE WHEN @ProgrammeAbbrv = '' THEN @ProgrammeAbbrv ELSE p.ProgrammeAbbrv END = @ProgrammeAbbrv AND "; //ddl
                 loadQuery += "CASE WHEN @ProgrammeName = '' THEN @ProgrammeName ELSE p.ProgrammeName END LIKE '%'+@ProgrammeName+'%' AND "; //text 
                 loadQuery += "CASE WHEN @FacultyName = '' then @FacultyName ELSE f.FacultyName END = @FacultyName AND "; //ddl 
-                loadQuery += "CASE WHEN @ProgrammeFullorPart = '' then @ProgrammeFullorPart ELSE p.ProgrammeFullorPart END = @ProgrammeFullorPart AND "; //ddl 
                 loadQuery += "ProgrammeCategory = @ProgrammeCategory "; //all ddl
                 loadQuery += "ORDER BY ProgrammeName";
 
@@ -105,7 +148,6 @@ namespace Krous_Ex
                 loadGVCmd.Parameters.AddWithValue("@ProgrammeAbbrv", ddlProgCode.SelectedValue);
                 loadGVCmd.Parameters.AddWithValue("@ProgrammeName", txtProgName.Text);
                 loadGVCmd.Parameters.AddWithValue("@FacultyName", ddlFacultyInChg.SelectedValue);
-                loadGVCmd.Parameters.AddWithValue("@ProgrammeFullorPart", ddlFullorPart.SelectedValue);
                 loadGVCmd.Parameters.AddWithValue("@ProgrammeCategory", ddlProgCategory.SelectedValue);
                 SqlDataReader dtGV = loadGVCmd.ExecuteReader();
                 DataTable dt = new DataTable();
@@ -139,21 +181,19 @@ namespace Krous_Ex
 
                 if(ddlProgCategory.SelectedValue != "All")
                 {
-                    searchQuery = "SELECT p.ProgrammeGUID, p.ProgrammeAbbrv, p.ProgrammeName, p.ProgrammeFullorPart, p.ProgrammeCategory, f.FacultyName FROM Programme p, Faculty f WHERE p.FacultyGUID = f.FacultyGUID AND ";
-                    searchQuery += "CASE WHEN @ProgrammeAbbrv = '' THEN @ProgrammeAbbrv ELSE p.ProgrammeAbbrv END = @ProgrammeAbbrv AND "; //ddl
+                    searchQuery = "SELECT p.ProgrammeGUID, p.ProgrammeAbbrv, p.ProgrammeName, p.ProgrammeFullorPart, p.ProgrammeCategory, f.FacultyName FROM Programme p LEFT JOIN Faculty f ON p.FacultyGUID = f.FacultyGUID ";
+                    searchQuery += "WHERE CASE WHEN @ProgrammeAbbrv = '' THEN @ProgrammeAbbrv ELSE p.ProgrammeAbbrv END = @ProgrammeAbbrv AND "; //ddl
                     searchQuery += "CASE WHEN @ProgrammeName = '' THEN @ProgrammeName ELSE p.ProgrammeName END LIKE '%'+@ProgrammeName+'%' AND "; //text 
-                    searchQuery += "CASE WHEN @FacultyName = '' then @FacultyName ELSE f.FacultyName END = @FacultyName AND "; //ddl 
-                    searchQuery += "CASE WHEN @ProgrammeFullorPart = '' then @ProgrammeFullorPart ELSE p.ProgrammeFullorPart END = @ProgrammeFullorPart AND "; //ddl 
-                    searchQuery += "ProgrammeCategory = @ProgrammeCategory "; //all ddl
+                    searchQuery += "CASE WHEN @FacultyName = '' THEN @FacultyName ELSE f.FacultyName END = @FacultyName AND "; //ddl 
+                    searchQuery += "p.ProgrammeCategory = @ProgrammeCategory "; //all ddl
                     searchQuery += "ORDER BY ProgrammeName";
                 }
                 else
                 {
-                    searchQuery = "SELECT p.ProgrammeGUID, p.ProgrammeAbbrv, p.ProgrammeName, p.ProgrammeFullorPart, p.ProgrammeCategory, f.FacultyName FROM Programme p, Faculty f WHERE p.FacultyGUID = f.FacultyGUID AND ";
-                    searchQuery += "CASE WHEN @ProgrammeAbbrv = '' THEN @ProgrammeAbbrv ELSE p.ProgrammeAbbrv END = @ProgrammeAbbrv AND ";
+                    searchQuery = "SELECT p.ProgrammeGUID, p.ProgrammeAbbrv, p.ProgrammeName, p.ProgrammeFullorPart, p.ProgrammeCategory, f.FacultyName FROM Programme p LEFT JOIN Faculty f ON p.FacultyGUID = f.FacultyGUID ";
+                    searchQuery += "WHERE CASE WHEN @ProgrammeAbbrv = '' THEN @ProgrammeAbbrv ELSE p.ProgrammeAbbrv END = @ProgrammeAbbrv AND ";
                     searchQuery += "CASE WHEN @ProgrammeName = '' THEN @ProgrammeName ELSE p.ProgrammeName END LIKE '%'+@ProgrammeName+'%' AND ";
-                    searchQuery += "CASE WHEN @FacultyName = '' then @FacultyName ELSE f.FacultyName END = @FacultyName AND ";
-                    searchQuery += "CASE WHEN @ProgrammeFullorPart = '' then @ProgrammeFullorPart ELSE p.ProgrammeFullorPart END = @ProgrammeFullorPart ";
+                    searchQuery += "CASE WHEN @FacultyName = '' THEN @FacultyName ELSE f.FacultyName END = @FacultyName ";
                     searchQuery += "ORDER BY ProgrammeName";
                 }
                 SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["Krous_Ex"].ConnectionString);
@@ -163,7 +203,6 @@ namespace Krous_Ex
                 searchCmd.Parameters.AddWithValue("@ProgrammeAbbrv", ddlProgCode.SelectedValue);
                 searchCmd.Parameters.AddWithValue("@ProgrammeName", txtProgName.Text);
                 searchCmd.Parameters.AddWithValue("@FacultyName", ddlFacultyInChg.SelectedValue);
-                searchCmd.Parameters.AddWithValue("@ProgrammeFullorPart", ddlFullorPart.SelectedValue);
                 searchCmd.Parameters.AddWithValue("@ProgrammeCategory", ddlProgCategory.SelectedValue);
                 SqlDataReader dtSearch = searchCmd.ExecuteReader();
                 DataTable dt = new DataTable();
@@ -187,6 +226,11 @@ namespace Krous_Ex
             {
                 System.Diagnostics.Trace.WriteLine(ex.Message);
             }
+        }
+
+        protected void btnAdd_Click(object sender, EventArgs e)
+        {
+            Response.Redirect("ProgrammeEntry");
         }
     }
 }

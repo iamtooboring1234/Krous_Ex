@@ -60,7 +60,6 @@ namespace Krous_Ex
                     txtCourseDesc.Text = dt.Rows[0]["CourseDesc"].ToString();
                     txtCreditHour.Text = dt.Rows[0]["CreditHour"].ToString();
                     rbCourseCategory.SelectedValue = dt.Rows[0]["Category"].ToString();
-                    //ddlProgramme.SelectedValue = dt.Rows[0]["CourseProgramme"].ToString();
                 }
                 con.Close();
             }
@@ -164,7 +163,12 @@ namespace Krous_Ex
                 {
                     if (insertCourse())
                     {
-                        clsFunction.DisplayAJAXMessage(this, "Added new course successfully!");
+                        Session["AddNewCourse"] = "Yes";
+                        Response.Redirect("CourseListings");
+                    }
+                    else
+                    {
+                        clsFunction.DisplayAJAXMessage(this, "Unable to add new course entry.");
                         txtCourseAbbrv.Text = string.Empty;
                         txtCourseName.Text = string.Empty;
                         txtCourseDesc.Text = string.Empty;
@@ -172,32 +176,7 @@ namespace Krous_Ex
                         rbCourseCategory.ClearSelection();
                         txtCourseName.Focus();
                     }
-                    else
-                    {
-                        clsFunction.DisplayAJAXMessage(this, "Unable to add new course entry.");
-                    }
                 }
-                else
-                {
-                    clsFunction.DisplayAJAXMessage(this, "Please fill in the required details.");
-                }
-            }
-        }
-
-        protected void btnBack_Click(object sender, EventArgs e)
-        {
-            Response.Redirect("CourseListings");
-        }
-
-        protected void btnCancel_Click(object sender, EventArgs e)
-        {
-            if (!String.IsNullOrEmpty(Request.QueryString["CourseGUID"]))
-            {
-                Response.Redirect("CourseEntry?CourseGUID=" + Request.QueryString["CourseGUID"]);
-            }
-            else
-            {
-                Response.Redirect("CourseEntry");
             }
         }
 
@@ -207,25 +186,23 @@ namespace Krous_Ex
             {
                 if (updateCourse())
                 {
-                    clsFunction.DisplayAJAXMessage(this, "Course details has been updated!");
+                    Session["updateCourse"] = "Yes";
                     Response.Redirect("CourseListings");
                 }
                 else
                 {
                     clsFunction.DisplayAJAXMessage(this, "Unable to update course details.");
+                    loadCourseInfo();
                 }
             }
-            else
-            {
-                clsFunction.DisplayAJAXMessage(this, "Please fill in the required details.");
-            }  
+            
         }
 
         protected void btnDelete_Click(object sender, EventArgs e)
         {
             if (deleteProgramme())
             {
-                clsFunction.DisplayAJAXMessage(this, "Course details has been deleted!");
+                Session["deleteCourse"] = "Yes"; 
                 Response.Redirect("CourseListings");
             }
             else
@@ -233,7 +210,12 @@ namespace Krous_Ex
                 clsFunction.DisplayAJAXMessage(this, "No such records to be deleted.");
             }
         }
-    
+
+        protected void btnBack_Click(object sender, EventArgs e)
+        {
+            Response.Redirect("CourseListings");
+        }
+
         private bool validateCourse()
         {
             if(txtCourseName.Text == "")
@@ -245,6 +227,12 @@ namespace Krous_Ex
             if(txtCourseAbbrv.Text == "")
             {
                 clsFunction.DisplayAJAXMessage(this, "Please enter the course abbreviation.");
+                return false;
+            }
+
+            if (txtCourseAbbrv.Text.Length > 9)
+            {
+                clsFunction.DisplayAJAXMessage(this, "Please make sure the course abbreviation must within 9 character.");
                 return false;
             }
 
@@ -272,12 +260,6 @@ namespace Krous_Ex
                 return false;
             }
 
-            //if (ddlProgramme.SelectedIndex == 0)
-            //{
-            //    clsFunction.DisplayAJAXMessage(this, "Please select the programme that this course should belongs to.");
-            //    return false;
-            //}
-
             return true;
         }
 
@@ -286,12 +268,14 @@ namespace Krous_Ex
             if (clsValidation.CheckDuplicateCourseName(txtCourseName.Text))
             {
                 clsFunction.DisplayAJAXMessage(this, "The Course name is already exists in the database!");
+                txtCourseName.Focus();
                 return false;
             }
 
             if (clsValidation.CheckDuplicateCourseAbbrv(txtCourseAbbrv.Text))
             {
                 clsFunction.DisplayAJAXMessage(this, "The Course Abbreviation is already exists in the database!");
+                txtCourseAbbrv.Focus();
                 return false;
             }
 
