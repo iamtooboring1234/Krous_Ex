@@ -368,15 +368,21 @@ namespace Krous_Ex
                 {
                     if (isGroupSessionSemesterHasStudent())
                     {
-                        if (InsertCourseTimeTable())
+                        if (isCrashedTime())
                         {
-                            //duplicate check and crashed time check
-                            Session["InsertCourseTimeTable"] = "Yes";
-                            Response.Redirect("CourseTimetableEntry");
+                            if (InsertCourseTimeTable())
+                            {
+                                Session["InsertCourseTimeTable"] = "Yes";
+                                Response.Redirect("CourseTimetableEntry");
+                            }
+                            else
+                            {
+                                clsFunction.DisplayAJAXMessage(this, "Failed to insert! Please try again.");
+                            }
                         }
                         else
                         {
-                            clsFunction.DisplayAJAXMessage(this, "Failed to insert! Please try again.");
+                            clsFunction.DisplayAJAXMessage(this, "The Class start time selected has found clashed with the existing one. Please select other time again.");
                         }
                     }
                     else
@@ -396,8 +402,6 @@ namespace Krous_Ex
 
         private bool isFieldEmpty()
         {
-           
-
             if (ddlProgrammeCategory.Text == "")
             {
                 strMessage += "- Please select one programme category \\n";
@@ -469,6 +473,71 @@ namespace Krous_Ex
             return true;
         }
 
+        private bool isCrashedTime()
+        {
+            try
+            {
+                SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["Krous_Ex"].ConnectionString);
+
+                con.Open();
+                string checkCrashed = "";
+
+                checkCrashed = "SELECT tbc.ClassStartTime, tbc.ClassEndTime, tbc.DaysOfWeek, tbc.SessionGUID, tbc.GroupGUID ";
+                checkCrashed += "FROM TimetableCourse tbc ";
+                checkCrashed += "LEFT JOIN [Session] ss ON tbc.SessionGUID = ss.SessionGUID ";
+                checkCrashed += "LEFT JOIN [Group] g ON tbc.GroupGUID = g.GroupGUID ";
+                checkCrashed += "LEFT JOIN ProgrammeCourse pc ON tbc.ProgrammeCourseGUID = pc.ProgrammeCourseGUID ";
+                checkCrashed += "WHERE @ClassStartTime < tbc.ClassEndTime AND @ClassEndTime > tbc.ClassStartTime AND ";
+                checkCrashed += "tbc.DaysOfWeek = @DaysOfWeek AND ";
+                checkCrashed += "pc.ProgrammeGUID = @ProgrammeGUID AND ";
+                checkCrashed += "tbc.SessionGUID = @SessionGUID AND ";
+                checkCrashed += "pc.SemesterGUID = @SemesterGUID";
+                SqlCommand getCommand = new SqlCommand(checkCrashed, con);
+
+                getCommand.Parameters.AddWithValue("@ClassStartTime", txtClassStartTime.Text);
+                getCommand.Parameters.AddWithValue("@ClassEndTime", txtClassEndTime.Text);
+                getCommand.Parameters.AddWithValue("@DaysOfWeek", ddlWeekDay.SelectedValue);
+                getCommand.Parameters.AddWithValue("@ProgrammeGUID", ddlProgramme.SelectedValue);
+                getCommand.Parameters.AddWithValue("@SessionGUID", ddlSession.SelectedValue);
+                getCommand.Parameters.AddWithValue("@SemesterGUID", ddlSemester.SelectedValue);
+
+                //no need to +1 second 
+                //DateTime startTime = DateTime.Parse(txtClassStartTime.Text);
+                //if (radClassType.SelectedValue == "Main")
+                //{
+                //    getCommand.Parameters.AddWithValue("@ClassStartTime", DateTime.Parse(startTime.AddSeconds(1).ToString())); //start time +1 second);
+                //    getCommand.Parameters.AddWithValue("@DaysOfWeek", ddlWeekDay.SelectedValue);
+                //    getCommand.Parameters.AddWithValue("@ProgrammeGUID", ddlProgramme.SelectedValue);
+                //    getCommand.Parameters.AddWithValue("@SessionGUID", ddlSession.SelectedValue);
+                //    getCommand.Parameters.AddWithValue("@SemesterGUID", ddlSemester.SelectedValue);
+                //}
+                //else
+                //{
+                //    getCommand.Parameters.AddWithValue("@ClassStartTime", txtClassStartTime.Text);
+                //    getCommand.Parameters.AddWithValue("@DaysOfWeek", ddlWeekDay.SelectedValue);
+                //    getCommand.Parameters.AddWithValue("@ProgrammeGUID", ddlProgramme.SelectedValue);
+                //    getCommand.Parameters.AddWithValue("@SessionGUID", ddlSession.SelectedValue);
+                //    getCommand.Parameters.AddWithValue("@SemesterGUID", ddlSemester.SelectedValue);
+                //}
+
+                SqlDataReader dtrCrash = getCommand.ExecuteReader();
+                DataTable dtCrashFound = new DataTable();
+                dtCrashFound.Load(dtrCrash);
+                con.Close();
+
+                if (dtCrashFound.Rows.Count != 0) //found
+                {
+                    return false;
+                }
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
+        }
+
         private bool InsertCourseTimeTable()
         {
             try
@@ -508,7 +577,7 @@ namespace Krous_Ex
                     con.Open();
 
                     SqlCommand insertCommand = new SqlCommand("INSERT INTO TimetableCourse VALUES(newID(), @ProgrammeCourseGUID, @SessionGUID, @GroupGUID, @StaffGUID, @ClassStartTime, @ClassEndTime, @DaysOfWeek, @ClassType, @ClassCategory) ", con);
-                    
+
                     insertCommand.Parameters.AddWithValue("@ProgrammeCourseGUID", dtSemester.Rows[0]["ProgrammeCourseGUID"]);
                     insertCommand.Parameters.AddWithValue("@SessionGUID", ddlSession.SelectedValue);
                     insertCommand.Parameters.AddWithValue("@GroupGUID", ddlGroup.SelectedValue);
@@ -518,14 +587,14 @@ namespace Krous_Ex
                     insertCommand.Parameters.AddWithValue("@DaysOfWeek", ddlWeekDay.SelectedValue);
                     insertCommand.Parameters.AddWithValue("@ClassType", radClassType.SelectedValue);
                     insertCommand.Parameters.AddWithValue("@ClassCategory", radClassCategory.SelectedValue);
-
                     insertCommand.ExecuteNonQuery();
 
                     con.Close();
                     return true;
                 }
 
-            } catch (Exception ex)
+            } 
+            catch (Exception ex)
             {
                 clsFunction.DisplayAJAXMessage(this, ex.Message);
                 return false;

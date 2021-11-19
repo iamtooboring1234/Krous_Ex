@@ -129,7 +129,7 @@ namespace Krous_Ex
                                     DateTime classStartTime = DateTime.Parse(dt.Rows[x]["ClassStartTime"].ToString());
                                     DateTime classEndTime = DateTime.Parse(dt.Rows[x]["ClassEndTime"].ToString());
 
-                                    if (TimeSpan.Parse(dtTime.ToString("hh:mm")) >= TimeSpan.Parse(classStartTime.ToString("hh:mm")) && TimeSpan.Parse(dtTime.ToString("hh:mm")) <= TimeSpan.Parse(classEndTime.ToString("hh:mm")))
+                                    if (TimeSpan.Parse(dtTime.ToString("HH:mm ")) >= TimeSpan.Parse(classStartTime.ToString("HH:mm")) && TimeSpan.Parse(dtTime.ToString("HH:mm")) <= TimeSpan.Parse(classEndTime.ToString("HH:mm")))
                                     {
                                         if (TimeSpan.Parse(dtTime.ToString("hh:mm")) == TimeSpan.Parse(classEndTime.ToString("hh:mm")))
                                         {

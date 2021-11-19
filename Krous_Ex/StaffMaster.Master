@@ -288,8 +288,9 @@
                         </a>
                         <div class="collapse" id="StaffManage">
                             <ul class="nav flex-column sub-menu">
-                                <li class="nav-item"><a class="nav-link" href="StaffEntry">New Staff Entry</a></li>
+                                <li class="nav-item"><a class="nav-link" href="StaffEntry">Staff Entry</a></li>
                                 <li class="nav-item"><a class="nav-link" href="StaffListings">Staff Listings</a></li>
+                                <li class="nav-item"><a class="nav-link" href="StaffCourseIncEntry">Course In-charge Entry</a></li>
                             </ul>
                         </div>
                     </li>
