@@ -140,18 +140,18 @@
                         </a>
                     </li>
                     <li class="nav-item menu-items">
-                        <a class="nav-link" data-toggle="collapse" href="#Course" aria-expanded="false" aria-controls="Course">
+                        <a class="nav-link" data-toggle="collapse" href="#Programme" aria-expanded="false" aria-controls="Programme">
                             <span class="menu-icon">
                                 <i class="mdi mdi-laptop"></i>
                             </span>
-                            <span class="menu-title">Course Info</span>
+                            <span class="menu-title">Programme</span>
                             <i class="menu-arrow"></i>
                         </a>
-                        <div class="collapse" id="Course">
+                        <div class="collapse" id="Programme">
                             <ul class="nav flex-column sub-menu">
                                 <li class="nav-item"><a class="nav-link" href="StudentProgrammeRegister">Programme Registration</a></li>
                                 <li class="nav-item"><a class="nav-link" href="StudentProgrammeStructure">Programme Structure</a></li>
-                                <li class="nav-item"><a class="nav-link" href="StudentTimetableListings">Timetable</a></li>
+                                <li class="nav-item"><a class="nav-link" href="StudentTimetableListings">My Timetable</a></li>
 
                             </ul>
                         </div>
@@ -170,6 +170,36 @@
                                 <li class="nav-item"><a class="nav-link" href="StudentViewExamTimetable">Exam Timetable</a></li>
                                 <li class="nav-item"><a class="nav-link" href="StudentViewSemesterResult">Semester Result</a></li>
                                 <li class="nav-item"><a class="nav-link" href="StudentViewOverallResult">Overall Result</a></li>
+                            </ul>
+                        </div>
+                    </li>
+                    <li class="nav-item menu-items">
+                        <a class="nav-link" data-toggle="collapse" href="#assessment" aria-expanded="false" aria-controls="ui-basic">
+                            <span class="menu-icon">
+                                <i class="mdi mdi-laptop"></i>
+                            </span>
+                            <span class="menu-title">Assessment</span>
+                            <i class="menu-arrow"></i>
+                        </a>
+                        <div class="collapse" id="assessment">
+                            <ul class="nav flex-column sub-menu">
+                                <li class="nav-item"><a class="nav-link" href="StudentViewAssessment">View Assessments</a></li>
+                            </ul>
+                        </div>
+                    </li>
+
+                    <li class="nav-item menu-items">
+                        <a class="nav-link" data-toggle="collapse" href="#payment" aria-expanded="false" aria-controls="ui-basic">
+                            <span class="menu-icon">
+                                <i class="mdi mdi-laptop"></i>
+                            </span>
+                            <span class="menu-title">Payment</span>
+                            <i class="menu-arrow"></i>
+                        </a>
+                        <div class="collapse" id="payment">
+                            <ul class="nav flex-column sub-menu">
+                                <li class="nav-item"><a class="nav-link" href="StudentCurrentPayment">Current Payment</a></li>
+                                <li class="nav-item"><a class="nav-link" href="StudentPaymentHistory">Payment History</a></li>
                             </ul>
                         </div>
                     </li>

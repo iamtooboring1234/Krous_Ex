@@ -40,6 +40,7 @@ namespace Krous_Ex
                     loadProgrammeCategory();
                     loadProgramme("");
                     loadSession();
+                    loadBranch();
                 }    
             }
         }
@@ -96,8 +97,7 @@ namespace Krous_Ex
 
                 SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["Krous_Ex"].ConnectionString);
                 con.Open();
-                SqlCommand GetCommand = new SqlCommand("SELECT ProgrammeGUID, ProgrammeAbbrv, ProgrammeName FROM Programme WHERE ProgrammeCategory = @ProgrammeCategory ORDER BY ProgrammeAbbrv", con);
-
+                SqlCommand GetCommand = new SqlCommand("SELECT p.ProgrammeGUID, p.ProgrammeAbbrv, p.ProgrammeName FROM Programme p LEFT JOIN ProgrammeCourse pc ON pc.ProgrammeGUID = p.ProgrammeGUID WHERE ProgrammeCategory = @ProgrammeCategory GROUP BY p.ProgrammeGUID, p.ProgrammeAbbrv, p.ProgrammeName ORDER BY ProgrammeAbbrv", con);
                 GetCommand.Parameters.AddWithValue("@ProgrammeCategory", programmeCategory);
 
                 SqlDataReader reader = GetCommand.ExecuteReader();
@@ -165,6 +165,43 @@ namespace Krous_Ex
             }
         }
 
+        private void loadBranch()
+        {
+            try
+            {
+                ddlBranch.Items.Clear();
+
+                ListItem oList = new ListItem();
+
+                oList = new ListItem();
+                oList.Text = "";
+                oList.Value = "";
+                ddlBranch.Items.Add(oList);
+
+                SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["Krous_Ex"].ConnectionString);
+                con.Open();
+                SqlCommand GetCommand = new SqlCommand("SELECT * FROM Branches", con);
+
+                SqlDataReader readerBranch = GetCommand.ExecuteReader();
+
+                DataTable dtBranch = new DataTable();
+                dtBranch.Load(readerBranch);
+                con.Close();
+
+                for (int i = 0; i <= dtBranch.Rows.Count - 1; i++)
+                {
+                    oList = new ListItem();
+                    oList.Text = dtBranch.Rows[i]["BranchesName"].ToString();
+                    oList.Value = dtBranch.Rows[i]["BranchesGUID"].ToString();
+                    ddlBranch.Items.Add(oList);
+                }
+            }
+            catch (Exception ex)
+            {
+                clsFunction.DisplayAJAXMessage(this, ex.Message);
+            }
+        }
+
         protected bool insertRegister()
         {
             bool insertBool = false;
@@ -193,30 +230,40 @@ namespace Krous_Ex
                     {
                         if (medicalFileName != "")
                         {
-                            insertCmd = new SqlCommand("INSERT INTO Student_Programme_Register (RegisterGUID, StudentGUID, ProgrammeGUID, SessionGUID, ProgrammeRegisterDate, Status, UploadIcImage, UploadResult, UploadMedical) VALUES (@RegisterGUID, @StudentGUID, @ProgrammeGUID, @SessionGUID, @ProgrammeRegisterDate, @Status, @UploadIcImage, @UploadResult, @UploadMedical)", con);
+                            insertCmd = new SqlCommand("INSERT INTO Student_Programme_Register (RegisterGUID, StudentGUID, ProgrammeGUID, SessionGUID, ProgrammeRegisterDate, Status, UploadIcImage, UploadResult, UploadMedical, BranchesGUID) VALUES (@RegisterGUID, @StudentGUID, @ProgrammeGUID, @SessionGUID, @ProgrammeRegisterDate, @Status, @UploadIcImage, @UploadResult, @UploadMedical, @BranchesGUID)", con);
                             insertCmd.Parameters.AddWithValue("@RegisterGUID", registerGUID);
                             insertCmd.Parameters.AddWithValue("@StudentGUID", userGUID);
                             insertCmd.Parameters.AddWithValue("@ProgrammeGUID", ddlProgramme.SelectedValue);
                             insertCmd.Parameters.AddWithValue("@SessionGUID", ddlSession.SelectedValue);
                             insertCmd.Parameters.AddWithValue("@ProgrammeRegisterDate", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
                             insertCmd.Parameters.AddWithValue("@Status", "Pending");
-                            insertCmd.Parameters.AddWithValue("@UploadIcImage", icFileName);
-                            insertCmd.Parameters.AddWithValue("@UploadResult", resultFileName);
+
+
+                            if (AsyncFileUpload1.HasFile)
+                            {
+                                insertCmd.Parameters.AddWithValue("@UploadIcImage", icFileName);
+                                AsyncFileUpload1.SaveAs(Server.MapPath(folderName) + icFileName);
+                            }
+
+                            if (AsyncFileUpload2.HasFile)
+                            {
+                                insertCmd.Parameters.AddWithValue("@UploadResult", resultFileName);
+                                AsyncFileUpload2.SaveAs(Server.MapPath(folderName) + resultFileName);
+                            }
 
                             if (AsyncFileUpload3.HasFile)
                             {
                                 insertCmd.Parameters.AddWithValue("@UploadMedical", medicalFileName);
+                                AsyncFileUpload3.SaveAs(Server.MapPath(folderName) + medicalFileName);
                             }
                             else
                             {
-                                insertCmd.Parameters.AddWithValue("@UploadMedical", "none");
+                                medicalFileName = "none";
+                                insertCmd.Parameters.AddWithValue("@UploadMedical", medicalFileName);
+                                
                             }
-
+                            insertCmd.Parameters.AddWithValue("@BranchesGUID", ddlBranch.SelectedValue);
                             insertCmd.ExecuteNonQuery();
-
-                            AsyncFileUpload1.SaveAs(Server.MapPath(folderName) + icFileName);
-                            AsyncFileUpload2.SaveAs(Server.MapPath(folderName) + resultFileName);
-                            AsyncFileUpload3.SaveAs(Server.MapPath(folderName) + medicalFileName);
                         }
                     }
                 }
@@ -249,16 +296,16 @@ namespace Krous_Ex
                 DataTable dtVerify = new DataTable();
                 dtVerify.Load(dtrVerify);
 
-                string programme = dtVerify.Rows[0]["ProgrammeCategory"].ToString();
-
                 if (dtVerify.Rows.Count != 0)
                 {
-                    if(ddlProgrammCategory.SelectedValue == programme)
+                    string programme = dtVerify.Rows[0]["ProgrammeCategory"].ToString();
+                    if (ddlProgrammCategory.SelectedValue == programme)
                     {
                         clsFunction.DisplayAJAXMessage(this, "You have registered " + programme + " programme previously. Please make sure you register the programme that you should be taking.");
                         ddlProgrammCategory.SelectedIndex = -1;
                         ddlProgramme.SelectedIndex = -1;
                         ddlSession.SelectedIndex = -1;
+                        ddlBranch.SelectedIndex = -1;
                         AsyncFileUpload1.Dispose();
                         AsyncFileUpload2.Dispose();
                         AsyncFileUpload3.Dispose();
@@ -291,6 +338,7 @@ namespace Krous_Ex
                         ddlProgrammCategory.SelectedIndex = -1;
                         ddlProgramme.SelectedIndex = -1;
                         ddlSession.SelectedIndex = -1;
+                        ddlBranch.SelectedIndex = -1;
                         AsyncFileUpload1.Dispose();
                         AsyncFileUpload2.Dispose();
                         AsyncFileUpload3.Dispose();
@@ -315,9 +363,19 @@ namespace Krous_Ex
             {
                 loadSession();
                 ddlSession.Enabled = true;
-
             }
         }
+
+        protected void ddlSession_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (ddlSession.SelectedValue != "")
+            {
+                loadBranch();
+                ddlBranch.Enabled = true;
+            }
+        }
+
+      
 
         protected void btnBack_Click(object sender, EventArgs e)
         {
@@ -344,6 +402,12 @@ namespace Krous_Ex
                 return false;
             }
 
+            if (ddlBranch.SelectedValue == "")
+            {
+                clsFunction.DisplayAJAXMessage(this, "Plese select the branch you want to join.");
+                return false;
+            }
+
             if (!(AsyncFileUpload1.HasFile))
             {
                 clsFunction.DisplayAJAXMessage(this, "Please upload the copy of your MyKad image.");
@@ -359,7 +423,6 @@ namespace Krous_Ex
             return true;
         }
 
-
-
+      
     }
 }

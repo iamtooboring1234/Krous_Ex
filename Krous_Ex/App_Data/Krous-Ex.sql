@@ -146,17 +146,19 @@ CREATE TABLE [dbo].[Student_Programme_Register] (
     [StudentGUID]           UNIQUEIDENTIFIER NOT NULL,
     [ProgrammeGUID]         UNIQUEIDENTIFIER NOT NULL,
     [SessionGUID]           UNIQUEIDENTIFIER NOT NULL,
-	[SemesterGUID]			UNIQUEIDENTIFIER NOT NULL,
+	[SemesterGUID]			UNIQUEIDENTIFIER NULL,
     [ProgrammeRegisterDate] DATETIME         NOT NULL,
     [Status]                VARCHAR (10)     NOT NULL,
     [UploadIcImage]         VARCHAR (500)    NOT NULL,
     [UploadResult]          VARCHAR (500)    NOT NULL,
     [UploadMedical]         VARCHAR (500)    NULL,
+    [BranchesGUID]          UNIQUEIDENTIFIER NULL,
     CONSTRAINT [pk_register] PRIMARY KEY CLUSTERED ([RegisterGUID] ASC),
     CONSTRAINT [fk_student_scr] FOREIGN KEY ([StudentGUID]) REFERENCES [dbo].[Student] ([StudentGUID]),
     CONSTRAINT [fk_programme_scr] FOREIGN KEY ([ProgrammeGUID]) REFERENCES [dbo].[Programme] ([ProgrammeGUID]),
     CONSTRAINT [fk_session_scr] FOREIGN KEY ([SessionGUID]) REFERENCES [dbo].[Session] ([SessionGUID]),
-	CONSTRAINT [fk_semester_scr] FOREIGN KEY ([SemesterGUID]) REFERENCES [dbo].[Semester] ([SemesterGUID])
+	CONSTRAINT [fk_semester_scr] FOREIGN KEY ([SemesterGUID]) REFERENCES [dbo].[Semester] ([SemesterGUID]),
+    CONSTRAINT [fk_branches_scr] FOREIGN KEY ([BranchesGUID]) REFERENCES [dbo].[Branches] ([BranchesGUID])
 );
 
 CREATE TABLE [dbo].[ExamResult] (
