@@ -360,6 +360,68 @@ namespace Krous_Ex
             }
         }
 
+        
+        private bool checkIsFull()
+        {
+            try
+            {     
+                foreach (GridViewRow row in gvStaffSearch.Rows)
+                {
+                    if (row.RowType == DataControlRowType.DataRow)
+                    {
+                        CheckBox chkRow = (row.Cells[0].FindControl("chkRow") as CheckBox);
+
+                        if (chkRow.Checked)
+                        {
+                            Guid StaffGUID = Guid.Parse(gvStaffSearch.DataKeys[row.RowIndex].Value.ToString());
+
+                            SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["Krous_Ex"].ConnectionString);
+                            con.Open();
+
+                            SqlCommand selectCmd = new SqlCommand("SELECT StaffGUID FROM Course_In_Charge WHERE StaffGUID = @StaffGUID", con);
+                            selectCmd.Parameters.AddWithValue("@StaffGUID", StaffGUID);
+
+                            SqlDataReader reader = selectCmd.ExecuteReader();
+                            DataTable dtFound = new DataTable();
+                            dtFound.Load(reader);
+                            con.Close();
+
+                            int countCourse = 0;
+                            foreach (GridViewRow rowSelected in gvSelectedCourse.Rows)
+                            {
+                                countCourse++;
+                            }
+
+                            int totalCount = countCourse + dtFound.Rows.Count; //countCourse = i add 2 new, dtFound = original got 3, totalCount = 5 it will got error
+
+                            if (dtFound.Rows.Count != 5) //mei you 5 ge 
+                            {
+                                if (totalCount > 5)
+                                {
+                                    clsFunction.DisplayAJAXMessage(this, "Your total course in-charge including the course you have selected now and the existing one are " + totalCount + ". Please make sure each staff can only in-charge of 5 courses!");
+                                    return false;
+                                }
+                                else
+                                {
+                                    return true;
+                                }
+                            }
+                        }
+                    }
+                }
+                return false;
+                
+            }
+            catch (Exception ex)
+            {
+                clsFunction.DisplayAJAXMessage(this, ex.Message);
+                return false;
+                
+            }
+           
+        }
+
+
         protected bool addCourseInc()
         {
             string sqlQuery;
@@ -490,10 +552,18 @@ namespace Krous_Ex
             {
                 if (CheckMax5Records())
                 {
-                    if (addCourseInc())
+                    if (checkIsFull())
                     {
-                        Session["AddedCourseInc"] = "Yes";
-                        Response.Redirect("StaffCourseIncEntry.aspx");
+                        if (addCourseInc())
+                        {
+                            Session["AddedCourseInc"] = "Yes";
+                            Response.Redirect("StaffCourseIncEntry.aspx");
+                            gvStaffSearch.DataSource = null;
+                            gvStaffSearch.DataBind();
+                            txtFullname.Text = string.Empty;
+                            txtFullname.Focus();
+                            gvCourse.Visible = false;
+                        }
                     }
                 }
                 else

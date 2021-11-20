@@ -200,7 +200,7 @@ namespace Krous_Ex
                 updateCmd.ExecuteNonQuery();
 
                 //select SessionGUID and update to student table
-                SqlCommand selectSession = new SqlCommand("SELECT s.SessionGUID, spr.ProgrammeGUID FROM Session s LEFT JOIN Student_Programme_Register spr on spr.SessionGUID = s.SessionGUID WHERE spr.RegisterGUID = @RegisterGUID", con);
+                SqlCommand selectSession = new SqlCommand("SELECT spr.BranchesGUID, s.SessionGUID, spr.ProgrammeGUID FROM Session s LEFT JOIN Student_Programme_Register spr on spr.SessionGUID = s.SessionGUID LEFT JOIN Branches b ON spr.BranchesGUID = b.BranchesGUID WHERE spr.RegisterGUID = @RegisterGUID", con);
                 selectSession.Parameters.AddWithValue("@RegisterGUID", RegisterGUID);
                 SqlDataReader dtrSelect = selectSession.ExecuteReader();
                 DataTable dt = new DataTable();
@@ -208,10 +208,22 @@ namespace Krous_Ex
 
                 string SessionGUID = dt.Rows[0]["SessionGUID"].ToString();
                 string ProgrammeGUID = dt.Rows[0]["ProgrammeGUID"].ToString();
+                string BranchesGUID = dt.Rows[0]["BranchesGUID"].ToString();
 
-                SqlCommand updateSession = new SqlCommand("UPDATE Student SET SessionGUID = @SessionGUID, StudyStatus = @StudyStatus FROM Student s LEFT JOIN Student_Programme_Register spr ON spr.StudentGUID = s.StudentGUID WHERE spr.RegisterGUID = @RegisterGUID", con);
+                //get the faculty of the programme chosen
+                SqlCommand selectFaculty = new SqlCommand("SELECT f.FacultyGUID, p.ProgrammeName, p.ProgrammeGUID FROM Programme p LEFT JOIN Faculty f ON p.FacultyGUID = f.FacultyGUID LEFT JOIN Student_Programme_Register spr ON spr.ProgrammeGUID = p.ProgrammeGUID WHERE spr.RegisterGUID = @RegisterGUID ", con);
+                selectFaculty.Parameters.AddWithValue("@RegisterGUID", RegisterGUID);
+                SqlDataReader dtrFaculty = selectFaculty.ExecuteReader();
+                DataTable dtFaculty = new DataTable();
+                dtFaculty.Load(dtrFaculty);
+
+                string FacultyGUID = dtFaculty.Rows[0]["FacultyGUID"].ToString();
+
+                SqlCommand updateSession = new SqlCommand("UPDATE Student SET SessionGUID = @SessionGUID, StudyStatus = @StudyStatus, FacultyGUID = @FacultyGUID, BranchesGUID = @BranchesGUID FROM Student s LEFT JOIN Student_Programme_Register spr ON spr.StudentGUID = s.StudentGUID WHERE spr.RegisterGUID = @RegisterGUID", con);
                 updateSession.Parameters.AddWithValue("@StudyStatus", "Studying");
                 updateSession.Parameters.AddWithValue("@SessionGUID", SessionGUID);
+                updateSession.Parameters.AddWithValue("@FacultyGUID", FacultyGUID);
+                updateSession.Parameters.AddWithValue("@BranchesGUID", BranchesGUID);
                 updateSession.Parameters.AddWithValue("@RegisterGUID", RegisterGUID);
                 updateSession.ExecuteNonQuery();
 
@@ -405,32 +417,33 @@ namespace Krous_Ex
                 con = new SqlConnection(strCon);
                 con.Open();
 
-                SqlCommand registerStatus = new SqlCommand("SELECT StudentGUID, Status FROM Student_Programme_Register WHERE RegisterGUID = @RegisterGUID", con);
+                SqlCommand registerStatus = new SqlCommand("SELECT StudentGUID, ProgrammeGUID, Status FROM Student_Programme_Register WHERE RegisterGUID = @RegisterGUID", con);
                 registerStatus.Parameters.AddWithValue("@RegisterGUID", RegisterGUID);
                 SqlDataReader dtrStatus = registerStatus.ExecuteReader();
                 DataTable dtStatus = new DataTable();
                 dtStatus.Load(dtrStatus);
 
                 string status = dtStatus.Rows[0]["Status"].ToString();
+                Guid programmeGUID = Guid.Parse(dtStatus.Rows[0]["ProgrammeGUID"].ToString());
                 Guid studentGUID = Guid.Parse(dtStatus.Rows[0]["StudentGUID"].ToString());
 
                 string creditCmd;
-      
-                creditCmd = "SELECT c.CreditHour, s.SemesterGUID, c.CourseGUID FROM ProgrammeCourse pc ";
+
+                creditCmd = "SELECT c.CreditHour, c.CourseGUID FROM ProgrammeCourse pc ";
                 creditCmd += "LEFT JOIN Course c ON pc.CourseGUID = c.CourseGUID ";
-                creditCmd += "LEFT JOIN Programme p ON pc.ProgrammeGUID = p.ProgrammeGUID ";
-                creditCmd += "LEFT JOIN Student_Programme_Register spr ON p.ProgrammeGUID = spr.ProgrammeGUID ";
+                creditCmd += "LEFT JOIN Student_Programme_Register spr ON pc.ProgrammeGUID = spr.ProgrammeGUID ";
                 creditCmd += "LEFT JOIN Student st ON spr.StudentGUID = st.StudentGUID ";
-                creditCmd += "LEFT JOIN Semester s ON pc.SemesterGUID = s.SemesterGUID ";
-                creditCmd += "WHERE spr.RegisterGUID = @RegisterGUID AND ";
-                creditCmd += "s.SemesterGUID = @SemesterGUID ";
+                creditCmd += "WHERE pc.SemesterGUID = @SemesterGUID ";
+                creditCmd += "AND Pc.ProgrammeGUID = @ProgrammeGUID ";
                 creditCmd += "AND pc.SessionMonth = (SELECT s.SessionMonth FROM Session S LEFT JOIN Student st ON S.SessionGUID = st.SessionGUID ";
-                creditCmd += "WHERE StudentGUID = @StudentGUID";
+                creditCmd += "WHERE StudentGUID = @StudentGUID) ";
+                creditCmd += "GROUP BY C.CourseGUID,  C.CreditHour ";
 
                 SqlCommand getCreditCmd = new SqlCommand(creditCmd, con);
                 getCreditCmd.Parameters.AddWithValue("@StudentGUID", studentGUID);
                 getCreditCmd.Parameters.AddWithValue("@RegisterGUID", RegisterGUID);
                 getCreditCmd.Parameters.AddWithValue("@SemesterGUID", ddlSemester.SelectedValue);
+                getCreditCmd.Parameters.AddWithValue("@ProgrammeGUID", programmeGUID);
                 SqlDataReader dtrCredit = getCreditCmd.ExecuteReader();
                 DataTable dtCredit = new DataTable();
                 dtCredit.Load(dtrCredit);

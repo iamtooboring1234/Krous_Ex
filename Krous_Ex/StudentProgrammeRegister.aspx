@@ -85,7 +85,7 @@
                                 <asp:Label ID="lblSession" runat="server">Programme Session</asp:Label><span style="color: red;">*</span>
                             </div>
                             <div class="col-md-8">
-                                <asp:DropDownList ID="ddlSession" runat="server" CssClass="form-control" Enabled="false"></asp:DropDownList>
+                                <asp:DropDownList ID="ddlSession" runat="server" CssClass="form-control" Enabled="false" AutoPostBack="true" OnSelectedIndexChanged="ddlSession_SelectedIndexChanged"></asp:DropDownList>
                             </div>
                         </div>
                     </div>
@@ -99,7 +99,31 @@
             <div class="card-body">
                 <div class="row">
                     <div class="col-md-12">
-                        <p class="card-description"><strong>Step 3:</strong> Upload supporting documents</p>
+                        <p class="card-description"><strong>Step 3:</strong> Select the branch you want to join</p>
+                    </div>
+                </div>
+                <div class="panel-body">
+                    <div class="form-horizontal">
+                        <div class="row">
+                            <div class="col-md-2 col-form-label">
+                                <asp:Label ID="lblBranch" runat="server">Branch</asp:Label><span style="color: red;">*</span>
+                            </div>
+                            <div class="col-md-8">
+                                <asp:DropDownList ID="ddlBranch" runat="server" CssClass="form-control" Enabled="false"></asp:DropDownList>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-12 mt-3">
+        <div class="card">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-12">
+                        <p class="card-description"><strong>Step 4:</strong> Upload supporting documents</p>
                         <p class="card-description"><strong>Please rename the file as (exp: YourFullName_MyKad)</strong></p>
                     </div>
                 </div>
