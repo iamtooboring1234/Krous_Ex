@@ -227,7 +227,7 @@ namespace Krous_Ex
                 save.Parameters.AddWithValue("@TotalPaid", lblTotalPrice.Text);
                 save.Parameters.AddWithValue("@PaymentStatus", "Paid");
                 save.Parameters.AddWithValue("@PaymentMethod", "PayPal");
-                save.Parameters.AddWithValue("@PaymentDate", DateTime.Now.ToString());
+                save.Parameters.AddWithValue("@PaymentDate", DateTime.Now);
                 save.ExecuteNonQuery();
 
                 //insert into receipt, createa new receipt for the payment
@@ -236,7 +236,7 @@ namespace Krous_Ex
                 insertReceipt.Parameters.AddWithValue("@ReceiptGUID", receiptGUID);
                 insertReceipt.Parameters.AddWithValue("@PaymentGUID", PaymentGUID);
                 insertReceipt.Parameters.AddWithValue("@ReceiptNo", receiptNo);
-                insertReceipt.Parameters.AddWithValue("@DateIssued", DateTime.Now.ToString());
+                insertReceipt.Parameters.AddWithValue("@DateIssued", DateTime.Now);
                 insertReceipt.ExecuteNonQuery();
 
                 //clsFunction.DisplayAJAXMessage(this, "payment is successfully made");

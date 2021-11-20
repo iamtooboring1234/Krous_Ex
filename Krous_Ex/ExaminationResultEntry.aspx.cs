@@ -20,7 +20,7 @@ namespace Krous_Ex
                 {
                     if (Session["InsertMark"].ToString() == "Yes")
                     {
-                        ClientScript.RegisterStartupScript(GetType(), "Javascript", "javascript:showUpdateSuccessToast(); ", true);
+                        ClientScript.RegisterStartupScript(GetType(), "Javascript", "javascript:showExaminationUpdateSuccessToast(); ", true);
                         Session["InsertMark"] = null;
                     }
                 }
@@ -45,7 +45,6 @@ namespace Krous_Ex
                 } else
                 {
                     sqlQuery = "SELECT S.SessionGUID, S.SessionMonth, S.SessionYear FROM Session S INNER JOIN ExamResult er ON er.SessionGUID = S.SessionGUID GROUP BY S.SessionGUID, S.SessionMonth, S.SessionYear ORDER BY SessionYear, SessionMonth ";
-                    sqlQuery = "SELECT * FROM Session ORDER BY SessionYear, SessionMonth ";
                 }
 
                 SqlCommand GetCommand = new SqlCommand(sqlQuery, con);
@@ -298,7 +297,7 @@ namespace Krous_Ex
                         sqlQuery += "WHERE css.StudentGUID = S.StudentGUID AND S.StudentGUID = Gs.StudentGUID AND S.StudentGUID = spr.StudentGUID ";
                         sqlQuery += "AND css.SessionGUID = @SessionGUID ";
                         sqlQuery += "AND ProgrammeGUID = @ProgrammeGUID ";
-                        sqlQuery += "AND SemesterGUID = @SemesterGUID ";
+                        sqlQuery += "AND css.SemesterGUID = @SemesterGUID ";
                         sqlQuery += "AND GroupGUID = @GroupGUID ";
                         sqlQuery += "ORDER BY S.StudentFullName";
 
@@ -395,12 +394,13 @@ namespace Krous_Ex
                         sqlQuery += "LEFT JOIN Course C ON pc.CourseGUID = C.CourseGUID ";
                         sqlQuery += "LEFT JOIN ExamResultPerCourse ec ON C.CourseGUID = ec.CourseGUID ";
                         sqlQuery += "LEFT JOIN ExamResult er ON ec.ExamResultGUID = er.ExamResultGUID ";
-                        sqlQuery += "WHERE er.StudentGUID = @StudentGUID AND er.SessionGUID = @SessionGUID AND ";
-                        sqlQuery += "pc.SessionMonth = (SELECT SessionMonth FROM Student st, Session S WHERE st.SessionGUID = s.SessionGUID AND st.StudentGUID = @StudentGUID ) ";
+                        sqlQuery += "WHERE er.StudentGUID = @StudentGUID AND er.SessionGUID = @SessionGUID AND pc.ProgrammeGUID = @ProgrammeGUID AND ";
+                        sqlQuery += "pc.SessionMonth = (SELECT SessionMonth FROM Student st, Session S WHERE st.SessionGUID = s.SessionGUID AND st.StudentGUID = @StudentGUID) ";
 
                         SqlCommand GetCommand = new SqlCommand(sqlQuery, con);
                         GetCommand.Parameters.AddWithValue("@StudentGUID", ddlStudent.SelectedValue);
                         GetCommand.Parameters.AddWithValue("@SessionGUID", ddlExistingSession.SelectedValue);
+                        GetCommand.Parameters.AddWithValue("@ProgrammeGUID", ddlProgramme.SelectedValue);
                         reader = GetCommand.ExecuteReader();
                     }
 
@@ -476,7 +476,14 @@ namespace Krous_Ex
                     con.Open();
                     SqlCommand getCommand = new SqlCommand("SELECT * FROM ExamResult WHERE StudentGUID = @StudentGUID AND SessionGUID = @SessionGUID", con);
                     getCommand.Parameters.AddWithValue("@StudentGUID", ddlStudent.SelectedValue);
-                    getCommand.Parameters.AddWithValue("@SessionGUID", hdSession.Value);
+
+                    if (radSession.SelectedValue == "1")
+                    {
+                        getCommand.Parameters.AddWithValue("@SessionGUID", hdSession.Value);
+                    } else
+                    {
+                        getCommand.Parameters.AddWithValue("@SessionGUID", ddlExistingSession.SelectedValue);
+                    }
                     SqlDataReader reader = getCommand.ExecuteReader();
                     dtHasExistingExam.Load(reader);
                     con.Close();
@@ -605,6 +612,8 @@ namespace Krous_Ex
                     }
                 }
 
+                updateGPANCGPA();
+
                 return true;
             }
             catch (Exception ex)
@@ -701,6 +710,180 @@ namespace Krous_Ex
                 panelCurrent.Visible = false;
                 panelExisting.Visible = true;
                 panelSemester.Visible = false;
+            }
+        }
+
+        private bool updateGPANCGPA()
+        {
+            try
+            {
+                DataTable dtExamResult = new DataTable();
+                DataTable dtSession = new DataTable();
+                DataTable dtUpperSession = new DataTable();
+                string sqlQuery;
+
+                SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["Krous_Ex"].ConnectionString);
+
+                con.Open();
+
+                SqlCommand GetCommand = new SqlCommand("SELECT S.SessionGUID, S.SessionMonth, S.SessionYear FROM AcademicCalender A, Session S WHERE S.SessionGUID = A.SessionGUID AND GetDate() BETWEEN A.SemesterStartDate AND A.SemesterEndDate ", con);
+                SqlDataReader reader = GetCommand.ExecuteReader();
+
+                dtSession.Load(reader);
+
+                string sessionGUID = ddlExistingSession.SelectedValue;
+
+                sqlQuery = "WITH CTE AS( ";
+                sqlQuery += "SELECT ROW_NUMBER() OVER(ORDER BY SessionYear, SessionMonth) as Row, er.SessionGUID FROM Session S LEFT JOIN ExamResult er ON S.SessionGUID = er.SessionGUID)";
+                sqlQuery += "SELECT* FROM CTE WHERE Row = ((select Row from CTE where SessionGUID = @SessionGUID) +1) ";
+
+                int x = 0;
+
+                while (dtSession.Rows[0]["SessionGUID"].ToString() != sessionGUID)
+                {
+                    GetCommand = new SqlCommand("SELECT * FROM ExamResult er LEFT JOIN Session S ON er.SessionGUID = s.SessionGUID WHERE er.StudentGUID = @StudentGUID AND er.SessionGUID = @SessionGUID ORDER BY s.SessionYear, s.SessionMonth, er.StudentGUID  ", con);
+                    GetCommand.Parameters.AddWithValue("@StudentGUID", ddlStudent.SelectedValue);
+                    GetCommand.Parameters.AddWithValue("@SessionGUID", sessionGUID);
+
+                    reader = GetCommand.ExecuteReader();
+                    dtExamResult.Load(reader);
+
+                    GetCommand = new SqlCommand(sqlQuery, con);
+
+                    GetCommand.Parameters.AddWithValue("@SessionGUID", sessionGUID);
+
+                    reader = GetCommand.ExecuteReader();
+                    dtUpperSession.Load(reader);
+
+                    sessionGUID = dtUpperSession.Rows[x]["SessionGUID"].ToString();
+
+                   x++;
+                }
+
+                GetCommand = new SqlCommand("SELECT * FROM ExamResult er LEFT JOIN Session S ON er.SessionGUID = s.SessionGUID WHERE er.StudentGUID = @StudentGUID AND er.SessionGUID = @SessionGUID ORDER BY s.SessionYear, s.SessionMonth, er.StudentGUID  ", con);
+                GetCommand.Parameters.AddWithValue("@StudentGUID", ddlStudent.SelectedValue);
+                GetCommand.Parameters.AddWithValue("@SessionGUID", sessionGUID);
+
+                reader = GetCommand.ExecuteReader();
+                dtExamResult.Load(reader);
+
+                con.Close();
+
+                if (dtExamResult.Rows.Count != 0)
+                {
+                    DataTable dtCss = new DataTable();
+                    double totalGradePoints = 0;
+                    double totalCreditHour = 0;
+                    double grandTotalGradePoints = 0;
+                    double grandTotalCreditHour = 0;
+                    double GPA = 0;
+                    double CGPA = 0;
+                    string lastStudentGUID = "";
+
+                    DataTable dtExamResultPerCourse = new DataTable();
+
+                    for (int i = 0; i < dtExamResult.Rows.Count; i++)
+                    {
+                        using (con = new SqlConnection(ConfigurationManager.ConnectionStrings["Krous_Ex"].ConnectionString))
+                        {
+                            dtExamResultPerCourse = new DataTable();
+
+                            con.Open();
+                            GetCommand = new SqlCommand("SELECT * FROM ExamResultPerCourse epc LEFT JOIN Course C ON epc.CourseGUID = C.CourseGUID WHERE ExamResultGUID = @ExamResultGUID ", con);
+
+                            GetCommand.Parameters.AddWithValue("@ExamResultGUID", dtExamResult.Rows[i]["ExamResultGUID"].ToString());
+
+                            reader = GetCommand.ExecuteReader();
+
+                            dtExamResultPerCourse.Load(reader);
+                            con.Close();
+
+                            totalGradePoints = 0;
+                            totalCreditHour = 0;
+                            GPA = 0;
+                            CGPA = 0;
+
+                            for (int j = 0; j < dtExamResultPerCourse.Rows.Count; j++)
+                            {
+                                double gradePoints = 0;
+
+                                if (dtExamResultPerCourse.Rows[j]["Grade"].ToString() == "A")
+                                {
+                                    gradePoints = 4.0000;
+                                }
+                                else if (dtExamResultPerCourse.Rows[j]["Grade"].ToString() == "A-")
+                                {
+                                    gradePoints = 3.7500;
+                                }
+                                else if (dtExamResultPerCourse.Rows[j]["Grade"].ToString() == "B+")
+                                {
+                                    gradePoints = 3.5000;
+                                }
+                                else if (dtExamResultPerCourse.Rows[j]["Grade"].ToString() == "B")
+                                {
+                                    gradePoints = 3.0000;
+                                }
+                                else if (dtExamResultPerCourse.Rows[j]["Grade"].ToString() == "B-")
+                                {
+                                    gradePoints = 2.7500;
+                                }
+                                else if (dtExamResultPerCourse.Rows[j]["Grade"].ToString() == "C+")
+                                {
+                                    gradePoints = 2.5000;
+                                }
+                                else if (dtExamResultPerCourse.Rows[j]["Grade"].ToString() == "C")
+                                {
+                                    gradePoints = 2.0000;
+                                }
+                                else if (dtExamResultPerCourse.Rows[j]["Grade"].ToString() == "F")
+                                {
+                                    gradePoints = 0.0000;
+                                }
+
+                                totalGradePoints += double.Parse(dtExamResultPerCourse.Rows[j]["CreditHour"].ToString()) * gradePoints;
+                                totalCreditHour += double.Parse(dtExamResultPerCourse.Rows[j]["CreditHour"].ToString());
+                            }
+
+                            grandTotalGradePoints += totalGradePoints;
+                            grandTotalCreditHour += totalCreditHour;
+                        }
+
+                        GPA = totalGradePoints / totalCreditHour;
+                        CGPA = grandTotalGradePoints / grandTotalCreditHour;
+
+                        using (con = new SqlConnection(ConfigurationManager.ConnectionStrings["Krous_Ex"].ConnectionString))
+                        {
+                            con.Open();
+
+                            SqlCommand updateCommand = new SqlCommand("UPDATE ExamResult SET GPA = @GPA, CGPA = @CGPA, Status = 'Unrelease', ReleaseDate = @ReleaseDate WHERE ExamResultGUID = @ExamResultGUID ", con);
+
+                            updateCommand.Parameters.AddWithValue("@ExamResultGUID", dtExamResult.Rows[i]["ExamResultGUID"]);
+                            updateCommand.Parameters.AddWithValue("@GPA", String.Format("{0:0.0000}", GPA));
+                            updateCommand.Parameters.AddWithValue("@CGPA", String.Format("{0:0.0000}", CGPA));
+                            updateCommand.Parameters.AddWithValue("@ReleaseDate", DateTime.Now);
+
+                            updateCommand.ExecuteNonQuery();
+
+                            if (lastStudentGUID != dtExamResult.Rows[i]["StudentGUID"].ToString())
+                            {
+                                GetCommand = new SqlCommand("SELECT * FROM CurrentSessionSemester css WHERE StudentGUID = @StudentGUID", con);
+                                GetCommand.Parameters.AddWithValue("@StudentGUID", dtExamResult.Rows[i]["StudentGUID"]);
+                                reader = GetCommand.ExecuteReader();
+                                dtCss.Load(reader);
+                            }
+                            con.Close();
+
+                            lastStudentGUID = dtExamResult.Rows[i]["StudentGUID"].ToString();
+                        }
+                    }
+                }
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                Response.Write(ex);
+                return false;
             }
         }
     }

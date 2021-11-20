@@ -23,6 +23,18 @@
             position: 'top-right'
         })
     };
+    showExaminationUpdateSuccessToast = function () {
+        'use strict';
+        resetToastPosition();
+        $.toast({
+            heading: 'Success',
+            text: 'Examination result updated successfully.',
+            showHideTransition: 'slide',
+            icon: 'success',
+            loaderBg: '#f96868',
+            position: 'top-right'
+        })
+    };
     showDeleteSuccessToast = function () {
         'use strict';
         resetToastPosition();
@@ -173,6 +185,102 @@
         $.toast({
             heading: 'Success',
             text: 'Comment is updated successfully.',
+            showHideTransition: 'slide',
+            icon: 'success',
+            loaderBg: '#f96868',
+            position: 'top-right'
+        })
+    };
+    showForumReportApprovedSuccessfully = function () {
+        'use strict';
+        resetToastPosition();
+        $.toast({
+            heading: 'Success',
+            text: 'Report application is approved successfully.',
+            showHideTransition: 'slide',
+            icon: 'success',
+            loaderBg: '#f96868',
+            position: 'top-right'
+        })
+    };
+    showForumReportRejectedSuccesfully = function () {
+        'use strict';
+        resetToastPosition();
+        $.toast({
+            heading: 'Success',
+            text: 'Report application is rejected successfully.',
+            showHideTransition: 'slide',
+            icon: 'success',
+            loaderBg: '#f96868',
+            position: 'top-right'
+        })
+    };
+    showForumReportApprovedUnsuccessfully = function () {
+        'use strict';
+        resetToastPosition();
+        $.toast({
+            heading: 'Danger',
+            text: 'Report application is not approved successfully.',
+            showHideTransition: 'slide',
+            icon: 'error',
+            loaderBg: '#f2a654',
+            position: 'top-right'
+        })
+    };
+    showForumReportRejectedUnsuccesfully = function () {
+        'use strict';
+        resetToastPosition();
+        $.toast({
+            heading: 'Danger',
+            text: 'Report application is not rejected successfully.',
+            showHideTransition: 'slide',
+            icon: 'error',
+            loaderBg: '#f2a654',
+            position: 'top-right'
+        })
+    };
+    showDiscussionIsLocked = function () {
+        'use strict';
+        resetToastPosition();
+        $.toast({
+            heading: 'Success',
+            text: 'Discussion is locked successfully.',
+            showHideTransition: 'slide',
+            icon: 'success',
+            loaderBg: '#f96868',
+            position: 'top-right'
+        })
+    };
+    showDiscussionIsUnlocked = function () {
+        'use strict';
+        resetToastPosition();
+        $.toast({
+            heading: 'Success',
+            text: 'Discussion is unlocked successfully.',
+            showHideTransition: 'slide',
+            icon: 'success',
+            loaderBg: '#f96868',
+            position: 'top-right'
+        })
+    };
+    showDiscussionIsPinned = function () {
+        'use strict';
+        resetToastPosition();
+        $.toast({
+            heading: 'Success',
+            text: 'Discussion is pinned successfully.',
+            showHideTransition: 'slide',
+            icon: 'success',
+            loaderBg: '#f96868',
+            position: 'top-right'
+        })
+    };
+    showDiscussionIsUnpinned = function () {
+        'use strict';
+        resetToastPosition();
+        $.toast({
+            heading: 'Success',
+            text: 'Discussion is unpinned successfully.',
             showHideTransition: 'slide',
             icon: 'success',
             loaderBg: '#f96868',

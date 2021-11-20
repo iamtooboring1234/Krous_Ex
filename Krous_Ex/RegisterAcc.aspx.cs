@@ -72,7 +72,7 @@ namespace Krous_Ex
                 cmd.Parameters.AddWithValue("@Email", txtEmail.Text);
                 cmd.Parameters.AddWithValue("@NRIC", txtNRIC.Text);
                 cmd.Parameters.AddWithValue("@Address", txtAddress.Text);
-                cmd.Parameters.AddWithValue("@AccountRegisterDate", DateTime.Now.ToString());
+                cmd.Parameters.AddWithValue("@AccountRegisterDate", DateTime.Now);
 
                 cmd.ExecuteNonQuery();
                 cmd.Dispose();

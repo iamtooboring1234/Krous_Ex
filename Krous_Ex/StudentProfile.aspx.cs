@@ -19,7 +19,6 @@ namespace Krous_Ex
         Guid userGUID;
         protected void Page_Load(object sender, EventArgs e)
         {
-
             userGUID = Guid.Parse(clsLogin.GetLoginUserGUID());
             if (IsPostBack != true)
             {
@@ -27,10 +26,6 @@ namespace Krous_Ex
                 {
                     loadData();
                 }
-            }
-            else
-            {
-                Response.Redirect("StudentLogin.aspx");
             }
         }
 
@@ -263,7 +258,6 @@ namespace Krous_Ex
                 {
                     clsFunction.DisplayAJAXMessage(this, "Your information has been updated successfully!");
                     loadData();
-
                 }
                 else
                 {

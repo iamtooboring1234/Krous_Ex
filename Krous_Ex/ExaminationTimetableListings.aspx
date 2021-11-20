@@ -101,7 +101,7 @@
                             <Columns>
                                 <asp:TemplateField>
                                     <ItemTemplate>
-                                        <asp:HyperLink runat="server" NavigateUrl='<%# Eval("ExamTimeTableGUID", "~/ExaminationEntry.aspx?ExamTimeTableGUID={0}") %>' Text="View" />
+                                        <asp:HyperLink runat="server" NavigateUrl='<%# Eval("ExamTimeTableGUID", "~/ExaminationTimetableEntry.aspx?ExamTimeTableGUID={0}") %>' Text="View" />
                                     </ItemTemplate>
                                     <ItemStyle CssClass="text-center" HorizontalAlign="Center" />
                                 </asp:TemplateField>

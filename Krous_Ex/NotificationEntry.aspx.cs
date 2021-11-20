@@ -447,7 +447,12 @@ namespace Krous_Ex
 
                 if (radNotificationType.SelectedValue == "1")
                 {
-
+                    sqlQuery += "INSERT INTO Notification(NotificationGUID,UserGUID,NotificationSubject,NotificationContent,ReadFlag,SentDate,SentBy,NotificationDescription) ";
+                    sqlQuery += "SELECT newid(),StaffGUID,@Subject,@Content,'N',@SendDate,@SendBy,@NotificationDesc ";
+                    sqlQuery += "FROM Staff S ";
+                    sqlQuery += "INSERT INTO Notification(NotificationGUID,UserGUID,NotificationSubject,NotificationContent,ReadFlag,SentDate,SentBy,NotificationDescription) ";
+                    sqlQuery += "SELECT newid(),StudentGUID,@Subject,@Content,'N',@SendDate,@SendBy,@NotificationDesc ";
+                    sqlQuery += "FROM Student S ";
                 }
                 else if (radNotificationType.SelectedValue == "2")
                 {

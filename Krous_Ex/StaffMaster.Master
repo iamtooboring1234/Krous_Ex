@@ -58,9 +58,9 @@
             <nav class="sidebar sidebar-offcanvas" id="sidebar">
                 <div class="sidebar-brand-wrapper d-none d-lg-flex align-items-center justify-content-center fixed-top">
                     <a class="sidebar-brand brand-logo" href="Homepage">
-                        <img src="Assests/main/images/logo.svg" alt="logo" /></a>
+                        <img src="Assests/main/img/logo.jpg" alt="logo" /></a>
                     <a class="sidebar-brand brand-logo-mini" href="Homepage">
-                        <img src="Assests/main/images/logo-mini.svg" alt="logo" /></a>
+                        <img src="Assests/main/img/mini_logo.jpg" alt="logo" /></a>
                 </div>
                 <ul class="nav">
                     <li class="nav-item profile">
@@ -203,7 +203,7 @@
                         <div class="collapse" id="exam">
                             <ul class="nav flex-column sub-menu">
                                 <li class="nav-item"><a class="nav-link" href="ExaminationDashboard">Examination Dashboard</a></li>
-                                <li class="nav-item"><a class="nav-link" href="ExaminationEntry">Exam Timetable Entry</a></li>
+                                <li class="nav-item"><a class="nav-link" href="ExaminationTimetableEntry">Exam Timetable Entry</a></li>
                                 <li class="nav-item"><a class="nav-link" href="ExaminationTimetableListings">Exam Timetable Listings</a></li>
                                 <li class="nav-item"><a class="nav-link" href="ExaminationPrePreparationEntry">Exam File Preparation</a></li>
                                 <li class="nav-item"><a class="nav-link" href="ExaminationResultEntry">Exam Result Entry</a></li>
@@ -306,6 +306,20 @@
                                 <li class="nav-item"><a class="nav-link" href="StaffEntry">Staff Entry</a></li>
                                 <li class="nav-item"><a class="nav-link" href="StaffListings">Staff Listings</a></li>
                                 <li class="nav-item"><a class="nav-link" href="StaffCourseIncEntry">Course In-charge Entry</a></li>
+                            </ul>
+                        </div>
+                    </li>
+                     <li class="nav-item menu-items">
+                        <a class="nav-link" data-toggle="collapse" href="#StudentManage" aria-expanded="false" aria-controls="StudentManage">
+                            <span class="menu-icon">
+                                <i class="mdi mdi-laptop"></i>
+                            </span>
+                            <span class="menu-title">Student Management</span>
+                            <i class="menu-arrow"></i>
+                        </a>
+                        <div class="collapse" id="StudentManage">
+                            <ul class="nav flex-column sub-menu">
+                                <li class="nav-item"><a class="nav-link" href="StudentProgrammeRegisterListings">Student Registration Listings</a></li>
                             </ul>
                         </div>
                     </li>

@@ -45,7 +45,7 @@ namespace Krous_Ex
                 SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["Krous_Ex"].ConnectionString);
                 con.Open();
 
-                SqlCommand getCommand = new SqlCommand("SELECT D.DiscTopic, R.ReplyContent FROM Discussion D, Replies R WHERE D.DiscGUID = R.DiscGUID AND R.ReplyGUID = ReplyGUID ", con);
+                SqlCommand getCommand = new SqlCommand("SELECT D.DiscTopic, R.ReplyContent, R.ReplyBy FROM Discussion D, Replies R WHERE D.DiscGUID = R.DiscGUID AND R.ReplyGUID = ReplyGUID ", con);
                 getCommand.Parameters.AddWithValue("@ReplyGUID", Request.QueryString["ReplyGUID"]);
                 SqlDataReader reader = getCommand.ExecuteReader();
 
@@ -57,19 +57,19 @@ namespace Krous_Ex
                 {
                     txtDiscTopic.Text = dtFAQ.Rows[0]["DiscTopic"].ToString();
                     txtReplyContent.Text = dtFAQ.Rows[0]["ReplyContent"].ToString();
+                    txtReplyBy.Text = dtFAQ.Rows[0]["ReplyBy"].ToString();
                 }
 
                 con.Close();
             }
             catch (Exception ex)
             {
-                clsFunction.DisplayAJAXMessage(this, "Error");
+                clsFunction.DisplayAJAXMessage(this, ex.Message);
             }
         }
 
         protected void btnYes_Click(object sender, EventArgs e)
         {
-
             Guid ForumReportGUID = Guid.NewGuid();
 
             string Username = clsLogin.GetLoginUserName();
@@ -83,17 +83,18 @@ namespace Krous_Ex
                 Reason = ddlReason.SelectedValue;
             }
 
-
             try
             {
                 SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["Krous_Ex"].ConnectionString);
                 con.Open();
 
-                SqlCommand InsertCommand = new SqlCommand("INSERT INTO ForumReport VALUES(@ForumReportGUID,@DiscGUID,@ReplyGUID,@ReportReason,@ReportStatus,@ReportBy,@ReportDate)", con);
+                SqlCommand InsertCommand = new SqlCommand("INSERT INTO ForumReport VALUES(@ForumReportGUID,@DiscGUID,@ReplyGUID,@ReplyBy,@ReplyContent,@ReportReason,@ReportStatus,@ReportBy,@ReportDate)", con);
 
                 InsertCommand.Parameters.AddWithValue("@ForumReportGUID", ForumReportGUID);
                 InsertCommand.Parameters.AddWithValue("@ReplyGUID", Guid.Parse(Request.QueryString["ReplyGUID"]));
                 InsertCommand.Parameters.AddWithValue("@DiscGUID", Guid.Parse(Request.QueryString["DiscGUID"]));
+                InsertCommand.Parameters.AddWithValue("@ReplyBy", txtReplyBy.Text);
+                InsertCommand.Parameters.AddWithValue("@ReplyContent", txtReplyContent.Text);
                 InsertCommand.Parameters.AddWithValue("@ReportReason", Reason);
                 InsertCommand.Parameters.AddWithValue("@ReportStatus", "In Progress");
                 InsertCommand.Parameters.AddWithValue("@ReportBy", Username);

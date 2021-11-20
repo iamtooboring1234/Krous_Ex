@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Text;
@@ -196,7 +197,7 @@ namespace Krous_Ex
                             if (insertExam())
                             {
                                 Session["InsertExam"] = "Yes";
-                                Response.Redirect("ExaminationEntry");
+                                Response.Redirect("ExaminationTimetableEntry");
                             }
                             else
                             {
@@ -306,6 +307,7 @@ namespace Krous_Ex
                 DateTime startDate = DateTime.Parse(txtExamDate.Text + " " + txtStartTime.Text);
                 DateTime endDate = DateTime.Parse(txtExamDate.Text + " " + txtEndTime.Text);
                 Guid ExamTimetableGUID = Guid.NewGuid();
+                Guid ExamPreparationGUID = Guid.NewGuid();
 
                 if (NewMeeting(newMeetingGUID))
                 {
@@ -323,13 +325,17 @@ namespace Krous_Ex
 
                     InsertCommand.ExecuteNonQuery();
 
-                    InsertCommand = new SqlCommand("INSERT INTO ExamPreparation VALUES(NEWID(),@ExamTimetableGUID,NULL, NULL)", con);
+                    InsertCommand = new SqlCommand("INSERT INTO ExamPreparation VALUES(@ExamPreparationGUID,@ExamTimetableGUID,NULL, NULL)", con);
 
+                    InsertCommand.Parameters.AddWithValue("@ExamPreparationGUID", ExamPreparationGUID);
                     InsertCommand.Parameters.AddWithValue("@ExamTimetableGUID", ExamTimetableGUID);
 
                     InsertCommand.ExecuteNonQuery();
 
-                    con.Close();
+                    string ExamFilePath = "~/Uploads/ExaminationPreparationFolder/" + ExamPreparationGUID + "/";
+
+                    Directory.CreateDirectory(Server.MapPath(ExamFilePath));
+                    
                     return true;
                 }
                 else
@@ -448,7 +454,7 @@ namespace Krous_Ex
             if (updateExam())
             {
                 Session["UpdateExam"] = "Yes";
-                Response.Redirect("ExaminationEntry?ExamTimetableGUID=" + Request.QueryString["ExamTimetableGUID"]);
+                Response.Redirect("ExaminationTimetableEntry?ExamTimetableGUID=" + Request.QueryString["ExamTimetableGUID"]);
             }
             else
             {
@@ -461,7 +467,7 @@ namespace Krous_Ex
             if (DeleteExam())
             {
                 Session["DeleteExam"] = "Yes";
-                Response.Redirect("ExaminationEntry");
+                Response.Redirect("ExaminationTimetableEntry");
             }
             else
             {

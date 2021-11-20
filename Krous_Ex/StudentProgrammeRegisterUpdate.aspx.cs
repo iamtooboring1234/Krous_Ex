@@ -172,9 +172,14 @@ namespace Krous_Ex
         {
             if (approveStudent())
             {
-                insertRegisterPayment();
-                //Session["UpdateStatus"] = "Yes";
-                Response.Redirect("StudentProgrammeRegisterListings");
+                if (insertRegisterPayment())
+                {
+                    //Session["UpdateStatus"] = "Yes";
+                    Response.Redirect("StudentProgrammeRegisterListings");
+                } else
+                {
+                    clsFunction.DisplayAJAXMessage(this, "Failed to insert payment.");
+                }
                 
             }
             else
@@ -405,7 +410,7 @@ namespace Krous_Ex
 
 
         //insert into payment table based on the credit hour 
-        private void insertRegisterPayment()
+        private bool insertRegisterPayment()
         {
             try
             {
@@ -468,15 +473,17 @@ namespace Krous_Ex
                 insertPayCmd.Parameters.AddWithValue("@StudentGUID", studentGUID);
                 insertPayCmd.Parameters.AddWithValue("@PaymentStatus", "Pending");
                 insertPayCmd.Parameters.AddWithValue("@TotalAmount", eachCourse);
-                insertPayCmd.Parameters.AddWithValue("@DateIssued", DateTime.Now.ToString());
+                insertPayCmd.Parameters.AddWithValue("@DateIssued", DateTime.Now);
                 insertPayCmd.Parameters.AddWithValue("@DateOverdue", overdue);
                 insertPayCmd.ExecuteNonQuery();
 
                 con.Close();
+                return true;
             }
             catch (Exception ex)
             {
                 System.Diagnostics.Trace.WriteLine(ex.Message);
+                return false;
             }
         }
 

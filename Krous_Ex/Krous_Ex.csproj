@@ -256,6 +256,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="AcademicCalendarListings.aspx" />
     <Content Include="AcademicCalenderEntry.aspx" />
     <Content Include="App_Data\Insert.sql" />
     <Content Include="App_Data\Krous-Ex.sql" />
@@ -470,9 +471,7 @@
     <Content Include="Assests\main\img\assessment.png" />
     <Content Include="Assests\main\img\contract.png" />
     <Content Include="Assests\main\img\logo.jpg" />
-    <Content Include="Assests\main\img\logo.png" />
     <Content Include="Assests\main\img\mini_logo.jpg" />
-    <Content Include="Assests\main\img\mini_logo.png" />
     <Content Include="Assests\main\img\submitIcon.png" />
     <Content Include="Assests\main\js\data-table.js" />
     <Content Include="Assests\main\js\dropify.js" />
@@ -1396,6 +1395,13 @@
     <Content Include="AllUserSite.Master" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AcademicCalendarListings.aspx.cs">
+      <DependentUpon>AcademicCalendarListings.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="AcademicCalendarListings.aspx.designer.cs">
+      <DependentUpon>AcademicCalendarListings.aspx</DependentUpon>
+    </Compile>
     <Compile Include="AcademicCalenderEntry.aspx.cs">
       <DependentUpon>AcademicCalenderEntry.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>

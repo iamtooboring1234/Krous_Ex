@@ -14,7 +14,7 @@
                 <div class="row">
                     <div class="col-md-12">
                         <h3>
-                            <asp:Label ID="lblFAQList" runat="server" Font-Size="large">Forum Report</asp:Label>
+                            <asp:Label ID="lblForumReport" runat="server" Font-Size="large">Forum Report Listings</asp:Label>
                         </h3>
                         <p class="card-description">To approve/reject the report application </p>
                     </div>
@@ -25,27 +25,16 @@
                         <div class="form-group pdForm">
                             <div class="row">
                                 <div class="col-md-2 col-form-label">
-                                    <asp:Label ID="lblFAQTitle" runat="server">FAQ Title</asp:Label>
-                                </div>
-                                <div class="col-md-8">
-                                    <asp:TextBox ID="txtFAQTitle" runat="server" CssClass="form-control"></asp:TextBox>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="form-group pdForm">
-                            <div class="row">
-                                <div class="col-md-2 col-form-label">
                                     <asp:Label ID="lblFAQCategory" runat="server">Report Reason</asp:Label>
                                 </div>
                                 <div class="col-md-3">
-                                    <asp:DropDownList runat="server" ID="ddlCategory" CssClass="form-control"></asp:DropDownList>
+                                    <asp:DropDownList runat="server" ID="ddlReportReason" CssClass="form-control"></asp:DropDownList>
                                 </div>
                                 <div class="col-md-2 col-form-label">
-                                    <asp:Label ID="lblFAQStatus" runat="server">Report status</asp:Label>
+                                    <asp:Label ID="lblReportStatus" runat="server">Report status</asp:Label>
                                 </div>
                                 <div class="col-md-3">
-                                    <asp:DropDownList ID="ddlFAQStatus" runat="server" CssClass="form-control">
+                                    <asp:DropDownList ID="ddlReportStatus" runat="server" CssClass="form-control">
                                         <asp:ListItem Selected="True" Value="All">All</asp:ListItem>
                                         <asp:ListItem Value="In Progress">In Progress</asp:ListItem>
                                         <asp:ListItem Value="Approved">Approved</asp:ListItem>
@@ -75,13 +64,13 @@
             <div class="card-body">
                 <div class="table-responsive">
                     <div class="gv-section text-center">
-                        <asp:GridView ID="gvForumReport" runat="server" Width="100%" CssClass="table table-bordered tableForum" AutoGenerateColumns="False" DataKeyNames="ForumReportGUID"  CellPadding="10" CellSpacing="2" Border="0">
+                        <asp:GridView ID="gvForumReport" runat="server" Width="100%" CssClass="table table-bordered tableForum" AutoGenerateColumns="False" DataKeyNames="ForumReportGUID"  CellPadding="10" CellSpacing="2" Border="0" OnRowDataBound="gvForumReport_RowDataBound">
                             <Columns>
                                 <asp:TemplateField>
-                                    <HeaderTemplate>
+<%--                                    <HeaderTemplate>
                                         <asp:CheckBox ID="chkAll" runat="server" AutoPostBack="true"
                                             onclick="checkAll(this);" />
-                                    </HeaderTemplate>
+                                    </HeaderTemplate>--%>
                                     <ItemTemplate>
                                         <asp:CheckBox ID="chkRow" runat="server" AutoPostBack="true"
                                             onclick="Check_Click(this)" />
@@ -102,7 +91,7 @@
                             <PagerStyle BackColor="#CCCCCC" ForeColor="Black" HorizontalAlign="Center" />
                             <RowStyle BackColor="" HorizontalAlign="Center" />
                         </asp:GridView>
-                        <asp:Label ID="lblNoData" runat="server" Visible="false" Font-Size="Large" Font-Bold="true" Text="No FAQ Record Found !"></asp:Label>
+                        <asp:Label ID="lblNoData" runat="server" Visible="false" Font-Size="Large" Font-Bold="true" Text="No Record Found !"></asp:Label>
                     </div>
                 </div>
                 <asp:Panel ID="panelButton" runat="server" Visible="false">
@@ -146,5 +135,7 @@
             });
         });
     </script>
+
+    <script src="Assests/main/js/toastDemo.js"></script>
 
 </asp:Content>

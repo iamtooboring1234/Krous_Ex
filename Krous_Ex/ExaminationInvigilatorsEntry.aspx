@@ -91,9 +91,9 @@
                 <div class="row">
                     <div class="col-md-12">
                         <h3>
-                            <asp:Label ID="lblExaminationEntry" runat="server">Examination Timetable Entry</asp:Label>
+                            <asp:Label ID="lblExaminationEntry" runat="server">Examination Invigilators Entry</asp:Label>
                         </h3>
-                        <p class="card-description">Form to insert new examination time </p>
+                        <p class="card-description">To entry invigilators for particular examination </p>
                     </div>
                 </div>
                 <hr />

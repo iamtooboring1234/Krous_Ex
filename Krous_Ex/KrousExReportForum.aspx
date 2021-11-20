@@ -29,6 +29,17 @@
                                         <div class="form-group pdForm">
                                             <div class="row justify-content-center">
                                                 <div class="col-md-2 col-form-label">
+                                                    <asp:Label ID="lblReplyBy" runat="server">Reply By</asp:Label><span style="color: red;">*</span>
+                                                </div>
+                                                <div class="col-md-8">
+                                                    <asp:TextBox ID="txtReplyBy" runat="server" CssClass="form-control" onkeydown="return (event.keyCode!=13);" Enabled="false"></asp:TextBox>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group pdForm">
+                                            <div class="row justify-content-center">
+                                                <div class="col-md-2 col-form-label">
                                                     <asp:Label ID="lblReplyContent" runat="server">Reply Content</asp:Label><span style="color: red;">*</span>
                                                 </div>
                                                 <div class="col-md-8">
@@ -73,6 +84,7 @@
                                     <div class="row justify-content-center">
                                         <div class="col-md-10 text-right">
                                             <asp:Button ID="btnYes" runat="server" Text="Yes" CssClass="btn btn-primary" Width="18%" OnClick="btnYes_Click"/>
+                                            <ajaxToolkit:ConfirmButtonExtender ID="ConfirmButtonExtender1" runat="server" ConfirmText="Are you sure to REPORT these comments ?" TargetControlID="btnYes" />
                                             <asp:Button ID="btnNo" runat="server" Text="No" CssClass="btn btn-danger" Width="18%" OnClick="btnNo_Click"/>
                                          </div>
                                     </div>

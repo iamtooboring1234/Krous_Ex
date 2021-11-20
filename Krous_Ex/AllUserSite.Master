@@ -70,9 +70,9 @@
                     <div class="container">
                         <div class="text-center navbar-brand-wrapper d-flex align-items-center justify-content-center">
                             <a class="navbar-brand brand-logo" href="Homepage">
-                                <img src="Assests/main/images/logo.svg" alt="logo" /></a>
+                                <img src="Assests/main/img/logo.jpg" alt="logo"/></a>
                             <a class="navbar-brand brand-logo-mini" href="Homepage">
-                                <img src="Assests/main/images/logo-mini.svg" alt="logo" /></a>
+                                <img src="Assests/main/img/mini_logo.jpg" alt="logo" /></a>
                         </div>
                         <div class="navbar-menu-wrapper d-flex align-items-center justify-content-end">
                             <ul class="navbar-nav navbar-nav-right">

@@ -15,16 +15,63 @@ namespace Krous_Ex
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-            loadGV();
-
-            var myCookie = Request.Cookies[FormsAuthentication.FormsCookieName];
-
-            if (myCookie != null)
+            if (IsPostBack != true)
             {
-                panelLogin.Visible = false;
-                panelPost.Visible = true;
-            }
+                if (Session["DeleteDiscussion"] != null)
+                {
+                    if (Session["DeleteDiscussion"].ToString() == "Yes")
+                    {
+                        ClientScript.RegisterStartupScript(GetType(), "Javascript", "javascript:showDeleteSuccessToast(); ", true);
+                        Session["DeleteDiscussion"] = null;
+                    }
+                }
 
+                if (Session["DiscussionLocked"] != null)
+                {
+                    if (Session["DiscussionLocked"].ToString() == "Yes")
+                    {
+                        ClientScript.RegisterStartupScript(GetType(), "Javascript", "javascript:showDiscussionIsLocked(); ", true);
+                        Session["DiscussionLocked"] = null;
+                    }
+                }
+
+                if (Session["DiscussionUnlocked"] != null)
+                {
+                    if (Session["DiscussionUnlocked"].ToString() == "Yes")
+                    {
+                        ClientScript.RegisterStartupScript(GetType(), "Javascript", "javascript:showDiscussionIsUnlocked(); ", true);
+                        Session["DiscussionUnlocked"] = null;
+                    }
+                }
+
+                if (Session["DiscussionPinned"] != null)
+                {
+                    if (Session["DiscussionPinned"].ToString() == "Yes")
+                    {
+                        ClientScript.RegisterStartupScript(GetType(), "Javascript", "javascript:showDiscussionIsPinned(); ", true);
+                        Session["DiscussionPinned"] = null;
+                    }
+                }
+
+                if (Session["DiscussionUnpinned"] != null)
+                {
+                    if (Session["DiscussionUnpinned"].ToString() == "Yes")
+                    {
+                        ClientScript.RegisterStartupScript(GetType(), "Javascript", "javascript:showDiscussionIsUnpinned(); ", true);
+                        Session["DiscussionUnpinned"] = null;
+                    }
+                }
+
+                loadGV();
+
+                var myCookie = Request.Cookies[FormsAuthentication.FormsCookieName];
+
+                if (myCookie != null)
+                {
+                    panelLogin.Visible = false;
+                    panelPost.Visible = true;
+                }
+            }
         }
 
         private void loadGV()

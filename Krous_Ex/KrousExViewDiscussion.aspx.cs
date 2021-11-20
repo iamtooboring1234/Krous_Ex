@@ -44,7 +44,6 @@ namespace Krous_Ex
                     }
                 }
 
-
                 if (!String.IsNullOrEmpty(Request.QueryString["DiscGUID"]))
                 {
                     loadGV();
@@ -349,7 +348,7 @@ namespace Krous_Ex
         {
             if (deleteForum())
             {
-                clsFunction.DisplayAJAXMessage(this, "Discussion has been successfully deleted.");
+                Session["DeleteDiscussion"] = "Yes";
                 Response.Redirect("KrousExForumListings");
             }
             else
@@ -362,12 +361,12 @@ namespace Krous_Ex
         {
             if (updateDiscussion("lock"))
             {
-                clsFunction.DisplayAJAXMessage(this, "Discussion has been successfully locked.");
+                Session["DiscussionLocked"] = "Yes";
                 Response.Redirect("KrousExForumListings");
             }
             else
             {
-                clsFunction.DisplayAJAXMessage(this, "Unable to delete. No such record.");
+                clsFunction.DisplayAJAXMessage(this, "Unable to lock. Please contact KrousEx support.");
             }
         }
 
@@ -375,12 +374,12 @@ namespace Krous_Ex
         {
             if (updateDiscussion("unlock"))
             {
-                clsFunction.DisplayAJAXMessage(this, "Discussion has been successfully unlocked.");
+                Session["DiscussionUnlocked"] = "Yes";
                 Response.Redirect("KrousExForumListings");
             }
             else
             {
-                clsFunction.DisplayAJAXMessage(this, "Unable to delete. No such record.");
+                clsFunction.DisplayAJAXMessage(this, "Unable to unlock. Please contact KrousEx support.");
             }
         }
 
@@ -388,12 +387,12 @@ namespace Krous_Ex
         {
             if (updateDiscussion("pin"))
             {
-                clsFunction.DisplayAJAXMessage(this, "Discussion has been successfully pinned.");
+                Session["DiscussionPinned"] = "Yes";
                 Response.Redirect("KrousExForumListings");
             }
             else
             {
-                clsFunction.DisplayAJAXMessage(this, "Unable to delete. No such record.");
+                clsFunction.DisplayAJAXMessage(this, "Unable to pin. Please contact KrousEx support.");
             }
         }
 
@@ -401,12 +400,12 @@ namespace Krous_Ex
         {
             if (updateDiscussion("unpin"))
             {
-                clsFunction.DisplayAJAXMessage(this, "Discussion has been successfully unpinned.");
+                Session["DiscussionUnpinned"] = "Yes";
                 Response.Redirect("KrousExForumListings");
             }
             else
             {
-                clsFunction.DisplayAJAXMessage(this, "Unable to delete. No such record.");
+                clsFunction.DisplayAJAXMessage(this, "Unable to unpin. Please contact KrousEx support.");
             }
         }
 

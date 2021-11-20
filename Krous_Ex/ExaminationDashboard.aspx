@@ -15,7 +15,7 @@
                             <div class="col-md-12">
                                 <h3 style="margin-left: 20px;">
                                     <i class="fas fa-tachometer-alt"></i>
-                                    <asp:Label ID="lblFAQList" runat="server" Font-Size="large">Examination Dashboard</asp:Label>
+                                    <asp:Label ID="lblExamDashboard" runat="server" Font-Size="large">Examination Dashboard</asp:Label>
                                 </h3>
                             </div>
                         </div>
@@ -37,7 +37,7 @@
                                     <span id="body_Label1" style="font-size: Large;">Jump Into Examination Creation</span>
                                 </div>
                                 <div class="col-md-4 text-center float-right">
-                                    <a href="ExaminationEntry" class="submit-btn">Create examination</a>
+                                    <a href="ExaminationTimetableEntry" class="submit-btn">Create examination</a>
                                 </div>
                             </div>
                         </div>
