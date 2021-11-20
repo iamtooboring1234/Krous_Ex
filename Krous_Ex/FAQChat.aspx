@@ -9,7 +9,7 @@
     <link href="Assests/main/css/inquiry.css" rel="stylesheet" />
 
     <script>
-    $(function () {
+        $(function () {
 
             var chat = $.connection.chatHub;
 
@@ -18,50 +18,39 @@
             };
 
             chat.client.alertEndChat = function (userType, message) {
-
                 if (userType == $('#<%=hdUserType.ClientID%>').val()) {
-
                     alert(message)
-
                 } else {
                     alert("The chat is ended by the " + userType)
 
                 }
-
                 window.location.href = "FAQChatView.aspx?ChatGUID=" + $('#<%=hdChatGUID.ClientID%>').val();
+        };
 
-            };
-
-            $.connection.hub.start(function () {
-                chat.server.join($('#<%=hdChatGUID.ClientID%>').val());
+        $.connection.hub.start(function () {
+            chat.server.join($('#<%=hdChatGUID.ClientID%>').val());
             });
 
-            $.connection.hub.start().done(function () {
-                $('#btn-sendmsg').click(function () {
-
-                    if ($('#txtMessage').val() != "") {
-                        chat.server.send($('#<%=hdCurrentUserGUID.ClientID%>').val(), $('#<%=hdUserType.ClientID%>').val(), $('#txtMessage').val().replace(/\n/g, "<br>"), $('#<%=hdChatGUID.ClientID%>').val(), $('#<%=hdNewChat.ClientID%>').val(), "Text");
+        $.connection.hub.start().done(function () {
+            $('#btn-sendmsg').click(function () {
+                if ($('#txtMessage').val() != "") {
+                    chat.server.send($('#<%=hdCurrentUserGUID.ClientID%>').val(), $('#<%=hdUserType.ClientID%>').val(), $('#txtMessage').val().replace(/\n/g, "<br>"), $('#<%=hdChatGUID.ClientID%>').val(), $('#<%=hdNewChat.ClientID%>').val(), "Text");
                         newMessageAlert()
                         $('#<%=hdNewChat.ClientID%>').val("False");
-
                     } else {
                         alert("Please enter message !");
                     }
-
                 });
-
             });
 
-            $(window).focus(function () {
-                if (document.title == "(New Message!) Chat") {
-                    document.title = "Chat";
-                }
-            });
-
+        $(window).focus(function () {
+            if (document.title == "(New Message!) Chat") {
+                document.title = "Chat";
+            }
         });
+    });
 
         function AddMessage(userType, message, messageType, sendTime) {
-
             var divChat = '';
             var linkColor;
             var checkDate = new Date($('#<%=hdCheckDate.ClientID%>').val());
@@ -72,58 +61,39 @@
                 divChat += '<div class="media media-meta-day">Today</div><hr class="col-md-4" style="border: 1px solid white;margin:auto;">';
                 divChat += '</div>';
                 $('#<%=hdCheckDate.ClientID%>').val(todaysDate.toDateString())
-
             }
 
-            
-
             if (userType == $('#<%=hdUserType.ClientID%>').val()) {
-
                 linkColor = "pdfLinkWhite";
                 clearMsgAfterSend()
                 divChat += '<div class="row col-lg-12 justify-content-end m-0">'
                 divChat += '<div class="media media-chat media-chat-reverse mediaPadding">';
-
             } else {
-
                 linkColor = "pdfLinkBlack";
-
                 divChat += '<div class="media media-chat mediaPadding">';
             }
 
             divChat += '<div class="media-body">';
 
-
-
             if (messageType == "Text") {
-
                 divChat += '<p>' + message + '</p>';
-
             } else if (messageType == "Image") {
-
                 var imagepath = getCookie("ImagePath");
-
                 divChat += '<p>';
                 divChat += '<img src="' + imagepath + message + '" alt="Send Image" Style="cursor: pointer" width="250" height="200" onclick="enlargeImage(this.src)">';
                 divChat += '</p>';
-
             } else {
-
                 var imagepath = getCookie("ImagePath");
                 var filename = message.split('_');
-
                 divChat += '<p>';
                 divChat += '<a class="' + linkColor + '" target="_blank" href="' + imagepath + message + '">' + filename[0] + '.pdf</a>';
                 divChat += '</p>';
-
             }
 
             divChat += '<p class="meta"><time>' + sendTime + '</time></p>';
             divChat += '</div>';
             divChat += '</div>';
             divChat += '</div>';
-
-
 
             $('#chat-content-Message').append(divChat);
 
@@ -132,8 +102,6 @@
 
             checkTab(userType)
             playAudio(userType)
-
-
         }
 
         function IsValidateFile(fileF) {
@@ -245,13 +213,13 @@
         function newMessageAlert() {
             if ($('#<%=hdNewChat.ClientID%>').val() == "True") {
                 $('#myPopup').fadeIn();
-                 $('#myPopup').delay(10000).fadeOut();
+                $('#myPopup').delay(10000).fadeOut();
             }
         }
 
         function endChat() {
             if ($('#<%=hdNewChat.ClientID%>').val() != "True") {
-                if (confirm("Are sure want to end this chat ? \n You no longer can send and receive message from this chat.")) {
+                if (confirm("You are ending a chat. Are you sure to proceed? \n You are no longer to send or receive any message from this chat.")) {
                     $.ajax({
                         type: "POST",
                         url: "KrousExWebService.asmx/endChat",
@@ -285,7 +253,8 @@
             <div class="col-lg-12">
 
                 <div class="card-header">
-                    <h4 class="card-title"><strong>Chat Room <asp:Literal ID="litStudName" runat="server"></asp:Literal></strong></h4>
+                    <h4 class="card-title"><strong>Chat Room
+                        <asp:Literal ID="litStudName" runat="server"></asp:Literal></strong></h4>
                     <a class="btn btn-sm btn-secondary" id="endChatBtn" onclick="endChat()" href="#" data-abc="true">End Chat</a>
                 </div>
 
@@ -311,9 +280,9 @@
                         <textarea id="txtMessage" class="form-control" onkeydown=""></textarea>
                         <button type="button" id="btn-sendmsg" class="btn btn-primary rounded-circle ml-1 mr-1"><i class="fa fa-paper-plane fa-lg"></i></button>
                         <button type="button" id="btn-sendImg" class="btn btn-primary rounded-circle" onclick="ClickFileUpload();"><i class="fa fa-paperclip fa-lg"></i></button>
-                        <ajaxToolkit:AsyncFileUpload OnClientUploadComplete="uploadComplete" runat="server" ID="AsyncFileUploadChat" OnUploadedComplete="FileUploadComplete"  Style="display: none"/>
+                        <ajaxToolkit:AsyncFileUpload OnClientUploadComplete="uploadComplete" runat="server" ID="AsyncFileUploadChat" OnUploadedComplete="FileUploadComplete" Style="display: none" />
                     </div>
-                        
+
                     <img id="imgDisplay" src="" class="user-image" style="height: 100px;" />
 
                 </div>
