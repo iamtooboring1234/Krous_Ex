@@ -78,7 +78,7 @@ namespace Krous_Ex
                 var SelectCommand = new SqlCommand();
                 if (UserType == "Staff")
                 {
-                    SelectCommand = new SqlCommand("SELECT * FROM STAFF WHERE Email = @Email AND StaffStatus <> 'Terminated')", con);
+                    SelectCommand = new SqlCommand("SELECT * FROM STAFF WHERE Email = @Email AND StaffStatus <> 'Terminated'", con);
                     SelectCommand.Parameters.AddWithValue("@Email", Email);
                 }
                 else if (UserType == "Student")
@@ -100,6 +100,7 @@ namespace Krous_Ex
             }
             catch (Exception ex)
             {
+                System.Diagnostics.Trace.WriteLine(ex.Message);
                 return false;
             }
         }
@@ -176,6 +177,46 @@ namespace Krous_Ex
             }
             catch (Exception ex)
             {
+                System.Diagnostics.Trace.WriteLine(ex.Message);
+                return false;
+            }
+        }
+
+        public static bool CheckStaffEntryDuplicateICNo(string UserType, string ICNo, Guid UserGUID)
+        {
+            try
+            {
+                SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["Krous_Ex"].ConnectionString);
+
+                con.Open();
+                var SelectCommand = new SqlCommand();
+                if (UserType == "Staff")
+                {
+                    SelectCommand = new SqlCommand("SELECT * FROM STAFF WHERE NRIC = @ICNo AND StaffStatus <> 'Terminated' AND StaffGUID NOT IN (@StaffGUID)", con);
+                    SelectCommand.Parameters.AddWithValue("@ICNo", ICNo);
+                    SelectCommand.Parameters.AddWithValue("@StaffGUID", UserGUID);
+                }
+                else if (UserType == "Student")
+                {
+                    SelectCommand = new SqlCommand("SELECT * FROM STUDENT WHERE NRIC = @NRIC AND StudentGUID NOT IN (@StudentGUID)", con);
+                    SelectCommand.Parameters.AddWithValue("@NRIC", ICNo);
+                    SelectCommand.Parameters.AddWithValue("@StudentGUID", UserGUID);
+                }
+
+                SqlDataReader reader = SelectCommand.ExecuteReader();
+                DataTable dtFound = new DataTable();
+                dtFound.Load(reader);
+                con.Close();
+                if (dtFound.Rows.Count != 0)
+                {
+                    return true;
+                }
+
+                return false;
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Trace.WriteLine(ex.Message);
                 return false;
             }
         }

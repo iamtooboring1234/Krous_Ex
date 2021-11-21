@@ -175,6 +175,7 @@ namespace Krous_Ex
                 if (insertRegisterPayment())
                 {
                     //Session["UpdateStatus"] = "Yes";
+                    clsFunction.DisplayAJAXMessage(this, "Student has been approved.");
                     Response.Redirect("StudentProgrammeRegisterListings");
                 } else
                 {

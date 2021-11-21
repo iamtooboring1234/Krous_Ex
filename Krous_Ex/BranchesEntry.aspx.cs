@@ -15,17 +15,26 @@ namespace Krous_Ex
         Guid branchesGUID;
         protected void Page_Load(object sender, EventArgs e)
         {
-            //if (Session["InsertBranch"] != null)
-            //{
-            //    if (Session["InsertBranch"].ToString() == "Yes")
-            //    {
-            //        ClientScript.RegisterStartupScript(GetType(), "Javascript", "javascript:showAddSuccessToast(); ", true);
-            //        Session["InsertBranch"] = null;
-            //    }
-            //}
-
             if (IsPostBack != true)
             {
+                if (Session["InsertBranch"] != null)
+                {
+                    if (Session["InsertBranch"].ToString() == "Yes")
+                    {
+                        ClientScript.RegisterStartupScript(GetType(), "Javascript", "javascript:showBranchAddSuccessToast(); ", true);
+                        Session["InsertBranch"] = null;
+                    }
+                }
+
+                if (Session["updateBranch"] != null)
+                {
+                    if (Session["updateBranch"].ToString() == "Yes")
+                    {
+                        ClientScript.RegisterStartupScript(GetType(), "Javascript", "javascript:showBranchUpdateSuccessToast(); ", true);
+                        Session["updateBranch"] = null;
+                    }
+                }
+
                 if (!String.IsNullOrEmpty(Request.QueryString["BranchesGUID"]))
                 {
                     branchesGUID = Guid.Parse(Request.QueryString["BranchesGUID"]);
@@ -172,8 +181,8 @@ namespace Krous_Ex
                 {
                     if (insertBranches())
                     {
-                        Session["AddNewBranch"] = "Yes";
-                        Response.Redirect("BranchesListings");
+                        Session["InsertBranch"] = "Yes";
+                        Response.Redirect("BranchesEntry");
                     }
                     else
                     {
@@ -196,7 +205,7 @@ namespace Krous_Ex
                 if (updateBranches())
                 {
                     Session["updateBranch"] = "Yes";
-                    Response.Redirect("BranchesListings");
+                    Response.Redirect("BranchesEntry");
                 }
                 else
                 {
@@ -211,9 +220,8 @@ namespace Krous_Ex
         {
             if (deleteBranches())
             {
-
                 Session["deleteBranch"] = "Yes";
-                Response.Redirect("BranchesListings");
+                Response.Redirect("BranchListings");
             }
             else
             {

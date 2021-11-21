@@ -23,35 +23,6 @@ namespace Krous_Ex
                 loadProgGV();
             }
 
-            if (Session["AddNewProgramme"] != null)
-            {
-                if (Session["AddNewProgramme"].ToString() == "Yes")
-                {
-                    clsFunction.DisplayAJAXMessage(this, "Added new programme successfully!");
-                    Session["AddNewProgramme"] = null;
-                }
-                else
-                {
-                    clsFunction.DisplayAJAXMessage(this, "Unable to add new programme!");
-                    Session["AddNewProgramme"] = null;
-                }
-            }
-
-            if (Session["updateProgramme"] != null)
-            {
-                if (Session["updateProgramme"].ToString() == "Yes")
-                {
-                    clsFunction.DisplayAJAXMessage(this, "Programme details has been updated!");
-                    Session["updateProgramme"] = null;
-                }
-                else
-                {
-                    clsFunction.DisplayAJAXMessage(this, "Unable to update programme details!");
-                    Session["updateProgramme"] = null;
-                }
-            }
-
-
             if (Session["deleteProgramme"] != null)
             {
                 if (Session["deleteProgramme"].ToString() == "Yes")

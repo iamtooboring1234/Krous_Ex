@@ -34,16 +34,6 @@
                                         </div>
                                     </div>
                                 </div>
-                            <%--    <div class="form-group pdForm">
-                                    <div class="row">
-                                        <div class="col-md-2 col-form-label">
-                                            <asp:Label ID="lblStaffPass" runat="server">Staff Password</asp:Label><span style="color: red;">*</span>
-                                        </div>
-                                        <div class="col-md-8">
-                                            <asp:TextBox ID="txtPassword" type="password" runat="server" CssClass="form-control" onkeydown="return (event.keyCode!=13);"></asp:TextBox>
-                                        </div>
-                                    </div>
-                                </div>--%>
 
                                 <hr style="height: 2px; border-width: 0; color: #f4d47c; background-color: #CCA844; margin-top: 23px;">
 
@@ -208,5 +198,7 @@
             </div>
         </div>
     </div>
+
+    <script src="Assests/main/js/toastDemo.js"></script>
 
 </asp:Content>

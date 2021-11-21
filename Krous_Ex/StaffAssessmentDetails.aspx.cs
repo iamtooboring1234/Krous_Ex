@@ -22,7 +22,7 @@ namespace Krous_Ex
             {
                 if (Session["UpdateAssessment"].ToString() == "Yes")
                 {
-                    clsFunction.DisplayAJAXMessage(this, "The assessment details has been updated successfully!");
+                    ClientScript.RegisterStartupScript(GetType(), "Javascript", "javascript:showUpdateSuccessToast(); ", true);
                     Session["UpdateAssessment"] = null;
                 }
                 else
@@ -157,12 +157,25 @@ namespace Krous_Ex
                         lblLastUpdate.Text = dt.Rows[0]["LastUpdateDate"].ToString();
                     }
 
-                    //view and download
-                    string FilePath = "~/Uploads/AssessmentFolder/" + Request.QueryString["AssessmentGUID"] + "/" + dt.Rows[0]["UploadMaterials"].ToString();
-                    hlFile.Text = dt.Rows[0]["UploadMaterials"].ToString();
-                    hlFile.Attributes["href"] = ResolveUrl(FilePath);
-                    lbDownload.Attributes["href"] = ResolveUrl(FilePath);
-                    lbDownload.Attributes["download"] = dt.Rows[0]["UploadMaterials"].ToString();
+                    if(dt.Rows[0]["UploadMaterials"].ToString() == "none")
+                    {
+                        lblNoFile.Visible = true;
+                        lbDownload.Visible = false;
+                        lblNoFile.Text = "No file attached for this assessment.";
+                    }
+                    else
+                    {
+                        //view and download
+                        lblNoFile.Visible = false;
+                        lbDownload.Visible = true;
+                        string FilePath = "~/Uploads/AssessmentFolder/" + Request.QueryString["AssessmentGUID"] + "/" + dt.Rows[0]["UploadMaterials"].ToString();
+                        hlFile.Text = dt.Rows[0]["UploadMaterials"].ToString();
+                        hlFile.Attributes["href"] = ResolveUrl(FilePath);
+                        lbDownload.Attributes["href"] = ResolveUrl(FilePath);
+                        lbDownload.Attributes["download"] = dt.Rows[0]["UploadMaterials"].ToString();
+
+                    }
+
 
                 }
                 con.Close();
@@ -200,7 +213,6 @@ namespace Krous_Ex
                 string filename = "Assessment_" + Path.GetFileName(AsyncFileUpload1.FileName);
                 string folderName = "~/Uploads/AssessmentFolder/" + AssessmentGUID + "/";
 
-              
                 SqlCommand updateCmd = new SqlCommand("UPDATE Assessment SET AssessmentTitle = @AssessmentTitle, AssessmentDesc = @AssessmentDesc, DueDate = @DueDate, UploadMaterials = @UploadMaterials, LastUpdateDate = @LastUpdateDate WHERE AssessmentGUID = @AssessmentGUID ", con);
                 updateCmd.Parameters.AddWithValue("@AssessmentGUID", AssessmentGUID);
                 updateCmd.Parameters.AddWithValue("@AssessmentTitle", txtAssessmentTitle.Text);
@@ -225,14 +237,30 @@ namespace Krous_Ex
                 if (!(AsyncFileUpload1.HasFile))
                 {
                     updateCmd.Parameters.AddWithValue("@UploadMaterials", hlFile.Text);
+                    
+                }
+                else
+                {
+                    if(hlFile.Text == "none" || hlFile.Text == null || hlFile.Text == "")
+                    {
+                        updateCmd.Parameters.AddWithValue("@UploadMaterials", filename);
+                        AsyncFileUpload1.SaveAs(Server.MapPath(folderName) + filename);
+                    }
+                    else
+                    {
+                        System.IO.File.Delete(Server.MapPath(folderName + "/" + hlFile.Text));
+                        updateCmd.Parameters.AddWithValue("@UploadMaterials", filename);
+                        AsyncFileUpload1.SaveAs(Server.MapPath(folderName) + filename);
+                    }
+                    
                 }
 
-                if (!string.IsNullOrEmpty(AsyncFileUpload1.FileName))
-                {
-                    System.IO.File.Delete(Server.MapPath(folderName + "/" + hlFile.Text));
-                    updateCmd.Parameters.AddWithValue("@UploadMaterials", filename);
-                    AsyncFileUpload1.SaveAs(Server.MapPath(folderName) + filename);
-                }
+                //if (!string.IsNullOrEmpty(AsyncFileUpload1.FileName))
+                //{
+                //    System.IO.File.Delete(Server.MapPath(folderName + "/" + hlFile.Text));
+                //    updateCmd.Parameters.AddWithValue("@UploadMaterials", filename);
+                //    AsyncFileUpload1.SaveAs(Server.MapPath(folderName) + filename);
+                ////}
 
                 updateCmd.ExecuteNonQuery();
                 con.Close();
@@ -255,21 +283,57 @@ namespace Krous_Ex
 
         protected void lbModify_Click(object sender, EventArgs e)
         {
-            lblAssessmentTitle.Visible = false;
-            txtAssessmentTitle.Visible = true;
-            txtAssessmentTitle.Text = lblAssessmentTitle.Text;
-            lblAssessmentDesc.Visible = false;
-            txtAssessmentDesc.Visible = true;
-            txtAssessmentDesc.Text = lblAssessmentDesc.Text;
-            lblAssessmentDueDate.Visible = false;
-            txtDueDate.Text = DateTime.Parse(lblAssessmentDueDate.Text).ToString("dd/MM/yyyy HH:mm");
-            dateTimePicker.Visible = true;
-            lbDownload.Visible = false;
-            lbRemove.Visible = true;
-            btnUpdate.Visible = true;
-            lbMenu.Visible = false;
-            btnBack.Visible = true;
-            btnBackListing.Visible = false;
+            SqlConnection con = new SqlConnection();
+            string strCon = ConfigurationManager.ConnectionStrings["Krous_Ex"].ConnectionString;
+            con = new SqlConnection(strCon);
+            con.Open();
+            AssessmentGUID = Guid.Parse(Request.QueryString["AssessmentGUID"]);
+            //check got file or not
+            SqlCommand loadfile = new SqlCommand("SELECT a.UploadMaterials FROM Assessment a  WHERE AssessmentGUID = @AssessmentGUID", con);
+            loadfile.Parameters.AddWithValue("@AssessmentGUID", AssessmentGUID);
+            SqlDataReader dtrLoadFile = loadfile.ExecuteReader();
+            DataTable dtFile = new DataTable();
+            dtFile.Load(dtrLoadFile);
+
+            if (dtFile.Rows[0]["UploadMaterials"].ToString() == "none")
+            {
+                lblAssessmentTitle.Visible = false;
+                txtAssessmentTitle.Visible = true;
+                txtAssessmentTitle.Text = lblAssessmentTitle.Text;
+                lblAssessmentDesc.Visible = false;
+                txtAssessmentDesc.Visible = true;
+                txtAssessmentDesc.Text = lblAssessmentDesc.Text;
+                lblAssessmentDueDate.Visible = false;
+                txtDueDate.Text = DateTime.Parse(lblAssessmentDueDate.Text).ToString("dd/MM/yyyy HH:mm");
+                dateTimePicker.Visible = true;
+                btnUpdate.Visible = true;
+                btnBack.Visible = true;
+                btnBackListing.Visible = false;
+                AsyncFileUpload1.Visible = true;
+                lbDownload.Visible = false;
+                lblNoFile.Visible = false;
+            }
+            else
+            {
+                lblAssessmentTitle.Visible = false;
+                txtAssessmentTitle.Visible = true;
+                txtAssessmentTitle.Text = lblAssessmentTitle.Text;
+                lblAssessmentDesc.Visible = false;
+                txtAssessmentDesc.Visible = true;
+                txtAssessmentDesc.Text = lblAssessmentDesc.Text;
+                lblAssessmentDueDate.Visible = false;
+                txtDueDate.Text = DateTime.Parse(lblAssessmentDueDate.Text).ToString("dd/MM/yyyy HH:mm");
+                dateTimePicker.Visible = true;
+                lbDownload.Visible = false;
+                lbRemove.Visible = true;
+                btnUpdate.Visible = true;
+                lbMenu.Visible = false;
+                btnBack.Visible = true;
+                btnBackListing.Visible = false;
+
+            }
+
+
         }
 
         protected void lbDelete_Click(object sender, EventArgs e)

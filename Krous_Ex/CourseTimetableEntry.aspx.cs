@@ -501,25 +501,6 @@ namespace Krous_Ex
                 getCommand.Parameters.AddWithValue("@SessionGUID", ddlSession.SelectedValue);
                 getCommand.Parameters.AddWithValue("@SemesterGUID", ddlSemester.SelectedValue);
 
-                //no need to +1 second 
-                //DateTime startTime = DateTime.Parse(txtClassStartTime.Text);
-                //if (radClassType.SelectedValue == "Main")
-                //{
-                //    getCommand.Parameters.AddWithValue("@ClassStartTime", DateTime.Parse(startTime.AddSeconds(1).ToString())); //start time +1 second);
-                //    getCommand.Parameters.AddWithValue("@DaysOfWeek", ddlWeekDay.SelectedValue);
-                //    getCommand.Parameters.AddWithValue("@ProgrammeGUID", ddlProgramme.SelectedValue);
-                //    getCommand.Parameters.AddWithValue("@SessionGUID", ddlSession.SelectedValue);
-                //    getCommand.Parameters.AddWithValue("@SemesterGUID", ddlSemester.SelectedValue);
-                //}
-                //else
-                //{
-                //    getCommand.Parameters.AddWithValue("@ClassStartTime", txtClassStartTime.Text);
-                //    getCommand.Parameters.AddWithValue("@DaysOfWeek", ddlWeekDay.SelectedValue);
-                //    getCommand.Parameters.AddWithValue("@ProgrammeGUID", ddlProgramme.SelectedValue);
-                //    getCommand.Parameters.AddWithValue("@SessionGUID", ddlSession.SelectedValue);
-                //    getCommand.Parameters.AddWithValue("@SemesterGUID", ddlSemester.SelectedValue);
-                //}
-
                 SqlDataReader dtrCrash = getCommand.ExecuteReader();
                 DataTable dtCrashFound = new DataTable();
                 dtCrashFound.Load(dtrCrash);
@@ -534,6 +515,7 @@ namespace Krous_Ex
             }
             catch (Exception ex)
             {
+                clsFunction.DisplayAJAXMessage(this, ex.Message);
                 return false;
             }
         }

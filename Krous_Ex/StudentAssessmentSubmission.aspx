@@ -148,6 +148,8 @@
         </div>
     </div>
 
+    <script src="Assests/main/js/toastDemo.js"></script>
+
     <%--   <script src="Assests/main/js/dropify.js"></script>
     <script src="Assests/main/vendors/dropify/dropify.min.js"></script>
     <script src="Assests/main/vendors/js/vendor.bundle.base.js"></script>--%>

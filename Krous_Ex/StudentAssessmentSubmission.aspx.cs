@@ -22,6 +22,26 @@ namespace Krous_Ex
             userGuid = Guid.Parse(clsLogin.GetLoginUserGUID());
             if (IsPostBack != true)
             {
+                if (Session["SubmitAssessment"] != null)
+                {
+                    if (Session["SubmitAssessment"].ToString() == "Yes")
+                    {
+                        ClientScript.RegisterStartupScript(GetType(), "Javascript", "javascript:showAssessmentSubmitSuccessToast(); ", true);
+                        Session["SubmitAssessment"] = null;
+                    }
+                }
+                
+                if (Session["ResubmitAssessment"] != null)
+                {
+                    if (Session["ResubmitAssessment"].ToString() == "Yes")
+                    {
+                        ClientScript.RegisterStartupScript(GetType(), "Javascript", "javascript:showAssessmentReSubmitSuccessToast(); ", true);
+                        Session["ResubmitAssessment"] = null;
+                    }
+                }
+
+
+
                 if (!String.IsNullOrEmpty(Request.QueryString["AssessmentGUID"]))
                 {
                     AssessmentGUID = Guid.Parse(Request.QueryString["AssessmentGUID"]);
@@ -211,6 +231,8 @@ namespace Krous_Ex
         {
             if (submitAssessment())
             {
+                //wont display toast
+                Session["SubmitAssessment"] = "Yes";
                 loadAssessmentDetails();
                 btnSubmit.Visible = false;
                 btnUnSubmit.Visible = true;
@@ -314,6 +336,8 @@ namespace Krous_Ex
         {
             if (unsubmitAssessment())
             {
+                //wont display toast
+                Session["ResubmitAssessment"] = "Yes";
                 loadAssessmentDetails();
                 btnSubmit.Visible = false;
                 btnUnSubmit.Visible = true;

@@ -155,6 +155,16 @@ namespace Krous_Ex
                         con = new SqlConnection(strCon);
                         con.Open();
 
+                        //get user image
+                        SqlCommand getUserProfileName = new SqlCommand("SELECT ProfileImage FROM Student WHERE StudentGUID = @StudentGUID", con);
+                        getUserProfileName.Parameters.AddWithValue("@StudentGUID", userGUID);
+                        SqlDataReader dtrImg = getUserProfileName.ExecuteReader();
+                        DataTable dtImg = new DataTable();
+                        dtImg.Load(dtrImg);
+
+                        string userImage = dtImg.Rows[0]["ProfileImage"].ToString();
+
+
                         cmdUpdate = new SqlCommand("UPDATE Student SET Email = @email, PhoneNumber = @phoneNo, Address = @address, ProfileImage = @profileImage, LastUpdateInfo = @LastUpdateInfo WHERE StudentGUID = @StudentGUID", con);
                         cmdUpdate.Parameters.AddWithValue("@email", txtEmail.Text);
                         cmdUpdate.Parameters.AddWithValue("@StudentGUID", userGUID);
@@ -162,7 +172,7 @@ namespace Krous_Ex
                         cmdUpdate.Parameters.AddWithValue("@address", txtAddress.Text);
                         if (!(imageUpload.HasFile))
                         {
-                            cmdUpdate.Parameters.AddWithValue("@profileImage", "defaultUserProfile.png");
+                            cmdUpdate.Parameters.AddWithValue("@profileImage", userImage);
                         }
                         else
                         {

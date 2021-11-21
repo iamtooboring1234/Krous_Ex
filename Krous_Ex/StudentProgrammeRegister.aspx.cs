@@ -19,24 +19,40 @@ namespace Krous_Ex
         Guid registerGUID = Guid.NewGuid();
         protected void Page_Load(object sender, EventArgs e)
         {
-            if (Session["RegisterProgramme"] != null)
-            {
-                if (Session["RegisterProgramme"].ToString() == "Yes")
-                {
-                    clsFunction.DisplayAJAXMessage(this, "Your programme has been registered successfully! Please wait for the staff to approve it.");
-                    Session["RegisterProgramme"] = null;
-                }
-                else
-                {
-                    clsFunction.DisplayAJAXMessage(this, "Unable to register!");
-                    Session["RegisterProgramme"] = null;
-                }
-            }
+
+
+            //if (Session["RegisterProgramme"] != null)
+            //{
+            //    if (Session["RegisterProgramme"].ToString() == "Yes")
+            //    {
+            //        clsFunction.DisplayAJAXMessage(this, "Your programme has been registered successfully! Please wait for the staff to approve it.");
+            //        Session["RegisterProgramme"] = null;
+            //    }
+            //    else
+            //    {
+            //        clsFunction.DisplayAJAXMessage(this, "Unable to register!");
+            //        Session["RegisterProgramme"] = null;
+            //    }
+            //}
 
             if (IsPostBack != true)
             {
                 if(userGUID != null)
                 {
+                    if (Session["RegisterProgramme"] != null)
+                    {
+                        if (Session["RegisterProgramme"].ToString() == "Yes")
+                        {
+                            ClientScript.RegisterStartupScript(GetType(), "Javascript", "javascript:showRegisterSuccessToast(); ", true);
+                            Session["RegisterProgramme"] = null;
+                        }
+                        else
+                        {
+                            clsFunction.DisplayAJAXMessage(this, "Unable to register!");
+                            Session["RegisterProgramme"] = null;
+                        }
+                    }
+
                     loadProgrammeCategory();
                     loadProgramme("");
                     loadSession();
@@ -375,8 +391,7 @@ namespace Krous_Ex
             }
         }
 
-      
-
+   
         protected void btnBack_Click(object sender, EventArgs e)
         {
             Response.Redirect("StudentDashboard");

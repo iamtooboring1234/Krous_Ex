@@ -138,6 +138,7 @@
                                             <asp:Label ID="lblAssessmentFile" runat="server">Assessment File</asp:Label>
                                         </div>
                                         <div class="col-md-8 col-form-label">
+                                            <asp:Label ID="lblNoFile" runat="server" Visible="false"></asp:Label>
                                             <asp:HyperLink ID="hlFile" Target="_blank" runat="server"></asp:HyperLink>
                                             <asp:LinkButton ID="lbDownload" runat="server" CssClass="linkButton" Style="margin-left: 5px;"><i class="fas fa-download"></i></asp:LinkButton>
                                             <asp:LinkButton ID="lbRemove" runat="server" CssClass="linkButton" Style="margin-left: 5px;" OnClick="lbRemove_Click"><i class="fas fa-trash-alt"></i></asp:LinkButton>
@@ -236,7 +237,7 @@
         });
     </script>
 
-
+    <script src="Assests/main/js/toastDemo.js"></script>
 
     <script src="Assests/main/js/hoverable-collapse.js"></script>
     <script src="Assests/main/js/formpickers.js"></script>

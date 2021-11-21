@@ -18,6 +18,16 @@ namespace Krous_Ex
            
             if (IsPostBack != true)
             {
+                if (Session["AddedProgrammeCourse"] != null)
+                {
+                    if (Session["AddedProgrammeCourse"].ToString() == "Yes")
+                    {
+                        ClientScript.RegisterStartupScript(GetType(), "Javascript", "javascript:showAddSuccessToast(); ", true);
+                        Session["AddedProgrammeCourse"] = null;
+                    }
+                }
+
+
                 if (!string.IsNullOrEmpty(Request.QueryString["ProgrammeGUID"]) && !string.IsNullOrEmpty(Request.QueryString["SemesterGUID"]) && !string.IsNullOrEmpty(Request.QueryString["ProgrammeCategory"]))
                 {
                     ListItem oList = new ListItem();
@@ -160,7 +170,6 @@ namespace Krous_Ex
                 clsFunction.DisplayAJAXMessage(this, ex.Message);
             }
         }
-
 
         private void loadSemester()
         {
@@ -596,7 +605,8 @@ namespace Krous_Ex
                 if (AddProgrammeCourse())
                 {
                     Session["AddedProgrammeCourse"] = "Yes";
-                    Response.Redirect("ProgrammeCourseListings.aspx"); 
+                    //Response.Redirect("ProgrammeCourseListings.aspx"); 
+                    Response.Redirect("ProgrammeCourseEntry");
                 }
             }
             else
@@ -606,7 +616,8 @@ namespace Krous_Ex
                     if (AddProgrammeCourse())
                     {
                         Session["AddedProgrammeCourse"] = "Yes";
-                        Response.Redirect("ProgrammeCourseListings.aspx"); 
+                        Response.Redirect("ProgrammeCourseEntry");
+                        //Response.Redirect("ProgrammeCourseListings.aspx"); 
                     }
                 }
             }

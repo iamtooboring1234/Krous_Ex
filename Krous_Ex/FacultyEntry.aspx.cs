@@ -17,6 +17,25 @@ namespace Krous_Ex
         {
             if (IsPostBack != true)
             {
+                if (Session["addNewFaculty"] != null)
+                {
+                    if (Session["addNewFaculty"].ToString() == "Yes")
+                    {
+                        ClientScript.RegisterStartupScript(GetType(), "Javascript", "javascript:showFacultyAddSuccessToast(); ", true);
+                        Session["addNewFaculty"] = null;
+                    }
+                }
+
+                if (Session["updateFaculty"] != null)
+                {
+                    if (Session["updateFaculty"].ToString() == "Yes")
+                    {
+                        ClientScript.RegisterStartupScript(GetType(), "Javascript", "javascript:showFacultyUpdateSuccessToast(); ", true);
+                        Session["updateFaculty"] = null;
+                    }
+                }
+
+
                 if (!String.IsNullOrEmpty(Request.QueryString["FacultyGUID"]))
                 {
                     facultyGUID = Guid.Parse(Request.QueryString["FacultyGUID"]);
@@ -159,7 +178,7 @@ namespace Krous_Ex
                 if (updateFaculty())
                 {
                     Session["updateFaculty"] = "Yes";
-                    Response.Redirect("FacultyListings");
+                    Response.Redirect("FacultyEntry");
                 }
                 else
                 {
@@ -191,7 +210,7 @@ namespace Krous_Ex
                     if (insertFaculty())
                     {
                         Session["addNewFaculty"] = "Yes";
-                        Response.Redirect("FacultyListings");
+                        Response.Redirect("FacultyEntry");
                     }
                     else
                     {
@@ -204,6 +223,7 @@ namespace Krous_Ex
                 }
             }
         }
+
         protected void btnBack_Click(object sender, EventArgs e)
         {
             Response.Redirect("FacultyListings");

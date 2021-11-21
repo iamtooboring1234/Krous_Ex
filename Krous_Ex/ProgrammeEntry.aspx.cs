@@ -23,6 +23,24 @@ namespace Krous_Ex
                 //userGUID = Guid.Parse(clsLogin.GetLoginUserGUID());
                 if (IsPostBack != true)
                 {
+                    if (Session["AddNewProgramme"] != null)
+                    {
+                        if (Session["AddNewProgramme"].ToString() == "Yes")
+                        {
+                            ClientScript.RegisterStartupScript(GetType(), "Javascript", "javascript:showProgrammeAddSuccessToast(); ", true);
+                            Session["AddNewProgramme"] = null;
+                        }
+                    }
+
+                    if (Session["updateProgramme"] != null)
+                    {
+                        if (Session["updateProgramme"].ToString() == "Yes")
+                        {
+                            ClientScript.RegisterStartupScript(GetType(), "Javascript", "javascript:showProgrammeUpdateSuccessToast(); ", true);
+                            Session["updateProgramme"] = null;
+                        }
+                    }
+
                     loadFacultyCategory();
                     if (!String.IsNullOrEmpty(Request.QueryString["ProgrammeGUID"]))
                     {
@@ -212,7 +230,7 @@ namespace Krous_Ex
                     if (addNewProgramme())
                     {
                         Session["AddNewProgramme"] = "Yes";
-                        Response.Redirect("ProgrammeListings");                     
+                        Response.Redirect("ProgrammeEntry");                     
                     }
                     else
                     {
@@ -237,7 +255,7 @@ namespace Krous_Ex
                 if (updateProgramme())
                 {
                     Session["updateProgramme"] = "Yes";
-                    Response.Redirect("ProgrammeListings");
+                    Response.Redirect("ProgrammeEntry");
                 }
                 else
                 {

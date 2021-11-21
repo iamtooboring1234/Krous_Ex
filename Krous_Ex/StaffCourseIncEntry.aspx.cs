@@ -19,7 +19,7 @@ namespace Krous_Ex
             {
                 if (Session["AddedCourseInc"].ToString() == "Yes")
                 {
-                    clsFunction.DisplayAJAXMessage(this, "Course In-charge by staff entry has been added successfully!");
+                    ClientScript.RegisterStartupScript(GetType(), "Javascript", "javascript:showStaffCourseIncSuccessToast(); ", true);
                     Session["AddedCourseInc"] = null;
                 }
                 else
@@ -267,7 +267,6 @@ namespace Krous_Ex
             }
         }
 
-
         protected void ddlProgCategory_SelectedIndexChanged(object sender, EventArgs e)
         {
             if(ddlProgCategory.SelectedValue != "")
@@ -360,7 +359,6 @@ namespace Krous_Ex
             }
         }
 
-        
         private bool checkIsFull()
         {
             try
@@ -420,7 +418,6 @@ namespace Krous_Ex
             }
            
         }
-
 
         protected bool addCourseInc()
         {
@@ -544,7 +541,6 @@ namespace Krous_Ex
                 return false;
             }
         }
-
 
         protected void btnSubmit_Click(object sender, EventArgs e)
         {

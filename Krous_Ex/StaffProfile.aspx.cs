@@ -24,10 +24,20 @@ namespace Krous_Ex
             if (myCookie != null)
             {
                 userGUID = Guid.Parse(clsLogin.GetLoginUserGUID());
-                if (!(IsPostBack))
+                if (IsPostBack != true)
                 {
                     if (userGUID != null)
                     {
+                        //wont display
+                        if (Session["updateProfile"] != null)
+                        {
+                            if (Session["updateProfile"].ToString() == "Yes")
+                            {
+                                ClientScript.RegisterStartupScript(GetType(), "Javascript", "javascript:showProfileUpdateSuccessToast(); ", true);
+                                Session["updateProfile"] = null;
+                            }
+                        }
+
                         loadData();
                     }
                 }
@@ -118,13 +128,23 @@ namespace Krous_Ex
                         con = new SqlConnection(strCon);
                         con.Open();
 
+                        //get user image
+                        SqlCommand getUserProfileName = new SqlCommand("SELECT ProfileImage FROM Staff WHERE StaffGUID = @StaffGUID", con);
+                        getUserProfileName.Parameters.AddWithValue("@StaffGUID", userGUID);
+                        SqlDataReader dtrImg = getUserProfileName.ExecuteReader();
+                        DataTable dtImg = new DataTable();
+                        dtImg.Load(dtrImg);
+
+                        string userImage = dtImg.Rows[0]["ProfileImage"].ToString();
+
+                        
                         cmdUpdate = new SqlCommand("UPDATE Staff SET Email = @email, PhoneNumber = @phoneNo, ProfileImage = @profileImage, LastUpdateInfo = @LastUpdateInfo WHERE StaffGUID = @StaffGUID", con);
                         cmdUpdate.Parameters.AddWithValue("@email", txtEmail.Text);
                         cmdUpdate.Parameters.AddWithValue("@phoneNo", txtContact.Text);
 
                         if (!(imageUpload.HasFile))
                         {
-                            cmdUpdate.Parameters.AddWithValue("@profileImage", "defaultUserProfile.png");
+                            cmdUpdate.Parameters.AddWithValue("@profileImage", userImage);
                         }
                         else
                         {
@@ -220,7 +240,7 @@ namespace Krous_Ex
             {
                 if (updateDetails())
                 {
-                    clsFunction.DisplayAJAXMessage(this, "Your information has been updated successfully!");
+                    Session["updateProfile"] = "Yes";
                     loadData();
 
                 }
@@ -266,12 +286,6 @@ namespace Krous_Ex
 
         protected bool updateValidation()
         {
-            //if (!(imageUpload.HasFile))
-            //{
-            //    clsFunction.DisplayAJAXMessage(this, "Please choose and upload an image as your profile.");
-            //    return false;
-            //}
-
             if (txtEmail.Text == "")
             {
                 clsFunction.DisplayAJAXMessage(this, "Please enter a valid email address.");

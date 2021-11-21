@@ -11,6 +11,186 @@
             position: 'top-right'
         })
     };
+    showBranchAddSuccessToast = function () {
+        'use strict';
+        resetToastPosition();
+        $.toast({
+            heading: 'Success',
+            text: 'New Branch Added Successfully.',
+            showHideTransition: 'slide',
+            icon: 'success',
+            loaderBg: '#f96868',
+            position: 'top-right'
+        })
+    };
+    showProgrammeAddSuccessToast = function () {
+        'use strict';
+        resetToastPosition();
+        $.toast({
+            heading: 'Success',
+            text: 'New Programme Added Successfully.',
+            showHideTransition: 'slide',
+            icon: 'success',
+            loaderBg: '#f96868',
+            position: 'top-right'
+        })
+    };
+    showFacultyAddSuccessToast = function () {
+        'use strict';
+        resetToastPosition();
+        $.toast({
+            heading: 'Success',
+            text: 'New Faculty Added Successfully.',
+            showHideTransition: 'slide',
+            icon: 'success',
+            loaderBg: '#f96868',
+            position: 'top-right'
+        })
+    };
+    showCourseAddSuccessToast = function () {
+        'use strict';
+        resetToastPosition();
+        $.toast({
+            heading: 'Success',
+            text: 'New Course Added Successfully.',
+            showHideTransition: 'slide',
+            icon: 'success',
+            loaderBg: '#f96868',
+            position: 'top-right'
+        })
+    };
+    showStaffAddSuccessToast = function () {
+        'use strict';
+        resetToastPosition();
+        $.toast({
+            heading: 'Success',
+            text: 'New Staff Added Successfully.',
+            showHideTransition: 'slide',
+            icon: 'success',
+            loaderBg: '#f96868',
+            position: 'top-right'
+        })
+    };
+    showStaffCourseIncSuccessToast = function () {
+        'use strict';
+        resetToastPosition();
+        $.toast({
+            heading: 'Success',
+            text: 'Course In-charge by Staff Added Successfully.',
+            showHideTransition: 'slide',
+            icon: 'success',
+            loaderBg: '#f96868',
+            position: 'top-right'
+        })
+    };
+    showBranchUpdateSuccessToast = function () {
+        'use strict';
+        resetToastPosition();
+        $.toast({
+            heading: 'Success',
+            text: 'Branch Details Updated Successfully.',
+            showHideTransition: 'slide',
+            icon: 'success',
+            loaderBg: '#f96868',
+            position: 'top-right'
+        })
+    };
+    showProgrammeUpdateSuccessToast = function () {
+        'use strict';
+        resetToastPosition();
+        $.toast({
+            heading: 'Success',
+            text: 'Programme Details Updated Successfully.',
+            showHideTransition: 'slide',
+            icon: 'success',
+            loaderBg: '#f96868',
+            position: 'top-right'
+        })
+    };
+    showFacultyUpdateSuccessToast = function () {
+        'use strict';
+        resetToastPosition();
+        $.toast({
+            heading: 'Success',
+            text: 'Faculty Details Updated Successfully.',
+            showHideTransition: 'slide',
+            icon: 'success',
+            loaderBg: '#f96868',
+            position: 'top-right'
+        })
+    };
+    showCourseUpdateSuccessToast = function () {
+        'use strict';
+        resetToastPosition();
+        $.toast({
+            heading: 'Success',
+            text: 'Course Details Updated Successfully.',
+            showHideTransition: 'slide',
+            icon: 'success',
+            loaderBg: '#f96868',
+            position: 'top-right'
+        })
+    };
+    showStaffUpdateSuccessToast = function () {
+        'use strict';
+        resetToastPosition();
+        $.toast({
+            heading: 'Success',
+            text: 'Staff Details Updated Successfully.',
+            showHideTransition: 'slide',
+            icon: 'success',
+            loaderBg: '#f96868',
+            position: 'top-right'
+        })
+    };
+    showProfileUpdateSuccessToast = function () {
+        'use strict';
+        resetToastPosition();
+        $.toast({
+            heading: 'Success',
+            text: 'Profile Details Updated Successfully.',
+            showHideTransition: 'slide',
+            icon: 'success',
+            loaderBg: '#f96868',
+            position: 'top-right'
+        })
+    };
+    showAssessmentSubmitSuccessToast = function () {
+        'use strict';
+        resetToastPosition();
+        $.toast({
+            heading: 'Success',
+            text: 'Your Assessment Submitted Successfully.',
+            showHideTransition: 'slide',
+            icon: 'success',
+            loaderBg: '#f96868',
+            position: 'top-right'
+        })
+    };
+    showAssessmentReSubmitSuccessToast = function () {
+        'use strict';
+        resetToastPosition();
+        $.toast({
+            heading: 'Success',
+            text: 'Your Assessment Re-Submitted Successfully.',
+            showHideTransition: 'slide',
+            icon: 'success',
+            loaderBg: '#f96868',
+            position: 'top-right'
+        })
+    };
+    showRegisterSuccessToast = function () {
+        'use strict';
+        resetToastPosition();
+        $.toast({
+            heading: 'Success',
+            text: 'Programme Registered Successfully.',
+            showHideTransition: 'slide',
+            icon: 'success',
+            loaderBg: '#f96868',
+            position: 'top-right'
+        })
+    };
     showUpdateSuccessToast = function () {
         'use strict';
         resetToastPosition();

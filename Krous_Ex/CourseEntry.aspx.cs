@@ -15,8 +15,26 @@ namespace Krous_Ex
         Guid courseGUID;
         protected void Page_Load(object sender, EventArgs e)
         {
-            if (!IsPostBack)
+            if (IsPostBack != true)
             {
+                if (Session["AddNewCourse"] != null)
+                {
+                    if (Session["AddNewCourse"].ToString() == "Yes")
+                    {
+                        ClientScript.RegisterStartupScript(GetType(), "Javascript", "javascript:showCourseAddSuccessToast(); ", true);
+                        Session["AddNewCourse"] = null;
+                    }
+                }
+
+                if (Session["updateCourse"] != null)
+                {
+                    if (Session["updateCourse"].ToString() == "Yes")
+                    {
+                        ClientScript.RegisterStartupScript(GetType(), "Javascript", "javascript:showCourseUpdateSuccessToast(); ", true);
+                        Session["updateCourse"] = null;
+                    }
+                }
+
                 if (!String.IsNullOrEmpty(Request.QueryString["CourseGUID"]))
                 {
                     courseGUID = Guid.Parse(Request.QueryString["CourseGUID"]);
@@ -129,7 +147,7 @@ namespace Krous_Ex
             }
         }
 
-        protected bool deleteProgramme()
+        protected bool deleteCourse()
         {
             courseGUID = Guid.Parse(Request.QueryString["CourseGUID"]);
             try
@@ -164,7 +182,7 @@ namespace Krous_Ex
                     if (insertCourse())
                     {
                         Session["AddNewCourse"] = "Yes";
-                        Response.Redirect("CourseListings");
+                        Response.Redirect("CourseEntry");
                     }
                     else
                     {
@@ -187,7 +205,7 @@ namespace Krous_Ex
                 if (updateCourse())
                 {
                     Session["updateCourse"] = "Yes";
-                    Response.Redirect("CourseListings");
+                    Response.Redirect("CourseEntry");
                 }
                 else
                 {
@@ -200,7 +218,7 @@ namespace Krous_Ex
 
         protected void btnDelete_Click(object sender, EventArgs e)
         {
-            if (deleteProgramme())
+            if (deleteCourse())
             {
                 Session["deleteCourse"] = "Yes"; 
                 Response.Redirect("CourseListings");

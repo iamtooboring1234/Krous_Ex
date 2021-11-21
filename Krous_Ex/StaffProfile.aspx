@@ -106,9 +106,9 @@
             <asp:Button ID="btnSave" runat="server" Text="Save Profile" CssClass="btn btn-primary me-2" Style="padding: 10px; width: 120px; margin-top: 20px; margin-right: 13px;" OnClick="btnSave_Click" />
             <ajaxToolkit:ConfirmButtonExtender ID="ConfirmButtonExtender1" runat="server" ConfirmText="Are you sure to save updated details ?" TargetControlID="btnSave" />
             <asp:Button ID="btnCancel" runat="server" Text="Cancel" CssClass="btn btn-dark" Style="padding: 10px; width: 100px; margin-top: 20px;" />
-
-
         </div>
     </div>
+
+    <script src="Assests/main/js/toastDemo.js"></script>
 
 </asp:Content>

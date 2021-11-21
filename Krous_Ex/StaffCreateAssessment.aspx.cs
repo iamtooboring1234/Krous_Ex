@@ -150,7 +150,6 @@ namespace Krous_Ex
             }
         }
 
-       
         private void loadSemester() //load all semester
         {
             try
@@ -323,7 +322,6 @@ namespace Krous_Ex
             }
         }
 
-
         protected bool createAssessment()
         {
             try
@@ -371,6 +369,7 @@ namespace Krous_Ex
                     if (AsyncUploadMaterial.HasFile)
                     {
                         createCmd.Parameters.AddWithValue("@UploadMaterials", filename);
+                        AsyncUploadMaterial.SaveAs(Server.MapPath(folderName) + filename);
                     }
                     else
                     {
@@ -379,7 +378,7 @@ namespace Krous_Ex
 
                     createCmd.ExecuteNonQuery();
 
-                    AsyncUploadMaterial.SaveAs(Server.MapPath(folderName) + filename);
+                    
                 }
                
                 return true;

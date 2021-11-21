@@ -194,4 +194,6 @@
 
     </script>
 
+    <script src="Assests/main/js/toastDemo.js"></script>
+
 </asp:Content>

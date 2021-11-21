@@ -22,8 +22,27 @@ namespace Krous_Ex
 
         protected void Page_Load(object sender, EventArgs e)
         {
-            if (!IsPostBack)
+            if (IsPostBack != true)
             {
+                if (Session["addNewStaff"] != null)
+                {
+                    if (Session["addNewStaff"].ToString() == "Yes")
+                    {
+                        ClientScript.RegisterStartupScript(GetType(), "Javascript", "javascript:showStaffAddSuccessToast(); ", true);
+                        Session["addNewStaff"] = null;
+                    }
+                }
+
+                if (Session["updateStaff"] != null)
+                {
+                    if (Session["updateStaff"].ToString() == "Yes")
+                    {
+                        ClientScript.RegisterStartupScript(GetType(), "Javascript", "javascript:showStaffAddSuccessToast(); ", true);
+                        Session["updateStaff"] = null;
+                    }
+                }
+
+
                 loadFacultyList();
                 loadBranchList();
                 lblStaffStatus.Visible = false;
@@ -39,6 +58,7 @@ namespace Krous_Ex
                     txtUsername.Enabled = false;
                     txtStaffEmail.Enabled = false;
                     txtNRIC.Enabled = false;
+                    txtPhoneNo.Enabled = false;
                     txtFullName.Enabled = false;
                     lblStaffStatus.Visible = true;
                     txtStaffStatus.Visible = true;
@@ -217,11 +237,10 @@ namespace Krous_Ex
                 con = new SqlConnection(strCon);
                 con.Open();
 
-                updateCmd = new SqlCommand("UPDATE Staff SET Gender = @Gender, PhoneNumber = @PhoneNumber, StaffRole = @StaffRole, StaffPositiion = @StaffPositiion, StaffStatus = @StaffStatus, Specialization = @Specialization, BranchesGUID = @BranchesGUID, FacultyGUID = @FacultyGUID  WHERE StaffGUID = @StaffGUID", con);
+                updateCmd = new SqlCommand("UPDATE Staff SET Gender = @Gender, StaffRole = @StaffRole, StaffPositiion = @StaffPositiion, StaffStatus = @StaffStatus, Specialization = @Specialization, BranchesGUID = @BranchesGUID, FacultyGUID = @FacultyGUID  WHERE StaffGUID = @StaffGUID", con);
               
                 updateCmd.Parameters.AddWithValue("@StaffGUID", staffGUID);
                 updateCmd.Parameters.AddWithValue("@Gender", rblGender.SelectedValue);
-                updateCmd.Parameters.AddWithValue("@PhoneNumber", txtPhoneNo.Text);
                 updateCmd.Parameters.AddWithValue("@StaffRole", StaffRole);
                 updateCmd.Parameters.AddWithValue("@StaffPositiion", txtStaffPosition.Text);
                 updateCmd.Parameters.AddWithValue("@StaffStatus", "Active");
@@ -239,7 +258,8 @@ namespace Krous_Ex
                 return false;
             }
         }
-        protected bool deleteProgramme()
+
+        protected bool deleteStaff()
         {
             staffGUID = Guid.Parse(Request.QueryString["StaffGUID"]);
             try
@@ -278,46 +298,17 @@ namespace Krous_Ex
                 {
                     if (insertStaff())
                     {
-                        clsFunction.DisplayAJAXMessage(this, "Added new staff successfully!");
-                        txtUsername.Text = string.Empty;
-                        txtFullName.Text = string.Empty;
-                        rblGender.SelectedIndex = -1;
-                        txtNRIC.Text = string.Empty;
-                        txtPhoneNo.Text = string.Empty;
-                        txtStaffEmail.Text = string.Empty;
-                        rdExistRole.Checked = true;
-                        rdNewRole.Checked = false;
-                        txtNewStaffRole.Enabled = true;
-                        txtStaffPosition.Text = string.Empty;
-                        txtSpecialization.Text = string.Empty;
-                        ddlFaculty.SelectedIndex = 0;
-                        ddlBranch.SelectedIndex = 0;
-                        Response.Redirect("StaffListings");
+                        Session["addNewStaff"] = "Yes";
+                        Response.Redirect("StaffEntry");
                     }
                     else
                     {
                         clsFunction.DisplayAJAXMessage(this, "Unable to add new staff entry.");
                     }
-                }
-                else
-                {
-                    clsFunction.DisplayAJAXMessage(this, "Please enter the required details.");
-                }
+                } 
             }
         }
 
-        protected void btnCancel_Click(object sender, EventArgs e)
-        {
-            if (!String.IsNullOrEmpty(Request.QueryString["StaffGUID"]))
-            {
-                Response.Redirect("StaffEntry?StaffGUID=" + Request.QueryString["StaffGUID"]);
-            }
-            else
-            {
-                Response.Redirect("StaffEntry");
-            }
-
-        }
 
         //can update gender, phone number, staff role, position, specialization, faculty and branch
         protected void btnUpdate_Click(object sender, EventArgs e)
@@ -326,21 +317,22 @@ namespace Krous_Ex
             {
                 if (updateStaff())
                 {
-                    clsFunction.DisplayAJAXMessage(this, "Staff details has been updated!");
-                    Response.Redirect("StaffListings");
+                    Session["updateStaff"] = "Yes";
+                    Response.Redirect("StaffEntry");
                 }
                 else
                 {
                     clsFunction.DisplayAJAXMessage(this, "Unable to update staff details.");
+                    loadStaffInfo();
                 }
             }
         }
 
         protected void btnDelete_Click(object sender, EventArgs e)
         {
-            if (deleteProgramme())
+            if (deleteStaff())
             {
-                clsFunction.DisplayAJAXMessage(this, "Staff details has been deleted!");
+                Session["deleteStaff"] = "Yes";
                 Response.Redirect("StaffListings");
             }
             else
@@ -460,7 +452,7 @@ namespace Krous_Ex
 
         protected bool validateDuplicate()
         {
-            if (clsValidation.CheckDuplicateICNo(userType, txtNRIC.Text))
+            if (clsValidation.CheckStaffEntryDuplicateICNo(userType, txtNRIC.Text, userGUID))
             {
                 clsFunction.DisplayAJAXMessage(this, "Duplicated NRIC entered!");
                 return false;

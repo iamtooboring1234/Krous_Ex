@@ -17,6 +17,20 @@ namespace Krous_Ex
     {
         protected void Page_Load(object sender, EventArgs e)
         {
+            if (Session["deleteStaff"] != null)
+            {
+                if (Session["deleteStaff"].ToString() == "Yes")
+                {
+                    clsFunction.DisplayAJAXMessage(this, "Staff details has been deleted!");
+                    Session["deleteStaff"] = null;
+                }
+                else
+                {
+                    clsFunction.DisplayAJAXMessage(this, "Staff details unable to delete!");
+                    Session["deleteStaff"] = null;
+                }
+            }
+
             if (IsPostBack != true)
             {
                 loadStaffRole();
