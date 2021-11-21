@@ -14,12 +14,26 @@ namespace Krous_Ex
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-
+            if (IsPostBack != true)
+            {
+                if (Session["ReleaseResult"] != null)
+                {
+                    if (Session["ReleaseResult"].ToString() == "Yes")
+                    {
+                        ClientScript.RegisterStartupScript(GetType(), "Javascript", "javascript:showAllExamResultReleased(); ", true);
+                        Session["ReleaseResult"] = null;
+                    }
+                }
+            }
         }
 
         protected void btnRelease_Click(object sender, EventArgs e)
         {
-            ReleaseResult();
+            if (ReleaseResult())
+            {
+                Session["ReleaseResult"] = "Yes";
+                Response.Redirect("ExaminationReleaseResult");
+            }
         }
 
         private bool ReleaseResult()
@@ -179,61 +193,63 @@ namespace Krous_Ex
                                 DataTable dtSemester = new DataTable();
                                 dtSemester.Load(reader);
 
-                                SqlCommand updateCommand = new SqlCommand("UPDATE CurrentSessionSemester SET SessionGUID = @SessionGUID, SemesterGUID = @SemesterGUID, Status = @Status, Reason = @Reason WHERE StudentGUID = @StudentGUID ", con);
-
-                                updateCommand.Parameters.AddWithValue("@SessionGUID", dtSession.Rows[0]["SessionGUID"]);
-                                updateCommand.Parameters.AddWithValue("@SemesterGUID", dtSemester.Rows[0]["SemesterGUID"]);
-                                updateCommand.Parameters.AddWithValue("@Status", DBNull.Value);
-                                updateCommand.Parameters.AddWithValue("@Reason", DBNull.Value);
-                                updateCommand.Parameters.AddWithValue("@StudentGUID", dtCss.Rows[i]["StudentGUID"]);
-
-                                updateCommand.ExecuteNonQuery();
-
-                                //insert the next year & sem payment details
-                                int fixedAmountPerCourse = 259;
-                                Guid paymentGUID = Guid.NewGuid();
-
-                                string creditCmd;
-                                creditCmd = "SELECT * FROM Student s ";
-                                creditCmd += "LEFT JOIN Student_Programme_Register spr ON s.StudentGUID = spr.StudentGUID ";
-                                creditCmd += "LEFT JOIN Programme p ON spr.ProgrammeGUID = p.ProgrammeGUID ";
-                                creditCmd += "LEFT JOIN ProgrammeCourse pc ON p.ProgrammeGUID = pc.ProgrammeGUID ";
-                                creditCmd += "LEFT JOIN Course c ON pc.CourseGUID = c.CourseGUID ";
-                                creditCmd += "WHERE s.StudentGUID = @StudentGUID ";
-                                creditCmd += "AND pc.SessionMonth = (SELECT ss.SessionMonth FROM Session ss LEFT JOIN Student st ON ss.SessionGUID = st.SessionGUID WHERE st.StudentGUID = @StudentGUID) ";
-                                creditCmd += "AND pc.SemesterGUID = @SemesterGUID ";
-
-                                SqlCommand getCreditCmd = new SqlCommand(creditCmd, con);
-                                getCreditCmd.Parameters.AddWithValue("@StudentGUID", dtCss.Rows[i]["StudentGUID"]);
-                                getCreditCmd.Parameters.AddWithValue("@SemesterGUID", dtSemester.Rows[0]["SemesterGUID"]);
-                                SqlDataReader dtrCredit = getCreditCmd.ExecuteReader();
-                                DataTable dtCredit = new DataTable();
-                                dtCredit.Load(dtrCredit);
-
-                                //calculation
-                                string paymentNo = "P" + DateTime.Now.ToString("yyyyMMddHHmmss");
-                                int creditHour = int.Parse(dtCredit.Rows[0]["CreditHour"].ToString());
-                                int eachCourse = 0;
-
-                                if (dtCredit.Rows.Count != 0)
+                                if (dtSemester.Rows.Count != 0)
                                 {
-                                    for (int k = 0; k < dtCredit.Rows.Count; k++)
+                                    SqlCommand updateCommand = new SqlCommand("UPDATE CurrentSessionSemester SET SessionGUID = @SessionGUID, SemesterGUID = @SemesterGUID, Status = @Status, Reason = @Reason WHERE StudentGUID = @StudentGUID ", con);
+
+                                    updateCommand.Parameters.AddWithValue("@SessionGUID", dtSession.Rows[0]["SessionGUID"]);
+                                    updateCommand.Parameters.AddWithValue("@SemesterGUID", dtSemester.Rows[0]["SemesterGUID"]);
+                                    updateCommand.Parameters.AddWithValue("@Status", DBNull.Value);
+                                    updateCommand.Parameters.AddWithValue("@Reason", DBNull.Value);
+                                    updateCommand.Parameters.AddWithValue("@StudentGUID", dtCss.Rows[i]["StudentGUID"]);
+
+                                    updateCommand.ExecuteNonQuery();
+
+                                    //insert the next year & sem payment details
+                                    int fixedAmountPerCourse = 259;
+                                    Guid paymentGUID = Guid.NewGuid();
+
+                                    string creditCmd;
+                                    creditCmd = "SELECT * FROM Student s ";
+                                    creditCmd += "LEFT JOIN Student_Programme_Register spr ON s.StudentGUID = spr.StudentGUID ";
+                                    creditCmd += "LEFT JOIN Programme p ON spr.ProgrammeGUID = p.ProgrammeGUID ";
+                                    creditCmd += "LEFT JOIN ProgrammeCourse pc ON p.ProgrammeGUID = pc.ProgrammeGUID ";
+                                    creditCmd += "LEFT JOIN Course c ON pc.CourseGUID = c.CourseGUID ";
+                                    creditCmd += "WHERE s.StudentGUID = @StudentGUID ";
+                                    creditCmd += "AND pc.SessionMonth = (SELECT ss.SessionMonth FROM Session ss LEFT JOIN Student st ON ss.SessionGUID = st.SessionGUID WHERE st.StudentGUID = @StudentGUID) ";
+                                    creditCmd += "AND pc.SemesterGUID = @SemesterGUID ";
+
+                                    SqlCommand getCreditCmd = new SqlCommand(creditCmd, con);
+                                    getCreditCmd.Parameters.AddWithValue("@StudentGUID", dtCss.Rows[i]["StudentGUID"]);
+                                    getCreditCmd.Parameters.AddWithValue("@SemesterGUID", dtSemester.Rows[0]["SemesterGUID"]);
+                                    SqlDataReader dtrCredit = getCreditCmd.ExecuteReader();
+                                    DataTable dtCredit = new DataTable();
+                                    dtCredit.Load(dtrCredit);
+
+                                    //calculation
+                                    string paymentNo = "P" + DateTime.Now.ToString("yyyyMMddHHmmss");
+                                    int creditHour = int.Parse(dtCredit.Rows[0]["CreditHour"].ToString());
+                                    int eachCourse = 0;
+
+                                    if (dtCredit.Rows.Count != 0)
                                     {
-                                        eachCourse += creditHour * fixedAmountPerCourse;
+                                        for (int k = 0; k < dtCredit.Rows.Count; k++)
+                                        {
+                                            eachCourse += creditHour * fixedAmountPerCourse;
+                                        }
                                     }
+
+                                    DateTime overdue = DateTime.Now.Date.AddDays(31);
+                                    SqlCommand insertPayCmd = new SqlCommand("INSERT INTO Payment(PaymentGUID, PaymentNo, StudentGUID, PaymentStatus, TotalAmount, DateIssued, DateOverdue) VALUES (@PaymentGUID, @PaymentNo, @StudentGUID, @PaymentStatus, @TotalAmount, @DateIssued, @DateOverdue)", con);
+                                    insertPayCmd.Parameters.AddWithValue("@PaymentGUID", paymentGUID);
+                                    insertPayCmd.Parameters.AddWithValue("@PaymentNo", paymentNo);
+                                    insertPayCmd.Parameters.AddWithValue("@StudentGUID", dtCss.Rows[i]["StudentGUID"]);
+                                    insertPayCmd.Parameters.AddWithValue("@PaymentStatus", "Pending");
+                                    insertPayCmd.Parameters.AddWithValue("@TotalAmount", eachCourse);
+                                    insertPayCmd.Parameters.AddWithValue("@DateIssued", DateTime.Now);
+                                    insertPayCmd.Parameters.AddWithValue("@DateOverdue", overdue);
+                                    insertPayCmd.ExecuteNonQuery();
                                 }
-
-                                DateTime overdue = DateTime.Now.Date.AddDays(31);
-                                SqlCommand insertPayCmd = new SqlCommand("INSERT INTO Payment(PaymentGUID, PaymentNo, StudentGUID, PaymentStatus, TotalAmount, DateIssued, DateOverdue) VALUES (@PaymentGUID, @PaymentNo, @StudentGUID, @PaymentStatus, @TotalAmount, @DateIssued, @DateOverdue)", con);
-                                insertPayCmd.Parameters.AddWithValue("@PaymentGUID", paymentGUID);
-                                insertPayCmd.Parameters.AddWithValue("@PaymentNo", paymentNo);
-                                insertPayCmd.Parameters.AddWithValue("@StudentGUID", dtCss.Rows[i]["StudentGUID"]);
-                                insertPayCmd.Parameters.AddWithValue("@PaymentStatus", "Pending");
-                                insertPayCmd.Parameters.AddWithValue("@TotalAmount", eachCourse);
-                                insertPayCmd.Parameters.AddWithValue("@DateIssued", DateTime.Now.ToString());
-                                insertPayCmd.Parameters.AddWithValue("@DateOverdue", overdue);
-                                insertPayCmd.ExecuteNonQuery();
-
                             }
                         }
                         con.Close();

@@ -855,7 +855,7 @@ namespace Krous_Ex
                         {
                             con.Open();
 
-                            SqlCommand updateCommand = new SqlCommand("UPDATE ExamResult SET GPA = @GPA, CGPA = @CGPA, Status = 'Unrelease', ReleaseDate = @ReleaseDate WHERE ExamResultGUID = @ExamResultGUID ", con);
+                            SqlCommand updateCommand = new SqlCommand("UPDATE ExamResult SET GPA = @GPA, CGPA = @CGPA, ReleaseDate = @ReleaseDate WHERE ExamResultGUID = @ExamResultGUID ", con);
 
                             updateCommand.Parameters.AddWithValue("@ExamResultGUID", dtExamResult.Rows[i]["ExamResultGUID"]);
                             updateCommand.Parameters.AddWithValue("@GPA", String.Format("{0:0.0000}", GPA));

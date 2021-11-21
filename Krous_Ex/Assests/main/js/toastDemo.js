@@ -287,4 +287,16 @@
             position: 'top-right'
         })
     };
+    showAllExamResultReleased = function () {
+        'use strict';
+        resetToastPosition();
+        $.toast({
+            heading: 'Success',
+            text: 'Examination is released successfully.',
+            showHideTransition: 'slide',
+            icon: 'success',
+            loaderBg: '#f96868',
+            position: 'top-right'
+        })
+    };
 })(jQuery);

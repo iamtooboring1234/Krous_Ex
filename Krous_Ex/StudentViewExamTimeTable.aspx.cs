@@ -5,6 +5,7 @@ using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Web;
+using System.Web.Security;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 
@@ -14,14 +15,27 @@ namespace Krous_Ex
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-            loadExamtime();
+            var myCookie = Request.Cookies[FormsAuthentication.FormsCookieName];
+
+            if (myCookie != null)
+            {
+                if (IsPostBack != true)
+                {
+                    loadExamtime();
+                }
+
+            }
+            else
+            {
+                Response.Redirect("StudentLogin");
+            }
         }
 
         private void loadExamtime()
         {
             try
             {
-                
+
                 string sqlQuery;
                 string strTable = "";
 
@@ -51,7 +65,7 @@ namespace Krous_Ex
                 if (dt.Rows.Count != 0)
                 {
                     DateTime now = DateTime.Now;
-                    //DateTime now = DateTime.Parse("16-dec-2021");
+                    //DateTime now = DateTime.Parse("19-dec-2021");
                     con = new SqlConnection(ConfigurationManager.ConnectionStrings["Krous_Ex"].ConnectionString);
                     con.Open();
 
@@ -99,7 +113,8 @@ namespace Krous_Ex
 
                     litExamTime.Text = strTable;
 
-                } else
+                }
+                else
                 {
                     lblNotYet.Visible = true;
                     lblNotYet.Text = "This semester may or may not have final examination. Please wait for further notice.";

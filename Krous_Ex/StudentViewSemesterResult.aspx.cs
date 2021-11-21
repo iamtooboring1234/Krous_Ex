@@ -77,7 +77,7 @@ namespace Krous_Ex
                 SqlCommand GetCommand = new SqlCommand("SELECT * FROM ExamResult er LEFT JOIN ExamResultPerCourse ec ON er.ExamResultGUID = ec.ExamResultGUID LEFT JOIN Session S ON er.SessionGUID = S.SessionGUID" +
                     " LEFT JOIN Student St ON er.StudentGUID = St.StudentGUID LEFT JOIN Student_Programme_Register spr ON St.StudentGUID = spr.StudentGUID " +
                     " LEFT JOIN Programme P ON spr.ProgrammeGUID =  P.ProgrammeGUID LEFT JOIN Course C ON ec.CourseGUID = C.CourseGUID" +
-                    " WHERE er.SessionGUID = @SessionGUID AND er.StudentGUID = @StudentGUID ", con);
+                    " WHERE er.SessionGUID = @SessionGUID AND er.StudentGUID = @StudentGUID AND er.Status = 'Release'", con);
 
                 GetCommand.Parameters.AddWithValue("@SessionGUID", ddlSession.SelectedValue);
                 GetCommand.Parameters.AddWithValue("@StudentGUID", clsLogin.GetLoginUserGUID());
@@ -158,6 +158,9 @@ namespace Krous_Ex
                     strTable += "</tbody>";
 
                     litSemesterResult.Text = strTable;
+                } else
+                {
+                    litSemesterResult.Text = "Current session result not yet release. Please wait for further notice.";
                 }
             }
             catch (Exception ex)
