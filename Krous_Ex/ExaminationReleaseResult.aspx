@@ -7,7 +7,7 @@
     <div class="col-lg-12">
         <div class="card">
             <div class="card-body">
-                <div class="row">w
+                <div class="row">
                     <div class="col-md-12">
                         <h3>
                             <asp:Label ID="lblExaminationReleaseResult" runat="server">Release Examination Result</asp:Label>
@@ -24,5 +24,7 @@
             </div>
         </div>
     </div>
+
+     <script src="Assests/main/js/toastDemo.js"></script>
 
 </asp:Content>

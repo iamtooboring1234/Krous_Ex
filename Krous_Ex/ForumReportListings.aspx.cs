@@ -20,12 +20,12 @@ namespace Krous_Ex
                 {
                     if (Session["ApprovedReport"].ToString() == "Yes")
                     {
-                        clsFunction.DisplayAJAXMessage(this, "Report approved successfully !");
+                        ClientScript.RegisterStartupScript(GetType(), "Javascript", "javascript:showForumReportApprovedSuccessfully(); ", true);
                         Session["ApprovedReport"] = null;
                     }
                     else
                     {
-                        clsFunction.DisplayAJAXMessage(this, "Report approved unsuccessfully !");
+                        ClientScript.RegisterStartupScript(GetType(), "Javascript", "javascript:showForumReportApprovedUnsuccessfully(); ", true);
                         Session["RejectedReport"] = null;
                     }
                 }
@@ -34,17 +34,17 @@ namespace Krous_Ex
                 {
                     if (Session["RejectedReport"].ToString() == "Yes")
                     {
-                        clsFunction.DisplayAJAXMessage(this, "Report rejected successfully !");
+                        ClientScript.RegisterStartupScript(GetType(), "Javascript", "javascript:showForumReportRejectedSuccesfully(); ", true);
                         Session["RejectedReport"] = null;
                     } else
                     {
-                        clsFunction.DisplayAJAXMessage(this, "Report rejected unsuccessfully !");
+                        ClientScript.RegisterStartupScript(GetType(), "Javascript", "javascript:showForumReportRejectedUnsuccesfully(); ", true);
                         Session["RejectedReport"] = null;
                     }
                 }
 
                 loadGV();
-
+                loadFAQReason();
             }
         }
 
@@ -86,11 +86,11 @@ namespace Krous_Ex
             }
         }
 
-        private void loadFAQCategory()
+        private void loadFAQReason()
         {
             try
             {
-                ddlCategory.Items.Clear();
+                ddlReportReason.Items.Clear();
 
                 ListItem oList = new ListItem();
 
@@ -98,7 +98,7 @@ namespace Krous_Ex
                 oList = new ListItem();
                 oList.Text = "";
                 oList.Value = "";
-                ddlCategory.Items.Add(oList);
+                ddlReportReason.Items.Add(oList);
 
                 SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["Krous_Ex"].ConnectionString);
                 con.Open();
@@ -114,11 +114,11 @@ namespace Krous_Ex
                     oList = new ListItem();
                     oList.Text = dtFAQ.Rows[i]["ReportReason"].ToString();
                     oList.Value = dtFAQ.Rows[i]["ReportReason"].ToString();
-                    ddlCategory.Items.Add(oList);
+                    ddlReportReason.Items.Add(oList);
                 }
             }
 
-            catch (Exception ex)
+            catch (Exception)
             {
                 clsFunction.DisplayAJAXMessage(this, "Error, unable to load forum reason.");
             }
@@ -141,7 +141,7 @@ namespace Krous_Ex
                             SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["Krous_Ex"].ConnectionString);
                             con.Open();
 
-                            SqlCommand updateCommand = new SqlCommand("UPDATE ForumReport SET ReportStatus = 'Accepted' WHERE ForumReportGUID = @ForumReportGUID ", con);
+                            SqlCommand updateCommand = new SqlCommand("UPDATE ForumReport SET ReportStatus = 'Approved' WHERE ForumReportGUID = @ForumReportGUID ", con);
 
                             updateCommand.Parameters.AddWithValue("@ForumReportGUID", ForumReportGUID);
 
@@ -236,7 +236,75 @@ namespace Krous_Ex
 
         protected void btnSearch_Click(object sender, EventArgs e)
         {
+            try
+            {
+                string sqlQuery = "";
 
+                sqlQuery = "SELECT F.ForumReportGUID, F.ReplyContent, F.ReplyBy, F.ReportReason, F.ReportBy, F.ReportStatus FROM ForumReport F LEFT JOIN Replies R On F.ReplyGUID = R.ReplyGUID ";
+                sqlQuery += "WHERE CASE WHEN @ReportReason = '' then '' ELSE ReportReason END = @ReportReason AND ";
+                sqlQuery += "CASE WHEN @ReportStatus = '' then @ReportStatus ELSE ReportStatus END = @ReportStatus ";
+
+                SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["Krous_Ex"].ConnectionString);
+                con.Open();
+
+                SqlCommand GetCommand = new SqlCommand(sqlQuery, con);
+
+                GetCommand.Parameters.AddWithValue("@ReportReason", ddlReportReason.SelectedValue);
+                GetCommand.Parameters.AddWithValue("@ReportStatus", ddlReportStatus.SelectedValue);
+
+                SqlDataReader reader = GetCommand.ExecuteReader();
+                DataTable dtForumReport = new DataTable();
+                dtForumReport.Load(reader);
+                con.Close();
+
+                if (dtForumReport.Rows.Count != 0)
+                {
+                    gvForumReport.DataSource = dtForumReport;
+                    gvForumReport.DataBind();
+                    gvForumReport.Visible = true;
+                    lblNoData.Visible = false;
+                    panelButton.Visible = true;
+                }
+                else
+                {
+                    lblNoData.Visible = true;
+                    gvForumReport.Visible = false;
+                    panelButton.Visible = false;
+                }
+            }
+
+            catch (Exception ex)
+            {
+                clsFunction.DisplayAJAXMessage(this, ex.Message);
+            }
+        }
+
+        protected void gvForumReport_RowDataBound(object sender, GridViewRowEventArgs e)
+        {
+            try
+            {
+                if (e.Row.RowType == DataControlRowType.DataRow)
+                {
+                    CheckBox chkRow = e.Row.Cells[0].FindControl("chkRow") as CheckBox;
+
+                    if (gvForumReport.DataSource != null)
+                    {
+                        string test = e.Row.Cells[6].Text;
+
+                        if (e.Row.Cells[6].Text == "Approved")
+                        {
+                            chkRow.Visible = false;
+                        } else if (e.Row.Cells[6].Text == "Rejected")
+                        {
+                            chkRow.Visible = false;
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Trace.WriteLine(ex.Message);
+            }
         }
     }
 }

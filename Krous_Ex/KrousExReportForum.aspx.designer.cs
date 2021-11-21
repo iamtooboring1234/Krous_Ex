@@ -33,6 +33,24 @@ namespace Krous_Ex
         protected global::System.Web.UI.WebControls.TextBox txtDiscTopic;
 
         /// <summary>
+        /// lblReplyBy control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblReplyBy;
+
+        /// <summary>
+        /// txtReplyBy control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txtReplyBy;
+
+        /// <summary>
         /// lblReplyContent control.
         /// </summary>
         /// <remarks>
@@ -94,6 +112,15 @@ namespace Krous_Ex
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Button btnYes;
+
+        /// <summary>
+        /// ConfirmButtonExtender1 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::AjaxControlToolkit.ConfirmButtonExtender ConfirmButtonExtender1;
 
         /// <summary>
         /// btnNo control.

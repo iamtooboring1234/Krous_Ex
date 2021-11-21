@@ -88,9 +88,8 @@
                 <div class="row">
                     <div class="col-md-12">
                         <h3>
-                            <asp:Label ID="lblFAQEntry" runat="server">Semester Entry</asp:Label>
+                            <asp:Label ID="lblFAQEntry" runat="server">Academic Calendar Entry</asp:Label>
                         </h3>
-                        <p class="card-description">Form to insert Semester Details </p>
                     </div>
                 </div>
                 <hr />

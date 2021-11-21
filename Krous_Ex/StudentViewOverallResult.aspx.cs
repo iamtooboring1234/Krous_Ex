@@ -34,7 +34,7 @@ namespace Krous_Ex
             sqlQuery += "LEFT JOIN Student_Programme_Register spr ON st.StudentGUID = spr.StudentGUID ";
             sqlQuery += "LEFT JOIN Programme P ON spr.ProgrammeGUID = P.ProgrammeGUID ";
             sqlQuery += "LEFT JOIN Course C ON ec.CourseGUID = C.CourseGUID ";
-            sqlQuery += "WHERE er.StudentGUID = @StudentGUID ";
+            sqlQuery += "WHERE er.StudentGUID = @StudentGUID AND er.Status = 'Release'";
             sqlQuery += "ORDER BY SessionYear, SessionMonth, CourseName";
 
             SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["Krous_Ex"].ConnectionString);

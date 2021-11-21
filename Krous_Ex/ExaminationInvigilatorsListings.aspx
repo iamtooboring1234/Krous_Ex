@@ -56,7 +56,7 @@
                 <div class="row">
                     <div class="col-md-12">
                         <h3>
-                            <asp:Label ID="lblFAQList" runat="server" Font-Size="large">Examination Invigilators Listing</asp:Label>
+                            <asp:Label ID="lblExamInvigilatorsListings" runat="server" Font-Size="large">Examination Invigilators Listing</asp:Label>
                         </h3>
                         <p class="card-description">List of Invigilators In-Charge </p>
                     </div>

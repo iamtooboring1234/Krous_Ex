@@ -43,6 +43,11 @@ namespace Krous_Ex
                 {
                     for (int i = 0; i < dtFAQ.Rows.Count; i++)
                     {
+                        if (isNewCategory)
+                        {
+                            strTable += "<div id=\"accordion-" + y + "\" class=\"accordion\">";
+                        }
+
                         if (lastCategory != dtFAQ.Rows[i]["FAQCategory"].ToString())
                         {
                             if (i % 3 == 0)
@@ -67,27 +72,35 @@ namespace Krous_Ex
                         {
                             isNewCategory = false;
                         }
-                        strTable += "<div class=\"card\">";
+
+
                         strTable += "<div id=\"accordion-" + y + "\" class=\"accordion\">";
+                        strTable += "<div class=\"card\">";
                         strTable += "<div class=\"\" id=\"heading1\">";
                         strTable += "<h5 class=\"mb-0\">";
-                        strTable += "<a class=\"faq-title\" data-toggle=\"collapse\" data-target=\"#collapse" + y + "\" aria-expanded=\"true\" aria-controls=\"collapseOne\">" + dtFAQ.Rows[i]["FAQTitle"] + "</a>";
+                        strTable += "<a class=\"faq-title\" data-toggle=\"collapse\" data-target=\"#collapse" + i + "\" aria-expanded=\"true\" aria-controls=\"collapseOne\">" + dtFAQ.Rows[i]["FAQTitle"] + "</a>";
                         strTable += "</h5>";
                         strTable += "</div>";
                         if (isNewCategory)
                         {
-                            strTable += "<div id = \"collapse" + y + "\" class=\"collapse show\" aria-labelledby=\"heading1\" data-parent=\"#accordion-" + y + "\">";
+                            strTable += "<div id = \"collapse" + i + "\" class=\"collapse show\" aria-labelledby=\"heading1\" data-parent=\"#accordion-" + y + "\">";
                         } else
                         {
-                            strTable += "<div id = \"collapse" + y + "\" class=\"collapse\" aria-labelledby=\"heading1\" data-parent=\"#accordion-" + y + "\">";
+                            strTable += "<div id = \"collapse" + i + "\" class=\"collapse\" aria-labelledby=\"heading1\" data-parent=\"#accordion-" + y + "\">";
                         }
                         strTable += "<div class=\"card-body pt-0\" style=\"font-size: 14px; text-align:justify;\">" + dtFAQ.Rows[i]["FAQDescription"] + "<p class=\"pt-3\"><span class=\"font-weight-bold\">Last Updated Date: </span>" + dtFAQ.Rows[i]["LastUpdatedDate"] + "</p></div>";
                         strTable += "</div>";
-                        strTable += "</div>";
+                        
                         strTable += "</div>";
 
                        
                         lastCategory = dtFAQ.Rows[i]["FAQCategory"].ToString();
+
+                        if (lastCategory != dtFAQ.Rows[i]["FAQCategory"].ToString())
+                        {
+                            strTable += "</div>";
+                        }
+
                     }
 
                     litFAQ.Mode = LiteralMode.PassThrough;

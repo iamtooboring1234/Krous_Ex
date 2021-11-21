@@ -53,9 +53,9 @@ namespace Krous_Ex
                 SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["Krous_Ex"].ConnectionString);
                 con.Open();
 
-                sqlQuery = "SELECT * from Notification ";
+                sqlQuery = "SELECT TOP 5 * from Notification ";
                 sqlQuery += "WHERE userGUID = @userGUID ";
-                sqlQuery += "ORDER BY SentDate ";
+                sqlQuery += "ORDER BY SentDate DESC ";
 
                 SqlCommand GetCommand = new SqlCommand(sqlQuery, con);
 

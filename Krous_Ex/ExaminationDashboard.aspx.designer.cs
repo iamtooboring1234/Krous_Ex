@@ -15,13 +15,13 @@ namespace Krous_Ex
     {
 
         /// <summary>
-        /// lblFAQList control.
+        /// lblExamDashboard control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblFAQList;
+        protected global::System.Web.UI.WebControls.Label lblExamDashboard;
 
         /// <summary>
         /// lblFacultyList control.

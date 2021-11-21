@@ -15,31 +15,13 @@ namespace Krous_Ex
     {
 
         /// <summary>
-        /// lblFAQList control.
+        /// lblForumReport control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblFAQList;
-
-        /// <summary>
-        /// lblFAQTitle control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblFAQTitle;
-
-        /// <summary>
-        /// txtFAQTitle control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtFAQTitle;
+        protected global::System.Web.UI.WebControls.Label lblForumReport;
 
         /// <summary>
         /// lblFAQCategory control.
@@ -51,31 +33,31 @@ namespace Krous_Ex
         protected global::System.Web.UI.WebControls.Label lblFAQCategory;
 
         /// <summary>
-        /// ddlCategory control.
+        /// ddlReportReason control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList ddlCategory;
+        protected global::System.Web.UI.WebControls.DropDownList ddlReportReason;
 
         /// <summary>
-        /// lblFAQStatus control.
+        /// lblReportStatus control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblFAQStatus;
+        protected global::System.Web.UI.WebControls.Label lblReportStatus;
 
         /// <summary>
-        /// ddlFAQStatus control.
+        /// ddlReportStatus control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList ddlFAQStatus;
+        protected global::System.Web.UI.WebControls.DropDownList ddlReportStatus;
 
         /// <summary>
         /// btnSearch control.
