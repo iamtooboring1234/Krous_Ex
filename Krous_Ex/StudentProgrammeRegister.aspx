@@ -79,7 +79,7 @@
                     </div>
                 </div>
                 <div class="panel-body">
-                    <div class="form-horizontal">
+                    <div class="form-horizontal"> 
                         <div class="row">
                             <div class="col-md-2 col-form-label">
                                 <asp:Label ID="lblSession" runat="server">Programme Session</asp:Label><span style="color: red;">*</span>

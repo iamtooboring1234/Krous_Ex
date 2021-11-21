@@ -189,6 +189,7 @@
                             <ul class="nav flex-column sub-menu">
                                 <li class="nav-item"><a class="nav-link" href="CourseEntry">Course Entry</a></li>
                                 <li class="nav-item"><a class="nav-link" href="CourseListings">Course Listings</a></li>
+                                <li class="nav-item"><a class="nav-link" href="CourseTimetableEntry">Course Timetable Entry</a></li>
                             </ul>
                         </div>
                     </li>
@@ -306,6 +307,21 @@
                                 <li class="nav-item"><a class="nav-link" href="StaffEntry">Staff Entry</a></li>
                                 <li class="nav-item"><a class="nav-link" href="StaffListings">Staff Listings</a></li>
                                 <li class="nav-item"><a class="nav-link" href="StaffCourseIncEntry">Course In-charge Entry</a></li>
+                            </ul>
+                        </div>
+                    </li>
+
+                     <li class="nav-item menu-items">
+                        <a class="nav-link" data-toggle="collapse" href="#StudentManage" aria-expanded="false" aria-controls="StudentManage">
+                            <span class="menu-icon">
+                                <i class="mdi mdi-laptop"></i>
+                            </span>
+                            <span class="menu-title">Student Management</span>
+                            <i class="menu-arrow"></i>
+                        </a>
+                        <div class="collapse" id="StudentManage">
+                            <ul class="nav flex-column sub-menu">
+                                <li class="nav-item"><a class="nav-link" href="StudentProgrammeRegisterListings">Student Registration List</a></li>
                             </ul>
                         </div>
                     </li>

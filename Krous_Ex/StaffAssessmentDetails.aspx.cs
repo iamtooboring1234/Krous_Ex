@@ -146,7 +146,7 @@ namespace Krous_Ex
                     lblCreatedDate.Text = dt.Rows[0]["CreatedDate"].ToString();
                     lblAssessmentDueDate.Text = dt.Rows[0]["DueDate"].ToString();
                     lblCreatedBy.Text = dt.Rows[0]["StaffFullName"].ToString();
-                    lblGroupSession.Text = "Group " + dt.Rows[0]["GroupNo"].ToString() + "(" + dt.Rows[0]["SessionYear"].ToString() + dt.Rows[0]["SessionMonth"].ToString().PadLeft(2, '0') + ")";
+                    lblGroupSession.Text = "Group " + dt.Rows[0]["GroupNo"].ToString() + " (" + dt.Rows[0]["SessionYear"].ToString() + dt.Rows[0]["SessionMonth"].ToString().PadLeft(2, '0') + ")";
 
                     if (dt.Rows[0]["LastUpdateDate"].ToString() == "")
                     {
@@ -180,7 +180,7 @@ namespace Krous_Ex
                 if (updateAssessment())
                 {
                     Session["UpdateAssessment"] = "Yes";
-                    Response.Redirect("StaffAssessmentListings");
+                    Response.Redirect("StaffAssessmentDetails?AssessmentGUID=" + Request.QueryString["AssessmentGUID"]);
                 }
             }
         }
@@ -208,14 +208,14 @@ namespace Krous_Ex
 
                 if (txtDueDate.Text != "")
                 {
-                    updateCmd.Parameters.AddWithValue("@DueDate", DateTime.ParseExact(txtDueDate.Text, "dd/MM/yyyy HH:mm", CultureInfo.InvariantCulture));
+                    updateCmd.Parameters.AddWithValue("@DueDate", DateTime.ParseExact(txtDueDate.Text, "dd/MM/yyyy HH:mm", CultureInfo.InvariantCulture).ToString());
                 }
                 else
                 {
-                    updateCmd.Parameters.AddWithValue("@DueDate", "");
+                    updateCmd.Parameters.AddWithValue("@DueDate", lblAssessmentDueDate.Text);
                 }
 
-                updateCmd.Parameters.AddWithValue("@LastUpdateDate", DateTime.Now.ToString());
+                updateCmd.Parameters.AddWithValue("@LastUpdateDate", DateTime.Now);
 
                 if (!Directory.Exists(folderName))
                 {
@@ -227,14 +227,9 @@ namespace Krous_Ex
                     updateCmd.Parameters.AddWithValue("@UploadMaterials", hlFile.Text);
                 }
 
-                //if the original fiel is remove then delete from the folder
-                if (hlFile.Text != "")
+                if (!string.IsNullOrEmpty(AsyncFileUpload1.FileName))
                 {
                     System.IO.File.Delete(Server.MapPath(folderName + "/" + hlFile.Text));
-                }
-
-                if (filename != "")
-                {
                     updateCmd.Parameters.AddWithValue("@UploadMaterials", filename);
                     AsyncFileUpload1.SaveAs(Server.MapPath(folderName) + filename);
                 }
@@ -267,6 +262,7 @@ namespace Krous_Ex
             txtAssessmentDesc.Visible = true;
             txtAssessmentDesc.Text = lblAssessmentDesc.Text;
             lblAssessmentDueDate.Visible = false;
+            txtDueDate.Text = DateTime.Parse(lblAssessmentDueDate.Text).ToString("dd/MM/yyyy HH:mm");
             dateTimePicker.Visible = true;
             lbDownload.Visible = false;
             lbRemove.Visible = true;
@@ -278,7 +274,12 @@ namespace Krous_Ex
 
         protected void lbDelete_Click(object sender, EventArgs e)
         {
-            deleteAssessment();
+            if (deleteAssessment())
+            {
+                Session["DeleteAssessment"] = "Yes";
+                Response.Redirect("StaffAssessmentListings");
+
+            }
         }
 
         private bool deleteAssessment()
@@ -314,8 +315,8 @@ namespace Krous_Ex
                     System.IO.Directory.Delete(Server.MapPath(folderName));
                 }
 
-                clsFunction.DisplayAJAXMessage(this, "The assessment details has been deleted successfully!");
-                Response.Redirect("StaffAssessmentListings");
+                
+                
 
                 return true;
             }
@@ -347,6 +348,13 @@ namespace Krous_Ex
             {
                 clsFunction.DisplayAJAXMessage(this, "Please enter the assessment description.");
                 txtAssessmentDesc.Focus();
+                return false;
+            }
+
+            if(txtDueDate.Text == "")
+            {
+                clsFunction.DisplayAJAXMessage(this, "Please select the assessment due date.");
+                txtDueDate  .Focus();
                 return false;
             }
             return true;

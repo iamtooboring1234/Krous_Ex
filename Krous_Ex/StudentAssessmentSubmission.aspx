@@ -139,15 +139,14 @@
                             <ajaxToolkit:ConfirmButtonExtender ID="ConfirmButtonExtender1" runat="server" ConfirmText="Are you sure to turn in your submission?" TargetControlID="btnSubmit" />
                             <asp:Button Text="Unsubmit" ID="btnUnSubmit" runat="server" Width="18%" CssClass="btn btn-primary mr20 pdForm" Visible="false" OnClick="btnUnSubmit_Click" />
                             <ajaxToolkit:ConfirmButtonExtender ID="ConfirmButtonExtender2" runat="server" ConfirmText="Are you sure to unsubmit your submission?" TargetControlID="btnUnSubmit" />
-                            <asp:Button Text="Back" ID="btnBack" runat="server" Width="18%" CssClass="btn mr20 pdForm" />
+                            <asp:Button Text="Back" ID="btnBack" runat="server" Width="18%" CssClass="btn mr20 pdForm" OnClick="btnBack_Click" />
+                            <asp:Button Text="Cancel" ID="btnCancel" runat="server" Width="18%" CssClass="btn mr20 pdForm" OnClick="btnCancel_Click" />
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-
-
 
     <%--   <script src="Assests/main/js/dropify.js"></script>
     <script src="Assests/main/vendors/dropify/dropify.min.js"></script>

@@ -28,10 +28,7 @@ namespace Krous_Ex
                     loadData();
                 }
             }
-            else
-            {
-                Response.Redirect("StudentLogin.aspx");
-            }
+           
         }
 
         protected void loadData()

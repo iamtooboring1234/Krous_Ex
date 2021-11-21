@@ -31,6 +31,7 @@ namespace Krous_Ex
                 {
                     btnSubmit.Visible = false;
                     btnBack.Visible = false;
+                    btnCancel.Visible = false;
                 }
             }
         }
@@ -50,8 +51,10 @@ namespace Krous_Ex
                 DataTable dtAssessment = new DataTable();
                 dtAssessment.Load(reader);
 
-                SqlCommand selectStatus = new SqlCommand("SELECT sub.SubmissionGUID, CONVERT(VARCHAR, sub.SubmissionDate, 100) as SubmissionDate, sub.SubmissionFile, sub.SubmissionStatus FROM Submission sub, Assessment a WHERE sub.AssessmentGUID = a.AssessmentGUID AND a.AssessmentGUID = @AssessmentGUID ", con);
+                SqlCommand selectStatus = new SqlCommand("SELECT sub.SubmissionGUID, CONVERT(VARCHAR, sub.SubmissionDate, 100) as SubmissionDate, sub.SubmissionFile, sub.SubmissionStatus FROM Submission sub, Assessment a, Student s WHERE sub.AssessmentGUID = a.AssessmentGUID AND sub.StudentGUID = s.StudentGUID AND a.AssessmentGUID = @AssessmentGUID AND s.StudentGUID = @StudentGUID", con);
                 selectStatus.Parameters.AddWithValue("@AssessmentGUID", AssessmentGUID);
+                selectStatus.Parameters.AddWithValue("@StudentGUID", userGuid);
+
                 SqlDataReader dtrStatus = selectStatus.ExecuteReader();
                 DataTable dtStatus = new DataTable();
                 dtStatus.Load(dtrStatus);
@@ -81,10 +84,10 @@ namespace Krous_Ex
                     btnSubmit.Visible = false;
                     btnUnSubmit.Visible = true;
                     lblSubmitDate.Visible = true;
+                    btnCancel.Visible = false;
 
                     string status = dtStatus.Rows[0]["SubmissionStatus"].ToString();
                     string submissionGUID = dtStatus.Rows[0]["SubmissionGUID"].ToString();
-
 
                     if (status != "" && status != "Missing")
                     {
@@ -110,32 +113,23 @@ namespace Krous_Ex
                             lblStatus.Text = dtStatus.Rows[0]["SubmissionStatus"].ToString();
                             lblStatus.ForeColor = System.Drawing.Color.Red;
                         }
+                    }
 
-                        //else if (status == "Missing")
-                        //{
-                        //    lblStatus.Text = dtStatus.Rows[0]["SubmissionStatus"].ToString();
-                        //    lblStatus.ForeColor = System.Drawing.Color.Yellow;
-                        //}
+                    if(hlSubmitFile.Text != "")
+                    {
+                        lblUploaded.Visible = true;
+                        lblUploadHere.Visible = false;
                     }
                 }
                 else
-                {
-                    //late and did not submit (missing)
-                    //if (submissionDate > dueDate)
-                    //{
-                    //    if (dtStatus.Rows[0]["SubmissionFile"].ToString() == "")
-                    //    {
-                    //        lblStatus.Text = dtStatus.Rows[0]["SubmissionStatus"].ToString();
-                    //        lblStatus.ForeColor = System.Drawing.Color.Yellow;
-                    //    }
-                    //}
-
+                {  
                     lblStatus.Text = "Assigned";
                     lblUploadHere.Visible = true;
                     lblStatus.ForeColor = System.Drawing.Color.LimeGreen;
                     btnSubmit.Visible = true;
                     btnBack.Visible = true;
                     lblSubmitDate.Visible = false;
+                    btnCancel.Visible = false;
 
                 }
             }
@@ -185,6 +179,7 @@ namespace Krous_Ex
                         if (AsyncFileUpload1.HasFile)
                         {
                             submitCmd.Parameters.AddWithValue("@SubmissionStatus", "Submitted Late");
+                            AsyncFileUpload1.SaveAs(Server.MapPath(folderName) + filename);
                         }
                     }
 
@@ -194,10 +189,11 @@ namespace Krous_Ex
                         if (AsyncFileUpload1.HasFile)
                         {
                             submitCmd.Parameters.AddWithValue("@SubmissionStatus", "Submitted");
+                            AsyncFileUpload1.SaveAs(Server.MapPath(folderName) + filename);
                         }
                     }
 
-                    AsyncFileUpload1.SaveAs(Server.MapPath(folderName) + filename);
+                    
                     submitCmd.ExecuteNonQuery();
 
                 }
@@ -273,6 +269,7 @@ namespace Krous_Ex
                         if (AsyncFileUpload1.HasFile)
                         {
                             unsubmitCmd.Parameters.AddWithValue("@SubmissionStatus", "Submitted Late");
+                            AsyncFileUpload1.SaveAs(Server.MapPath(folderName) + filename);
                         }
                     }
 
@@ -282,11 +279,10 @@ namespace Krous_Ex
                         if (AsyncFileUpload1.HasFile)
                         {
                             unsubmitCmd.Parameters.AddWithValue("@SubmissionStatus", "Submitted");
+                            AsyncFileUpload1.SaveAs(Server.MapPath(folderName) + filename);
                         }
                     }
-
                     
-                    AsyncFileUpload1.SaveAs(Server.MapPath(folderName) + filename);
                     unsubmitCmd.ExecuteNonQuery();
                 }
 
@@ -308,6 +304,10 @@ namespace Krous_Ex
             lblSubmitDate.Visible = false;
             btnResubmit.Visible = true;
             btnUnSubmit.Visible = false;
+            lblUploadHere.Visible = true;
+            lblUploaded.Visible = false;
+            btnCancel.Visible = true;
+            btnBack.Visible = false;
         }
 
         protected void btnResubmit_Click(object sender, EventArgs e)
@@ -319,7 +319,25 @@ namespace Krous_Ex
                 btnUnSubmit.Visible = true;
                 btnResubmit.Visible = false;
                 lblStatus.Visible = true;
+                btnCancel.Visible = false;
+                btnBack.Visible = true;
             }
+        }
+
+        protected void btnBack_Click(object sender, EventArgs e)
+        {
+            Response.Redirect("StudentViewAssessment");
+        }
+
+        protected void btnCancel_Click(object sender, EventArgs e)
+        {
+            loadAssessmentDetails();
+            btnSubmit.Visible = false;
+            btnUnSubmit.Visible = true;
+            lblStatus.Visible = true;
+            btnBack.Visible = true;
+            btnCancel.Visible = false;
+            btnResubmit.Visible = false;
         }
     }
 }

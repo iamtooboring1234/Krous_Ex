@@ -33,63 +33,23 @@ namespace Krous_Ex
             if (IsPostBack != true)
             {
                 loadGroup();
-                loadSession();
+                loadSessionMonth();
+                loadCurrentSession();
+                loadSemester();
+                loadProgramme();
+                loadProgrammeCategory();
+                loadCourse();
+
             }
         }
 
-        private void loadSession()
-        {
-            try
-            {
-                ddlSession.Items.Clear();
-
-                ListItem oList = new ListItem();
-
-                oList = new ListItem();
-                oList.Text = "";
-                oList.Value = "";
-                ddlSession.Items.Add(oList);
-
-                SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["Krous_Ex"].ConnectionString);
-                con.Open();
-                SqlCommand GetCommand = new SqlCommand("SELECT S.SessionGUID, S.SessionMonth, S.SessionYear FROM AcademicCalender A, Session S WHERE S.SessionGUID = A.SessionGUID AND GetDate() BETWEEN A.SemesterStartDate AND A.SemesterEndDate ", con);
-                SqlDataReader reader = GetCommand.ExecuteReader();
-
-                DataTable dtSession = new DataTable();
-                dtSession.Load(reader);
-                con.Close();
-
-                string monthString;
-
-                for (int i = 0; i <= dtSession.Rows.Count - 1; i++)
-                {
-                    oList = new ListItem();
-
-                    monthString = dtSession.Rows[i]["SessionMonth"].ToString();
-                    if (monthString.Length < 2)
-                        monthString = "0" + monthString;
-
-                    //oList.Text = dtSession.Rows[i]["SessionYear"].ToString() + dtSession.Rows[i]["SessionMonth"].ToString().PadLeft(2, '0');
-                    oList.Text = dtSession.Rows[i]["SessionYear"].ToString() + monthString;
-                    oList.Value = dtSession.Rows[i]["SessionGUID"].ToString();
-                    ddlSession.Items.Add(oList);
-                }
-            }
-
-            catch (Exception ex)
-            {
-                clsFunction.DisplayAJAXMessage(this, ex.Message);
-            }
-        }
-
-        private void loadGroup()
+        private void loadGroup() //load group student list you de group
         {
             try
             {
                 ddlGroups.Items.Clear();
 
                 ListItem oList = new ListItem();
-
                 oList = new ListItem();
                 oList.Text = "";
                 oList.Value = "";
@@ -97,7 +57,154 @@ namespace Krous_Ex
 
                 SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["Krous_Ex"].ConnectionString);
                 con.Open();
-                SqlCommand GetCommand = new SqlCommand("SELECT GroupGUID, GroupNo FROM [Group] GROUP BY GroupGUID, GroupNo ORDER BY GroupNo", con);
+                SqlCommand GetCommand = new SqlCommand("SELECT g.GroupGUID, g.GroupNo FROM [Group] g LEFT JOIN GroupStudentList gsl ON g.GroupGUID = gsl.GroupGUID GROUP BY g.GroupGUID, g.GroupNo ORDER BY g.GroupNo", con);
+                SqlDataReader readerGrp = GetCommand.ExecuteReader();
+
+                DataTable dtGroup = new DataTable();
+                dtGroup.Load(readerGrp);
+                con.Close();
+
+                for (int i = 0; i <= dtGroup.Rows.Count - 1; i++)
+                {
+                    oList = new ListItem();
+                    oList.Text = dtGroup.Rows[i]["GroupNo"].ToString();
+                    oList.Value = dtGroup.Rows[i]["GroupGUID"].ToString();
+                    ddlGroups.Items.Add(oList);
+                }
+            }
+            catch (Exception)
+            {
+                clsFunction.DisplayAJAXMessage(this, "Error loading group list.");
+            }
+        }
+
+        private void loadSessionMonth() //load xian zai group student list li mian you de 
+        {
+            try
+            {
+                ddlSessionMonth.Items.Clear();
+                ListItem oList = new ListItem();
+
+                oList = new ListItem();
+                oList.Text = "";
+                oList.Value = "";
+                ddlSessionMonth.Items.Add(oList);
+
+                SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["Krous_Ex"].ConnectionString);
+                con.Open();
+                SqlCommand GetCommand = new SqlCommand("SELECT SessionMonth FROM Session S LEFT JOIN Student st ON S.SessionGUID = st.SessionGUID LEFT JOIN GroupStudentList gsl ON st.StudentGUID = gsl.StudentGUID WHERE GroupGUID = @GroupGUID GROUP BY SessionMonth ", con);
+                GetCommand.Parameters.AddWithValue("@GroupGUID", ddlGroups.SelectedValue);
+                SqlDataReader readerSessionMnth = GetCommand.ExecuteReader();
+                DataTable dtSessionMnth = new DataTable();
+                dtSessionMnth.Load(readerSessionMnth);
+                con.Close();
+
+                for (int i = 0; i <= dtSessionMnth.Rows.Count - 1; i++)
+                {
+                    oList = new ListItem();
+
+                    oList.Text = dtSessionMnth.Rows[i]["SessionMonth"].ToString().PadLeft(2, '0');
+                    oList.Value = dtSessionMnth.Rows[i]["SessionMonth"].ToString();
+                    ddlSessionMonth.Items.Add(oList);
+                }
+            }
+            catch (Exception ex)
+            {
+                clsFunction.DisplayAJAXMessage(this, ex.Message);
+            }
+        }
+
+        private void loadCurrentSession() //load current session semester li mian you de sessionGUID
+        {
+            try
+            {
+                ddlCurrentSession.Items.Clear();
+                ListItem oList = new ListItem();
+
+                oList = new ListItem();
+                oList.Text = "";
+                oList.Value = "";
+                ddlCurrentSession.Items.Add(oList);
+
+                SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["Krous_Ex"].ConnectionString);
+                con.Open();
+                SqlCommand GetCommand = new SqlCommand("SELECT css.SessionGUID, s.SessionYear, s.SessionMonth FROM CurrentSessionSemester css LEFT JOIN [Session] s ON css.SessionGUID = s.SessionGUID GROUP BY css.SessionGUID, s.SessionYear, s.SessionMonth ORDER BY s.SessionYear, s.SessionMonth ", con);
+                SqlDataReader reader = GetCommand.ExecuteReader();
+
+                DataTable dtSession = new DataTable();
+                dtSession.Load(reader);
+                con.Close();
+
+                for (int i = 0; i <= dtSession.Rows.Count - 1; i++)
+                {
+                    oList = new ListItem();
+
+                    oList.Text = dtSession.Rows[i]["SessionYear"].ToString() + dtSession.Rows[i]["SessionMonth"].ToString().PadLeft(2, '0');
+                    oList.Value = dtSession.Rows[i]["SessionGUID"].ToString();
+                    ddlCurrentSession.Items.Add(oList);
+                }
+            }
+            catch (Exception ex)
+            {
+                clsFunction.DisplayAJAXMessage(this, ex.Message);
+            }
+        }
+
+       
+        private void loadSemester() //load all semester
+        {
+            try
+            {
+                ddlSemester.Items.Clear();
+                ListItem oList = new ListItem();
+
+                oList = new ListItem();
+                oList.Text = "";
+                oList.Value = "";
+                ddlSemester.Items.Add(oList);
+
+                string sqlQuery = "SELECT * FROM SEMESTER ORDER BY SemesterYear, SemesterSem ";
+
+                SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["Krous_Ex"].ConnectionString);
+                con.Open();
+
+                SqlCommand GetCommand = new SqlCommand(sqlQuery, con);
+
+                SqlDataReader reader = GetCommand.ExecuteReader();
+                DataTable dt = new DataTable();
+                dt.Load(reader);
+                con.Close();
+
+                for (int i = 0; i <= dt.Rows.Count - 1; i++)
+                {
+                    oList = new ListItem();
+                    oList.Text = "Year " + dt.Rows[i]["SemesterYear"].ToString() + " Sem " + dt.Rows[i]["SemesterSem"].ToString();
+                    oList.Value = dt.Rows[i]["SemesterGUID"].ToString();
+                    ddlSemester.Items.Add(oList);
+                }
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Trace.WriteLine(ex.Message);
+            }
+        }
+
+        private void loadProgrammeCategory()
+        {
+            try
+            {
+                ddlProgrammCategory.Items.Clear();
+
+                ListItem oList = new ListItem();
+
+                oList = new ListItem();
+                oList.Text = "";
+                oList.Value = "";
+                ddlProgrammCategory.Items.Add(oList);
+
+                SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["Krous_Ex"].ConnectionString);
+                con.Open();
+                SqlCommand GetCommand = new SqlCommand("SELECT ProgrammeCategory FROM Programme GROUP BY ProgrammeCategory ORDER BY ProgrammeCategory", con);
                 SqlDataReader reader = GetCommand.ExecuteReader();
 
                 DataTable dtProgCat = new DataTable();
@@ -107,31 +214,123 @@ namespace Krous_Ex
                 for (int i = 0; i <= dtProgCat.Rows.Count - 1; i++)
                 {
                     oList = new ListItem();
-                    oList.Text = dtProgCat.Rows[i]["GroupNo"].ToString();
-                    oList.Value = dtProgCat.Rows[i]["GroupGUID"].ToString();
-                    ddlGroups.Items.Add(oList);
+                    oList.Text = dtProgCat.Rows[i]["ProgrammeCategory"].ToString();
+                    oList.Value = dtProgCat.Rows[i]["ProgrammeCategory"].ToString();
+                    ddlProgrammCategory.Items.Add(oList);
                 }
             }
-
-            catch (Exception)
+            catch (Exception ex)
             {
-                clsFunction.DisplayAJAXMessage(this, "Error loading group list.");
+                System.Diagnostics.Trace.WriteLine(ex.Message);
             }
         }
+
+        private void loadProgramme() //load programme based on category and the programme that register by the student in the group student list
+        {
+            try
+            {
+                ddlProgramme.Items.Clear();
+                ListItem oList = new ListItem();
+
+                oList = new ListItem();
+                oList.Text = "";
+                oList.Value = "";
+                ddlProgramme.Items.Add(oList);
+
+                SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["Krous_Ex"].ConnectionString);
+                con.Open();
+
+                string programme;
+                programme = "SELECT spr.ProgrammeGUID, p.ProgrammeName, p.ProgrammeAbbrv FROM Student st INNER JOIN Student_Programme_Register spr ON st.StudentGUID = spr.StudentGUID ";
+                programme += "INNER JOIN GroupStudentList gsl ON st.StudentGUID = gsl.StudentGUID ";
+                programme += "LEFT JOIN Programme p ON spr.ProgrammeGUID = p.ProgrammeGUID ";
+                programme += "WHERE p.ProgrammeCategory = @ProgrammeCategory ";
+                programme += "GROUP BY spr.ProgrammeGUID, p.ProgrammeName, p.ProgrammeAbbrv ";
+
+                SqlCommand programmeCmd = new SqlCommand(programme, con);
+                programmeCmd.Parameters.AddWithValue("@ProgrammeCategory", ddlProgrammCategory.SelectedValue);
+                SqlDataReader reader = programmeCmd.ExecuteReader();
+                DataTable dtProg = new DataTable();
+                dtProg.Load(reader);
+                con.Close();
+
+                for (int i = 0; i <= dtProg.Rows.Count - 1; i++)
+                {
+                    oList = new ListItem();
+                    oList.Text = dtProg.Rows[i]["ProgrammeName"].ToString() + " (" + dtProg.Rows[i]["ProgrammeAbbrv"].ToString() + ")";
+                    oList.Value = dtProg.Rows[i]["ProgrammeGUID"].ToString();
+                    ddlProgramme.Items.Add(oList);
+                }
+            }
+            catch (Exception ex)
+            {
+                clsFunction.DisplayAJAXMessage(this, ex.Message);
+            }
+        }
+
+        private void loadCourse()
+        {
+            try
+            {
+                ddlCourse.Items.Clear();
+                ListItem oList = new ListItem();
+
+                oList = new ListItem();
+                oList.Text = "";
+                oList.Value = "";
+                ddlCourse.Items.Add(oList);
+
+                SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["Krous_Ex"].ConnectionString);
+                con.Open();
+
+                string course;
+                course = "SELECT C.CourseGUID, C.CourseName, C.CourseAbbrv FROM Programme p ";
+                course += "LEFT JOIN ProgrammeCourse pc ON pc.ProgrammeGUID = p.ProgrammeGUID ";
+                course += "LEFT JOIN Semester sm ON pc.SemesterGUID = sm.SemesterGUID ";
+                course += "LEFT JOIN Course C ON pc.CourseGUID = C.CourseGUID ";
+                course += "LEFT JOIN CurrentSessionSemester css ON sm.SemesterGUID = css.SemesterGUID ";
+                course += "LEFT JOIN Student S ON css.StudentGUID = S.StudentGUID ";
+                course += "LEFT JOIN GroupStudentList gsl ON S.StudentGUID = gsl.StudentGUID ";
+                course += "WHERE sm.SemesterGUID = @SemesterGUID AND ";
+                course += "pc.ProgrammeGUID = @ProgrammeGUID AND ";
+                course += "pc.SessionMonth = @SessionMonth ";
+                course += "AND css.SessionGUID = @CurrentSession ";
+                course += "AND GroupGUID = @GroupGUID ";
+                course += "GROUP BY C.CourseGUID, C.CourseName, C.CourseAbbrv ";
+
+                SqlCommand courseCmd = new SqlCommand(course, con);
+                courseCmd.Parameters.AddWithValue("@SemesterGUID", ddlSemester.SelectedValue);
+                courseCmd.Parameters.AddWithValue("@ProgrammeGUID", ddlProgramme.SelectedValue);
+                courseCmd.Parameters.AddWithValue("@SessionMonth", ddlSessionMonth.SelectedValue);
+                courseCmd.Parameters.AddWithValue("@CurrentSession", ddlCurrentSession.SelectedValue);
+                courseCmd.Parameters.AddWithValue("@GroupGUID", ddlGroups.SelectedValue);
+                SqlDataReader readerCourse = courseCmd.ExecuteReader();
+                DataTable dtCourse = new DataTable();
+                dtCourse.Load(readerCourse);
+                con.Close();
+
+                for (int i = 0; i <= dtCourse.Rows.Count - 1; i++)
+                {
+                    oList = new ListItem();
+                    oList.Text = dtCourse.Rows[i]["CourseName"].ToString() + " (" + dtCourse.Rows[i]["CourseAbbrv"].ToString() + ")";
+                    oList.Value = dtCourse.Rows[i]["CourseGUID"].ToString();
+                    ddlCourse.Items.Add(oList);
+                }
+            }
+            catch (Exception ex)
+            {
+                clsFunction.DisplayAJAXMessage(this, ex.Message);
+            }
+        }
+
 
         protected bool createAssessment()
         {
             try
             {
                 Guid AssessmentGUID = Guid.NewGuid();
-                Guid AssessmentFileListGUID = Guid.NewGuid();
                 SqlConnection con = new SqlConnection();
                 SqlCommand createCmd = new SqlCommand();
-
-                //String filename = Path.GetFileName(AsyncUploadMaterial.FileName); //get filename
-                //String savePath = ConfigurationManager.AppSettings.Get("AssessmentUploadPath");
-                //String ProfileSavePath = Server.MapPath(savePath);
-                //String ProfileFullSavePath = ProfileSavePath + filename;
 
                 string filename = "Assessment_" + Path.GetFileName(AsyncUploadMaterial.FileName);
                 string folderName = "~/Uploads/AssessmentFolder/" + AssessmentGUID + "/";
@@ -147,11 +346,14 @@ namespace Krous_Ex
 
                 if (filename != "")
                 {
-                    createCmd = new SqlCommand("INSERT INTO Assessment (AssessmentGUID, StaffGUID, GroupGUID, SessionGUID, AssessmentTitle, AssessmentDesc, DueDate, CreatedDate, UploadMaterials) VALUES (@AssessmentGUID, @StaffGUID, @GroupGUID, @SessionGUID, @AssessmentTitle, @AssessmentDesc, @DueDate, @CreatedDate, @UploadMaterials)", con);
+                    createCmd = new SqlCommand("INSERT INTO Assessment (AssessmentGUID, StaffGUID, GroupGUID, SessionGUID, ProgrammeGUID, SemesterGUID, CourseGUID, AssessmentTitle, AssessmentDesc, DueDate, CreatedDate, UploadMaterials) VALUES (@AssessmentGUID, @StaffGUID, @GroupGUID, @SessionGUID, @ProgrammeGUID, @SemesterGUID, @CourseGUID, @AssessmentTitle, @AssessmentDesc, @DueDate, @CreatedDate, @UploadMaterials)", con);
                     createCmd.Parameters.AddWithValue("@AssessmentGUID", AssessmentGUID);
                     createCmd.Parameters.AddWithValue("@StaffGUID", userGuid);
                     createCmd.Parameters.AddWithValue("@GroupGUID", ddlGroups.SelectedValue);
-                    createCmd.Parameters.AddWithValue("@SessionGUID", ddlSession.SelectedValue);
+                    createCmd.Parameters.AddWithValue("@SessionGUID", ddlCurrentSession.SelectedValue);
+                    createCmd.Parameters.AddWithValue("@ProgrammeGUID", ddlProgramme.SelectedValue);
+                    createCmd.Parameters.AddWithValue("@SemesterGUID", ddlSemester.SelectedValue);
+                    createCmd.Parameters.AddWithValue("@CourseGUID", ddlCourse.SelectedValue);
                     createCmd.Parameters.AddWithValue("@AssessmentTitle", txtAssTitle.Text);
                     createCmd.Parameters.AddWithValue("@AssessmentDesc", txtDesc.Text);
 
@@ -164,7 +366,7 @@ namespace Krous_Ex
                         createCmd.Parameters.AddWithValue("@DueDate", "");
                     }
 
-                    createCmd.Parameters.AddWithValue("@CreatedDate", DateTime.Now.ToString());
+                    createCmd.Parameters.AddWithValue("@CreatedDate", DateTime.Now);
 
                     if (AsyncUploadMaterial.HasFile)
                     {
@@ -209,11 +411,6 @@ namespace Krous_Ex
             }   
         }
 
-        protected void btnBack_Click(object sender, EventArgs e)
-        {
-            Response.Redirect("StaffDashboard");
-        }
-
         private bool assessmentValidation()
         {
 
@@ -229,88 +426,111 @@ namespace Krous_Ex
                 return false;
             }
 
-            if(ddlSession.SelectedValue == "")
-            {
-                clsFunction.DisplayAJAXMessage(this, "Please select the session.");
-                return false;
-            }
-
             if (ddlGroups.SelectedValue == "")
             {
                 clsFunction.DisplayAJAXMessage(this, "Please select the group.");
                 return false;
             }
 
+            if (ddlSessionMonth.SelectedValue == "")
+            {
+                clsFunction.DisplayAJAXMessage(this, "Please select the session month.");
+                return false;
+            }
+
+            if (ddlCurrentSession.SelectedValue == "")
+            {
+                clsFunction.DisplayAJAXMessage(this, "Please select the session.");
+                return false;
+            }
+
+            if (ddlSemester.SelectedValue == "")
+            {
+                clsFunction.DisplayAJAXMessage(this, "Please select the semester.");
+                return false;
+            }
+
+            if (ddlProgrammCategory.SelectedValue == "")
+            {
+                clsFunction.DisplayAJAXMessage(this, "Please select the programme category.");
+                return false;
+            }
+
+            if (ddlProgramme.SelectedValue == "")
+            {
+                clsFunction.DisplayAJAXMessage(this, "Please select the programme name.");
+                return false;
+            }
+
+            if (ddlCourse.SelectedValue == "")
+            {
+                clsFunction.DisplayAJAXMessage(this, "Please select the course.");
+                return false;
+            }
+
             return true;
         }
 
+        protected void ddlGroups_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if(ddlGroups.SelectedValue != "")
+            {
+                loadSessionMonth();
+                ddlSessionMonth.Enabled = true;
+            }
+        }
 
+        protected void ddlSessionMonth_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if(ddlSessionMonth.SelectedValue != "")
+            {
+                loadCurrentSession();
+                ddlCurrentSession.Enabled = true;
+            }
+        }
 
-        //protected void txtDueDate_TextChanged(object sender, EventArgs e)
-        //{
-        //    try
-        //    {
-        //        int Days = int.Parse(txtDueDate.Text);            
+        protected void ddlCurrentSession_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if(ddlCurrentSession.SelectedValue != "")
+            {
+                loadSemester();
+                ddlSemester.Enabled = true;
+            }
+        }
 
-        //        DateTime startDate = DateTime.ParseExact(txtDueDate.Text, "dd/MM/yyyy HH:mm:ss", CultureInfo.InvariantCulture);
-        //        CalendarExtender1.SelectedDate = startDate.AddDays(Days);
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        clsFunction.DisplayAJAXMessage(this, ex.Message);
-        //    }
-        //}
+        protected void ddlSemester_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if(ddlSemester.SelectedValue != "")
+            {
+                loadProgrammeCategory();
+                ddlProgrammCategory.Enabled = true;
+            }
+        }
 
+        protected void ddlProgrammCategory_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (ddlProgrammCategory.SelectedValue != "")
+            {
+                loadProgramme();
+                ddlProgramme.Enabled = true;
+            }
+        }
 
-        //protected void AjaxFileUpload2_UploadComplete(object sender, AjaxControlToolkit.AjaxFileUploadEventArgs e)
-        //{
-        //    try
-        //    {
-        //        Guid AssessmentGUID = Guid.NewGuid();
-        //        SqlCommand cmdInsert = new SqlCommand();
-        //        SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["Krous_Ex"].ConnectionString);
-        //        con.Open();
+        protected void ddlProgramme_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if(ddlProgramme.SelectedValue != "")
+            {
+                loadCourse();
+                ddlCourse.Enabled = true;
+            }
+        }
 
-        //        string fileName = Path.GetFileName(e.FileName);
-        //        String savePath = ConfigurationManager.AppSettings.Get("AssessmentUploadPath");
-        //        string ProfileImgSavePath = Server.MapPath(savePath);
-        //        String ProfileFullSavePath = ProfileImgSavePath + fileName;
-        //        AjaxFileUpload2.SaveAs(ProfileFullSavePath);
+        protected void btnBack_Click(object sender, EventArgs e)
+        {
+            Response.Redirect("StaffDashboard");
+        }
 
-        //        //if (Directory.Exists(ProfileImgSavePath))
-        //        //{
-        //        //    if (!String.IsNullOrEmpty(ProfileFullSavePath))
-        //        //    {
-        //        //        AjaxFileUpload2.SaveAs(ProfileFullSavePath);
-        //        //        string strCon = ConfigurationManager.ConnectionStrings["Krous_Ex"].ConnectionString;
-        //        //        con = new SqlConnection(strCon);
-        //        //        con.Open();
-
-        //        //        cmdInsert = new SqlCommand("", con);
-        //        //        cmdInsert.Parameters.AddWithValue("@email", txtEmail.Text);
-        //        //        cmdInsert.Parameters.AddWithValue("@StudentGUID", userGUID);
-        //        //        cmdInsert.Parameters.AddWithValue("@phoneNo", txtContact.Text);
-        //        //        cmdInsert.Parameters.AddWithValue("@address", txtAddress.Text);
-        //        //        cmdInsert.Parameters.AddWithValue("@profileImage", imgName);
-        //        //        cmdInsert.Parameters.AddWithValue("@LastUpdateInfo", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
-        //        //        cmdInsert.ExecuteNonQuery();
-
-        //        //        con.Dispose();
-        //        //        con.Close();
-
-
-        //        //    }
-        //        //}
-
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        System.Diagnostics.Trace.WriteLine(ex.Message);
-        //    }
-
-        //}
-
-
+        
     }
 }
 

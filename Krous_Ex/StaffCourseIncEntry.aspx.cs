@@ -220,7 +220,7 @@ namespace Krous_Ex
                 string ProgrammeCategory = gvSelectedCourse.SelectedRow.Cells[5].Text;
                 string ProgrammeGUID = gvSelectedCourse.SelectedRow.Cells[6].Text;
 
-                DT.Rows.RemoveAt(gvSelectedCourse.SelectedRow.RowIndex);
+                    DT.Rows.RemoveAt(gvSelectedCourse.SelectedRow.RowIndex);
                 if (gvSelectedCourse.Rows.Count == 1)
                 {
                     Session["dtProgCourse"] = null;
@@ -244,7 +244,7 @@ namespace Krous_Ex
                 dr["ProgrammeCategory"] = ProgrammeCategory;
                 dr["ProgrammeGUID"] = ProgrammeGUID;
 
-                dt.Rows.Add(dr); //cong zhe bian tiao qu catch
+                dt.Rows.Add(dr); 
 
                 gvCourse.DataSource = dt;
                 gvCourse.DataBind();

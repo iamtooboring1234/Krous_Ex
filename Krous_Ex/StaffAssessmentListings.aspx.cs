@@ -21,6 +21,21 @@ namespace Krous_Ex
                 loadGroupNo();
                 loadGvAssessment();
             }
+
+            if (Session["DeleteAssessment"] != null)
+            {
+                if (Session["DeleteAssessment"].ToString() == "Yes")
+                {
+                    clsFunction.DisplayAJAXMessage(this, "The assessment details has been deleted successfully!");
+                    Session["DeleteAssessment"] = null;
+                }
+                else
+                {
+                    clsFunction.DisplayAJAXMessage(this, "Unable to delete assessment details!");
+                    Session["DeleteAssessment"] = null;
+                }
+            }
+
         }
 
         private void loadGroupNo()

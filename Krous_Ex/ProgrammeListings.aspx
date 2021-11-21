@@ -54,9 +54,7 @@
                                         <asp:ListItem Selected="True" Value="All">All</asp:ListItem>
                                         <asp:ListItem Value="Foundation">Foundation</asp:ListItem>
                                         <asp:ListItem Value="Diploma">Diploma</asp:ListItem>
-                                        <asp:ListItem Value="Bachelor Degree">Bachelor Degree</asp:ListItem>
-                                        <%--<asp:ListItem Value="Master">Master</asp:ListItem>
-                                        <asp:ListItem Value="Doctor of Philosophy">Doctor of Philosophy</asp:ListItem>--%>
+                                        <asp:ListItem Value="Bachelor Degree">Bachelor Degree</asp:ListItem>                                       
                                     </asp:DropDownList>
                                 </div>
                             </div>

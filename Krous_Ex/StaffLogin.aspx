@@ -53,21 +53,10 @@
                             </div>
                         </div>
 
-
-                        <%-- <div class="remember-me">
-                    <asp:CheckBox ID="chkRmbrMe" CssClass="remember" runat="server" Text="Remember me"/>  
-                </div>--%>
-
                         <div class="form-group">
                         </div>
 
                         <asp:Button ID="btnLogin" runat="server" type="submit" CssClass="submit-btn" Text="Log in" OnClick="btnLogin_Click"></asp:Button>
-                    <%--    <div class="register-acc">
-                            <p>
-                                Don't have an account?
-                                <asp:HyperLink ID="hlRegister" runat="server"><a href="StaffEntry.aspx">Add New Staff</a></asp:HyperLink>
-                            </p>
-                        </div>--%>
                     </div>
                 </div>
             </div>

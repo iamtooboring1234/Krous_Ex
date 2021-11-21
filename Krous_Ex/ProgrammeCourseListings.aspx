@@ -22,42 +22,6 @@
                     </div>
                 </div>
                 <hr />
-                <%--                <div class="panel-body">
-                    <div class="form-horizontal">
-                        <div class="form-group pdForm">
-                            <div class="row">
-                                <div class="col-md-2 col-form-label">
-                                    <asp:Label ID="lblFacultyName" runat="server">Faculty Name</asp:Label>
-                                </div>
-                                <div class="col-md-8">
-                                    <asp:TextBox ID="txtFacultyName" runat="server" CssClass="form-control"></asp:TextBox>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="form-group pdForm">
-                            <div class="row">
-                                <div class="col-md-2 col-form-label">
-                                    <asp:Label ID="lblFacultyAbbrv" runat="server">Faculty Abbreviation</asp:Label>
-                                </div>
-                                <div class="col-md-8">
-                                    <asp:DropDownList ID="ddlFacultyAbbrv" runat="server" CssClass="form-control"></asp:DropDownList>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="form-group pdForm">
-                            <div class="row">
-                                <div class="col-md-2">
-                                </div>
-                                <div class="col-md-8">
-                                    <asp:Button Text="Search" ID="btnSearch" runat="server" Width="18%" CssClass="btn btn-primary" OnClick="btnSearch_Click" />
-                                    <asp:Button Text="Add New" ID="btnAdd" runat="server" Width="18%" CssClass="btn btn-secondary" Style="margin-left: 12px; padding: 10px 0;" OnClick="btnAdd_Click" />
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>--%>
             </div>
         </div>
     </div>
