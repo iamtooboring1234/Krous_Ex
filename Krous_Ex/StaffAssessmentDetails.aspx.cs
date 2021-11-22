@@ -27,7 +27,7 @@ namespace Krous_Ex
                 }
                 else
                 {
-                    clsFunction.DisplayAJAXMessage(this, "Unable to update assessment details!");
+                    ClientScript.RegisterStartupScript(GetType(), "Javascript", "javascript:showUnableUpdateDangerToast(); ", true);
                     Session["UpdateAssessment"] = null;
                 }
             }
@@ -195,6 +195,10 @@ namespace Krous_Ex
                     Session["UpdateAssessment"] = "Yes";
                     Response.Redirect("StaffAssessmentDetails?AssessmentGUID=" + Request.QueryString["AssessmentGUID"]);
                 }
+                else
+                {
+                    Session["UpdateAssessment"] = "No";
+                }
             }
         }
 
@@ -204,6 +208,7 @@ namespace Krous_Ex
             {
                 lbRemove.Visible = true;
                 lbDownload.Visible = false;
+                AsyncFileUpload1.Visible = false;
                 SqlConnection con = new SqlConnection();
 
                 string strCon = ConfigurationManager.ConnectionStrings["Krous_Ex"].ConnectionString;
@@ -220,11 +225,11 @@ namespace Krous_Ex
 
                 if (txtDueDate.Text != "")
                 {
-                    updateCmd.Parameters.AddWithValue("@DueDate", DateTime.ParseExact(txtDueDate.Text, "dd/MM/yyyy HH:mm", CultureInfo.InvariantCulture).ToString());
+                    updateCmd.Parameters.AddWithValue("@DueDate", DateTime.ParseExact(txtDueDate.Text, "dd/MM/yyyy HH:mm", CultureInfo.InvariantCulture));
                 }
                 else
                 {
-                    updateCmd.Parameters.AddWithValue("@DueDate", lblAssessmentDueDate.Text);
+                    updateCmd.Parameters.AddWithValue("@DueDate", DateTime.Parse(lblAssessmentDueDate.Text));
                 }
 
                 updateCmd.Parameters.AddWithValue("@LastUpdateDate", DateTime.Now);
@@ -234,36 +239,27 @@ namespace Krous_Ex
                     Directory.CreateDirectory(Server.MapPath(folderName));
                 }
 
-                if (!(AsyncFileUpload1.HasFile))
+                if (!(AsyncFileUpload1.HasFile)) //if did not update file, update the old file
                 {
                     updateCmd.Parameters.AddWithValue("@UploadMaterials", hlFile.Text);
-                    
                 }
                 else
                 {
-                    if(hlFile.Text == "none" || hlFile.Text == null || hlFile.Text == "")
+                    if(hlFile.Text == "none" || hlFile.Text == "")
                     {
                         updateCmd.Parameters.AddWithValue("@UploadMaterials", filename);
                         AsyncFileUpload1.SaveAs(Server.MapPath(folderName) + filename);
                     }
                     else
                     {
-                        System.IO.File.Delete(Server.MapPath(folderName + "/" + hlFile.Text));
+                        System.IO.File.Delete(Server.MapPath(folderName + "/" + hlFile.Text)); //delete here
                         updateCmd.Parameters.AddWithValue("@UploadMaterials", filename);
                         AsyncFileUpload1.SaveAs(Server.MapPath(folderName) + filename);
                     }
-                    
                 }
 
-                //if (!string.IsNullOrEmpty(AsyncFileUpload1.FileName))
-                //{
-                //    System.IO.File.Delete(Server.MapPath(folderName + "/" + hlFile.Text));
-                //    updateCmd.Parameters.AddWithValue("@UploadMaterials", filename);
-                //    AsyncFileUpload1.SaveAs(Server.MapPath(folderName) + filename);
-                ////}
-
                 updateCmd.ExecuteNonQuery();
-                con.Close();
+                con.Close(); 
 
                 return true;
             }
@@ -332,17 +328,18 @@ namespace Krous_Ex
                 btnBackListing.Visible = false;
 
             }
-
-
         }
 
-        protected void lbDelete_Click(object sender, EventArgs e)
+        protected void lbDelete_Click(object sender, EventArgs e) 
         {
             if (deleteAssessment())
             {
                 Session["DeleteAssessment"] = "Yes";
                 Response.Redirect("StaffAssessmentListings");
-
+            }
+            else
+            {
+                Session["DeleteAssessment"] = "No";
             }
         }
 
@@ -373,15 +370,46 @@ namespace Krous_Ex
                 {
                     dir.Delete(true);
                 }
-                //delete assessment folder (if the file inside the folder is empty, then delete the folder also
+                //delete assessment folder (if the file inside the folder is empty, then delete the folder also) 
                 if (!Directory.Exists(folderName + "/"))
                 {
                     System.IO.Directory.Delete(Server.MapPath(folderName));
                 }
 
-                
-                
+                //delete submission, if got student submit
+                SqlCommand getStudSub = new SqlCommand("SELECT * FROM Submission WHERE AssessmentGUID = @AssessmentGUID", con);
+                getStudSub.Parameters.AddWithValue("@AssessmentGUID", AssessmentGUID);
+                SqlDataReader dtrStudSub = getStudSub.ExecuteReader();
+                DataTable dtStudSub = new DataTable();
+                dtStudSub.Load(dtrStudSub);
 
+                if(dtStudSub.Rows.Count != 0)
+                {
+                    Guid submissionGUID = Guid.Parse(dtStudSub.Rows[0]["SubmissionGUID"].ToString());
+                    string submissionFolder = "~/Uploads/StudentSubmission/" + submissionGUID;
+
+                    SqlCommand deleteSubmission = new SqlCommand("DELETE FROM Submission WHERE AssessmentGUID = @AssessmentGUID", con);
+                    deleteSubmission.Parameters.AddWithValue("@AssessmentGUID", AssessmentGUID);
+                    deleteSubmission.ExecuteNonQuery();
+
+                    System.IO.DirectoryInfo dInfo = new DirectoryInfo(Server.MapPath(submissionFolder + "/"));
+                    foreach (FileInfo file in dInfo.EnumerateFiles())
+                    {
+                        file.Delete();
+                    }
+                    foreach (DirectoryInfo dir in dInfo.EnumerateDirectories())
+                    {
+                        dir.Delete(true);
+                    }
+                    //delete assessment folder (if the file inside the folder is empty, then delete the folder also
+                    if (!Directory.Exists(submissionFolder + "/"))
+                    {
+                        System.IO.Directory.Delete(Server.MapPath(submissionFolder));
+                    }
+
+                }
+
+                con.Close();
                 return true;
             }
             catch (Exception ex)

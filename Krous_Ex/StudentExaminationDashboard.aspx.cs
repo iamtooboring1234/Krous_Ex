@@ -64,11 +64,11 @@ namespace Krous_Ex
                         con.Close();
                     }
 
-                    DateTime examStartDate = DateTime.Parse(dtExamTimeTable.Rows[0]["SemesterEndDate"].ToString()).AddDays(-(int.Parse(dtExamTimeTable.Rows[0]["SemesterBreakDuration"].ToString()) -1 + int.Parse(dtExamTimeTable.Rows[0]["SemesterExaminationDuration"].ToString()) -1));
+                    DateTime examStartDate = DateTime.Parse(dtExamTimeTable.Rows[0]["SemesterEndDate"].ToString()).AddDays(-(int.Parse(dtExamTimeTable.Rows[0]["SemesterBreakDuration"].ToString())+ int.Parse(dtExamTimeTable.Rows[0]["SemesterExaminationDuration"].ToString())));
                     DateTime examEndDate = DateTime.Parse(dtExamTimeTable.Rows[0]["SemesterEndDate"].ToString()).AddDays(-(int.Parse(dtExamTimeTable.Rows[0]["SemesterBreakDuration"].ToString())));
                     examStartDate = examStartDate.AddHours(9);
 
-                    DateTime test = DateTime.Parse("21-dec-2021 7:30:00");
+                    DateTime test = DateTime.Parse("22-dec-2021 8:45:00");
                     if (test >= examStartDate.AddMinutes(-30))
                     {
                         for (int i = 0; i < dt.Rows.Count; i++)

@@ -12,7 +12,7 @@ using System.Web.UI.WebControls;
 namespace Krous_Ex
 {
     public partial class StudentAssessmentSubmission : System.Web.UI.Page
-    {
+    { 
         Guid AssessmentGUID;
         Guid userGuid;
         Guid SubmissionGUID = Guid.NewGuid();
@@ -22,29 +22,9 @@ namespace Krous_Ex
             userGuid = Guid.Parse(clsLogin.GetLoginUserGUID());
             if (IsPostBack != true)
             {
-                if (Session["SubmitAssessment"] != null)
-                {
-                    if (Session["SubmitAssessment"].ToString() == "Yes")
-                    {
-                        ClientScript.RegisterStartupScript(GetType(), "Javascript", "javascript:showAssessmentSubmitSuccessToast(); ", true);
-                        Session["SubmitAssessment"] = null;
-                    }
-                }
-                
-                if (Session["ResubmitAssessment"] != null)
-                {
-                    if (Session["ResubmitAssessment"].ToString() == "Yes")
-                    {
-                        ClientScript.RegisterStartupScript(GetType(), "Javascript", "javascript:showAssessmentReSubmitSuccessToast(); ", true);
-                        Session["ResubmitAssessment"] = null;
-                    }
-                }
-
-
-
                 if (!String.IsNullOrEmpty(Request.QueryString["AssessmentGUID"]))
                 {
-                    AssessmentGUID = Guid.Parse(Request.QueryString["AssessmentGUID"]);
+                    AssessmentGUID = Guid.Parse(Request.QueryString["AssessmentGUID"]); //oh mei delet dao 
                     loadAssessmentDetails();
                 }
                 else
@@ -190,7 +170,7 @@ namespace Krous_Ex
                     submitCmd.Parameters.AddWithValue("@SubmissionGUID", SubmissionGUID);
                     submitCmd.Parameters.AddWithValue("@StudentGUID", userGuid);
                     submitCmd.Parameters.AddWithValue("@AssessmentGUID", AssessmentGUID);
-                    submitCmd.Parameters.AddWithValue("@SubmissionDate", DateTime.Now.ToString());
+                    submitCmd.Parameters.AddWithValue("@SubmissionDate", DateTime.Now);
                     submitCmd.Parameters.AddWithValue("@SubmissionFile", filename);
 
                     //late and has submitted (submit late)
@@ -231,7 +211,7 @@ namespace Krous_Ex
         {
             if (submitAssessment())
             {
-                //wont display toast
+
                 Session["SubmitAssessment"] = "Yes";
                 loadAssessmentDetails();
                 btnSubmit.Visible = false;
@@ -239,8 +219,23 @@ namespace Krous_Ex
             }
             else
             {
-                clsFunction.DisplayAJAXMessage(this, "Unable to submit your assessment!");
+                Session["SubmitAssessment"] = "No"; 
+                //clsFunction.DisplayAJAXMessage(this, "Unable to submit your assessment!");
                 loadAssessmentDetails();
+            }
+
+            if (Session["SubmitAssessment"] != null)
+            {
+                if (Session["SubmitAssessment"].ToString() == "Yes")
+                {
+                    ClientScript.RegisterStartupScript(GetType(), "Javascript", "javascript:showAssessmentSubmitSuccessToast(); ", true);
+                    Session["SubmitAssessment"] = null;
+                }
+                else
+                {
+                    ClientScript.RegisterStartupScript(GetType(), "Javascript", "javascript:showUnableSubmitDangerToast(); ", true);
+                    Session["SubmitAssessment"] = null;
+                }
             }
         }
 
@@ -282,7 +277,7 @@ namespace Krous_Ex
                 {
                     unsubmitCmd = new SqlCommand("UPDATE Submission SET SubmissionStatus = @SubmissionStatus, SubmissionDate = @SubmissionDate, SubmissionFile = @SubmissionFile WHERE SubmissionGUID = @SubmissionGUID", con);
                     unsubmitCmd.Parameters.AddWithValue("@SubmissionGUID", submissionGUID);
-                    unsubmitCmd.Parameters.AddWithValue("@SubmissionDate", DateTime.Now.ToString());
+                    unsubmitCmd.Parameters.AddWithValue("@SubmissionDate", DateTime.Now);
                     unsubmitCmd.Parameters.AddWithValue("@SubmissionFile", filename);
 
                     //late and has resubmitted (submit late)
@@ -336,7 +331,6 @@ namespace Krous_Ex
         {
             if (unsubmitAssessment())
             {
-                //wont display toast
                 Session["ResubmitAssessment"] = "Yes";
                 loadAssessmentDetails();
                 btnSubmit.Visible = false;
@@ -345,6 +339,23 @@ namespace Krous_Ex
                 lblStatus.Visible = true;
                 btnCancel.Visible = false;
                 btnBack.Visible = true;
+            } else
+            {
+                Session["ResubmitAssessment"] = "No";
+            }
+
+            if (Session["ResubmitAssessment"] != null)
+            {
+                if (Session["ResubmitAssessment"].ToString() == "Yes")
+                {
+                    ClientScript.RegisterStartupScript(GetType(), "Javascript", "javascript:showAssessmentReSubmitSuccessToast(); ", true);
+                    Session["ResubmitAssessment"] = null;
+                } 
+                else
+                {
+                    ClientScript.RegisterStartupScript(GetType(), "Javascript", "javascript:showUnableResubmitDangerToast(); ", true);
+                    Session["ResubmitAssessment"] = null;
+                }
             }
         }
 

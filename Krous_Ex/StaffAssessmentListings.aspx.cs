@@ -20,18 +20,18 @@ namespace Krous_Ex
             {
                 loadGroupNo();
                 loadGvAssessment();
-            }
+            } //ta bu hui zai listing display de o beibi yoyoyyyoy hehe lailailai comecome come ?????
 
             if (Session["DeleteAssessment"] != null)
             {
                 if (Session["DeleteAssessment"].ToString() == "Yes")
                 {
-                    clsFunction.DisplayAJAXMessage(this, "The assessment details has been deleted successfully!");
+                    ClientScript.RegisterStartupScript(GetType(), "Javascript", "javascript:showDeleteSuccessToast(); ", true);
                     Session["DeleteAssessment"] = null;
                 }
                 else
                 {
-                    clsFunction.DisplayAJAXMessage(this, "Unable to delete assessment details!");
+                    ClientScript.RegisterStartupScript(GetType(), "Javascript", "javascript:showUnableDeleteDangerToast(); ", true);
                     Session["DeleteAssessment"] = null;
                 }
             }

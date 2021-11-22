@@ -287,6 +287,54 @@
             position: 'top-right'
         })
     };
+    showUnableResubmitDangerToast = function () {
+        'use strict';
+        resetToastPosition();
+        $.toast({
+            heading: 'Danger',
+            text: 'Unable to resubmit assessment file.',
+            showHideTransition: 'slide',
+            icon: 'error',
+            loaderBg: '#f2a654',
+            position: 'top-right'
+        })
+    };
+    showUnableSubmitDangerToast = function () {
+        'use strict';
+        resetToastPosition();
+        $.toast({
+            heading: 'Danger',
+            text: 'Unable to submit assessment file.',
+            showHideTransition: 'slide',
+            icon: 'error',
+            loaderBg: '#f2a654',
+            position: 'top-right'
+        })
+    };
+    showUnableUpdateDangerToast = function () {
+        'use strict';
+        resetToastPosition();
+        $.toast({
+            heading: 'Danger',
+            text: 'Unable to update details.',
+            showHideTransition: 'slide',
+            icon: 'error',
+            loaderBg: '#f2a654',
+            position: 'top-right'
+        })
+    };
+    showUnableDeleteDangerToast = function () {
+        'use strict';
+        resetToastPosition();
+        $.toast({
+            heading: 'Danger',
+            text: 'Unable to delete this item.',
+            showHideTransition: 'slide',
+            icon: 'error',
+            loaderBg: '#f2a654',
+            position: 'top-right'
+        })
+    };
     showDangerToast = function () {
         'use strict';
         resetToastPosition();
