@@ -38,8 +38,6 @@ namespace Krous_Ex
                 loadSemester();
                 loadProgramme();
                 loadProgrammeCategory();
-                loadCourse();
-
             }
         }
 
@@ -92,8 +90,16 @@ namespace Krous_Ex
 
                 SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["Krous_Ex"].ConnectionString);
                 con.Open();
+
+                
                 SqlCommand GetCommand = new SqlCommand("SELECT SessionMonth FROM Session S LEFT JOIN Student st ON S.SessionGUID = st.SessionGUID LEFT JOIN GroupStudentList gsl ON st.StudentGUID = gsl.StudentGUID WHERE GroupGUID = @GroupGUID GROUP BY SessionMonth ", con);
-                GetCommand.Parameters.AddWithValue("@GroupGUID", ddlGroups.SelectedValue);
+                if (!string.IsNullOrEmpty(ddlGroups.SelectedValue))
+                {
+                    GetCommand.Parameters.AddWithValue("@GroupGUID", ddlGroups.SelectedValue);
+                } else
+                {
+                    GetCommand.Parameters.AddWithValue("@GroupGUID", DBNull.Value);
+                }
                 SqlDataReader readerSessionMnth = GetCommand.ExecuteReader();
                 DataTable dtSessionMnth = new DataTable();
                 dtSessionMnth.Load(readerSessionMnth);
@@ -303,6 +309,7 @@ namespace Krous_Ex
                 courseCmd.Parameters.AddWithValue("@SessionMonth", ddlSessionMonth.SelectedValue);
                 courseCmd.Parameters.AddWithValue("@CurrentSession", ddlCurrentSession.SelectedValue);
                 courseCmd.Parameters.AddWithValue("@GroupGUID", ddlGroups.SelectedValue);
+
                 SqlDataReader readerCourse = courseCmd.ExecuteReader();
                 DataTable dtCourse = new DataTable();
                 dtCourse.Load(readerCourse);

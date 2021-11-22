@@ -1,4 +1,4 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/StaffMaster.Master" AutoEventWireup="true" CodeBehind="StaffCreateAssessment.aspx.cs" Inherits="Krous_Ex.StaffCreateAssessment" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/StaffMaster.Master" MaintainScrollPositionOnPostback="true" AutoEventWireup="true" CodeBehind="StaffCreateAssessment.aspx.cs" Inherits="Krous_Ex.StaffCreateAssessment" %>
 
 <%@ Register Assembly="AjaxControlToolkit" Namespace="AjaxControlToolkit" TagPrefix="ajaxToolkit" %>
 
