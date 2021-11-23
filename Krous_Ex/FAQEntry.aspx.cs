@@ -13,8 +13,9 @@ namespace Krous_Ex
 {
     public partial class FAQEntry1 : System.Web.UI.Page
     {
-
+        
         private Guid FAQGUID;
+        private string strMessage;
 
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -245,7 +246,7 @@ namespace Krous_Ex
 
         protected void btnSave_Click(object sender, EventArgs e)
         {
-            if (validateFAQ())
+            if (isEmptyField())
             {
                 if (insertFAQ())
                 {
@@ -282,7 +283,7 @@ namespace Krous_Ex
 
         protected void btnUpdate_Click(object sender, EventArgs e)
         {
-            if (validateFAQ())
+            if (isEmptyField())
             {
                 if (updateFAQ())
                 {
@@ -296,7 +297,7 @@ namespace Krous_Ex
             }
             else
             {
-                clsFunction.DisplayAJAXMessage(this, "Please fill in the required details.");
+                clsFunction.DisplayAJAXMessage(this, strMessage);
             }
         }
 
@@ -311,37 +312,6 @@ namespace Krous_Ex
             {
                 clsFunction.DisplayAJAXMessage(this, "Unable to delete. No such record.");
             }
-        }
-
-        private bool validateFAQ()
-        {
-            if (txtFAQTitle.Text == "")
-            {
-                return false;
-            }
-
-            if (rdNew.Checked == true)
-            {
-                if (txtNewCategory.Text == "")
-                {
-                    return false;
-                }
-            }
-
-            if (rdExisting.Checked == true)
-            {
-                if (ddlCategory.SelectedValue == "")
-                {
-                    return false;
-                }
-            }
-
-            if (txtFAQDesc.Text == "")
-            {
-                return false;
-            }
-
-            return true;
         }
 
         protected void rdExisting_CheckedChanged(object sender, EventArgs e)
@@ -376,6 +346,47 @@ namespace Krous_Ex
 
         }
 
+        private bool isEmptyField()
+        {
+            if (string.IsNullOrEmpty(txtFAQTitle.Text))
+            {
+                strMessage += "- Semester name \\n";
+            }
 
+            if (rdExisting.Checked)
+            {
+                if (string.IsNullOrEmpty(ddlCategory.SelectedValue))
+                {
+                    strMessage += "- Semester study duration \\n";
+                }
+            }
+
+            if (rdNew.Checked)
+            {
+                if (string.IsNullOrEmpty(txtNewCategory.Text))
+                {
+                    strMessage += "- Semester examination duration \\n";
+                }
+            }
+
+            if (string.IsNullOrEmpty(ddlFAQStatus.SelectedValue))
+            {
+                strMessage += "- Semester break duration \\n";
+            }
+
+            if (string.IsNullOrEmpty(txtFAQDesc.Text))
+            {
+                strMessage += "- Semester break duration \\n";
+            }
+
+            if (!string.IsNullOrEmpty(strMessage))
+            {
+                string tempMessage = "Please complete all the required field as below : \\n" + strMessage;
+                strMessage = tempMessage;
+                return false;
+            }
+
+            return true;
+        }
     }
 }

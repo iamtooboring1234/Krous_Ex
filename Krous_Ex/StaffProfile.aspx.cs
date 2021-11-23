@@ -286,6 +286,24 @@ namespace Krous_Ex
 
         protected bool updateValidation()
         {
+            if (!string.IsNullOrEmpty(imageUpload.FileName))
+            {
+                string extension = Path.GetExtension(imageUpload.FileName);
+
+                switch (extension.ToLower())
+                {
+                    case ".jpg":
+                        return true;
+                    case ".jpeg":
+                        return true;
+                    case ".png":
+                        return true;
+                    default:
+                        clsFunction.DisplayAJAXMessage(this, "Wrong file extension; Only JPG, JPEG and PNG are allowed.");
+                        return false;
+                }
+            }
+
             if (txtEmail.Text == "")
             {
                 clsFunction.DisplayAJAXMessage(this, "Please enter a valid email address.");
