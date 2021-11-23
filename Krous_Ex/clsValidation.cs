@@ -17,6 +17,18 @@ namespace Krous_Ex
             return regex.IsMatch(email);
         }
 
+        public static bool IsICNo(string ic)
+        {
+            Regex regex = new Regex(@"(([[0-9]{2})(0[1-9]|1[0-2])(0[1-9]|[12][0-9]|3[01]))-([0-9]{2})-([0-9]{4})");
+            return regex.IsMatch(ic);
+        }
+
+        public static bool IsPhoneNumber(string phoneNumber)
+        {
+            Regex regex = new Regex(@"^(01)[0-46-9][0-9]{7,8}$");
+            return regex.IsMatch(phoneNumber);
+        }
+
         public static bool CheckPriceFormat(string price)
         {
             Regex regex = new Regex(@"^\d+(,\d{3})*(\.\d{1,2})?$");

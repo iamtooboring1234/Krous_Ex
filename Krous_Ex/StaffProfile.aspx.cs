@@ -309,29 +309,22 @@ namespace Krous_Ex
                 clsFunction.DisplayAJAXMessage(this, "Please enter a valid email address.");
                 return false;
             }
-            else if (!(clsValidation.IsEmail(txtEmail.Text)))
+            
+            if (!(clsValidation.IsEmail(txtEmail.Text)))
             {
                 clsFunction.DisplayAJAXMessage(this, "Please enter a valid email address format.");
                 return false;
             }
 
-            if (!(txtContact.Text.Equals("")))
-            {
-                if (!(int.TryParse(txtContact.Text, out _)))
-                {
-                    clsFunction.DisplayAJAXMessage(this, "Your contact number can only be in numeric form.");
-                    return false;
-                }
-            }
-            else
+            if (txtContact.Text == "")
             {
                 clsFunction.DisplayAJAXMessage(this, "Please enter your contact number.");
                 return false;
             }
 
-            if (txtContact.Text.Length > 12)
+            if (!(clsValidation.IsPhoneNumber(txtContact.Text)))
             {
-                clsFunction.DisplayAJAXMessage(this, "Invalid contact number entered.");
+                clsFunction.DisplayAJAXMessage(this, "Invalid contact number entered. It should be 10 or 11 digits without a dash.");
                 return false;
             }
 

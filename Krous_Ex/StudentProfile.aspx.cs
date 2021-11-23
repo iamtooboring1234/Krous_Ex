@@ -312,11 +312,30 @@ namespace Krous_Ex
 
         protected bool updateValidation()
         {
-            //if (!(imageUpload.HasFile))
-            //{
-            //    clsFunction.DisplayAJAXMessage(this, "Please choose and upload an image as your profile.");
-            //    return false;
-            //}
+           
+            if (txtEmail.Text == "")
+            {
+                clsFunction.DisplayAJAXMessage(this, "Please enter a valid email address.");
+                return false;
+            }
+            
+            if (!(clsValidation.IsEmail(txtEmail.Text)))
+            {
+                clsFunction.DisplayAJAXMessage(this, "Please enter a valid email address format.");
+                return false;
+            }
+
+            if (txtContact.Text == "")
+            {
+                clsFunction.DisplayAJAXMessage(this, "Please enter your contact number.");
+                return false;
+            }
+
+            if (!(clsValidation.IsPhoneNumber(txtContact.Text)))
+            {
+                clsFunction.DisplayAJAXMessage(this, "Invalid contact number entered. It should be 10 or 11 digits without a dash.");
+                return false;
+            }
 
             if (txtAddress.Text == "")
             {
@@ -324,36 +343,7 @@ namespace Krous_Ex
                 return false;
             }
 
-            if (txtEmail.Text == "")
-            {
-                clsFunction.DisplayAJAXMessage(this, "Please enter a valid email address.");
-                return false;
-            }
-            else if (!(clsValidation.IsEmail(txtEmail.Text)))
-            {
-                clsFunction.DisplayAJAXMessage(this, "Please enter a valid email address format.");
-                return false;
-            }
 
-            if (!(txtContact.Text.Equals("")))
-            {
-                if (!(int.TryParse(txtContact.Text, out _)))
-                {
-                    clsFunction.DisplayAJAXMessage(this, "Your contact number can only be in numeric form.");
-                    return false;
-                }
-            }
-            else
-            {
-                clsFunction.DisplayAJAXMessage(this, "Please enter your contact number.");
-                return false;
-            }
-
-            if (txtContact.Text.Length > 12)
-            {
-                clsFunction.DisplayAJAXMessage(this, "Invalid contact number entered.");
-                return false;
-            }
             return true;
         }
 
