@@ -41,10 +41,6 @@ namespace Krous_Ex
                     clsFunction.DisplayAJAXMessage(this, "Unable to register acocunt. Please check if there's empty field not fill up.");
                 }
             }
-            else
-            {
-                clsFunction.DisplayAJAXMessage(this, "Please fill in the required details.");
-            }
         }
         
         private bool insertNewUser()
@@ -223,7 +219,13 @@ namespace Krous_Ex
                 clsFunction.DisplayAJAXMessage(this, "Please enter your IC number");
                 return false;
             }
-            
+
+            if (!(clsValidation.IsICNo(txtNRIC.Text)))
+            {
+                clsFunction.DisplayAJAXMessage(this, "Wrong IC number format. It should be (XXXXXX-XX-XXXX).");
+                return false;
+            }
+
             if(txtNRIC.Text.Length > 14)
             {
                 clsFunction.DisplayAJAXMessage(this, "Invalid IC number entered.");
@@ -236,23 +238,16 @@ namespace Krous_Ex
                 return false;
             }
 
-            if (!(txtPhoneNo.Text.Equals("")))
-            {
-                if (!(int.TryParse(txtPhoneNo.Text, out _)))
-                {
-                    clsFunction.DisplayAJAXMessage(this, "Your contact number can only be in numeric form.");
-                    return false;
-                }
-            }
-            else
+            if (txtPhoneNo.Text == "")
             {
                 clsFunction.DisplayAJAXMessage(this, "Please enter your contact number.");
                 return false;
             }
+            
 
-            if(txtPhoneNo.Text.Length > 12)
+            if (!(clsValidation.IsPhoneNumber(txtPhoneNo.Text)))
             {
-                clsFunction.DisplayAJAXMessage(this, "Invalid contact number entered.");
+                clsFunction.DisplayAJAXMessage(this, "Invalid contact number entered. It should be 10 or 11 digits without a dash.");
                 return false;
             }
 

@@ -56,9 +56,9 @@ namespace Krous_Ex
                     btnUpdate.Visible = true;
                     btnDelete.Visible = true;
                     txtUsername.Enabled = false;
-                    txtStaffEmail.Enabled = false;
-                    txtNRIC.Enabled = false;
-                    txtPhoneNo.Enabled = false;
+                    txtStaffEmail.Enabled = true;
+                    txtNRIC.Enabled = true;
+                    txtPhoneNo.Enabled = true;
                     txtFullName.Enabled = false;
                     lblStaffStatus.Visible = true;
                     txtStaffStatus.Visible = true;
@@ -237,10 +237,13 @@ namespace Krous_Ex
                 con = new SqlConnection(strCon);
                 con.Open();
 
-                updateCmd = new SqlCommand("UPDATE Staff SET Gender = @Gender, StaffRole = @StaffRole, StaffPositiion = @StaffPositiion, StaffStatus = @StaffStatus, Specialization = @Specialization, BranchesGUID = @BranchesGUID, FacultyGUID = @FacultyGUID  WHERE StaffGUID = @StaffGUID", con);
+                updateCmd = new SqlCommand("UPDATE Staff SET Gender = @Gender, NRIC = @NRIC, PhoneNumber = @PhoneNumber, Email = @Email, StaffRole = @StaffRole, StaffPositiion = @StaffPositiion, StaffStatus = @StaffStatus, Specialization = @Specialization, BranchesGUID = @BranchesGUID, FacultyGUID = @FacultyGUID  WHERE StaffGUID = @StaffGUID", con);
               
                 updateCmd.Parameters.AddWithValue("@StaffGUID", staffGUID);
                 updateCmd.Parameters.AddWithValue("@Gender", rblGender.SelectedValue);
+                updateCmd.Parameters.AddWithValue("@NRIC", txtNRIC.Text);
+                updateCmd.Parameters.AddWithValue("@PhoneNumber", txtPhoneNo.Text);
+                updateCmd.Parameters.AddWithValue("@Email", txtStaffEmail.Text);
                 updateCmd.Parameters.AddWithValue("@StaffRole", StaffRole);
                 updateCmd.Parameters.AddWithValue("@StaffPositiion", txtStaffPosition.Text);
                 updateCmd.Parameters.AddWithValue("@StaffStatus", "Active");
