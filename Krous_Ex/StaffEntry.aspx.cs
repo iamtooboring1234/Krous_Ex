@@ -271,7 +271,7 @@ namespace Krous_Ex
                 con = new SqlConnection(strCon);
                 con.Open();
 
-                deleteCmd = new SqlCommand("DELETE FROM Staff WHERE StaffGUID = @StaffGUID", con);
+                deleteCmd = new SqlCommand("UPDATE Staff SET StaffStatus = 'Inactive' WHERE StaffGUID = @StaffGUID", con);
                 deleteCmd.Parameters.AddWithValue("@StaffGUID", staffGUID);
                 deleteCmd.ExecuteNonQuery();
 
