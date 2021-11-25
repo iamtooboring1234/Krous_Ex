@@ -14,25 +14,18 @@ namespace Krous_Ex
 {
     public partial class ForumEntry : System.Web.UI.Page
     {
+        private string strMessage;
+
         protected void Page_Load(object sender, EventArgs e)
         {
             if (IsPostBack != true)
             {
-                if (Session["UpdateForum"] != null)
+                if (Session["InsertForum"] != null)
                 {
-                    if (Session["UpdateForum"].ToString() == "Yes")
+                    if (Session["InsertForum"].ToString() == "Yes")
                     {
-                        clsFunction.DisplayAJAXMessage(this, "Updated successfully !");
-                        Session["UpdateForum"] = null;
-                    }
-                }
-
-                if (Session["DeleteForum"] != null)
-                {
-                    if (Session["DeleteForum"].ToString() == "Yes")
-                    {
-                        clsFunction.DisplayAJAXMessage(this, "Deleted successfully !");
-                        Session["DeleteForum"] = null;
+                        ClientScript.RegisterStartupScript(GetType(), "Javascript", "javascript:showAddSuccessToast(); ", true);
+                        Session["InsertForum"] = null;
                     }
                 }
 
@@ -354,28 +347,41 @@ namespace Krous_Ex
 
         protected void btnSave_Click(object sender, EventArgs e)
         {
-            if (insertForum())
+            if (isEmptyField())
             {
-                ScriptManager.RegisterStartupScript(this, this.GetType(), "none", "ShowPopup();", true);
-                Response.Redirect("ForumEntry");
-            }
-            else
+                if (insertForum())
+                {
+                    Session["InsertForum"] = "Yes";
+                    Response.Redirect("ForumEntry");
+                }
+                else
+                {
+                    clsFunction.DisplayAJAXMessage(this, "Unable to insert. Failed to create.");
+                }
+            } else
             {
-                clsFunction.DisplayAJAXMessage(this, "Unable to insert. Failed to create.");
+                clsFunction.DisplayAJAXMessage(this, strMessage);
             }
             
         }
 
         protected void btnUpdate_Click(object sender, EventArgs e)
         {
-            if (updateForum())
+            if (isEmptyField())
             {
-                Session["UpdateForum"] = "Yes";
-                Response.Redirect("ForumEntry?FAQGUID=" + Request.QueryString["ForumGUID"] + "&ForumType=" + Request.QueryString["ForumType"]);
+                if (updateForum())
+                {
+                    Session["UpdateForum"] = "Yes";
+                    Response.Redirect("ForumListings");
+                }
+                else
+                {
+                    clsFunction.DisplayAJAXMessage(this, "Unable to update. Failed to update.");
+                }
             }
             else
             {
-                clsFunction.DisplayAJAXMessage(this, "Unable to update. Failed to update.");
+                clsFunction.DisplayAJAXMessage(this, strMessage);
             }
         }
 
@@ -384,7 +390,7 @@ namespace Krous_Ex
             if (deleteForum())
             {
                 Session["DeleteForum"] = "Yes";
-                Response.Redirect("ForumEntry");
+                Response.Redirect("ForumListings");
             }
             else
             {
@@ -428,6 +434,49 @@ namespace Krous_Ex
                 ddlCategory.Enabled = false;
                 txtNewCategory.Enabled = true;
             }
+        }
+
+        private bool isEmptyField()
+        {
+            if (string.IsNullOrEmpty(txtForumTopic.Text))
+            {
+                strMessage += "- Forum topic \\n";
+            }
+
+            if (string.IsNullOrEmpty(txtForumDesc.Text))
+            {
+                strMessage += "- Forum description \\n";
+            }
+
+            if (rdNew.Checked)
+            {
+                if (txtNewCategory.Text == "")
+                {
+                    strMessage += "- Category \\n";
+                }
+            }
+
+            if (rdExisting.Checked)
+            {
+                if (ddlCategory.Text == "")
+                {
+                    strMessage += "- Cateogry \\n";
+                }
+            }
+
+            if (ddlForumStatus.Text == "")
+            {
+                strMessage += "- Forum status \\n";
+            }
+
+            if (!string.IsNullOrEmpty(strMessage))
+            {
+                string tempMessage = "Please complete all the required field as below : \\n" + strMessage;
+                strMessage = tempMessage;
+                return false;
+            }
+
+            return true;
         }
     }
 }

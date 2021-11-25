@@ -17,6 +17,15 @@ namespace Krous_Ex
         {
             if (IsPostBack != true)
             {
+                if (Session["NullReply"] != null)
+                {
+                    if (Session["NullReply"].ToString() == "Yes")
+                    {
+                        ClientScript.RegisterStartupScript(GetType(), "Javascript", "javascript:showReplyPostSuccessfully(); ", true);
+                        Session["NullReply"] = null;
+                    }
+                }
+
                 var myCookie = Request.Cookies[FormsAuthentication.FormsCookieName];
 
                 if (myCookie != null)
@@ -61,44 +70,50 @@ namespace Krous_Ex
 
                 con.Close();
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                clsFunction.DisplayAJAXMessage(this, "Error");
+                clsFunction.DisplayAJAXMessage(this, "Error occured. Please contact KrousEx for support.");
             }
         }
 
 
         protected void btnYes_Click(object sender, EventArgs e)
         {
-            try
+            if (!string.IsNullOrEmpty(txtReplyContent.Text))
             {
-                SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["Krous_Ex"].ConnectionString);
-                con.Open();
+                try
+                {
+                    SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["Krous_Ex"].ConnectionString);
+                    con.Open();
 
-                SqlCommand updateCommand = new SqlCommand("UPDATE Replies SET ReplyContent = @ReplyContent, ReplyDate = @ReplyDate WHERE ReplyGUID = @ReplyGUID ", con);
+                    SqlCommand updateCommand = new SqlCommand("UPDATE Replies SET ReplyContent = @ReplyContent, ReplyDate = @ReplyDate WHERE ReplyGUID = @ReplyGUID ", con);
 
-                updateCommand.Parameters.AddWithValue("@ReplyGUID", Request.QueryString["ReplyGUID"]);
-                updateCommand.Parameters.AddWithValue("@ReplyContent", txtReplyContent.Text);
-                updateCommand.Parameters.AddWithValue("@ReplyDate", DateTime.Now);
+                    updateCommand.Parameters.AddWithValue("@ReplyGUID", Request.QueryString["ReplyGUID"]);
+                    updateCommand.Parameters.AddWithValue("@ReplyContent", txtReplyContent.Text);
+                    updateCommand.Parameters.AddWithValue("@ReplyDate", DateTime.Now);
 
-                updateCommand.ExecuteNonQuery();
+                    updateCommand.ExecuteNonQuery();
 
-                con.Close();
+                    con.Close();
 
-            }
-            catch (Exception ex)
+                }
+                catch (Exception ex)
+                {
+                    clsFunction.DisplayAJAXMessage(this, ex.Message);
+                }
+
+                if (!String.IsNullOrEmpty(Request.QueryString["DiscGUID"].ToString()))
+                {
+                    Session["DeleteReply"] = "Yes";
+                    Response.Redirect("KrousExViewDiscussion?DiscGUID=" + Request.QueryString["DiscGUID"]);
+                }
+                else
+                {
+                    Response.Redirect("KrousExForumListings");
+                }
+            } else
             {
-                clsFunction.DisplayAJAXMessage(this, ex.Message);
-            }
-
-            if (!String.IsNullOrEmpty(Request.QueryString["DiscGUID"].ToString()))
-            {
-                Session["DeleteReply"] = "Yes";
-                Response.Redirect("KrousExViewDiscussion?DiscGUID=" + Request.QueryString["DiscGUID"]);
-            }
-            else
-            {
-                Response.Redirect("KrousExForumListings");
+                clsFunction.DisplayAJAXMessage(this, "Reply cannot be null.");
             }
         }
 

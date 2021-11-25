@@ -527,4 +527,28 @@
             position: 'top-right'
         })
     };
+    showReplyPostSuccessfully = function () {
+        'use strict';
+        resetToastPosition();
+        $.toast({
+            heading: 'Success',
+            text: 'Your comments is posted successfully.',
+            showHideTransition: 'slide',
+            icon: 'success',
+            loaderBg: '#f96868',
+            position: 'top-right'
+        })
+    };
+    showWarningToast = function () {
+        'use strict';
+        resetToastPosition();
+        $.toast({
+            heading: 'Warning',
+            text: 'Comments cannot be null.',
+            showHideTransition: 'slide',
+            icon: 'warning',
+            loaderBg: '#57c7d4',
+            position: 'top-right'
+        })
+    };
 })(jQuery);

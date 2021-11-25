@@ -44,6 +44,16 @@ namespace Krous_Ex
                     }
                 }
 
+
+                if (Session["PostReply"] != null)
+                {
+                    if (Session["PostReply"].ToString() == "Yes")
+                    {
+                        ClientScript.RegisterStartupScript(GetType(), "Javascript", "javascript:showReplyPostSuccessfully(); ", true);
+                        Session["PostReply"] = null;
+                    }
+                }
+
                 if (!String.IsNullOrEmpty(Request.QueryString["DiscGUID"]))
                 {
                     loadGV();
@@ -321,6 +331,7 @@ namespace Krous_Ex
             {
                 if (insertReply())
                 {
+                    Session["PostReply"] = "Yes";
                     Response.Redirect("KrousExViewDiscussion.aspx?DiscGUID=" + Request.QueryString["DiscGUID"]);
                 }
                 else

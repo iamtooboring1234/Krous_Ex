@@ -13,6 +13,8 @@ namespace Krous_Ex
 {
     public partial class KrousExDiscussionEntry : System.Web.UI.Page
     {
+        private string strMessage;
+
         protected void Page_Load(object sender, EventArgs e)
         {
             if (IsPostBack != true) {
@@ -83,7 +85,7 @@ namespace Krous_Ex
 
         protected void btnSubmit_Click(object sender, EventArgs e)
         {
-
+            if (isEmptyField()) { 
                 if (insertDiscussion())
                 {
                     Session["InsertDiscussion"] = "Yes";
@@ -93,7 +95,43 @@ namespace Krous_Ex
                 {
                     clsFunction.DisplayAJAXMessage(this, "Unable to insert. Failed to create.");
                 }
-            
+            }
+            else
+            {
+                clsFunction.DisplayAJAXMessage(this, strMessage);
+            }
+        }
+
+        protected bool isEmptyField()
+        {
+            if (string.IsNullOrEmpty(txtDiscTopic.Text))
+            {
+                strMessage += "- Discussion topic \\n";
+            }
+
+            if (string.IsNullOrEmpty(txtDiscDesc.Text))
+            {
+                strMessage += "- Discussion description \\n";
+            }
+
+            if (string.IsNullOrEmpty(txtDiscContent.Text))
+            {
+                strMessage += "- Discussion content \\n";
+            }
+
+            if (string.IsNullOrEmpty(ddlCategory.SelectedValue))
+            {
+                strMessage += "- Please select one category \\n";
+            }
+
+            if (!string.IsNullOrEmpty(strMessage))
+            {
+                string tempMessage = "Please complete all the required field as below : \\n" + strMessage;
+                strMessage = tempMessage;
+                return false;
+            }
+
+            return true;
         }
 
         private bool insertDiscussion()

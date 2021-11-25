@@ -45,7 +45,7 @@ namespace Krous_Ex
                 SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["Krous_Ex"].ConnectionString);
                 con.Open();
 
-                SqlCommand getCommand = new SqlCommand("SELECT D.DiscTopic, R.ReplyContent, R.ReplyBy FROM Discussion D, Replies R WHERE D.DiscGUID = R.DiscGUID AND R.ReplyGUID = ReplyGUID ", con);
+                SqlCommand getCommand = new SqlCommand("SELECT D.DiscTopic, R.ReplyContent, R.ReplyBy FROM Discussion D, Replies R WHERE D.DiscGUID = R.DiscGUID AND R.ReplyGUID = @ReplyGUID ", con);
                 getCommand.Parameters.AddWithValue("@ReplyGUID", Request.QueryString["ReplyGUID"]);
                 SqlDataReader reader = getCommand.ExecuteReader();
 
@@ -83,42 +83,48 @@ namespace Krous_Ex
                 Reason = ddlReason.SelectedValue;
             }
 
-            try
+            if (!string.IsNullOrEmpty(Reason))
             {
-                SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["Krous_Ex"].ConnectionString);
-                con.Open();
+                try
+                {
+                    SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["Krous_Ex"].ConnectionString);
+                    con.Open();
 
-                SqlCommand InsertCommand = new SqlCommand("INSERT INTO ForumReport VALUES(@ForumReportGUID,@DiscGUID,@ReplyGUID,@ReplyBy,@ReplyContent,@ReportReason,@ReportStatus,@ReportBy,@ReportDate)", con);
+                    SqlCommand InsertCommand = new SqlCommand("INSERT INTO ForumReport VALUES(@ForumReportGUID,@DiscGUID,@ReplyGUID,@ReplyBy,@ReplyContent,@ReportReason,@ReportStatus,@ReportBy,@ReportDate)", con);
 
-                InsertCommand.Parameters.AddWithValue("@ForumReportGUID", ForumReportGUID);
-                InsertCommand.Parameters.AddWithValue("@ReplyGUID", Guid.Parse(Request.QueryString["ReplyGUID"]));
-                InsertCommand.Parameters.AddWithValue("@DiscGUID", Guid.Parse(Request.QueryString["DiscGUID"]));
-                InsertCommand.Parameters.AddWithValue("@ReplyBy", txtReplyBy.Text);
-                InsertCommand.Parameters.AddWithValue("@ReplyContent", txtReplyContent.Text);
-                InsertCommand.Parameters.AddWithValue("@ReportReason", Reason);
-                InsertCommand.Parameters.AddWithValue("@ReportStatus", "In Progress");
-                InsertCommand.Parameters.AddWithValue("@ReportBy", Username);
-                InsertCommand.Parameters.AddWithValue("@ReportDate", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
+                    InsertCommand.Parameters.AddWithValue("@ForumReportGUID", ForumReportGUID);
+                    InsertCommand.Parameters.AddWithValue("@ReplyGUID", Guid.Parse(Request.QueryString["ReplyGUID"]));
+                    InsertCommand.Parameters.AddWithValue("@DiscGUID", Guid.Parse(Request.QueryString["DiscGUID"]));
+                    InsertCommand.Parameters.AddWithValue("@ReplyBy", txtReplyBy.Text);
+                    InsertCommand.Parameters.AddWithValue("@ReplyContent", txtReplyContent.Text);
+                    InsertCommand.Parameters.AddWithValue("@ReportReason", Reason);
+                    InsertCommand.Parameters.AddWithValue("@ReportStatus", "In Progress");
+                    InsertCommand.Parameters.AddWithValue("@ReportBy", Username);
+                    InsertCommand.Parameters.AddWithValue("@ReportDate", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
 
-                InsertCommand.ExecuteNonQuery();
+                    InsertCommand.ExecuteNonQuery();
 
-                con.Close();
+                    con.Close();
 
-            }
-            catch (Exception ex)
+                }
+                catch (Exception ex)
+                {
+                    clsFunction.DisplayAJAXMessage(this, ex.Message);
+                }
+
+
+                if (!String.IsNullOrEmpty(Request.QueryString["DiscGUID"].ToString()))
+                {
+                    Session["ReportForum"] = "Yes";
+                    Response.Redirect("KrousExViewDiscussion?DiscGUID=" + Request.QueryString["DiscGUID"]);
+                }
+                else
+                {
+                    Response.Redirect("KrousExForumListings");
+                }
+            } else
             {
-                clsFunction.DisplayAJAXMessage(this, ex.Message);
-            }
-
-
-            if (!String.IsNullOrEmpty(Request.QueryString["DiscGUID"].ToString()))
-            {
-                Session["ReportForum"] = "Yes";
-                Response.Redirect("KrousExViewDiscussion?DiscGUID=" + Request.QueryString["DiscGUID"]);
-            }
-            else
-            {
-                Response.Redirect("KrousExForumListings");
+                clsFunction.DisplayAJAXMessage(this, "The reason cannot be null. Please fill in the reason.");
             }
         }
 

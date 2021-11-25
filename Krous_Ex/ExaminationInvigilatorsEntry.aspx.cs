@@ -371,14 +371,23 @@ namespace Krous_Ex
 
         protected void btnUpdate_Click(object sender, EventArgs e)
         {
-            if (updateInvigilators())
+            if (isEmptyField())
             {
-                Session["UpdateInvigilators"] = "Yes";
-                Response.Redirect("ExaminationInvigilatorsListings");
+
+                    if (updateInvigilators())
+                    {
+                        Session["UpdateInvigilators"] = "Yes";
+                        Response.Redirect("ExaminationInvigilatorsListings");
+                    }
+                    else
+                    {
+                        clsFunction.DisplayAJAXMessage(this, "Error! Unable to update.");
+                    }
+                
             }
             else
             {
-                clsFunction.DisplayAJAXMessage(this, "Error! Unable to update.");
+                clsFunction.DisplayAJAXMessage(this, strMessage);
             }
         }
 
@@ -428,7 +437,39 @@ namespace Krous_Ex
 
         protected void btnDelete_Click(object sender, EventArgs e)
         {
+            if (DeleteInvigilatorsListings())
+            {
+                Session["DeleteInvigilators"] = "Yes";
+                Response.Redirect("ExaminationInvigilatorsListings");
+            }
+            else
+            {
+                clsFunction.DisplayAJAXMessage(this, "Error! Unable to delete.");
+            }
+        }
 
+        private bool DeleteInvigilatorsListings()
+        {
+            try
+            {
+                SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["Krous_Ex"].ConnectionString);
+                con.Open();
+
+                SqlCommand deleteCommand = new SqlCommand("DELETE FROM ExamInvigilatorsList WHERE ExamTimetableGUID = @ExamTimetableGUID;", con);
+
+                deleteCommand.Parameters.AddWithValue("@ExamTimetableGUID", Request.QueryString["ExamTimetableGUID"]);
+
+                deleteCommand.ExecuteNonQuery();
+
+                con.Close();
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                Response.Write(ex.Message);
+                return false;
+            }
         }
 
         protected void btnBack_Click(object sender, EventArgs e)

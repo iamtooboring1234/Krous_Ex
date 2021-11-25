@@ -43,7 +43,7 @@ namespace Krous_Ex
                 SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["Krous_Ex"].ConnectionString);
                 con.Open();
 
-                SqlCommand getCommand = new SqlCommand("SELECT D.DiscTopic, R.ReplyContent FROM Discussion D, Replies R WHERE D.DiscGUID = R.DiscGUID AND R.ReplyGUID = ReplyGUID ", con);
+                SqlCommand getCommand = new SqlCommand("SELECT D.DiscTopic, R.ReplyContent FROM Discussion D, Replies R WHERE D.DiscGUID = R.DiscGUID AND R.ReplyGUID = @ReplyGUID ", con);
                 getCommand.Parameters.AddWithValue("@ReplyGUID", Request.QueryString["ReplyGUID"]);
                 SqlDataReader reader = getCommand.ExecuteReader();
 

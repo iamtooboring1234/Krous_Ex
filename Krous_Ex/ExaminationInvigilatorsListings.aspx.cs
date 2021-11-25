@@ -16,6 +16,15 @@ namespace Krous_Ex
         {
             if (IsPostBack != true)
             {
+                if (Session["DeleteInvigilators"] != null)
+                {
+                    if (Session["DeleteInvigilators"].ToString() == "Yes")
+                    {
+                        ClientScript.RegisterStartupScript(GetType(), "Javascript", "javascript:showDeleteSuccessToast(); ", true);
+                        Session["DeleteInvigilators"] = null;
+                    }
+                }
+
                 if (Session["UpdateInvigilators"] != null)
                 {
                     if (Session["UpdateInvigilators"].ToString() == "Yes")

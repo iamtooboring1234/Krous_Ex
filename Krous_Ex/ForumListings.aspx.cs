@@ -16,6 +16,23 @@ namespace Krous_Ex
         {
             if (IsPostBack != true)
             {
+                if (Session["UpdateForum"] != null)
+                {
+                    if (Session["UpdateForum"].ToString() == "Yes")
+                    {
+                        ClientScript.RegisterStartupScript(GetType(), "Javascript", "javascript:showUpdateSuccessToast(); ", true);
+                        Session["UpdateForum"] = null;
+                    }
+                }
+
+                if (Session["DeleteForum"] != null)
+                {
+                    if (Session["DeleteForum"].ToString() == "Yes")
+                    {
+                        ClientScript.RegisterStartupScript(GetType(), "Javascript", "javascript:showDeleteSuccessToast(); ", true);
+                        Session["DeleteForum"] = null;
+                    }
+                }
 
                 loadFAQCategory();
                 loadGV();

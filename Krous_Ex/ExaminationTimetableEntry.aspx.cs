@@ -451,14 +451,28 @@ namespace Krous_Ex
 
         protected void btnUpdate_Click(object sender, EventArgs e)
         {
-            if (updateExam())
+            if (isEmptyField())
             {
-                Session["UpdateExam"] = "Yes";
-                Response.Redirect("ExaminationTimetableEntry?ExamTimetableGUID=" + Request.QueryString["ExamTimetableGUID"]);
+                if (isBetweenExamDate())
+                {
+                    if (updateExam())
+                    {
+                        Session["UpdateExam"] = "Yes";
+                        Response.Redirect("ExaminationTimetableEntry?ExamTimetableGUID=" + Request.QueryString["ExamTimetableGUID"]);
+                    }
+                    else
+                    {
+                        clsFunction.DisplayAJAXMessage(this, "Error! Unable to update.");
+                    }
+                }
+                else
+                {
+                    clsFunction.DisplayAJAXMessage(this, "Exam date is not between " + hdStartDate.Value + " and " + hdEndDate.Value);
+                }
             }
             else
             {
-                clsFunction.DisplayAJAXMessage(this, "Error! Unable to update.");
+                clsFunction.DisplayAJAXMessage(this, strMessage);
             }
         }
 
@@ -511,7 +525,13 @@ namespace Krous_Ex
                 SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["Krous_Ex"].ConnectionString);
                 con.Open();
 
-                SqlCommand deleteCommand = new SqlCommand("DELETE FROM ExamTimetable WHERE ExamTimetableGUID = @ExamTimetableGUID;", con);
+                SqlCommand deleteCommand = new SqlCommand("DELETE FROM Exampreparation WHERE ExamTimetableGUID = @ExamTimetableGUID;", con);
+
+                deleteCommand.Parameters.AddWithValue("@ExamTimetableGUID", Request.QueryString["ExamTimetableGUID"]);
+
+                deleteCommand.ExecuteNonQuery();
+
+                deleteCommand = new SqlCommand("DELETE FROM ExamTimetable WHERE ExamTimetableGUID = @ExamTimetableGUID;", con);
 
                 deleteCommand.Parameters.AddWithValue("@ExamTimetableGUID", Request.QueryString["ExamTimetableGUID"]);
 
@@ -523,7 +543,7 @@ namespace Krous_Ex
             }
             catch (Exception ex)
             {
-                Response.Write(ex);
+                Response.Write(ex.Message);
                 return false;
             }
         }
