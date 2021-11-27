@@ -33,7 +33,7 @@ namespace Krous_Ex
 
                 if (myCookie != null)
                 {
-                    if (!String.IsNullOrEmpty(Request.QueryString["ForumType"]))
+                    if (!string.IsNullOrEmpty(Request.QueryString["ForumType"]))
                     {
                         if (Request.QueryString["ForumType"] == "Public")
                         {
@@ -352,7 +352,7 @@ namespace Krous_Ex
                 if (insertForum())
                 {
                     Session["InsertForum"] = "Yes";
-                    Response.Redirect("ForumEntry");
+                    Response.Redirect("ForumEntry?ForumType=Public");
                 }
                 else
                 {

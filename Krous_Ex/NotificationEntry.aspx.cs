@@ -681,7 +681,7 @@ namespace Krous_Ex
 
                 if (!cbFaculty.Items.Cast<ListItem>().Any(li => li.Selected))
                 {
-                    strMessage += "- Please check at least one branch(es) \\n";
+                    strMessage += "- Please check at least one faculty(es) \\n";
                 }
             }
             else if (radNotificationType.SelectedValue == "3")
@@ -693,7 +693,7 @@ namespace Krous_Ex
 
                 if (!cbStudentFaculty.Items.Cast<ListItem>().Any(li => li.Selected))
                 {
-                    strMessage += "- Please check at least one branch(es) \\n";
+                    strMessage += "- Please check at least one faculty(es) \\n";
                 }
 
                 if (!cbStudentSession.Items.Cast<ListItem>().Any(li => li.Selected))
