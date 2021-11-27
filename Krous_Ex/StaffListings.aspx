@@ -136,7 +136,7 @@
                             <PagerStyle BackColor="#CCCCCC" ForeColor="Black" HorizontalAlign="Center" />
                             <RowStyle BackColor="" HorizontalAlign="Center" />
                         </asp:GridView>
-                        <asp:Label ID="lblNoData" runat="server" Visible="false" Font-Size="Large" Font-Bold="true" Text="No Course Record Found !"></asp:Label>
+                        <asp:Label ID="lblNoData" runat="server" Visible="false" Font-Size="Large" Font-Bold="true" Text="No Staff Record Found !"></asp:Label>
                     </div>
                 </div>
             </div>

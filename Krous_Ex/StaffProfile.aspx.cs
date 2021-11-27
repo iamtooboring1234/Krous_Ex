@@ -19,32 +19,28 @@ namespace Krous_Ex
         Guid userGUID;
         protected void Page_Load(object sender, EventArgs e)
         {
-            var myCookie = Request.Cookies[FormsAuthentication.FormsCookieName];
-
-            if (myCookie != null)
+            if (IsPostBack != true)
             {
-                userGUID = Guid.Parse(clsLogin.GetLoginUserGUID());
-                if (IsPostBack != true)
+                var myCookie = Request.Cookies[FormsAuthentication.FormsCookieName];
+
+                if (myCookie != null)
                 {
-                    if (userGUID != null)
+                    if (Session["updateProfile"] != null)
                     {
-                        //wont display
-                        if (Session["updateProfile"] != null)
+                        if (Session["updateProfile"].ToString() == "Yes")
                         {
-                            if (Session["updateProfile"].ToString() == "Yes")
-                            {
-                                ClientScript.RegisterStartupScript(GetType(), "Javascript", "javascript:showProfileUpdateSuccessToast(); ", true);
-                                Session["updateProfile"] = null;
-                            }
+                            ClientScript.RegisterStartupScript(GetType(), "Javascript", "javascript:showProfileUpdateSuccessToast(); ", true);
+                            Session["updateProfile"] = null;
                         }
-
-                        loadData();
                     }
+
+                    loadData();
+
                 }
-            }
-            else
-            {
-                Response.Redirect("StaffLogin.aspx");
+                else
+                {
+                    Response.Redirect("StaffLogin.aspx");
+                }
             }
         }
 
@@ -52,7 +48,6 @@ namespace Krous_Ex
         {
             try
             {
-                String StudentGUID = Request.QueryString["UserGUID"];
                 SqlConnection con = new SqlConnection();
                 SqlCommand cmd = new SqlCommand();
 
@@ -61,7 +56,7 @@ namespace Krous_Ex
                 con.Open();
 
                 cmd = new SqlCommand("SELECT s.StaffGUID, s.StaffFullName, s.Gender, s.PhoneNumber, s.Email, s.NRIC, s.StaffRole, s.StaffPositiion, s.Specialization, CONCAT(f.facultyname, ' ', (f.facultyAbbrv)) AS FacultyName, b.BranchesName, s.ProfileImage, s.LastUpdateInfo FROM Staff s LEFT JOIN Branches b ON s.BranchesGUID = b.BranchesGUID LEFT JOIN Faculty f ON s.FacultyGUID = f.FacultyGUID WHERE s.StaffGUID = @StaffGUID", con);
-                cmd.Parameters.AddWithValue("@StaffGUID", userGUID);
+                cmd.Parameters.AddWithValue("@StaffGUID", clsLogin.GetLoginUserGUID());
                 SqlDataReader dtrStaff = cmd.ExecuteReader();
                 DataTable dtStaff = new DataTable();
                 dtStaff.Load(dtrStaff);
@@ -130,7 +125,7 @@ namespace Krous_Ex
 
                         //get user image
                         SqlCommand getUserProfileName = new SqlCommand("SELECT ProfileImage FROM Staff WHERE StaffGUID = @StaffGUID", con);
-                        getUserProfileName.Parameters.AddWithValue("@StaffGUID", userGUID);
+                        getUserProfileName.Parameters.AddWithValue("@StaffGUID", clsLogin.GetLoginUserGUID());
                         SqlDataReader dtrImg = getUserProfileName.ExecuteReader();
                         DataTable dtImg = new DataTable();
                         dtImg.Load(dtrImg);
@@ -151,7 +146,7 @@ namespace Krous_Ex
                             cmdUpdate.Parameters.AddWithValue("@profileImage", imgName);
                         }
 
-                        cmdUpdate.Parameters.AddWithValue("@StaffGUID", userGUID);
+                        cmdUpdate.Parameters.AddWithValue("@StaffGUID", clsLogin.GetLoginUserGUID());
                         cmdUpdate.Parameters.AddWithValue("@LastUpdateInfo", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
                         cmdUpdate.ExecuteNonQuery();
 
@@ -241,7 +236,7 @@ namespace Krous_Ex
                 if (updateDetails())
                 {
                     Session["updateProfile"] = "Yes";
-                    loadData();
+                    Response.Redirect("StaffProfile");
 
                 }
                 else

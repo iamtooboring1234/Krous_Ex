@@ -140,4 +140,7 @@
             </div>
         </div>
     </div>
+
+    <script src="Assests/main/js/toastDemo.js"></script>
+
 </asp:Content>

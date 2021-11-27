@@ -10,7 +10,7 @@
                     <div class="col-12 grid-margin stretch-card ">
                         <div class="card">
                             <div class="card-body">
-                                <h4 class="card-title">Are you sure to delete this message?</h4>
+                                <h4 class="card-title">Are you sure to edit this message?</h4>
                                 <div class="panel-body">
                                     <div class="form-horizontal">
                                         <div class="form-group pdForm">

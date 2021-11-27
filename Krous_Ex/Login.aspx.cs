@@ -78,7 +78,7 @@ namespace Krous_Ex
 
             try
             {
-                string strCon = ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString;
+                string strCon = ConfigurationManager.   ConnectionStrings["ConnectionString"].ConnectionString;
                 con = new SqlConnection(strCon);
                 con.Open();
 

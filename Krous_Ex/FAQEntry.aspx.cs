@@ -27,6 +27,33 @@ namespace Krous_Ex
                 if (IsPostBack != true)
                 {
 
+                    if (Session["InsertFAQ"] != null)
+                    {
+                        if (Session["InsertFAQ"].ToString() == "Yes")
+                        {
+                            ClientScript.RegisterStartupScript(GetType(), "Javascript", "javascript:showAddSuccessToast(); ", true);
+                            Session["InsertFAQ"] = null;
+                        }
+                    }
+
+                    if (Session["UpdateFAQ"] != null)
+                    {
+                        if (Session["UpdateFAQ"].ToString() == "Yes")
+                        {
+                            ClientScript.RegisterStartupScript(GetType(), "Javascript", "javascript:showUpdateSuccessToast(); ", true);
+                            Session["UpdateFAQ"] = null;
+                        }
+                    }
+
+                    if (Session["DeleteFAQ"] != null)
+                    {
+                        if (Session["DeleteFAQ"].ToString() == "Yes")
+                        {
+                            ClientScript.RegisterStartupScript(GetType(), "Javascript", "javascript:showDeleteSuccessToast(); ", true);
+                            Session["DeleteFAQ"] = null;
+                        }
+                    }
+
                     loadFAQCategory();
 
                     if (!String.IsNullOrEmpty(Request.QueryString["FAQGUID"]))
@@ -90,7 +117,7 @@ namespace Krous_Ex
 
             catch (Exception ex)
             {
-                clsFunction.DisplayAJAXMessage(this, "Error");
+                clsFunction.DisplayAJAXMessage(this, ex.Message);
             }
         }
 
@@ -121,7 +148,7 @@ namespace Krous_Ex
             }
             catch (Exception ex)
             {
-                clsFunction.DisplayAJAXMessage(this, "Error");
+                clsFunction.DisplayAJAXMessage(this, ex.Message);
             }
         }
 
@@ -250,7 +277,7 @@ namespace Krous_Ex
             {
                 if (insertFAQ())
                 {
-                    ScriptManager.RegisterStartupScript(this, this.GetType(), "none", "ShowPopup();", true);
+                    Session["InsertFAQ"] = "Yes";
                     Response.Redirect("FAQEntry");
                 }
                 else
@@ -287,7 +314,7 @@ namespace Krous_Ex
             {
                 if (updateFAQ())
                 {
-                    clsFunction.DisplayAJAXMessage(this, "FAQ updated.");
+                    Session["UpdateFAQ"] = "Yes";
                     Response.Redirect("FAQListings");
                 }
                 else
@@ -305,7 +332,7 @@ namespace Krous_Ex
         {
             if (deleteFAQ())
             {
-                clsFunction.DisplayAJAXMessage(this, "FAQ deleted.");
+                Session["DeleteFAQ"] = "Yes";
                 Response.Redirect("FAQListings");
             }
             else

@@ -37,7 +37,7 @@ namespace Krous_Ex
                 {
                     if (Session["updateStaff"].ToString() == "Yes")
                     {
-                        ClientScript.RegisterStartupScript(GetType(), "Javascript", "javascript:showStaffAddSuccessToast(); ", true);
+                        ClientScript.RegisterStartupScript(GetType(), "Javascript", "javascript:showStaffUpdateSuccessToast(); ", true);
                         Session["updateStaff"] = null;
                     }
                 }
@@ -346,27 +346,33 @@ namespace Krous_Ex
 
         protected bool validateEmpty()
         {
-            if(txtUsername.Text == "")
+            if (txtUsername.Text == "")
             {
                 clsFunction.DisplayAJAXMessage(this, "Please enter the staff username.");
                 return false;
             }
 
-            if(txtFullName.Text == "")
+            if (txtFullName.Text == "")
             {
                 clsFunction.DisplayAJAXMessage(this, "Please enter the staff full name.");
                 return false;
             }
 
-            if(rblGender.SelectedIndex == -1)
+            if (rblGender.SelectedIndex == -1)
             {
                 clsFunction.DisplayAJAXMessage(this, "Please enter the staff gender.");
                 return false;
             }
 
-            if(txtNRIC.Text == "")
+            if (txtNRIC.Text == "")
             {
-                clsFunction.DisplayAJAXMessage(this, "Please enter the staff nric.");
+                clsFunction.DisplayAJAXMessage(this, "Please enter your IC number");
+                return false;
+            }
+
+            if (!(clsValidation.IsICNo(txtNRIC.Text)))
+            {
+                clsFunction.DisplayAJAXMessage(this, "Wrong IC number format. It should be (XXXXXX-XX-XXXX).");
                 return false;
             }
 
@@ -376,23 +382,16 @@ namespace Krous_Ex
                 return false;
             }
 
-            if (!(txtPhoneNo.Text.Equals("")))
+            if (txtPhoneNo.Text == "")
             {
-                if (!(int.TryParse(txtPhoneNo.Text, out _)))
-                {
-                    clsFunction.DisplayAJAXMessage(this, "The phone number can only be in numeric form.");
-                    return false;
-                }
-            }
-            else
-            {
-                clsFunction.DisplayAJAXMessage(this, "Please enter your phone number.");
+                clsFunction.DisplayAJAXMessage(this, "Please enter your contact number.");
                 return false;
             }
 
-            if (txtPhoneNo.Text.Length > 12)
+
+            if (!(clsValidation.IsPhoneNumber(txtPhoneNo.Text)))
             {
-                clsFunction.DisplayAJAXMessage(this, "Invalid phone number entered.");
+                clsFunction.DisplayAJAXMessage(this, "Invalid contact number entered. It should be 10 or 11 digits without a dash.");
                 return false;
             }
 
@@ -432,7 +431,7 @@ namespace Krous_Ex
                 return false;
             }
 
-            if(txtSpecialization.Text == "")
+            if (txtSpecialization.Text == "")
             {
                 clsFunction.DisplayAJAXMessage(this, "Please enter the staff specialization.");
                 return false;
