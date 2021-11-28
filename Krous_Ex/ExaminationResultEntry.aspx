@@ -119,7 +119,7 @@
                         <div class="form-group pdForm">
                             <div class="row justify-content-center">
                                 <div class="col-md-2 col-form-label">
-                                    <asp:Label ID="Label3" runat="server">Who to notify?</asp:Label>
+                                    <asp:Label ID="Label3" runat="server">Session Category</asp:Label>
                                 </div>
                                 <div class="col-md-8 form-check p-0 m-0">
                                     <div class="row justify-content-center">
