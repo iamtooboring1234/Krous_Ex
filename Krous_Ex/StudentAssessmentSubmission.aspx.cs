@@ -220,19 +220,24 @@ namespace Krous_Ex
 
         protected void btnSubmit_Click(object sender, EventArgs e)
         {
-            if (submitAssessment())
+            if (AsyncFileUpload1.HasFile)
             {
-
-                Session["SubmitAssessment"] = "Yes";
-                loadAssessmentDetails();
-                btnSubmit.Visible = false;
-                btnUnSubmit.Visible = true;
+                if (submitAssessment())
+                {
+                    Session["SubmitAssessment"] = "Yes";
+                    loadAssessmentDetails();
+                    btnSubmit.Visible = false;
+                    btnUnSubmit.Visible = true;
+                }
+                else
+                {
+                    Session["SubmitAssessment"] = "No";
+                    loadAssessmentDetails();
+                }
             }
             else
             {
-                Session["SubmitAssessment"] = "No"; 
-                //clsFunction.DisplayAJAXMessage(this, "Unable to submit your assessment!");
-                loadAssessmentDetails();
+                clsFunction.DisplayAJAXMessage(this, "You have not upload any file for this assessment submission.");
             }
 
             if (Session["SubmitAssessment"] != null)
@@ -340,19 +345,27 @@ namespace Krous_Ex
 
         protected void btnResubmit_Click(object sender, EventArgs e)
         {
-            if (unsubmitAssessment())
+            if (AsyncFileUpload1.HasFile)
             {
-                Session["ResubmitAssessment"] = "Yes";
-                loadAssessmentDetails();
-                btnSubmit.Visible = false;
-                btnUnSubmit.Visible = true;
-                btnResubmit.Visible = false;
-                lblStatus.Visible = true;
-                btnCancel.Visible = false;
-                btnBack.Visible = true;
-            } else
+                if (unsubmitAssessment())
+                {
+                    Session["ResubmitAssessment"] = "Yes";
+                    loadAssessmentDetails();
+                    btnSubmit.Visible = false;
+                    btnUnSubmit.Visible = true;
+                    btnResubmit.Visible = false;
+                    lblStatus.Visible = true;
+                    btnCancel.Visible = false;
+                    btnBack.Visible = true;
+                }
+                else
+                {
+                    Session["ResubmitAssessment"] = "No";
+                }
+            }
+            else
             {
-                Session["ResubmitAssessment"] = "No";
+                clsFunction.DisplayAJAXMessage(this, "You have not upload any file to resubmit this assessment.");
             }
 
             if (Session["ResubmitAssessment"] != null)
