@@ -252,26 +252,33 @@ namespace Krous_Ex
         {
             if (!(txtCurrentPass.Text == "" || txtNewPass.Text == "" || txtConfNewPass.Text == ""))
             {
-                if(!(txtNewPass.Text != txtConfNewPass.Text))
+                if (!(txtNewPass.Text != txtConfNewPass.Text))
                 {
-                    if (ChangePassword())
+                    if ((clsValidation.CheckPasswordFormat(txtNewPass.Text)) || (clsValidation.CheckPasswordFormat(txtConfNewPass.Text)))
                     {
-                        Session["StaffChangePass"] = "Yes";
-                        Response.Redirect("StaffLogin");
+                        if (ChangePassword())
+                        {
+                            Session["StaffChangePass"] = "Yes";
+                            Response.Redirect("StaffLogin");
+                        }
+                        else
+                        {
+                            clsFunction.DisplayAJAXMessage(this, "Failed to change password! Please make sure you have entered the correct password.");
+                            txtCurrentPass.Text = "";
+                            txtNewPass.Text = "";
+                            txtConfNewPass.Text = "";
+                            txtCurrentPass.Focus();
+                        }
                     }
                     else
                     {
-                        clsFunction.DisplayAJAXMessage(this, "Failed to change password! Please make sure you have entered the correct password.");
-                        txtCurrentPass.Text = "";
-                        txtNewPass.Text = "";
-                        txtConfNewPass.Text = "";
-                        txtCurrentPass.Focus();
+                        clsFunction.DisplayAJAXMessage(this, "Password should have 8 - 20 characters with at least 1 uppercase, 1 number !");
                     }
                 }
                 else
                 {
                     clsFunction.DisplayAJAXMessage(this, "Your password entered does not match! Please re-enter again.");
-                }   
+                }
             }
             else
             {

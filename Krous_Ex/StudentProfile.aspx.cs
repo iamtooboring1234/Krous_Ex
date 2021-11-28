@@ -84,10 +84,7 @@ namespace Krous_Ex
                             con = new SqlConnection(ConfigurationManager.ConnectionStrings["Krous_Ex"].ConnectionString);
                             con.Open();
                             SqlCommand GetCommand = new SqlCommand("SELECT * FROM Session WHERE SessionGUID = @SessionGUID ", con);
-                            //SqlCommand GetCommand = new SqlCommand("SELECT s.SessionYear, s.SessionMonth FROM Session s LEFT JOIN Student_Programme_Register spr on spr.SessionGUID = s.SessionGUID WHERE spr.StudentGUID = @StudentGUID", con);
-
                             GetCommand.Parameters.AddWithValue("@SessionGUID", Guid.Parse(dtStud.Rows[0][14].ToString())); 
-
                             SqlDataReader reader = GetCommand.ExecuteReader();
 
                             DataTable dtSession = new DataTable();
@@ -284,18 +281,25 @@ namespace Krous_Ex
             {
                 if (!(txtNewPass.Text != txtConfNewPass.Text))
                 {
-                    if (ChangePassword())
+                    if ((clsValidation.CheckPasswordFormat(txtNewPass.Text)) || (clsValidation.CheckPasswordFormat(txtConfNewPass.Text)))
                     {
-                        Session["StudentChangePass"] = "Yes";
-                        Response.Redirect("StudentLogin");
+                        if (ChangePassword())
+                        {
+                            Session["StudentChangePass"] = "Yes";
+                            Response.Redirect("StudentLogin");
+                        }
+                        else
+                        {
+                            clsFunction.DisplayAJAXMessage(this, "Failed to change password! Please make sure you have entered the correct password.");
+                            txtCurrentPass.Text = "";
+                            txtNewPass.Text = "";
+                            txtConfNewPass.Text = "";
+                            txtCurrentPass.Focus();
+                        }
                     }
                     else
                     {
-                        clsFunction.DisplayAJAXMessage(this, "Failed to change password! Please make sure you have entered the correct password.");
-                        txtCurrentPass.Text = "";
-                        txtNewPass.Text = "";
-                        txtConfNewPass.Text = "";
-                        txtCurrentPass.Focus();
+                        clsFunction.DisplayAJAXMessage(this, "Password should have 8 - 20 characters with at least 1 uppercase, 1 number !");
                     }
                 }
                 else
@@ -312,7 +316,24 @@ namespace Krous_Ex
 
         protected bool updateValidation()
         {
-           
+            if (!string.IsNullOrEmpty(imageUpload.FileName))
+            {
+                string extension = Path.GetExtension(imageUpload.FileName);
+
+                switch (extension.ToLower())
+                {
+                    case ".jpg":
+                        return true;
+                    case ".jpeg":
+                        return true;
+                    case ".png":
+                        return true;
+                    default:
+                        clsFunction.DisplayAJAXMessage(this, "Wrong file extension; Only JPG, JPEG and PNG are allowed.");
+                        return false;
+                }
+            }
+
             if (txtEmail.Text == "")
             {
                 clsFunction.DisplayAJAXMessage(this, "Please enter a valid email address.");

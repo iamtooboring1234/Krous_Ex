@@ -64,8 +64,8 @@ namespace Krous_Ex
 
                 if (dt.Rows.Count != 0)
                 {
-                    DateTime now = DateTime.Now;
-                    //DateTime now = DateTime.Parse("19-dec-2021");
+                    //DateTime now = DateTime.Now;
+                    DateTime now = DateTime.Parse("19-dec-2021");
                     con = new SqlConnection(ConfigurationManager.ConnectionStrings["Krous_Ex"].ConnectionString);
                     con.Open();
 

@@ -64,5 +64,16 @@ namespace Krous_Ex
                 string msg = ex.Message;
             }
         }
+
+        protected void btnBack_Click(object sender, EventArgs e)
+        {
+            if (clsLogin.GetLoginUserType() == "Staff")
+            {
+                Response.Redirect("ExaminationDashboard");
+            } else
+            {
+                Response.Redirect("StudentExaminationDashboard");
+            }
+        }
     }
 }

@@ -71,11 +71,22 @@ namespace Krous_Ex
                     lblCreatedDate.Text = "Created On : " + dtAssessment.Rows[0]["CreatedDate"].ToString();
                     lblDueDate.Text = "Due " + dtAssessment.Rows[0]["DueDate"].ToString();
 
-                    string assessmentFile = "~/Uploads/AssessmentFolder/" + Request.QueryString["AssessmentGUID"] + "/" + dtAssessment.Rows[0]["UploadMaterials"].ToString();
-                    hlAssessmentFile.Text = dtAssessment.Rows[0]["UploadMaterials"].ToString();
-                    hlAssessmentFile.Attributes["href"] = ResolveUrl(assessmentFile);
-                    lbAssFileDownload.Attributes["href"] = ResolveUrl(assessmentFile);
-                    lbAssFileDownload.Attributes["download"] = dtAssessment.Rows[0]["UploadMaterials"].ToString();
+                    if(dtAssessment.Rows[0]["UploadMaterials"].ToString() == "none")
+                    {
+                        lblNoFile.Visible = true;
+                        lbAssFileDownload.Visible = false;
+                        lblNoFile.Text = "No file attached for this assessment.";
+                    }
+                    else
+                    {
+                        lblNoFile.Visible = false;
+                        lbAssFileDownload.Visible = true;   
+                        string assessmentFile = "~/Uploads/AssessmentFolder/" + Request.QueryString["AssessmentGUID"] + "/" + dtAssessment.Rows[0]["UploadMaterials"].ToString();
+                        hlAssessmentFile.Text = dtAssessment.Rows[0]["UploadMaterials"].ToString();
+                        hlAssessmentFile.Attributes["href"] = ResolveUrl(assessmentFile);
+                        lbAssFileDownload.Attributes["href"] = ResolveUrl(assessmentFile);
+                        lbAssFileDownload.Attributes["download"] = dtAssessment.Rows[0]["UploadMaterials"].ToString();
+                    }       
                 }
 
                 //Display submission details if the student already submit

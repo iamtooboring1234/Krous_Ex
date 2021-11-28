@@ -35,7 +35,7 @@
         <asp:TextBox ID="txtDate" runat="server" CssClass="form-control form-control-rounded" Enabled="False"></asp:TextBox>
 
         <button type="submit" class="btn btn-primary" id="join_meeting">Join</button>
-        <button type="submit" class="btn btn-primary" id="back" runat="server" onclick="btnBack_Click">Back</button>
+        <asp:Button ID="btnBack" runat="server" CssClass="btn btn-primary" Text="Button" OnClick="btnBack_Click" />
 
         <asp:TextBox ID="txtRole" runat="server" Class="hidden"></asp:TextBox>
         <asp:TextBox ID="txtName" runat="server" Class="hidden"></asp:TextBox>

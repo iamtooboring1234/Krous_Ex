@@ -63,17 +63,30 @@ namespace Krous_Ex
 
         protected void btnReset_Click(object sender, EventArgs e)
         {
-            if(!(txtNewPassword.Text == "" || txtConfPassword.Text == ""))
+            if (!(txtNewPassword.Text == "" || txtConfPassword.Text == ""))
             {
-                if(!(txtConfPassword.Text != txtNewPassword.Text))
+                if (!(txtConfPassword.Text != txtNewPassword.Text))
                 {
-                    ChangePassword();
-                    Session["resetPassword"] = "Yes";
-                    Response.Redirect("StudentLogin.aspx");
+                    if ((clsValidation.CheckPasswordFormat(txtNewPassword.Text)) || (clsValidation.CheckPasswordFormat(txtConfPassword.Text)))
+                    {
+                        if (ChangePassword())
+                        {
+                            Session["resetPassword"] = "Yes";
+                            Response.Redirect("StudentLogin.aspx");
+                        }
+                        else
+                        {
+                            clsFunction.DisplayAJAXMessage(this, "Your password unable to change.");
+                        }                    
+                    }
+                    else
+                    {
+                        clsFunction.DisplayAJAXMessage(this, "Password should have 8 - 20 characters with at least 1 uppercase, 1 number !");
+                    }
                 }
                 else
                 {
-                    clsFunction.DisplayAJAXMessage(this,"Your password unable to change!");
+                    clsFunction.DisplayAJAXMessage(this,"Your password entered is not match!");
                 }
             }
         }

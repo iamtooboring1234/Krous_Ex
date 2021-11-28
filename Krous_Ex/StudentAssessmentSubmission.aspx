@@ -69,9 +69,11 @@
                                         <div class="row">
                                             <div class="col-md-2">
                                                 <asp:Label ID="lblAssessmentFile" runat="server"><i class="fa fa-file" style="margin-right:8px;"></i>Attachment</asp:Label>
+                                                
                                             </div>
                                             <div class="col-sm-1">:</div>
                                             <div class="col-md-9">
+                                                <asp:Label ID="lblNoFile" runat="server" Visible="false"></asp:Label>
                                                 <asp:HyperLink ID="hlAssessmentFile" Target="_blank" runat="server"></asp:HyperLink>
                                                 <asp:LinkButton ID="lbAssFileDownload" runat="server" CssClass="linkButton" Style="margin-left: 5px;"><i class="fas fa-download"></i></asp:LinkButton>
                                             </div>
