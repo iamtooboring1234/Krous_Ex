@@ -60,7 +60,7 @@ namespace Krous_Ex
                     loadSession();
                     loadCourse();
 
-                    if (!String.IsNullOrEmpty(Request.QueryString["ExamTimeTableGUID"]))
+                    if (!string.IsNullOrEmpty(Request.QueryString["ExamTimeTableGUID"]))
                     {
                         loadExam();
                         ddlCourse.Enabled = false;
@@ -88,6 +88,10 @@ namespace Krous_Ex
         {
             try
             {
+                ddlCourse.Items.Clear();
+
+                ListItem oList = new ListItem();
+
                 SqlConnection con = new SqlConnection();
                 SqlCommand loadCourseCmd = new SqlCommand();
 
@@ -95,7 +99,7 @@ namespace Krous_Ex
                 con = new SqlConnection(strCon);
                 con.Open();
 
-                loadCourseCmd = new SqlCommand("SELECT * FROM ExamTimeTable E, Course C WHERE E.CourseGUID = E.CourseGUID AND ExamTimeTableGUID = @ExamTimeTableGUID", con);
+                loadCourseCmd = new SqlCommand("SELECT * FROM ExamTimeTable E LEFT JOIN Course C ON E.CourseGUID = C.CourseGUID WHERE ExamTimeTableGUID = @ExamTimeTableGUID", con);
                 loadCourseCmd.Parameters.AddWithValue("@ExamTimeTableGUID", Request.QueryString["ExamTimeTableGUID"]);
                 SqlDataReader reader = loadCourseCmd.ExecuteReader();
                 DataTable dt = new DataTable();
@@ -103,7 +107,11 @@ namespace Krous_Ex
 
                 if (dt.Rows.Count != 0)
                 {
-                    ddlCourse.Text = dt.Rows[0]["CourseName"].ToString() + " (" + dt.Rows[0]["CourseAbbrv"].ToString() + ")";
+                    oList = new ListItem();
+                    oList.Text = dt.Rows[0]["CourseName"].ToString() + " (" + dt.Rows[0]["CourseAbbrv"].ToString() + ")";
+                    oList.Value = dt.Rows[0]["CourseGUID"].ToString();
+                    ddlCourse.Items.Add(oList);
+
                     txtExamDate.Text = DateTime.Parse(dt.Rows[0]["ExamStartDateTime"].ToString()).ToString("dd-MMM-yyyy");
                     txtStartTime.Text = DateTime.Parse(dt.Rows[0]["ExamStartDateTime"].ToString()).ToString("hh:mm tt");
                     txtEndTime.Text = DateTime.Parse(dt.Rows[0]["ExamEndDateTime"].ToString()).ToString("hh:mm tt");

@@ -81,7 +81,7 @@
                                 </div>
                                 <div class="col-md-8">
                                     <asp:Button Text="Search" ID="btnSearch" runat="server" Width="18%" CssClass="btn btn-primary" OnClick="btnSearch_Click" />
-                                    <asp:Button Text="Add New" ID="btnAdd" runat="server" Width="18%" CssClass="btn btn-secondary" Style="margin-left: 12px; padding: 10px 0;" OnClick="btnAdd_Click" />
+                                    <asp:Button Text="Reset" ID="btnReset" runat="server" Width="18%" CssClass="btn btn-secondary" OnClick="btnReset_Click" />
                                 </div>
                             </div>
                         </div>
@@ -116,7 +116,7 @@
                             <PagerStyle BackColor="#CCCCCC" ForeColor="Black" HorizontalAlign="Center" />
                             <RowStyle BackColor="" HorizontalAlign="Center" />
                         </asp:GridView>
-                        <asp:Label ID="lblNoData" runat="server" Visible="false" Font-Size="Large" Font-Bold="true" Text="No Faculty Record Found !"></asp:Label>
+                        <asp:Label ID="lblNoData" runat="server" Visible="false" Font-Size="Large" Font-Bold="true" Text="No Examination Record Found !"></asp:Label>
                     </div>
                 </div>
             </div>

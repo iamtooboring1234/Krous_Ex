@@ -66,10 +66,20 @@ namespace Krous_Ex
 
                 for (int i = 0; i <= dtFAQ.Rows.Count - 1; i++)
                 {
-                    oList = new ListItem();
-                    string test = dtFAQ.Rows[i]["ForumTopic"].ToString();
-                    if (!dtFAQ.Rows[i]["ForumTopic"].ToString().Contains("Announcements"))
+                    if (clsLogin.GetLoginUserType() == "Student")
                     {
+                        oList = new ListItem();
+                    
+                        if (!dtFAQ.Rows[i]["ForumTopic"].ToString().Contains("Announcements"))
+                        {
+                            oList.Text = dtFAQ.Rows[i]["ForumTopic"].ToString();
+                            oList.Value = dtFAQ.Rows[i]["ForumGUID"].ToString();
+                            ddlCategory.Items.Add(oList);
+                        }
+                    } else
+                    {
+                        oList = new ListItem();
+
                         oList.Text = dtFAQ.Rows[i]["ForumTopic"].ToString();
                         oList.Value = dtFAQ.Rows[i]["ForumGUID"].ToString();
                         ddlCategory.Items.Add(oList);
