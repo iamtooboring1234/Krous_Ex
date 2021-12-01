@@ -1,5 +1,4 @@
-﻿
-%@ Page Title="" Language="C#" MasterPageFile="~/StaffMaster.Master" AutoEventWireup="true" CodeBehind="ExaminationTimetableEntry.aspx.cs" Inherits="Krous_Ex.ExaminationTimetableEntry" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/StaffMaster.Master" AutoEventWireup="true" CodeBehind="ExaminationTimetableEntry.aspx.cs" Inherits="Krous_Ex.ExaminationTimetableEntry" %>
 
 <%@ Register Assembly="AjaxControlToolkit" Namespace="AjaxControlToolkit" TagPrefix="ajaxToolkit" %>
 
