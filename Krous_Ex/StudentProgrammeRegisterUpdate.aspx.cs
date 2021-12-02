@@ -212,9 +212,9 @@ namespace Krous_Ex
                 DataTable dt = new DataTable();
                 dt.Load(dtrSelect);
 
-                string SessionGUID = dt.Rows[0]["SessionGUID"].ToString();
-                string ProgrammeGUID = dt.Rows[0]["ProgrammeGUID"].ToString();
-                string BranchesGUID = dt.Rows[0]["BranchesGUID"].ToString();
+                Guid SessionGUID = Guid.Parse(dt.Rows[0]["SessionGUID"].ToString());
+                Guid ProgrammeGUID = Guid.Parse(dt.Rows[0]["ProgrammeGUID"].ToString());
+                Guid BranchesGUID = Guid.Parse(dt.Rows[0]["BranchesGUID"].ToString());
 
                 //get the faculty of the programme chosen
                 SqlCommand selectFaculty = new SqlCommand("SELECT f.FacultyGUID, p.ProgrammeName, p.ProgrammeGUID FROM Programme p LEFT JOIN Faculty f ON p.FacultyGUID = f.FacultyGUID LEFT JOIN Student_Programme_Register spr ON spr.ProgrammeGUID = p.ProgrammeGUID WHERE spr.RegisterGUID = @RegisterGUID ", con);
@@ -456,11 +456,12 @@ namespace Krous_Ex
 
                 //calculation
                 string paymentNo = "P" + DateTime.Now.ToString("yyyyMMddHHmmss");
-                int creditHour = int.Parse(dtCredit.Rows[0]["CreditHour"].ToString());
                 int eachCourse = 0;
 
                 if (dtCredit.Rows.Count != 0)
                 {
+                    int creditHour = int.Parse(dtCredit.Rows[0]["CreditHour"].ToString());
+
                     for (int i = 0; i < dtCredit.Rows.Count; i++)
                     {
                         eachCourse += creditHour * fixedAmountPerCourse;
